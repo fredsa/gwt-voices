@@ -1,0 +1,18 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User'/>
+
+  <!-- Inherit logging stuff.                               -->
+  <inherits name='com.allen_sauer.gwt.log.Log'/>
+
+  <!-- Inherit sound stuff.                                 -->
+  <inherits name='com.allen_sauer.gwt.voices.Voices'/>
+
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='com.allen_sauer.gwt.voices.demo.client.VoicesDemo'/>
+  
+	<!-- Include CSS                                          -->
+	<stylesheet src='VoicesDemo.css'/>
+
+</module>
