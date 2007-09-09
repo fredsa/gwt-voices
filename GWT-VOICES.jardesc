@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="C:/fred/java/lib/gwt-voices/gwt-voices.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Voices/GWT-VOICES.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="false">
+        <file path="/Voices/VoicesDemo-compile.cmd"/>
+        <file path="/Voices/VoicesDemo-shell.cmd"/>
+        <file path="/Voices/.cvsignore"/>
+        <file path="/Voices/.project"/>
+        <file path="/Voices/VoicesDemo.launch"/>
+        <file path="/Voices/.classpath"/>
+        <javaElement handleIdentifier="=Voices/src"/>
+    </selectedElements>
+</jardesc>
