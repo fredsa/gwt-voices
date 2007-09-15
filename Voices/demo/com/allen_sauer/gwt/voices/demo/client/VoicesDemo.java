@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 Fred Sauer
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -10,10 +25,27 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.allen_sauer.gwt.log.client.LogUncaughtExceptionHandler;
 
 public class VoicesDemo implements EntryPoint {
-  private static native String getCompatMode()
-  /*-{
-    return $doc.compatMode;
-  }-*/;
+  private static final DemoSound[] demoSounds = {
+      new DemoSound("36846__EcoDTR__LaserRocket", "EcoDTR",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367",
+          "LaserRocket.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846"),
+      new DemoSound("35643__sandyrb__USAT_BOMB", "sandyrb",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771",
+          "USAT BOMB.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643"),
+      new DemoSound("34961__grandpablaine2__grenade_rever", "grandpablaine2",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084",
+          "grenade_reverse_reverb.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961"),
+      new DemoSound("28917__junggle__btn107", "junggle",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404",
+          "btn107.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917"),
+      new DemoSound("33637__HerbertBoland__CinematicBoomN", "HerbertBoland",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090",
+          "CinematicBoomNorm.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637"),};
 
   public void onModuleLoad() {
     // set uncaught exception handler
@@ -28,6 +60,15 @@ public class VoicesDemo implements EntryPoint {
   }
 
   public void onModuleLoad2() {
-    RootPanel.get().add(new HTML("VoicesDemo is in <b>" + getCompatMode() + "</b> mode."));
+    RootPanel.get().add(new HTML("<h1>gwt-voices demo</h1>"));
+
+    for (int i = 0; i < demoSounds.length; i++) {
+      RootPanel.get().add(new DemoSoundPanel(demoSounds[i]));
+    }
+
+    RootPanel.get().add(
+        new HTML(
+            "<br><i>Audio files from the <a href='http://freesound.iua.upf.edu/'>freesound project</a>,"
+                + " licensed under <a href='http://creativecommons.org/licenses/sampling+/1.0/'>Creative Commons Sampling Plus 1.0 license</a>.</i>"));
   }
 }
