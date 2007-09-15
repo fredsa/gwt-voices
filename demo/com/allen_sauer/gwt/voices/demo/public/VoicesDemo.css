@@ -1,1 +1,6 @@
 @CHARSET "UTF-8";
+
+BODY {
+  background-color: #abcdef;
+}
+
