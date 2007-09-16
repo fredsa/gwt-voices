@@ -4,3 +4,9 @@ BODY {
   background-color: #abcdef;
 }
 
+.demo-event-text-area {
+  border: 1px solid green;
+  width: 80%;
+  height: 10em;
+  overflow: auto;
+}

@@ -17,9 +17,14 @@ package com.allen_sauer.gwt.voices.client;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
+import com.allen_sauer.gwt.voices.client.handler.FiresSoundEvents;
+import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
+import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
+import com.allen_sauer.gwt.voices.client.handler.SoundLoadEvent;
+
 import java.util.ArrayList;
 
-public class Sound {
+public class Sound implements FiresSoundEvents {
   private static ArrayList soundList = new ArrayList();
   private static VoicesMovie voicesMovie = new VoicesMovie();
 
@@ -28,17 +33,17 @@ public class Sound {
     RootPanel.get().add(voicesMovie, -500, -500);
   }
 
-  private static void soundCompleted(int id) {
-    // Log.debug("soundCompleted(" + id + ")");
+  private static void soundCompleted(int index) {
+    ((Sound) soundList.get(index)).soundCompleted();
   }
 
   private static void soundLoaded(int index) {
-    // Log.debug("soundLoaded(" + index + ")");
-    ((Sound) soundList.get(index)).loaded = true;
+    ((Sound) soundList.get(index)).soundLoaded();
   }
 
   private final int id;
   private boolean loaded = false;
+  private SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
   private final boolean streaming;
   private final String url;
 
@@ -48,6 +53,13 @@ public class Sound {
     this.streaming = streaming;
     soundList.add(this);
     voicesMovie.registerSound(this);
+  }
+
+  public void addSoundHandler(SoundHandler handler) {
+    soundHandlerCollection.add(handler);
+    if (loaded) {
+      handler.onSoundLoad(new SoundLoadEvent(this));
+    }
   }
 
   public int getId() {
@@ -74,8 +86,21 @@ public class Sound {
     }
   }
 
+  public void removeSoundHandler(SoundHandler handler) {
+    soundHandlerCollection.remove(handler);
+  }
+
   public String toString() {
     return "Sound[" + id + ", " + url + ", " + (streaming ? "" : "NOT ")
         + "STREAMING]";
+  }
+
+  protected void soundCompleted() {
+    soundHandlerCollection.fireOnSoundComplete(this);
+  }
+
+  protected void soundLoaded() {
+    loaded = true;
+    soundHandlerCollection.fireOnSoundLoad(this);
   }
 }

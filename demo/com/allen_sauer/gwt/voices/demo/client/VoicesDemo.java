@@ -21,11 +21,17 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.log.client.LogUncaughtExceptionHandler;
 
 public class VoicesDemo implements EntryPoint {
+  private static final String CSS_DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
   private static final DemoSound[] demoSounds = {
+      new DemoSound("28917__junggle__btn107", "junggle",
+          "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404",
+          "btn107.wav",
+          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917"),
       new DemoSound("36846__EcoDTR__LaserRocket", "EcoDTR",
           "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367",
           "LaserRocket.wav",
@@ -34,15 +40,11 @@ public class VoicesDemo implements EntryPoint {
           "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771",
           "USAT BOMB.wav",
           "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643"),
-      new DemoSound("34961__grandpablaine2__grenade_rever", "grandpablaine2",
+      new DemoSound("34961__grandpablaine2__grenade_reverse_reverb", "grandpablaine2",
           "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084",
           "grenade_reverse_reverb.wav",
           "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961"),
-      new DemoSound("28917__junggle__btn107", "junggle",
-          "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404",
-          "btn107.wav",
-          "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917"),
-      new DemoSound("33637__HerbertBoland__CinematicBoomN", "HerbertBoland",
+      new DemoSound("33637__HerbertBoland__CinematicBoomNorm", "HerbertBoland",
           "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090",
           "CinematicBoomNorm.wav",
           "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637"),};
@@ -62,13 +64,26 @@ public class VoicesDemo implements EntryPoint {
   public void onModuleLoad2() {
     RootPanel.get().add(new HTML("<h1>gwt-voices demo</h1>"));
 
-    for (int i = 0; i < demoSounds.length; i++) {
-      RootPanel.get().add(new DemoSoundPanel(demoSounds[i]));
-    }
+    VerticalPanel soundsPanel = new VerticalPanel();
+    RootPanel.get().add(soundsPanel);
 
     RootPanel.get().add(
         new HTML(
             "<br><i>Audio files from the <a href='http://freesound.iua.upf.edu/'>freesound project</a>,"
                 + " licensed under <a href='http://creativecommons.org/licenses/sampling+/1.0/'>Creative Commons Sampling Plus 1.0 license</a>.</i>"));
+
+    // text area to log drag events as they are triggered
+    final HTML eventTextArea = new HTML();
+    eventTextArea.addStyleName(CSS_DEMO_EVENT_TEXT_AREA);
+    RootPanel.get().add(
+        new HTML("<br>Events received by registered <code>MouseHandler</code>s"));
+    RootPanel.get().add(eventTextArea);
+
+    DemoSoundHandler demoSoundHandler = new DemoSoundHandler(eventTextArea);
+
+    for (int i = 0; i < demoSounds.length; i++) {
+      demoSounds[i].addSoundHandler(demoSoundHandler);
+      soundsPanel.add(new DemoSoundPanel(demoSounds[i]));
+    }
   }
 }

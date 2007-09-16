@@ -58,4 +58,8 @@ public class DemoSound extends Sound {
     return "<a href='" + getOriginalFileURL() + "'>" + getOrignalFileName()
         + "</a> by <a href='" + getAuthorURL() + "'>" + getAuthor() + "</a>";
   }
+
+  public String toString() {
+    return getOrignalFileName();
+  }
 }
