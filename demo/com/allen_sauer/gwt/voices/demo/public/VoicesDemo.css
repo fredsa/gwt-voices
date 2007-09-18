@@ -7,6 +7,21 @@ BODY {
 .demo-event-text-area {
   border: 1px solid green;
   width: 80%;
-  height: 10em;
+  height: 8em;
   overflow: auto;
+}
+
+.demo-event-text-area-header {
+  color: #333333;
+  margin-top: 2em;
+}
+
+.demo-footer {
+  margin-top: 1em;
+  font-style: italic;
+}
+
+.demo-note {
+  font-size: 0.8em;
+  font-style: italic;
 }
