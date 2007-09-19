@@ -43,7 +43,7 @@ public final class DemoSoundHandler implements SoundHandler {
   }
 
   private void log(String text, String color) {
-    eventTextArea.setHTML("<span style='color:" + color + "'>" + text
+    eventTextArea.setHTML("<span style='color: " + color + "'>" + text
         + "</span>" + (eventTextArea.getHTML().length() == 0 ? "" : "<br>")
         + eventTextArea.getHTML());
   }
