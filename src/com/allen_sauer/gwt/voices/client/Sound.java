@@ -43,6 +43,7 @@ public class Sound implements FiresSoundEvents {
 
   private final int id;
   private boolean loaded = false;
+  private boolean playSoundWhenLoaded = false;
   private SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
   private final boolean streaming;
   private final String url;
@@ -82,6 +83,7 @@ public class Sound implements FiresSoundEvents {
     if (loaded) {
       return voicesMovie.playSound(id);
     } else {
+      playSoundWhenLoaded = true;
       return false;
     }
   }
@@ -101,6 +103,10 @@ public class Sound implements FiresSoundEvents {
 
   protected void soundLoaded() {
     loaded = true;
+    if (playSoundWhenLoaded) {
+      play();
+      playSoundWhenLoaded = false;
+    }
     soundHandlerCollection.fireOnSoundLoad(this);
   }
 }
