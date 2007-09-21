@@ -22,7 +22,7 @@ import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 /**
  * Flash Movie Widget.
  */
-public class FlashMovie extends Widget {
+class FlashMovie extends Widget {
   private final String movieURL;
   private boolean wasLoaded = false;
 
