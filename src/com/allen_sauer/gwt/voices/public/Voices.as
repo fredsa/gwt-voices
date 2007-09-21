@@ -25,6 +25,7 @@ class Voices
     Voices.log("ExternalInterface.available = " + ExternalInterface.available);
     
     var wasSuccessful:Boolean;
+    var result:Object;
     
     wasSuccessful = ExternalInterface.addCallback("createSound", this, createSound);
     Voices.log("addCallback(createSound) -> " + wasSuccessful);
@@ -32,29 +33,45 @@ class Voices
     wasSuccessful = ExternalInterface.addCallback("playSound", this, playSound);
     Voices.log("addCallback(playSound) -> " + wasSuccessful);
     
+    wasSuccessful = ExternalInterface.addCallback("setVolume", this, setVolume);
+    Voices.log("addCallback(setVolume) -> " + wasSuccessful);
+
     Voices.log("Voices created.");
 
     // notify JavaScript that we are ready
-    ExternalInterface.call("document.VoicesMovie.ready");
+    result = ExternalInterface.call("document.VoicesMovie.ready");
+    Voices.log("document.VoicesMovie.ready() -> " + result);
   }
-
+  
   function createSound(id:Number, url:String, streaming:Boolean):Void {
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
-      ExternalInterface.call("document.VoicesMovie.soundLoaded", id);
+      Voices.log("soundLoaded " + id);
+      var result:Object = ExternalInterface.call("document.VoicesMovie.soundLoaded", id);
+      Voices.log("document.VoicesMovie.soundLoaded(" + id + ") -> " + result);
     }
     sounds[id].onSoundComplete = function() {
-      ExternalInterface.call("document.VoicesMovie.soundCompleted", id);
+      Voices.log("soundCompleted " + id);
+      var result:Object = ExternalInterface.call("document.VoicesMovie.soundCompleted", id);
+      Voices.log("document.VoicesMovie.soundCompleted(" + id + ") -> " + result);
     }
     sounds[id].loadSound(url, streaming);
+    Voices.log("...createSound " + id);
   }
   
   function playSound(id:Number):Void {
+    Voices.log("playSound " + id);
     sounds[id].start();
+  }
+  
+  function setVolume(id:Number, volume:Number):Void {
+    Voices.log("setVolume " + id + " => " + volume + "%");
+    sounds[id].setVolume(volume);
   }
   
   static function log(text:String) {
 //    ExternalInterface.call("document.VoicesMovie.log", text);
+//    getURL("javascript:alert('" + text + "')");
   }
   
   static function main(mc:MovieClip) {

@@ -37,7 +37,7 @@ public class Sound implements FiresSoundEvents {
     ((Sound) soundList.get(index)).soundCompleted();
   }
 
-  private static void soundLoaded(int index) {
+  private static void soundLoaded(final int index) {
     ((Sound) soundList.get(index)).soundLoaded();
   }
 
@@ -47,6 +47,7 @@ public class Sound implements FiresSoundEvents {
   private SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
   private final boolean streaming;
   private final String url;
+  private int volume = 100;
 
   public Sound(String url, boolean streaming) {
     id = soundList.size();
@@ -92,6 +93,13 @@ public class Sound implements FiresSoundEvents {
     soundHandlerCollection.remove(handler);
   }
 
+  public void setVolume(int volume) {
+    this.volume = volume;
+    if (loaded) {
+      voicesMovie.setVolume(id, volume);
+    }
+  }
+
   public String toString() {
     return "Sound[" + id + ", " + url + ", " + (streaming ? "" : "NOT ")
         + "STREAMING]";
@@ -103,6 +111,9 @@ public class Sound implements FiresSoundEvents {
 
   protected void soundLoaded() {
     loaded = true;
+    if (volume != 100) {
+      voicesMovie.setVolume(id, volume);
+    }
     if (playSoundWhenLoaded) {
       play();
       playSoundWhenLoaded = false;
