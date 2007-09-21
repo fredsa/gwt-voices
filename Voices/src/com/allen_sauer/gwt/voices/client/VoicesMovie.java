@@ -15,6 +15,9 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 
 import java.util.ArrayList;
@@ -35,6 +38,30 @@ class VoicesMovie extends FlashMovie {
   // JSNI Helper for GWT Issue 1651 (JSNI inherited method support in web mode)
   public Element getElement() {
     return super.getElement();
+  }
+
+  public void setVolume(int id, int volume) {
+    if (ready) {
+      callSetVolume(id, volume);
+    }
+  }
+
+  /**
+   * Defer the actual work of a flash callback so that any exceptions can be
+   * caught by the browser or the uncaught exception handler, rather than being
+   * swallow by flash.
+   */
+  protected void deferFlashCallback(final JavaScriptObject func) {
+    DeferredCommand.addCommand(new Command() {
+      public native void callFunc(JavaScriptObject func, VoicesMovie thiz)
+      /*-{
+        func.apply(thiz);
+      }-*/;
+
+      public void execute() {
+        callFunc(func, VoicesMovie.this);
+      }
+    });
   }
 
   protected void onUnload() {
@@ -69,6 +96,12 @@ class VoicesMovie extends FlashMovie {
     elem.playSound(id);
   }-*/;
 
+  private native void callSetVolume(int id, int volume)
+  /*-{
+    var elem = this.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
+    elem.setVolume(id, volume);
+  }-*/;
+
   private void doCreateSound(Sound sound) {
     callCreateSound(sound.getId(), sound.getUrl(), sound.isStreaming());
   }
@@ -77,40 +110,49 @@ class VoicesMovie extends FlashMovie {
   /*-{
     var self = this;
     $doc.VoicesMovie = {};
-    
-    try {
-      $doc.VoicesMovie.ready = function() {
-        var elem = self.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
-        self.@com.allen_sauer.gwt.voices.client.VoicesMovie::movieReady()();
-        $doc.VoicesMovieReady = null;
+
+    $doc.VoicesMovie.ready = function() {
+      try {
+        self.@com.allen_sauer.gwt.voices.client.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+          var elem = this.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
+          this.@com.allen_sauer.gwt.voices.client.VoicesMovie::movieReady()();
+          $doc.VoicesMovieReady = null;
+        });
+        return true;
+      } catch(e) {
+        // tell flash since throwing error would get lost
+        return "Exception: " + e.message + " / " + e.description;
       }
-    } catch (e) {
-      throw new Error("Exception defining $doc.VoicesMovieReady:\n" + e);
     }
     
-    try {
-      $doc.VoicesMovie.log = function(text) {
-        @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH: " + text);
+    $doc.VoicesMovie.soundLoaded = function(id) {
+      try {
+        self.@com.allen_sauer.gwt.voices.client.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+          @com.allen_sauer.gwt.voices.client.Sound::soundLoaded(I)(id);
+        });
+        return true;
+      } catch(e) {
+        // tell flash since throwing error would get lost
+        return "Exception: " + e.message + " / " + e.description;
       }
-    } catch (e) {
-      throw new Error("Exception defining $doc.VoicesMovieLog:\n" + e);
     }
     
-    try {
-      $doc.VoicesMovie.soundLoaded = function(id) {
-        @com.allen_sauer.gwt.voices.client.Sound::soundLoaded(I)(id);
+    $doc.VoicesMovie.soundCompleted = function(id) {
+      try {
+        self.@com.allen_sauer.gwt.voices.client.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+          @com.allen_sauer.gwt.voices.client.Sound::soundCompleted(I)(id);
+        });
+        return true;
+      } catch(e) {
+        // tell flash since throwing error would get lost
+        return "Exception: " + e.message + " / " + e.description;
       }
-    } catch (e) {
-      throw new Error("Exception defining $doc.VoicesSoundLoaded:\n" + e);
     }
+
+  //    $doc.VoicesMovie.log = function(text) {
+  //      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH: " + text);
+  //    }
     
-    try {
-      $doc.VoicesMovie.soundCompleted = function(id) {
-        @com.allen_sauer.gwt.voices.client.Sound::soundCompleted(I)(id);
-      }
-    } catch (e) {
-      throw new Error("Exception defining $doc.VoicesSoundCompleted:\n" + e);
-    }
   }-*/;
 
   private void movieReady() {
