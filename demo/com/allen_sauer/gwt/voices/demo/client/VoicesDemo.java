@@ -27,8 +27,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.allen_sauer.gwt.log.client.LogUncaughtExceptionHandler;
 
 public class VoicesDemo implements EntryPoint {
-  private static final String DEMO_SOUNDS_PANEL = "demo-sounds-panel";
   private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
+  private static final String DEMO_SOUNDS_PANEL = "demo-sounds-panel";
   private static final DemoSound[] demoSounds = {
       new DemoSound("28917__junggle__btn107", "junggle",
           "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404",
