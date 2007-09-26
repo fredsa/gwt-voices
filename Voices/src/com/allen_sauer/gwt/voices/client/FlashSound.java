@@ -15,16 +15,12 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import com.allen_sauer.gwt.voices.client.handler.FiresSoundEvents;
-import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
-import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
-import com.allen_sauer.gwt.voices.client.handler.SoundLoadEvent;
 
 import java.util.ArrayList;
 
-public class Sound implements FiresSoundEvents {
+class FlashSound extends AbstractSound {
   private static ArrayList soundList = new ArrayList();
   private static VoicesMovie voicesMovie = new VoicesMovie();
 
@@ -34,75 +30,73 @@ public class Sound implements FiresSoundEvents {
   }
 
   private static void soundCompleted(int index) {
-    ((Sound) soundList.get(index)).soundCompleted();
+    ((FlashSound) soundList.get(index)).soundCompleted();
   }
 
   private static void soundLoaded(final int index) {
-    ((Sound) soundList.get(index)).soundLoaded();
+    ((FlashSound) soundList.get(index)).soundLoaded();
   }
 
+  private int balance = 0;
   private final int id;
-  private boolean loaded = false;
+  private int loadState = Sound.LOAD_STATE_NOT_LOADED;
   private boolean playSoundWhenLoaded = false;
-  private SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
-  private final boolean streaming;
+  private final Element soundControllerElement;
   private final String url;
   private int volume = 100;
 
-  public Sound(String url, boolean streaming) {
+  public FlashSound(Element soundControllerElement, String url) {
+    this.soundControllerElement = soundControllerElement;
     id = soundList.size();
     this.url = url;
-    this.streaming = streaming;
     soundList.add(this);
     voicesMovie.registerSound(this);
-  }
-
-  public void addSoundHandler(SoundHandler handler) {
-    soundHandlerCollection.add(handler);
-    if (loaded) {
-      handler.onSoundLoad(new SoundLoadEvent(this));
-    }
   }
 
   public int getId() {
     return id;
   }
 
+  public int getLoadState() {
+    return loadState;
+  }
+
   public String getUrl() {
     return url;
   }
 
-  public boolean isLoaded() {
-    return loaded;
-  }
-
-  public boolean isStreaming() {
-    return streaming;
-  }
-
-  public boolean play() {
-    if (loaded) {
-      return voicesMovie.playSound(id);
+  public void play() {
+    if (loadState == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.playSound(id);
     } else {
       playSoundWhenLoaded = true;
-      return false;
     }
   }
 
-  public void removeSoundHandler(SoundHandler handler) {
-    soundHandlerCollection.remove(handler);
+  public void setBalance(int balance) {
+    this.balance = balance;
+    if (loadState == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.setBalance(id, balance);
+    }
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    if (loaded) {
+    if (loadState == Sound.LOAD_STATE_LOADED) {
       voicesMovie.setVolume(id, volume);
     }
   }
 
+  public void stop() {
+    if (loadState == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.stopSound(id);
+    } else {
+      playSoundWhenLoaded = false;
+    }
+  }
+
   public String toString() {
-    return "Sound[" + id + ", " + url + ", " + (streaming ? "" : "NOT ")
-        + "STREAMING]";
+    return "FlashSound[" + id + ", " + url + "]";
   }
 
   protected void soundCompleted() {
@@ -110,7 +104,7 @@ public class Sound implements FiresSoundEvents {
   }
 
   protected void soundLoaded() {
-    loaded = true;
+    loadState = Sound.LOAD_STATE_LOADED;
     if (volume != 100) {
       voicesMovie.setVolume(id, volume);
     }

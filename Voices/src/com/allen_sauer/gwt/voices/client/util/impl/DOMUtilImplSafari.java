@@ -15,9 +15,20 @@
  */
 package com.allen_sauer.gwt.voices.client.util.impl;
 
+import com.google.gwt.user.client.Element;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} implementation for
  * Webkit/Safari.
  */
 public class DOMUtilImplSafari extends DOMUtilImplStandard {
+  public native void playSoundElement(Element soundControllerElement,
+      Element elem)
+  /*-{
+    var parent = elem.parentNode;
+    if (parent != null) {
+      parent.removeChild(elem);
+    }
+    soundControllerElement.appendChild(elem);
+  }-*/;
 }

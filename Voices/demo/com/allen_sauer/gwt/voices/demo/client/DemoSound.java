@@ -16,22 +16,31 @@
 package com.allen_sauer.gwt.voices.demo.client;
 
 import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 
-public class DemoSound extends Sound {
+public class DemoSound {
+  private static SoundController soundController = new SoundController();
   private final String author;
   private final String authorURL;
   private final String baseFilename;
   private final String originalFileURL;
   private final String orignalFileName;
+  private Sound sound;
 
   public DemoSound(String baseFilename, String author, String authorURL,
       String orignalFileName, String originalFileURL) {
-    super("thefreesoundproject/" + baseFilename + ".mp3", false);
+    sound = soundController.createSound("freesoundproject/" + baseFilename
+        + ".mp3");
     this.baseFilename = baseFilename;
     this.author = author;
     this.authorURL = authorURL;
     this.orignalFileName = orignalFileName;
     this.originalFileURL = originalFileURL;
+  }
+
+  public void addSoundHandler(SoundHandler soundHandler) {
+    sound.addSoundHandler(soundHandler);
   }
 
   public String getAuthor() {
@@ -52,6 +61,10 @@ public class DemoSound extends Sound {
 
   public String getOrignalFileName() {
     return orignalFileName;
+  }
+
+  public void play() {
+    sound.play();
   }
 
   public String toHTMLString() {

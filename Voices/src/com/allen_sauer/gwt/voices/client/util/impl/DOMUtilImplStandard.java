@@ -25,13 +25,29 @@ public abstract class DOMUtilImplStandard extends DOMUtilImpl {
   public native Element createFlashMovieMaybeSetMovieURL(String id,
       String movieURL)
   /*-{
-    try {
-      var elem = document.createElement("object");
-      elem.setAttribute("type", "application/x-shockwave-flash");
-      elem.setAttribute("data", movieURL);
-      return elem;
-    } catch(e) {
-      throw new Error("Exception creating flash movie:\n" + e);
-    }
+    var elem = document.createElement("object");
+    elem.setAttribute("type", "application/x-shockwave-flash");
+    elem.setAttribute("data", movieURL);
+    return elem;
+  }-*/;
+
+  public native Element createSoundElement(String url)
+  /*-{
+    var elem = $doc.createElement("object");
+    elem.setAttribute("data", url);
+    elem.setAttribute("autostart", "true");
+    elem.setAttribute("hidden", "false");
+    return elem;
+  }-*/;
+
+  public native void setSoundElementBalance(Element elem, int balance)
+  /*-{
+    // did not find any browsers actually supporting this
+    elem.setAttribute("balance", "" + balance);
+  }-*/;
+
+  public native void setSoundElementVolume(Element elem, int volume)
+  /*-{
+    elem.setAttribute("volume", "" + volume);
   }-*/;
 }

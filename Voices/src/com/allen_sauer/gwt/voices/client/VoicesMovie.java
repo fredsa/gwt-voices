@@ -40,6 +40,12 @@ class VoicesMovie extends FlashMovie {
     return super.getElement();
   }
 
+  public void setBalance(int id, int balance) {
+    if (ready) {
+      callSetBalance(id, balance);
+    }
+  }
+
   public void setVolume(int id, int volume) {
     if (ready) {
       callSetVolume(id, volume);
@@ -69,18 +75,23 @@ class VoicesMovie extends FlashMovie {
     removeFlashCallbackHooks();
   }
 
-  boolean playSound(int id) {
+  void playSound(int id) {
     if (ready) {
       callPlaySound(id);
     }
-    return ready;
   }
 
-  void registerSound(Sound sound) {
+  void registerSound(FlashSound flashSound) {
     if (ready) {
-      doCreateSound(sound);
+      doCreateSound(flashSound);
     } else {
-      unitializedSoundList.add(sound);
+      unitializedSoundList.add(flashSound);
+    }
+  }
+
+  void stopSound(int id) {
+    if (ready) {
+      callStopSound(id);
     }
   }
 
@@ -96,14 +107,26 @@ class VoicesMovie extends FlashMovie {
     elem.playSound(id);
   }-*/;
 
+  private native void callSetBalance(int id, int balance)
+  /*-{
+    var elem = this.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
+    elem.setBalance(id, balance);
+  }-*/;
+
   private native void callSetVolume(int id, int volume)
   /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
     elem.setVolume(id, volume);
   }-*/;
 
-  private void doCreateSound(Sound sound) {
-    callCreateSound(sound.getId(), sound.getUrl(), sound.isStreaming());
+  private native void callStopSound(int id)
+  /*-{
+    var elem = this.@com.allen_sauer.gwt.voices.client.VoicesMovie::getElement()();
+    elem.stopSound(id);
+  }-*/;
+
+  private void doCreateSound(FlashSound flashSound) {
+    callCreateSound(flashSound.getId(), flashSound.getUrl(), false);
   }
 
   private native void installFlashCallbackHooks()
@@ -128,7 +151,7 @@ class VoicesMovie extends FlashMovie {
     $doc.VoicesMovie.soundLoaded = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          @com.allen_sauer.gwt.voices.client.Sound::soundLoaded(I)(id);
+          @com.allen_sauer.gwt.voices.client.FlashSound::soundLoaded(I)(id);
         });
         return true;
       } catch(e) {
@@ -140,7 +163,7 @@ class VoicesMovie extends FlashMovie {
     $doc.VoicesMovie.soundCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          @com.allen_sauer.gwt.voices.client.Sound::soundCompleted(I)(id);
+          @com.allen_sauer.gwt.voices.client.FlashSound::soundCompleted(I)(id);
         });
         return true;
       } catch(e) {
@@ -158,8 +181,8 @@ class VoicesMovie extends FlashMovie {
   private void movieReady() {
     ready = true;
     for (Iterator iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
-      Sound sound = (Sound) iterator.next();
-      doCreateSound(sound);
+      FlashSound flashSound = (FlashSound) iterator.next();
+      doCreateSound(flashSound);
       iterator.remove();
     }
   }

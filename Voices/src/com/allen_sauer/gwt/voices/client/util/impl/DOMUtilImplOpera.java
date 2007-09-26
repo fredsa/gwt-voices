@@ -15,9 +15,34 @@
  */
 package com.allen_sauer.gwt.voices.client.util.impl;
 
+import com.google.gwt.user.client.Element;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} implementation for
  * Opera.
  */
 public class DOMUtilImplOpera extends DOMUtilImplStandard {
+  public native Element createSoundElement(String url)
+  /*-{
+    var elem = $doc.createElement("object");
+    elem.setAttribute("data", url);
+    elem.setAttribute("autostart", "true");
+    elem.setAttribute("hidden", "false");
+    return elem;
+  }-*/;
+
+  public native void setSoundElementVolume(Element elem, int volume)
+  /*-{
+    var children = elem.childNodes;
+    for (var i = 0; i < children.length; i++) {
+      if (children[i].name == "volume") {
+        children[i].value = "" + volume;
+        return;
+      }
+    }
+    var param = $doc.createElement("param");
+    param.setAttribute("name", "volume");
+    param.setAttribute("value", "" + volume);
+    elem.appendChild(param);
+  }-*/;
 }

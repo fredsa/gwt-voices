@@ -24,25 +24,56 @@ public class DOMUtilImplIE6 extends DOMUtilImpl {
   public native Element createFlashMovieMaybeSetMovieURL(String id,
       String movieURL)
   /*-{
-    try {
-      var elem = $doc.createElement("object");
-      elem.classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000";
-      elem.codebase = "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0";
-  //      elem.Quality = 1; // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
-  //      elem.ScaleMode = 2; //0=ShowAll, 1=NoBorder, 2=ExactFit
-      elem.id = id;
-      return elem;
-    } catch(e) {
-      throw new Error("Exception creating flash movie:\n" + e);
-    }
+    var elem = $doc.createElement("object");
+    elem.classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000";
+    elem.codebase = "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0";
+    // elem.Quality = 1; // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
+    // elem.ScaleMode = 2; //0=ShowAll, 1=NoBorder, 2=ExactFit
+    elem.id = id;
+    return elem;
+  }-*/;
+
+  public native Element createSoundElement(String url)
+  /*-{
+    var elem = $doc.createElement("bgsound");
+    elem.src = url;
+    // elem.loop = 1; // -1 = infinitely, 0 = one time, n = number of times
+    return elem;
   }-*/;
 
   public native void maybeSetFlashMovieURL(Element elem, String movieURL)
   /*-{
-    try {
-      elem.Movie = movieURL;
-    } catch(e) {
-      throw new Error("Exception setting flash movie url:\n" + e);
+    elem.Movie = movieURL;
+  }-*/;
+
+  /**
+   * Best guess at conversion formula from standard -100 .. 100 range to -10000 ..
+   * 10000 range used by IE.
+   * 
+   * @TODO location documentation for IE
+   */
+  public native void setSoundElementBalance(Element elem, int balance)
+  /*-{
+    if (balance == -100) {
+      balance = -10000;
+    } else if (balance == 100) {
+      balance = 10000;
+    } else if (balance < 0) {
+      balance = 100 - 10000 / (100 + balance);
+    } else {
+      balance = 10000 / (100 - balance) - 100;
     }
+    elem.balance = "" + balance; // -10000 .. 10000
+  }-*/;
+
+  /**
+   * Best guess at conversion formula from standard 0 .. 100 range to -10000 ..
+   * 0 range used by IE.
+   * 
+   * @TODO location documentation for IE
+   */
+  public native void setSoundElementVolume(Element elem, int volume)
+  /*-{
+    elem.volume = volume == 0 ? -10000 : (-10000 / volume); // -10000 .. 0
   }-*/;
 }
