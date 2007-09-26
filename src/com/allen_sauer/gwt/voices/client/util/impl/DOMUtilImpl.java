@@ -25,6 +25,27 @@ public abstract class DOMUtilImpl {
   public abstract Element createFlashMovieMaybeSetMovieURL(String id,
       String movieURL);
 
+  public abstract Element createSoundElement(String url);
+
   public void maybeSetFlashMovieURL(Element elem, String movieURL) {
   }
+
+  public native void playSoundElement(Element soundControllerElement,
+      Element elem)
+  /*-{
+    soundControllerElement.appendChild(elem);
+  }-*/;
+
+  public abstract void setSoundElementBalance(Element elem,
+      int balancePercentage);
+
+  public abstract void setSoundElementVolume(Element elem, int volume);
+
+  public native void stopSoundElement(Element elem)
+  /*-{
+    var parent = elem.parentNode;
+    if (parent != null) {
+      parent.removeChild(elem);
+    }
+  }-*/;
 }

@@ -33,8 +33,14 @@ class Voices
     wasSuccessful = ExternalInterface.addCallback("playSound", this, playSound);
     Voices.log("addCallback(playSound) -> " + wasSuccessful);
     
+    wasSuccessful = ExternalInterface.addCallback("stopSound", this, stopSound);
+    Voices.log("addCallback(stopSound) -> " + wasSuccessful);
+    
     wasSuccessful = ExternalInterface.addCallback("setVolume", this, setVolume);
     Voices.log("addCallback(setVolume) -> " + wasSuccessful);
+
+    wasSuccessful = ExternalInterface.addCallback("setBalance", this, setBalance);
+    Voices.log("addCallback(setBalance) -> " + wasSuccessful);
 
     Voices.log("Voices created.");
 
@@ -44,6 +50,7 @@ class Voices
   }
   
   function createSound(id:Number, url:String, streaming:Boolean):Void {
+    Voices.log("createSound(" + id + ")...");
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
       Voices.log("soundLoaded " + id);
@@ -56,17 +63,27 @@ class Voices
       Voices.log("document.VoicesMovie.soundCompleted(" + id + ") -> " + result);
     }
     sounds[id].loadSound(url, streaming);
-    Voices.log("...createSound " + id);
+    Voices.log("...createSound(" + id + ")");
   }
   
   function playSound(id:Number):Void {
-    Voices.log("playSound " + id);
+    Voices.log("playSound(" + id + ")");
     sounds[id].start();
+  }
+  
+  function stopSound(id:Number):Void {
+    Voices.log("stopSound(" + id + ")");
+    sounds[id].stop();
   }
   
   function setVolume(id:Number, volume:Number):Void {
     Voices.log("setVolume " + id + " => " + volume + "%");
     sounds[id].setVolume(volume);
+  }
+  
+  function setBalance(id:Number, balance:Number):Void {
+    Voices.log("setBalance " + id + " => " + balance);
+    sounds[id].setBalance(balance);
   }
   
   static function log(text:String) {

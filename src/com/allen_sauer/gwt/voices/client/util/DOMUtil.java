@@ -35,7 +35,28 @@ public class DOMUtil {
     return impl.createFlashMovieMaybeSetMovieURL(id, movieURL);
   }
 
+  public static Element createSoundElement(String url) {
+    return impl.createSoundElement(url);
+  }
+
   public static void maybeSetFlashMovieURL(Element elem, String movieURL) {
     impl.maybeSetFlashMovieURL(elem, movieURL);
+  }
+
+  public static void playSoundElement(Element soundControllerElement,
+      Element soundElement) {
+    impl.playSoundElement(soundControllerElement, soundElement);
+  }
+
+  public static void setSoundElementBalance(Element elem, int balance) {
+    impl.setSoundElementBalance(elem, balance);
+  }
+
+  public static void setSoundElementVolume(Element elem, int volume) {
+    impl.setSoundElementVolume(elem, volume);
+  }
+
+  public static void stopSoundElement(Element soundElement) {
+    impl.stopSoundElement(soundElement);
   }
 }
