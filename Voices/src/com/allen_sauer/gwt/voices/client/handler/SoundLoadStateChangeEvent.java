@@ -19,13 +19,31 @@ import com.allen_sauer.gwt.voices.client.Sound;
 
 import java.util.EventObject;
 
-public class SoundLoadEvent extends EventObject {
-  public SoundLoadEvent(Object source) {
+public class SoundLoadStateChangeEvent extends EventObject {
+  private static String loadStateToString(int loadState) {
+    switch (loadState) {
+      case Sound.LOAD_STATE_LOADED:
+        return "LOADED";
+      case Sound.LOAD_STATE_NOT_LOADED:
+        return "NOT LOADED";
+      case Sound.LOAD_STATE_UNKNOWN:
+        return "UNKNOWN";
+      default:
+        throw new IllegalArgumentException("loadState=" + loadState);
+    }
+  }
+
+  private final int loadState;
+
+  public SoundLoadStateChangeEvent(Object source) {
     super(source);
+    Sound sound = (Sound) source;
+    loadState = sound.getLoadState();
   }
 
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "SoundLoadEvent(" + sound + ")";
+    return "SoundLoadStateChangeEvent: " + sound + "; state="
+        + loadStateToString(loadState);
   }
 }

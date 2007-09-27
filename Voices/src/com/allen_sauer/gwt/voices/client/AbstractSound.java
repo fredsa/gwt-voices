@@ -17,7 +17,7 @@ package com.allen_sauer.gwt.voices.client;
 
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
-import com.allen_sauer.gwt.voices.client.handler.SoundLoadEvent;
+import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 abstract class AbstractSound implements Sound {
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
@@ -26,7 +26,7 @@ abstract class AbstractSound implements Sound {
     soundHandlerCollection.add(handler);
     int loadState = getLoadState();
     if (loadState != Sound.LOAD_STATE_NOT_LOADED) {
-      handler.onSoundLoad(new SoundLoadEvent(this));
+      handler.onSoundLoadStateChange(new SoundLoadStateChangeEvent(this));
     }
   }
 
