@@ -26,6 +26,6 @@ public class SoundCompleteEvent extends EventObject {
 
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "SoundCompleteEvent(" + sound + ")";
+    return "SoundCompleteEvent: " + sound;
   }
 }

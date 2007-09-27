@@ -17,30 +17,27 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
-import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 
-public class DemoSound {
-  private static SoundController soundController = new SoundController();
+public class FreeSound {
+  private static final String FREESOUNDPROJECT_URL = "freesoundproject/";
   private final String author;
   private final String authorURL;
   private final String baseFilename;
   private final String originalFileURL;
   private final String orignalFileName;
   private Sound sound;
+  private SoundController soundController;
 
-  public DemoSound(String baseFilename, String author, String authorURL,
-      String orignalFileName, String originalFileURL) {
-    sound = soundController.createSound("freesoundproject/" + baseFilename
-        + ".mp3");
+  public FreeSound(SoundController soundController, String baseFilename,
+      String orignalFileName, String originalFileURL, String author,
+      String authorURL) {
+    this.soundController = soundController;
+    sound = soundController.createSound(FREESOUNDPROJECT_URL + baseFilename);
     this.baseFilename = baseFilename;
     this.author = author;
     this.authorURL = authorURL;
     this.orignalFileName = orignalFileName;
     this.originalFileURL = originalFileURL;
-  }
-
-  public void addSoundHandler(SoundHandler soundHandler) {
-    sound.addSoundHandler(soundHandler);
   }
 
   public String getAuthor() {
@@ -63,8 +60,8 @@ public class DemoSound {
     return orignalFileName;
   }
 
-  public void play() {
-    sound.play();
+  public Sound getSound() {
+    return sound;
   }
 
   public String toHTMLString() {

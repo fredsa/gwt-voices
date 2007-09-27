@@ -1,12 +1,8 @@
 @CHARSET "UTF-8";
 
-BODY {
-  background-color: #abcdef;
-}
-
 .demo-event-text-area {
-  border: 1px solid green;
-  width: 80%;
+  border: 1px solid #AAAAAA;
+  width: 90%;
   height: 8em;
   overflow: auto;
 }
@@ -24,4 +20,19 @@ BODY {
 .demo-note {
   font-size: 0.8em;
   font-style: italic;
+}
+
+.gwt-DisclosurePanel .header {
+  cursor: pointer;
+}
+
+.gwt-DisclosurePanel .content {
+  padding: 0.5em;
+  margin-left: 1.5em;
+  border: 1px solid #DDDDDD;
+  background-color: #DDEEFF;
+}
+
+.demo-panels {
+  margin: 0.5em;
 }

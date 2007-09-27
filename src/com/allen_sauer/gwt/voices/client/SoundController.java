@@ -20,6 +20,15 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class SoundController {
+  private static String getLowercaseExtension(String filename) {
+    int pos = filename.indexOf('.');
+    if (pos == -1) {
+      return "";
+    } else {
+      return filename.substring(pos).toLowerCase();
+    }
+  }
+
   private final Element element;
 
   public SoundController() {
@@ -36,8 +45,8 @@ public class SoundController {
   }
 
   public Sound createSound(String url) {
-    url = url.toLowerCase();
-    if (url.endsWith(".mp3")) {
+    String lowercaseExtension = getLowercaseExtension(url);
+    if (lowercaseExtension.equals(".mp3")) {
       return new FlashSound(getElement(), url);
     } else {
       return new NativeSound(getElement(), url);

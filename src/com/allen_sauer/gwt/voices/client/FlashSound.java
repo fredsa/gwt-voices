@@ -96,7 +96,7 @@ class FlashSound extends AbstractSound {
   }
 
   public String toString() {
-    return "FlashSound[" + id + ", " + url + "]";
+    return "FlashSound(\"" + url + "\")";
   }
 
   protected void soundCompleted() {
@@ -112,6 +112,6 @@ class FlashSound extends AbstractSound {
       play();
       playSoundWhenLoaded = false;
     }
-    soundHandlerCollection.fireOnSoundLoad(this);
+    soundHandlerCollection.fireOnSoundLoadStateChange(this);
   }
 }

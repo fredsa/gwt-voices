@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.HTML;
 
 import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
-import com.allen_sauer.gwt.voices.client.handler.SoundLoadEvent;
+import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 /**
  * Shared drag handler which display events as they are received by the various
@@ -38,7 +38,7 @@ public final class DemoSoundHandler implements SoundHandler {
     log(event.toString(), GREEN);
   }
 
-  public void onSoundLoad(SoundLoadEvent event) {
+  public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
     log(event.toString(), BLUE);
   }
 

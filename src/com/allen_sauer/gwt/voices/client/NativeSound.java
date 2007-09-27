@@ -20,12 +20,20 @@ import com.google.gwt.user.client.Element;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class NativeSound extends AbstractSound {
+  private Element preloadSoundElement;
   private Element soundControllerElement;
   private Element soundElement;
+  private final String url;
 
   public NativeSound(Element soundControllerElement, String url) {
     this.soundControllerElement = soundControllerElement;
+    this.url = url;
     soundElement = DOMUtil.createSoundElement(url);
+
+    // attempt to preload the sound
+    preloadSoundElement = DOMUtil.createSoundElement(url);
+    DOMUtil.setSoundElementVolume(preloadSoundElement, 0);
+    DOMUtil.playSoundElement(soundControllerElement, preloadSoundElement);
   }
 
   public int getLoadState() {
@@ -54,5 +62,9 @@ public class NativeSound extends AbstractSound {
 
   public void stop() {
     DOMUtil.stopSoundElement(soundElement);
+  }
+
+  public String toString() {
+    return "NativeSound(\"" + url + "\")";
   }
 }

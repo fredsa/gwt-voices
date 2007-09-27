@@ -28,12 +28,12 @@ public class SoundHandlerCollection extends ArrayList {
     }
   }
 
-  public void fireOnSoundLoad(Object sender) {
-    SoundLoadEvent event = new SoundLoadEvent(sender);
+  public void fireOnSoundLoadStateChange(Object sender) {
+    SoundLoadStateChangeEvent event = new SoundLoadStateChangeEvent(sender);
 
     for (Iterator it = iterator(); it.hasNext();) {
       SoundHandler handler = (SoundHandler) it.next();
-      handler.onSoundLoad(event);
+      handler.onSoundLoadStateChange(event);
     }
   }
 }

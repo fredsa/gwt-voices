@@ -20,5 +20,5 @@ import java.util.EventListener;
 public interface SoundHandler extends EventListener {
   void onSoundComplete(SoundCompleteEvent event);
 
-  void onSoundLoad(SoundLoadEvent event);
+  void onSoundLoadStateChange(SoundLoadStateChangeEvent event);
 }
