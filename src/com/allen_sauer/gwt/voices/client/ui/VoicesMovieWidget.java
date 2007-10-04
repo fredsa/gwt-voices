@@ -206,9 +206,9 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
 
-    $doc.VoicesMovie.log = function(text) {
-      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH: " + text);
-    }
+  //    $doc.VoicesMovie.log = function(text) {
+  //      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH: " + text);
+  //    }
   }-*/;
 
   private void movieReady() {
