@@ -17,7 +17,6 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -76,9 +75,8 @@ public class DemoSoundPanel extends Composite {
                 playButton.setText("play (may not work)");
                 break;
               case Sound.LOAD_STATE_UNINITIALIZED:
-                Window.alert("Hey!"); // TODO remove
               default:
-                throw new IllegalArgumentException("Unknown state "
+                throw new IllegalArgumentException("Unhandled state "
                     + event.getLoadState());
             }
           }

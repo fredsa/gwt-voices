@@ -30,8 +30,8 @@ import java.util.Iterator;
 public class MimeTypeDemo extends Composite {
   private VerticalPanel containerPanel;
   private final DemoSoundHandler demoSoundHandler;
-  private final String mimeType;
   private final ArrayList freesoundList;
+  private final String mimeType;
 
   public MimeTypeDemo(String mimeType, ArrayList freesoundList,
       DemoSoundHandler demoSoundHandler) {
