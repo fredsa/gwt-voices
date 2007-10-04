@@ -15,19 +15,12 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 
 import java.util.ArrayList;
 
-class FlashSound extends AbstractSound {
+public class FlashSound extends AbstractSound {
   private static ArrayList soundList = new ArrayList();
-  private static VoicesMovie voicesMovie = new VoicesMovie();
-
-  static {
-    voicesMovie.setPixelSize(10, 10);
-    RootPanel.get().add(voicesMovie, -500, -500);
-  }
 
   private static void soundCompleted(int index) {
     ((FlashSound) soundList.get(index)).soundCompleted();
@@ -38,36 +31,30 @@ class FlashSound extends AbstractSound {
   }
 
   private int balance = 0;
-  private final int id;
-  private int loadState = Sound.LOAD_STATE_NOT_LOADED;
   private boolean playSoundWhenLoaded = false;
-  private final Element soundControllerElement;
-  private final String url;
+  private final int soundNumber;
+  private final VoicesMovieWidget voicesMovie;
   private int volume = 100;
 
-  public FlashSound(Element soundControllerElement, String url) {
-    this.soundControllerElement = soundControllerElement;
-    id = soundList.size();
-    this.url = url;
+  public FlashSound(String mimeType, String url, VoicesMovieWidget voicesMovie) {
+    super(mimeType, url);
+    this.voicesMovie = voicesMovie;
+    soundNumber = soundList.size();
     soundList.add(this);
     voicesMovie.registerSound(this);
   }
 
-  public int getId() {
-    return id;
+  public int getSoundNumber() {
+    return soundNumber;
   }
 
-  public int getLoadState() {
-    return loadState;
-  }
-
-  public String getUrl() {
-    return url;
+  public String getSoundType() {
+    return "Flash";
   }
 
   public void play() {
-    if (loadState == Sound.LOAD_STATE_LOADED) {
-      voicesMovie.playSound(id);
+    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.playSound(soundNumber);
     } else {
       playSoundWhenLoaded = true;
     }
@@ -75,28 +62,24 @@ class FlashSound extends AbstractSound {
 
   public void setBalance(int balance) {
     this.balance = balance;
-    if (loadState == Sound.LOAD_STATE_LOADED) {
-      voicesMovie.setBalance(id, balance);
+    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.setBalance(soundNumber, balance);
     }
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    if (loadState == Sound.LOAD_STATE_LOADED) {
-      voicesMovie.setVolume(id, volume);
+    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.setVolume(soundNumber, volume);
     }
   }
 
   public void stop() {
-    if (loadState == Sound.LOAD_STATE_LOADED) {
-      voicesMovie.stopSound(id);
+    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+      voicesMovie.stopSound(soundNumber);
     } else {
       playSoundWhenLoaded = false;
     }
-  }
-
-  public String toString() {
-    return "FlashSound(\"" + url + "\")";
   }
 
   protected void soundCompleted() {
@@ -104,9 +87,9 @@ class FlashSound extends AbstractSound {
   }
 
   protected void soundLoaded() {
-    loadState = Sound.LOAD_STATE_LOADED;
+    setLoadState(Sound.LOAD_STATE_LOADED);
     if (volume != 100) {
-      voicesMovie.setVolume(id, volume);
+      voicesMovie.setVolume(soundNumber, volume);
     }
     if (playSoundWhenLoaded) {
       play();

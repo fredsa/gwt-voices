@@ -16,60 +16,62 @@
 package com.allen_sauer.gwt.voices.demo.client;
 
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
 
 public class FreeSound {
-  private static final String FREESOUNDPROJECT_URL = "freesoundproject/";
-  private final String author;
-  private final String authorURL;
-  private final String baseFilename;
-  private final String originalFileURL;
-  private final String orignalFileName;
+  private final String actualURL;
+  private final String freeSoundAuthor;
+  private final String freesoundAuthorURL;
+  private final String freesoundFileURL;
+  private final String mimeType;
+  private final String originalFreesoundFilename;
   private Sound sound;
-  private SoundController soundController;
 
-  public FreeSound(SoundController soundController, String baseFilename,
-      String orignalFileName, String originalFileURL, String author,
-      String authorURL) {
-    this.soundController = soundController;
-    sound = soundController.createSound(FREESOUNDPROJECT_URL + baseFilename);
-    this.baseFilename = baseFilename;
-    this.author = author;
-    this.authorURL = authorURL;
-    this.orignalFileName = orignalFileName;
-    this.originalFileURL = originalFileURL;
+  public FreeSound(String mimeType, String actualURL,
+      String originalFreesoundFilename, String freesoundFileURL,
+      String freeSoundAuthor, String freesoundAuthorURL) {
+    this.mimeType = mimeType;
+    this.originalFreesoundFilename = originalFreesoundFilename;
+    this.actualURL = actualURL;
+    this.freesoundFileURL = freesoundFileURL;
+    this.freeSoundAuthor = freeSoundAuthor;
+    this.freesoundAuthorURL = freesoundAuthorURL;
   }
 
-  public String getAuthor() {
-    return author;
+  public String getActualURL() {
+    return actualURL;
   }
 
-  public String getAuthorURL() {
-    return authorURL;
+  public String getFreeSoundAuthor() {
+    return freeSoundAuthor;
   }
 
-  public String getBaseFilename() {
-    return baseFilename;
+  public String getFreesoundAuthorURL() {
+    return freesoundAuthorURL;
   }
 
-  public String getOriginalFileURL() {
-    return originalFileURL;
+  public String getFreesoundFileURL() {
+    return freesoundFileURL;
   }
 
-  public String getOrignalFileName() {
-    return orignalFileName;
+  public String getMimeType() {
+    return mimeType;
   }
 
   public Sound getSound() {
     return sound;
   }
 
+  public void setSound(Sound sound) {
+    this.sound = sound;
+  }
+
   public String toHTMLString() {
-    return "<a href='" + getOriginalFileURL() + "'>" + getOrignalFileName()
-        + "</a> by <a href='" + getAuthorURL() + "'>" + getAuthor() + "</a>";
+    return "<a href='" + getFreesoundFileURL() + "'>"
+        + originalFreesoundFilename + "</a> by <a href='"
+        + getFreesoundAuthorURL() + "'>" + getFreeSoundAuthor() + "</a>";
   }
 
   public String toString() {
-    return getOrignalFileName();
+    return originalFreesoundFilename;
   }
 }

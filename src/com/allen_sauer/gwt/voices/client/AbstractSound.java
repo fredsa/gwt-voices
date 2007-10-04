@@ -20,17 +20,51 @@ import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 abstract class AbstractSound implements Sound {
+  private static final int INITIAL_LOAD_STATE = Sound.LOAD_STATE_UNINITIALIZED;
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
 
-  public void addSoundHandler(SoundHandler handler) {
+  private int loadState = INITIAL_LOAD_STATE;
+  private final String mimeType;
+  private final String url;
+
+  public AbstractSound(String mimeType, String url) {
+    this.mimeType = mimeType;
+    this.url = url;
+  }
+
+  public void addEventHandler(SoundHandler handler) {
     soundHandlerCollection.add(handler);
-    int loadState = getLoadState();
-    if (loadState != Sound.LOAD_STATE_NOT_LOADED) {
+    if (loadState != INITIAL_LOAD_STATE) {
       handler.onSoundLoadStateChange(new SoundLoadStateChangeEvent(this));
     }
   }
 
-  public void removeSoundHandler(SoundHandler handler) {
+  public final int getLoadState() {
+    return loadState;
+  }
+
+  public String getMimeType() {
+    return mimeType;
+  }
+
+  public abstract String getSoundType();
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void removeEventHandler(SoundHandler handler) {
     soundHandlerCollection.remove(handler);
+  }
+
+  public final void setLoadState(int loadState) {
+    this.loadState = loadState;
+    if (loadState != INITIAL_LOAD_STATE) {
+      soundHandlerCollection.fireOnSoundLoadStateChange(this);
+    }
+  }
+
+  public String toString() {
+    return getSoundType() + "(\"" + mimeType + "\", \"" + url + "\")";
   }
 }

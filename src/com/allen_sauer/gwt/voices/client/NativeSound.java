@@ -17,54 +17,55 @@ package com.allen_sauer.gwt.voices.client;
 
 import com.google.gwt.user.client.Element;
 
+import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class NativeSound extends AbstractSound {
+  private NativeSoundWidget nativeSoundWidget;
   private Element preloadSoundElement;
   private Element soundControllerElement;
-  private Element soundElement;
-  private final String url;
 
-  public NativeSound(Element soundControllerElement, String url) {
+  public NativeSound(String mimeType, String url, Element soundControllerElement) {
+    super(mimeType, url);
     this.soundControllerElement = soundControllerElement;
-    this.url = url;
-    soundElement = DOMUtil.createSoundElement(url);
-
-    // attempt to preload the sound
-    preloadSoundElement = DOMUtil.createSoundElement(url);
-    DOMUtil.setSoundElementVolume(preloadSoundElement, 0);
-    DOMUtil.playSoundElement(soundControllerElement, preloadSoundElement);
+    nativeSoundWidget = new NativeSoundWidget(soundControllerElement, url);
+    int mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
+    switch (mimeTypeSupport) {
+      case SoundController.MIME_TYPE_SUPPORTED:
+        setLoadState(Sound.LOAD_STATE_SUPPORTED);
+        break;
+      case SoundController.MIME_TYPE_UNSUPPORTED:
+        setLoadState(Sound.LOAD_STATE_UNSUPPORTED);
+        break;
+      case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
+        setLoadState(Sound.LOAD_STATE_UNKNOWN);
+        break;
+      case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
+        setLoadState(Sound.LOAD_STATE_SUPPORTED_NOT_LOADED);
+        break;
+      default:
+        throw new IllegalArgumentException("unknown MIME type support "
+            + mimeTypeSupport);
+    }
   }
 
-  public int getLoadState() {
-    return Sound.LOAD_STATE_UNKNOWN;
-  }
-
-  public String getUrl() {
-    return null; // TODO Replace auto-generated method stub
-  }
-
-  public boolean isStreaming() {
-    return false; // TODO Replace auto-generated method stub
+  public String getSoundType() {
+    return DOMUtil.getNodeName(nativeSoundWidget.getElement());
   }
 
   public void play() {
-    DOMUtil.playSoundElement(soundControllerElement, soundElement);
+    nativeSoundWidget.play();
   }
 
   public void setBalance(int balance) {
-    DOMUtil.setSoundElementBalance(soundElement, balance);
+    nativeSoundWidget.setBalance(balance);
   }
 
   public void setVolume(int volume) {
-    DOMUtil.setSoundElementVolume(soundElement, volume);
+    nativeSoundWidget.setVolume(volume);
   }
 
   public void stop() {
-    DOMUtil.stopSoundElement(soundElement);
-  }
-
-  public String toString() {
-    return "NativeSound(\"" + url + "\")";
+    nativeSoundWidget.stop();
   }
 }

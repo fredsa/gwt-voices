@@ -13,10 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.handler;
+package com.allen_sauer.gwt.voices.client.util;
 
-public interface FiresSoundEvents {
-  void addEventHandler(SoundHandler handler);
-
-  void removeEventHandler(SoundHandler handler);
+public class StringUtil {
+  public static boolean contains(String[] arr, String text) {
+    for (int i = 0; i < arr.length; i++) {
+      if (arr[i].equals(text)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

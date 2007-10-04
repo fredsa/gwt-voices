@@ -23,11 +23,17 @@ public class SoundLoadStateChangeEvent extends EventObject {
   private static String loadStateToString(int loadState) {
     switch (loadState) {
       case Sound.LOAD_STATE_LOADED:
-        return "LOADED";
-      case Sound.LOAD_STATE_NOT_LOADED:
-        return "NOT LOADED";
+        return "loaded";
+      case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
+        return "supported; not loaded";
+      case Sound.LOAD_STATE_SUPPORTED:
+        return "supported";
+      case Sound.LOAD_STATE_UNSUPPORTED:
+        return "unsupported";
       case Sound.LOAD_STATE_UNKNOWN:
-        return "UNKNOWN";
+        return "unknown load state";
+      case Sound.LOAD_STATE_UNINITIALIZED:
+        return "uninitialized";
       default:
         throw new IllegalArgumentException("loadState=" + loadState);
     }
@@ -39,6 +45,14 @@ public class SoundLoadStateChangeEvent extends EventObject {
     super(source);
     Sound sound = (Sound) source;
     loadState = sound.getLoadState();
+  }
+
+  public int getLoadState() {
+    return loadState;
+  }
+
+  public String getLoadStateAsString() {
+    return loadStateToString(loadState);
   }
 
   public String toString() {
