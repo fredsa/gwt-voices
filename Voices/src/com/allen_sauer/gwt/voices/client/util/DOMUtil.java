@@ -18,8 +18,14 @@ package com.allen_sauer.gwt.voices.client.util;
 import com.google.gwt.user.client.Element;
 
 public class DOMUtil {
-  public native static String getNodeName(Element elem)
+  private static int uniqueId = 1000;
+
+  public static native String getNodeName(Element elem)
   /*-{
     return elem.nodeName;
   }-*/;
+
+  public static String getUniqueId() {
+    return "gwtVoices" + uniqueId++;
+  }
 }
