@@ -13,40 +13,43 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.util.impl;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
-/**
- * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} implementation for
- * standard browsers.
- */
-public abstract class DOMUtilImplStandard extends DOMUtilImpl {
-  public native Element createFlashMovieMaybeSetMovieURL(String id,
-      String movieURL)
-  /*-{
-    var elem = document.createElement("object");
-    elem.setAttribute("type", "application/x-shockwave-flash");
-    elem.setAttribute("data", movieURL);
-    return elem;
-  }-*/;
+import com.allen_sauer.gwt.voices.client.SoundController;
 
-  public native Element createSoundElement(String url)
+/**
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
+ * for standard browsers.
+ */
+public abstract class NativeSoundImplStandard extends NativeSoundImpl {
+  public native Element createElement(String url)
   /*-{
     var elem = $doc.createElement("object");
     elem.setAttribute("data", url);
     elem.setAttribute("autostart", "true");
-    elem.setAttribute("hidden", "false");
+    elem.setAttribute("hidden", "true");
     return elem;
   }-*/;
 
-  public native void setSoundElementBalance(Element elem, int balance)
+  public native int getMimeTypeSupport(String mimeType)
+  /*-{
+    var m = navigator.mimeTypes[mimeType];
+    // Note, m != null occurs in many browsers for well known MIME types
+    // even though the MIME type is not supported without a plug-in
+    return (m != null && m.enabledPlugin != null)
+        ? @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_SUPPORTED
+        : @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_UNSUPPORTED;
+  }-*/;
+
+  public native void setBalance(Element elem, int balance)
   /*-{
     // did not find any browsers actually supporting this
     elem.setAttribute("balance", "" + balance);
   }-*/;
 
-  public native void setSoundElementVolume(Element elem, int volume)
+  public native void setVolume(Element elem, int volume)
   /*-{
     elem.setAttribute("volume", "" + volume);
   }-*/;

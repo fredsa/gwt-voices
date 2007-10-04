@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
@@ -40,17 +42,45 @@ public class DemoSoundPanel extends Composite {
     playButton.addStyleName("voices-button");
     horizontalPanel.add(playButton);
 
+    // display a description of the sound next to the button
+    horizontalPanel.add(new HTML("&nbsp;" + freeSound.toHTMLString()));
+
+    // display a load state status
+    final HTML loadStateHTML = new HTML();
+    horizontalPanel.add(loadStateHTML);
+
     // enable the play button once the sound has loaded
-    freeSound.getSound().addSoundHandler(new SoundHandler() {
+    freeSound.getSound().addEventHandler(new SoundHandler() {
       public void onSoundComplete(SoundCompleteEvent event) {
       }
 
-      public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
-        // simulate a slight variable wait when developing locally
+      public void onSoundLoadStateChange(final SoundLoadStateChangeEvent event) {
+        // simulate a slight variable delay for local development
         new Timer() {
           public void run() {
-            playButton.setEnabled(true);
-            playButton.setText("play");
+            loadStateHTML.setHTML("&nbsp; (load state: <code>"
+                + event.getLoadStateAsString() + "</code>)");
+            switch (event.getLoadState()) {
+              case Sound.LOAD_STATE_LOADED:
+              case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
+              case Sound.LOAD_STATE_SUPPORTED:
+                playButton.setEnabled(true);
+                playButton.setText("play");
+                break;
+              case Sound.LOAD_STATE_UNSUPPORTED:
+                playButton.setEnabled(false);
+                playButton.setText("(plugin unavailable)");
+                break;
+              case Sound.LOAD_STATE_UNKNOWN:
+                playButton.setEnabled(true);
+                playButton.setText("play (may not work)");
+                break;
+              case Sound.LOAD_STATE_UNINITIALIZED:
+                Window.alert("Hey!"); // TODO remove
+              default:
+                throw new IllegalArgumentException("Unknown state "
+                    + event.getLoadState());
+            }
           }
         }.schedule(Random.nextInt(500) + 200);
       }
@@ -62,8 +92,5 @@ public class DemoSoundPanel extends Composite {
         freeSound.getSound().play();
       }
     });
-
-    // display a description of the sound next to the button
-    horizontalPanel.add(new HTML("&nbsp;" + freeSound.toHTMLString()));
   }
 }

@@ -16,10 +16,18 @@
 package com.allen_sauer.gwt.voices.client;
 
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget;
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+
 public class SoundController {
+  public static final int MIME_TYPE_SUPPORT_UNKNOWN = 1;
+  public static final int MIME_TYPE_SUPPORTED = 4;
+  public static final int MIME_TYPE_SUPPORTED_NOT_LOADED = 3;
+  public static final int MIME_TYPE_UNSUPPORTED = 2;
+
   private static String getLowercaseExtension(String filename) {
     int pos = filename.indexOf('.');
     if (pos == -1) {
@@ -29,31 +37,49 @@ public class SoundController {
     }
   }
 
-  private final Element element;
+  private boolean prioritizeFlashSound = false;
+  private final AbsolutePanel soundContainer = new AbsolutePanel();
+  private VoicesMovieWidget voicesMovie;
 
   public SoundController() {
-    element = DOM.createDiv();
-    DOM.appendChild(RootPanel.getBodyElement(), getElement());
-
-    // place off screen with fixed dimensions and overflow:hidden
-    DOM.setStyleAttribute(element, "position", "absolute");
-    DOM.setStyleAttribute(element, "left", "-500px");
-    DOM.setStyleAttribute(element, "top", "-500px");
-    DOM.setStyleAttribute(element, "width", "50px");
-    DOM.setStyleAttribute(element, "height", "50px");
-    DOM.setStyleAttribute(element, "overflow", "hidden");
+    initSoundContainer();
   }
 
-  public Sound createSound(String url) {
-    String lowercaseExtension = getLowercaseExtension(url);
-    if (lowercaseExtension.equals(".mp3")) {
-      return new FlashSound(getElement(), url);
-    } else {
-      return new NativeSound(getElement(), url);
+  public Sound createSound(String mimeType, String url) {
+    if (FlashMovieWidget.isExternalInterfaceSupported()) {
+      VoicesMovieWidget vm = getVoicesMovie();
+      int mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
+      if (mimeTypeSupport == MIME_TYPE_SUPPORTED
+          || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
+        return new FlashSound(mimeType, url, vm);
+      }
     }
+    return new NativeSound(mimeType, url, soundContainer.getElement());
   }
 
-  public Element getElement() {
-    return element;
+  public boolean isPrioritizeFlashSound() {
+    return prioritizeFlashSound;
+  }
+
+  public void setPrioritizeFlashSound(boolean prioritizeFlashSound) {
+    this.prioritizeFlashSound = prioritizeFlashSound;
+  }
+
+  /**
+   * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily
+   * triggered.
+   */
+  private VoicesMovieWidget getVoicesMovie() {
+    if (voicesMovie == null) {
+      voicesMovie = new VoicesMovieWidget();
+      soundContainer.add(voicesMovie);
+    }
+    return voicesMovie;
+  }
+
+  private void initSoundContainer() {
+    // place off screen with fixed dimensions and overflow:hidden
+    RootPanel.get().add(soundContainer, -500, -500);
+    soundContainer.setPixelSize(0, 0);
   }
 }

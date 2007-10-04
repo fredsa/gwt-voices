@@ -13,10 +13,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.handler;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
-public interface FiresSoundEvents {
-  void addEventHandler(SoundHandler handler);
+import com.google.gwt.user.client.Element;
 
-  void removeEventHandler(SoundHandler handler);
+/**
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
+ * for Webkit/Safari.
+ */
+public class NativeSoundImplSafari extends NativeSoundImplStandard {
+  public native void play(Element soundControllerElement, Element elem)
+  /*-{
+    var parent = elem.parentNode;
+    if (parent != null) {
+      parent.removeChild(elem);
+    }
+    soundControllerElement.appendChild(elem);
+  }-*/;
 }

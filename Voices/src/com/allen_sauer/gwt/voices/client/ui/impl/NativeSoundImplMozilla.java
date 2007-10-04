@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.util.impl;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} implementation for
- * older Mozillae.
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
+ * for Mozilla.
  */
-public class DOMUtilImplMozillaOld extends DOMUtilImplMozilla {
+public class NativeSoundImplMozilla extends NativeSoundImplStandard {
 }

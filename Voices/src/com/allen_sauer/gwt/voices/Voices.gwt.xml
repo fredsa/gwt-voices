@@ -6,28 +6,56 @@
 	<!-- Include CSS                                          -->
 	<stylesheet src='Voices.css'/>
 
-  <replace-with class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImplOpera">
-    <when-type-is class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImpl"/>
+
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplOpera">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
     <when-property-is name="user.agent" value="opera"/>
   </replace-with>
 
-  <replace-with class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImplSafari">
-    <when-type-is class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImpl"/>
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplSafari">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
     <when-property-is name="user.agent" value="safari"/>
   </replace-with>
 
-  <replace-with class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImplIE6">
-    <when-type-is class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImpl"/>
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplIE6">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
     <when-property-is name="user.agent" value="ie6"/>
   </replace-with>
 
-  <replace-with class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImplMozilla">
-    <when-type-is class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImpl"/>
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplMozilla">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
     <when-property-is name="user.agent" value="gecko1_8"/>
   </replace-with>
 
-  <replace-with class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImplMozillaOld">
-    <when-type-is class="com.allen_sauer.gwt.voices.client.util.impl.DOMUtilImpl"/>
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplMozillaOld">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
+    <when-property-is name="user.agent" value="gecko"/>
+  </replace-with>
+
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplOpera">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
+    <when-property-is name="user.agent" value="opera"/>
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplSafari">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
+    <when-property-is name="user.agent" value="safari"/>
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplIE6">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
+    <when-property-is name="user.agent" value="ie6"/>
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplMozilla">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
+    <when-property-is name="user.agent" value="gecko1_8"/>
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplMozillaOld">
+    <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
     <when-property-is name="user.agent" value="gecko"/>
   </replace-with>
 </module>

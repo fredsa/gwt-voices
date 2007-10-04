@@ -13,27 +13,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.util.impl;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
-/**
- * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} implementation for IE.
- */
-public class DOMUtilImplIE6 extends DOMUtilImpl {
-  public native Element createFlashMovieMaybeSetMovieURL(String id,
-      String movieURL)
-  /*-{
-    var elem = $doc.createElement("object");
-    elem.classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000";
-    elem.codebase = "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0";
-    // elem.Quality = 1; // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
-    // elem.ScaleMode = 2; //0=ShowAll, 1=NoBorder, 2=ExactFit
-    elem.id = id;
-    return elem;
-  }-*/;
+import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
-  public native Element createSoundElement(String url)
+/**
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
+ * for IE.
+ */
+public class NativeSoundImplIE6 extends NativeSoundImpl {
+  /**
+   * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply
+   * a background sound to a Web page in FrontPage</a> knowledge base article.
+   */
+  private static final String[] BGSOUND_SUPPORTED_MIME_TYPES = {
+      Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_BASIC,
+      Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_MPEG,
+      Sound.MIME_TYPE_AUDIO_X_WAV,};
+
+  public native Element createElement(String url)
   /*-{
     var elem = $doc.createElement("bgsound");
     elem.src = url;
@@ -41,10 +43,11 @@ public class DOMUtilImplIE6 extends DOMUtilImpl {
     return elem;
   }-*/;
 
-  public native void maybeSetFlashMovieURL(Element elem, String movieURL)
-  /*-{
-    elem.Movie = movieURL;
-  }-*/;
+  public int getMimeTypeSupport(String mimeType) {
+    return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType)
+        ? SoundController.MIME_TYPE_SUPPORTED
+        : SoundController.MIME_TYPE_UNSUPPORTED;
+  }
 
   /**
    * Best guess at conversion formula from standard -100 .. 100 range to -10000 ..
@@ -52,7 +55,7 @@ public class DOMUtilImplIE6 extends DOMUtilImpl {
    * 
    * @TODO location documentation for IE
    */
-  public native void setSoundElementBalance(Element elem, int balance)
+  public native void setBalance(Element elem, int balance)
   /*-{
     if (balance == -100) {
       balance = -10000;
@@ -72,7 +75,7 @@ public class DOMUtilImplIE6 extends DOMUtilImpl {
    * 
    * @TODO location documentation for IE
    */
-  public native void setSoundElementVolume(Element elem, int volume)
+  public native void setVolume(Element elem, int volume)
   /*-{
     elem.volume = volume == 0 ? -10000 : (-10000 / volume); // -10000 .. 0
   }-*/;

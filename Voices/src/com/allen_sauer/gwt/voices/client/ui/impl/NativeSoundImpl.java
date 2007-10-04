@@ -13,35 +13,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.util.impl;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.util.DOMUtil} default cross-browser
- * implementation.
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} default
+ * cross-browser implementation.
  */
-public abstract class DOMUtilImpl {
-  public abstract Element createFlashMovieMaybeSetMovieURL(String id,
-      String movieURL);
+public abstract class NativeSoundImpl {
+  public abstract Element createElement(String url);
 
-  public abstract Element createSoundElement(String url);
+  public abstract int getMimeTypeSupport(String mimeType);
 
-  public void maybeSetFlashMovieURL(Element elem, String movieURL) {
-  }
-
-  public native void playSoundElement(Element soundControllerElement,
-      Element elem)
+  public native void play(Element soundControllerElement, Element elem)
   /*-{
     soundControllerElement.appendChild(elem);
   }-*/;
 
-  public abstract void setSoundElementBalance(Element elem,
-      int balancePercentage);
+  public void preload(Element soundControllerElement, String url) {
+    Element elem = createElement(url);
+    setVolume(elem, 0);
+    play(soundControllerElement, elem);
+  }
 
-  public abstract void setSoundElementVolume(Element elem, int volume);
+  public abstract void setBalance(Element elem, int balancePercentage);
 
-  public native void stopSoundElement(Element elem)
+  public abstract void setVolume(Element elem, int volume);
+
+  public native void stop(Element elem)
   /*-{
     var parent = elem.parentNode;
     if (parent != null) {

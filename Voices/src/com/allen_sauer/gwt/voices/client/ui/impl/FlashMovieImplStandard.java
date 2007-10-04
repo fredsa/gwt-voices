@@ -13,13 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.client.util;
+package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
-public class DOMUtil {
-  public native static String getNodeName(Element elem)
+/**
+ * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget} implementation
+ * for standard browsers.
+ */
+public abstract class FlashMovieImplStandard extends FlashMovieImpl {
+  public native Element createElementMaybeSetURL(String id, String url)
   /*-{
-    return elem.nodeName;
+    var elem = document.createElement("object");
+    elem.setAttribute("type", "application/x-shockwave-flash");
+    elem.setAttribute("data", url);
+    return elem;
+  }-*/;
+
+  protected native String getRawVersionString()
+  /*-{
+    var p = navigator.plugins["Shockwave Flash"];
+    return p == null ? null : p.description;
   }-*/;
 }
