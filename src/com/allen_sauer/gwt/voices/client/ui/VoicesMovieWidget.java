@@ -23,13 +23,13 @@ import com.google.gwt.user.client.Element;
 import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class VoicesMovieWidget extends FlashMovieWidget {
-  private static final String __VOICES__ = "__VOICES__";
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
   private static final String VOICES_SWF = "Voices.swf";
 
@@ -37,7 +37,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private ArrayList unitializedSoundList = new ArrayList();
 
   public VoicesMovieWidget() {
-    super(__VOICES__, VOICES_SWF);
+    super(DOMUtil.getUniqueId(), VOICES_SWF);
     installFlashCallbackHooks();
 
     // Flash Player version check for ExternalInterface support
