@@ -15,7 +15,6 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
