@@ -37,6 +37,7 @@ public class SoundController {
   }
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
+  private int defaultVolume;
   private boolean prioritizeFlashSound = false;
   private VoicesMovieWidget voicesMovie;
 
@@ -45,19 +46,17 @@ public class SoundController {
   }
 
   public Sound createSound(String mimeType, String url) {
-    if (FlashMovieWidget.isExternalInterfaceSupported()) {
-      VoicesMovieWidget vm = getVoicesMovie();
-      int mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
-      if (mimeTypeSupport == MIME_TYPE_SUPPORTED
-          || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
-        return new FlashSound(mimeType, url, vm);
-      }
-    }
-    return new NativeSound(mimeType, url, soundContainer.getElement());
+    Sound sound = implCreateSound(mimeType, url);
+    sound.setVolume(defaultVolume);
+    return sound;
   }
 
   public boolean isPrioritizeFlashSound() {
     return prioritizeFlashSound;
+  }
+
+  public void setDefaultVolume(int defaultVolume) {
+    this.defaultVolume = defaultVolume;
   }
 
   public void setPrioritizeFlashSound(boolean prioritizeFlashSound) {
@@ -74,6 +73,19 @@ public class SoundController {
       soundContainer.add(voicesMovie);
     }
     return voicesMovie;
+  }
+
+  private Sound implCreateSound(String mimeType, String url) {
+    if (FlashMovieWidget.isExternalInterfaceSupported()) {
+      VoicesMovieWidget vm = getVoicesMovie();
+      int mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
+      if (mimeTypeSupport == MIME_TYPE_SUPPORTED
+          || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
+        FlashSound sound = new FlashSound(mimeType, url, vm);
+        return sound;
+      }
+    }
+    return new NativeSound(mimeType, url, soundContainer.getElement());
   }
 
   private void initSoundContainer() {
