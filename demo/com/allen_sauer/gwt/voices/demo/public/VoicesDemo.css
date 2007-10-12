@@ -40,3 +40,38 @@
 .demo-panels {
   margin: 0.5em;
 }
+
+TABLE {
+  border-collapse: separate;
+}
+
+.demo-SupportedMimeTypeSummary-table {
+  margin: 0.1em 3em;
+}
+
+.demo-SupportedMimeTypeSummary-table TD {
+  padding: 3px 5px;
+}
+
+.demo-SupportedMimeTypeSummary-table TR.header {
+  font-weight: bold;
+  background-color: #ABCDEF;
+}
+
+.demo-SupportedMimeTypeSummary-table TR.odd {
+  background-color: #EEEEFF;
+}
+
+.demo-SupportedMimeTypeSummary-table TR.even {
+  background-color: #DDDDEE;
+}
+
+.demo-user-agent {
+  color: #2554C7;
+  margin: 0.5em 3em;
+  display: block;
+  margin: 0.5em 3em;
+  font-family: monospace;
+  font-size: 0.9em;
+  font-weight: bold;
+}
