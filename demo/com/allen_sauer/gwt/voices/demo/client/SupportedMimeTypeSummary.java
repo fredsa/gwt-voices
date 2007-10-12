@@ -15,6 +15,8 @@
  */
 package com.allen_sauer.gwt.voices.demo.client;
 
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,21 +35,38 @@ public class SupportedMimeTypeSummary extends Composite {
     return navigator.userAgent;
   }-*/;
 
-  public SupportedMimeTypeSummary() {
-    VerticalPanel verticalPanel = new VerticalPanel();
-    initWidget(verticalPanel);
+  private VerticalPanel containerPanel;
 
-    verticalPanel.add(new HTML("Your user agent is:"));
+  public SupportedMimeTypeSummary() {
+    containerPanel = new VerticalPanel();
+    initWidget(containerPanel);
+  }
+
+  protected void onLoad() {
+    super.onLoad();
+    containerPanel.add(new HTML("Please wait. Initializing sound detection..."));
+
+    DeferredCommand.addCommand(new Command() {
+      public void execute() {
+        addSupportMatrix();
+      }
+    });
+  }
+
+  private void addSupportMatrix() {
+    containerPanel.clear();
+    
+    containerPanel.add(new HTML("Your user agent is:"));
     HTML userAgentHTML = new HTML(getUserAgent());
     userAgentHTML.addStyleName("demo-user-agent");
-    verticalPanel.add(userAgentHTML);
-    verticalPanel.add(new HTML("This browser/platform,"
+    containerPanel.add(userAgentHTML);
+    containerPanel.add(new HTML("This browser/platform,"
         + " and its installed plugins,"
         + " provide the following sound support via gwt-voices:"));
 
     FlexTable flexTable = new FlexTable();
     flexTable.addStyleName(CSS_DEMO_SUPPORTED_MIME_TYPE_SUMMARY_TABLE);
-    verticalPanel.add(flexTable);
+    containerPanel.add(flexTable);
     flexTable.setWidget(0, 0, new HTML("MIME Type"));
     flexTable.setWidget(0, 1, new HTML("Flash based support"));
     flexTable.setWidget(0, 2, new HTML(
