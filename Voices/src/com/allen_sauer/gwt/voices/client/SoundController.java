@@ -36,8 +36,8 @@ public class SoundController {
     }
   }
 
+  protected final AbsolutePanel soundContainer = new AbsolutePanel();
   private boolean prioritizeFlashSound = false;
-  private final AbsolutePanel soundContainer = new AbsolutePanel();
   private VoicesMovieWidget voicesMovie;
 
   public SoundController() {
@@ -68,7 +68,7 @@ public class SoundController {
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily
    * triggered.
    */
-  private VoicesMovieWidget getVoicesMovie() {
+  protected VoicesMovieWidget getVoicesMovie() {
     if (voicesMovie == null) {
       voicesMovie = new VoicesMovieWidget();
       soundContainer.add(voicesMovie);

@@ -153,6 +153,10 @@ public class VoicesDemo implements EntryPoint {
 
     DOM.setInnerHTML(RootPanel.get(DEMO_PANELS).getElement(), "");
 
+    RootPanel.get(DEMO_PANELS).add(
+        new DelayedAttachDisclosurePanel("Sound Support Matrix",
+            new SupportedMimeTypeSummary()));
+
     for (Iterator iterator = mimeTypeSoundMap.keySet().iterator(); iterator.hasNext();) {
       String mimeType = (String) iterator.next();
       ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
