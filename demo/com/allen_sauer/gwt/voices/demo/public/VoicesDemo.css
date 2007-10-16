@@ -1,5 +1,10 @@
 @CHARSET "UTF-8";
 
+IMG.demo-loading {
+  margin-left: 1em;
+  margin-right: 0.3em;
+}
+
 .demo-event-text-area {
   border: 1px solid #AAAAAA;
   width: 90%;
@@ -33,6 +38,9 @@
 .gwt-DisclosurePanel .content {
   padding: 0.5em;
   margin-left: 1.5em;
+}
+
+.gwt-DisclosurePanel .demo-content {
   border: 1px solid #DDDDDD;
   background-color: #DDEEFF;
 }
