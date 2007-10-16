@@ -5,6 +5,10 @@ IMG.demo-loading {
   margin-right: 0.3em;
 }
 
+.demo-main-panel {
+  margin: 0.5em;
+}
+
 .demo-event-text-area {
   border: 1px solid #AAAAAA;
   width: 90%;
@@ -43,10 +47,6 @@ IMG.demo-loading {
 .gwt-DisclosurePanel .demo-content {
   border: 1px solid #DDDDDD;
   background-color: #DDEEFF;
-}
-
-.demo-panels {
-  margin: 0.5em;
 }
 
 TABLE {
