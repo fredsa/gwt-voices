@@ -34,8 +34,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class VoicesDemo implements EntryPoint {
+  private static final String DEMO_MAIN_PANEL = "demo-main-panel";
   private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
-  private static final String DEMO_PANELS = "demo-panels";
   private static FreeSound[] freeSounds;
   private static HashMap mimeTypeSoundMap = new HashMap();
 
@@ -153,9 +153,10 @@ public class VoicesDemo implements EntryPoint {
 
     DemoSoundHandler demoSoundHandler = new DemoSoundHandler(eventTextArea);
 
-    DOM.setInnerHTML(RootPanel.get(DEMO_PANELS).getElement(), "");
+    RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
+    DOM.setInnerHTML(mainPanel.getElement(), "");
 
-    RootPanel.get(DEMO_PANELS).add(
+    mainPanel.add(
         new DeferredContentDisclosurePanel("Sound Support Matrix",
             new SupportedMimeTypeSummary()));
 
@@ -164,7 +165,7 @@ public class VoicesDemo implements EntryPoint {
       ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
       DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(
           mimeType, new MimeTypeDemo(mimeType, freesoundList, demoSoundHandler));
-      RootPanel.get(DEMO_PANELS).add(disclosurePanel);
+      mainPanel.add(disclosurePanel);
     }
   }
 }
