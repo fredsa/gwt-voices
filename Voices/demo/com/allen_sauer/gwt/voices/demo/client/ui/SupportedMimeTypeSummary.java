@@ -13,21 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.demo.client;
+package com.allen_sauer.gwt.voices.demo.client.ui;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.demo.client.SupportedMimeTypeSoundController;
 
-public class SupportedMimeTypeSummary extends Composite {
+public class SupportedMimeTypeSummary extends DeferredContentPanel {
   private static final String CSS_DEMO_SUPPORTED_MIME_TYPE_SUMMARY_TABLE = "demo-SupportedMimeTypeSummary-table";
 
   private static native String getUserAgent()
@@ -35,27 +34,10 @@ public class SupportedMimeTypeSummary extends Composite {
     return navigator.userAgent;
   }-*/;
 
-  private VerticalPanel containerPanel;
-
-  public SupportedMimeTypeSummary() {
-    containerPanel = new VerticalPanel();
-    initWidget(containerPanel);
-  }
-
-  protected void onLoad() {
-    super.onLoad();
-    containerPanel.add(new HTML("Please wait. Initializing sound detection..."));
-
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        addSupportMatrix();
-      }
-    });
-  }
-
-  private void addSupportMatrix() {
+  public Panel initContent() {
+    VerticalPanel containerPanel = new VerticalPanel();
     containerPanel.clear();
-    
+
     containerPanel.add(new HTML("Your user agent is:"));
     HTML userAgentHTML = new HTML(getUserAgent());
     userAgentHTML.addStyleName("demo-user-agent");
@@ -102,6 +84,7 @@ public class SupportedMimeTypeSummary extends Composite {
       flexTable.getRowFormatter().addStyleName(i + 1,
           i % 2 == 0 ? "odd" : "even");
     }
+    return containerPanel;
   }
 
   private String mimeTypeSupportToString(int mimeTypeSupport) {

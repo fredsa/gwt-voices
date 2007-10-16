@@ -21,19 +21,26 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosureEvent;
 import com.google.gwt.user.client.ui.DisclosureHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Panel;
 
-public class DelayedAttachDisclosurePanel extends Composite {
-  public DelayedAttachDisclosurePanel(String html, final Widget content) {
+public class DeferredContentDisclosurePanel extends Composite {
+  private static final String CSS_DEMO_CONTENT = "demo-content";
+
+  public DeferredContentDisclosurePanel(String html,
+      final DeferredContentPanel deferredContentPanel) {
     final DisclosurePanel realDisclosurePanel = new DisclosurePanel(html);
+    realDisclosurePanel.setContent(deferredContentPanel);
+
     realDisclosurePanel.addEventHandler(new DisclosureHandler() {
       public void onClose(DisclosureEvent event) {
       }
 
       public void onOpen(DisclosureEvent event) {
-        realDisclosurePanel.add(content);
         DeferredCommand.addCommand(new Command() {
           public void execute() {
+            Panel panel = deferredContentPanel.initContent();
+            panel.addStyleName(CSS_DEMO_CONTENT);
+            realDisclosurePanel.setContent(panel);
             removeEventHandler();
           }
         });

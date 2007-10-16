@@ -13,22 +13,22 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.allen_sauer.gwt.voices.demo.client;
+package com.allen_sauer.gwt.voices.demo.client.ui;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.demo.client.DemoSoundHandler;
+import com.allen_sauer.gwt.voices.demo.client.DemoSoundPanel;
+import com.allen_sauer.gwt.voices.demo.client.FreeSound;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class MimeTypeDemo extends Composite {
-  private VerticalPanel containerPanel;
+public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final ArrayList freesoundList;
   private final String mimeType;
@@ -38,25 +38,10 @@ public class MimeTypeDemo extends Composite {
     this.mimeType = mimeType;
     this.freesoundList = freesoundList;
     this.demoSoundHandler = demoSoundHandler;
-    containerPanel = new VerticalPanel();
-    initWidget(containerPanel);
   }
 
-  protected void onLoad() {
-    super.onLoad();
-    containerPanel.add(new HTML(
-        "Please wait. Initializing sound controller and sounds..."));
-
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        addSounds();
-      }
-    });
-  }
-
-  private void addSounds() {
-    containerPanel.clear();
-
+  public Panel initContent() {
+    VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
 
     HTML note = null;
@@ -86,5 +71,6 @@ public class MimeTypeDemo extends Composite {
       soundsPanel.add(new DemoSoundPanel(freesound));
     }
     containerPanel.add(soundsPanel);
+    return containerPanel;
   }
 }

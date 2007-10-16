@@ -25,7 +25,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.demo.client.ui.DelayedAttachDisclosurePanel;
+import com.allen_sauer.gwt.voices.demo.client.ui.DeferredContentDisclosurePanel;
+import com.allen_sauer.gwt.voices.demo.client.ui.MimeTypeDemo;
+import com.allen_sauer.gwt.voices.demo.client.ui.SupportedMimeTypeSummary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -154,13 +156,13 @@ public class VoicesDemo implements EntryPoint {
     DOM.setInnerHTML(RootPanel.get(DEMO_PANELS).getElement(), "");
 
     RootPanel.get(DEMO_PANELS).add(
-        new DelayedAttachDisclosurePanel("Sound Support Matrix",
+        new DeferredContentDisclosurePanel("Sound Support Matrix",
             new SupportedMimeTypeSummary()));
 
     for (Iterator iterator = mimeTypeSoundMap.keySet().iterator(); iterator.hasNext();) {
       String mimeType = (String) iterator.next();
       ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
-      DelayedAttachDisclosurePanel disclosurePanel = new DelayedAttachDisclosurePanel(
+      DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(
           mimeType, new MimeTypeDemo(mimeType, freesoundList, demoSoundHandler));
       RootPanel.get(DEMO_PANELS).add(disclosurePanel);
     }

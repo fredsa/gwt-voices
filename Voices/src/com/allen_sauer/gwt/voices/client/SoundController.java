@@ -37,7 +37,7 @@ public class SoundController {
   }
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
-  private int defaultVolume;
+  private int defaultVolume = 100;
   private boolean prioritizeFlashSound = false;
   private VoicesMovieWidget voicesMovie;
 
