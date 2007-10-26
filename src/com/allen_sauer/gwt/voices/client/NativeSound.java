@@ -24,6 +24,7 @@ public class NativeSound extends AbstractSound {
   private NativeSoundWidget nativeSoundWidget;
   private Element preloadSoundElement;
   private Element soundControllerElement;
+  private int volume;
 
   public NativeSound(String mimeType, String url, Element soundControllerElement) {
     super(mimeType, url);
@@ -44,13 +45,16 @@ public class NativeSound extends AbstractSound {
         setLoadState(Sound.LOAD_STATE_SUPPORTED_NOT_LOADED);
         break;
       default:
-        throw new IllegalArgumentException("unknown MIME type support "
-            + mimeTypeSupport);
+        throw new IllegalArgumentException("unknown MIME type support " + mimeTypeSupport);
     }
   }
 
   public String getSoundType() {
     return DOMUtil.getNodeName(nativeSoundWidget.getElement());
+  }
+
+  public int getVolume() {
+    return volume;
   }
 
   public void play() {
@@ -62,6 +66,7 @@ public class NativeSound extends AbstractSound {
   }
 
   public void setVolume(int volume) {
+    this.volume = volume;
     nativeSoundWidget.setVolume(volume);
   }
 

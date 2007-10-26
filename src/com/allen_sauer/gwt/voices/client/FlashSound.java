@@ -34,7 +34,7 @@ public class FlashSound extends AbstractSound {
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private final VoicesMovieWidget voicesMovie;
-  private int volume = 100;
+  private int volume = SoundController.DEFAULT_VOLUME;
 
   public FlashSound(String mimeType, String url, VoicesMovieWidget voicesMovie) {
     super(mimeType, url);
@@ -50,6 +50,10 @@ public class FlashSound extends AbstractSound {
 
   public String getSoundType() {
     return "Flash";
+  }
+
+  public int getVolume() {
+    return volume;
   }
 
   public void play() {
@@ -88,7 +92,7 @@ public class FlashSound extends AbstractSound {
 
   protected void soundLoaded() {
     setLoadState(Sound.LOAD_STATE_LOADED);
-    if (volume != 100) {
+    if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
     }
     if (playSoundWhenLoaded) {
