@@ -27,6 +27,8 @@ public class SoundController {
   public static final int MIME_TYPE_SUPPORTED_NOT_LOADED = 3;
   public static final int MIME_TYPE_UNSUPPORTED = 2;
 
+  static final int DEFAULT_VOLUME = 100;
+
   private static String getLowercaseExtension(String filename) {
     int pos = filename.indexOf('.');
     if (pos == -1) {
@@ -37,7 +39,7 @@ public class SoundController {
   }
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
-  private int defaultVolume = 100;
+  private int defaultVolume = DEFAULT_VOLUME;
   private boolean prioritizeFlashSound = false;
   private VoicesMovieWidget voicesMovie;
 
@@ -79,8 +81,7 @@ public class SoundController {
     if (FlashMovieWidget.isExternalInterfaceSupported()) {
       VoicesMovieWidget vm = getVoicesMovie();
       int mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
-      if (mimeTypeSupport == MIME_TYPE_SUPPORTED
-          || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
+      if (mimeTypeSupport == MIME_TYPE_SUPPORTED || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
         FlashSound sound = new FlashSound(mimeType, url, vm);
         return sound;
       }

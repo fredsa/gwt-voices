@@ -68,6 +68,8 @@ public interface Sound extends FiresSoundEvents {
 
   public String getUrl();
 
+  public int getVolume();
+
   public void play();
 
   public void setBalance(int balance);
