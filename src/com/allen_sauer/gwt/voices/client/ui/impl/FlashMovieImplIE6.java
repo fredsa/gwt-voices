@@ -25,6 +25,7 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
   public native Element createElementMaybeSetURL(String id, String url)
   /*-{
     var elem = $doc.createElement("object");
+    elem.tabIndex = -1;
     elem.classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000";
     elem.codebase = "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0";
     // elem.Quality = 1; // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
