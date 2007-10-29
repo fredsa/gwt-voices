@@ -25,6 +25,7 @@ public abstract class FlashMovieImplStandard extends FlashMovieImpl {
   public native Element createElementMaybeSetURL(String id, String url)
   /*-{
     var elem = document.createElement("object");
+    elem.setAttribute("id", id);
     elem.setAttribute("type", "application/x-shockwave-flash");
     elem.setAttribute("data", url);
     return elem;
