@@ -26,11 +26,14 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
   /*-{
     var elem = $doc.createElement("object");
     elem.tabIndex = -1;
+    elem.id = id;
     elem.classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000";
     elem.codebase = "http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0";
     // elem.Quality = 1; // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
     // elem.ScaleMode = 2; //0=ShowAll, 1=NoBorder, 2=ExactFit
-    elem.id = id;
+
+    // Must be set after the classid
+    elem.FlashVars = "id=" + id;
     return elem;
   }-*/;
 
