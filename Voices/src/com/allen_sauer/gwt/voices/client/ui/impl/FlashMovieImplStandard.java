@@ -26,6 +26,7 @@ public abstract class FlashMovieImplStandard extends FlashMovieImpl {
   /*-{
     var elem = document.createElement("object");
     elem.setAttribute("id", id);
+    elem.setAttribute("FlashVars", "id=" + id);
     elem.setAttribute("type", "application/x-shockwave-flash");
     elem.setAttribute("data", url);
     return elem;

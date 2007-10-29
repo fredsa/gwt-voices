@@ -72,6 +72,12 @@ public class VoicesTest implements EntryPoint {
   public void onModuleLoad2() {
     RootPanel.get().add(
         new HTML("VoicesTest is in <b>" + getCompatMode() + "</b> mode."));
+
+    addTest();
+    addTest();
+  }
+
+  private void addTest() {
     SoundController soundController = new SoundController();
     final Sound sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG,
         "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3");

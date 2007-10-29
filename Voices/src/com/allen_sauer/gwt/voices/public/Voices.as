@@ -20,7 +20,7 @@ class Voices
   var sounds:Array = [];
   
   function Voices() {
-    Voices.log("Creating Voices...");
+    Voices.log("Creating Voices '" + _root.id + "' ...");
 
     Voices.log("ExternalInterface.available = " + ExternalInterface.available);
     
@@ -45,8 +45,8 @@ class Voices
     Voices.log("Voices created.");
 
     // notify JavaScript that we are ready
-    result = ExternalInterface.call("document.VoicesMovie.ready");
-    Voices.log("document.VoicesMovie.ready() -> " + result);
+    result = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].ready");
+    Voices.log("document.VoicesMovie.ready() ... -> " + result);
   }
   
   function createSound(id:Number, url:String, streaming:Boolean):Void {
@@ -54,13 +54,13 @@ class Voices
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
       Voices.log("soundLoaded " + id);
-      var result:Object = ExternalInterface.call("document.VoicesMovie.soundLoaded", id);
-      Voices.log("document.VoicesMovie.soundLoaded(" + id + ") -> " + result);
+      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundLoaded", id);
+      Voices.log("document.VoicesMovie['" + _root.id + "'].soundLoaded(" + id + ") -> " + result);
     }
     sounds[id].onSoundComplete = function() {
       Voices.log("soundCompleted " + id);
-      var result:Object = ExternalInterface.call("document.VoicesMovie.soundCompleted", id);
-      Voices.log("document.VoicesMovie.soundCompleted(" + id + ") -> " + result);
+      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundCompleted", id);
+      Voices.log("document.VoicesMovie['" + _root.id + "'].soundCompleted(" + id + ") -> " + result);
     }
     sounds[id].loadSound(url, streaming);
     Voices.log("...createSound(" + id + ")");
@@ -87,7 +87,7 @@ class Voices
   }
   
   static function log(text:String) {
-//    ExternalInterface.call("document.VoicesMovie.log", text);
+//    ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].log", text);
 //    getURL("javascript:alert('" + text + "')");
   }
   

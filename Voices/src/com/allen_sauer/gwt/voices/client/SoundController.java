@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class SoundController {
   public static final int MIME_TYPE_SUPPORT_UNKNOWN = 1;
@@ -71,7 +72,7 @@ public class SoundController {
    */
   protected VoicesMovieWidget getVoicesMovie() {
     if (voicesMovie == null) {
-      voicesMovie = new VoicesMovieWidget();
+      voicesMovie = new VoicesMovieWidget(DOMUtil.getUniqueId());
       soundContainer.add(voicesMovie);
     }
     return voicesMovie;

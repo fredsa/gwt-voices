@@ -44,19 +44,24 @@ public class FlashMovieWidget extends Widget {
     return getMajorVersion() >= EXTERNAL_INTERFACE_MINIMUM_MAJOR_VERSION;
   }
 
+  private final String id;
   private final String url;
   private boolean wasLoaded = false;
 
   public FlashMovieWidget(String id, String url) {
+    this.id = id;
     this.url = url;
     setElement(impl.createElementMaybeSetURL(id, url));
+  }
+
+  public String getId() {
+    return id;
   }
 
   protected void onLoad() {
     super.onLoad();
     if (wasLoaded) {
-      throw new IllegalStateException(
-          "Reattachment forbidden due to ExternalInterface callback registration limitations in IE");
+      throw new IllegalStateException("Reattachment forbidden due to ExternalInterface callback registration limitations in IE");
     }
     impl.maybeSetURL(getElement(), url);
     wasLoaded = true;

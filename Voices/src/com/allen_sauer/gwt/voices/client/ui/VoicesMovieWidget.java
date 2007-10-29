@@ -23,7 +23,6 @@ import com.google.gwt.user.client.Element;
 import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
-import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 import java.util.ArrayList;
@@ -36,8 +35,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
   private ArrayList unitializedSoundList = new ArrayList();
 
-  public VoicesMovieWidget() {
-    super(DOMUtil.getUniqueId(), VOICES_SWF);
+  public VoicesMovieWidget(String id) {
+    super(id, VOICES_SWF);
     installFlashCallbackHooks();
 
     // Flash Player version check for ExternalInterface support
@@ -62,15 +61,13 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     switch (flashSupport) {
       case SoundController.MIME_TYPE_SUPPORTED:
       case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
-        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType)
-            ? SoundController.MIME_TYPE_SUPPORTED
+        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? SoundController.MIME_TYPE_SUPPORTED
             : SoundController.MIME_TYPE_UNSUPPORTED;
       case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
       case SoundController.MIME_TYPE_UNSUPPORTED:
         return flashSupport;
       default:
-        throw new RuntimeException("Unhandled flash support value "
-            + flashSupport);
+        throw new RuntimeException("Unhandled flash support value " + flashSupport);
     }
   }
 
@@ -165,10 +162,14 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
   private native void installFlashCallbackHooks()
   /*-{
+    if ($doc.VoicesMovie === undefined) {
+      $doc.VoicesMovie = {};
+    }
+    var id = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::getId()();
     var self = this;
-    $doc.VoicesMovie = {};
+    $doc.VoicesMovie[id] = {};
 
-    $doc.VoicesMovie.ready = function() {
+    $doc.VoicesMovie[id].ready = function() {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
           var elem = this.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::getElement()();
@@ -182,7 +183,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
     
-    $doc.VoicesMovie.soundLoaded = function(id) {
+    $doc.VoicesMovie[id].soundLoaded = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
           @com.allen_sauer.gwt.voices.client.FlashSound::soundLoaded(I)(id);
@@ -194,7 +195,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
     
-    $doc.VoicesMovie.soundCompleted = function(id) {
+    $doc.VoicesMovie[id].soundCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
           @com.allen_sauer.gwt.voices.client.FlashSound::soundCompleted(I)(id);
@@ -206,9 +207,9 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
 
-  //    $doc.VoicesMovie.log = function(text) {
-  //      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH: " + text);
-  //    }
+//    $doc.VoicesMovie[id].log = function(text) {
+//      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
+//    }
   }-*/;
 
   private void movieReady() {
