@@ -26,8 +26,7 @@ import com.google.gwt.user.client.ui.Panel;
 public class DeferredContentDisclosurePanel extends Composite {
   private static final String CSS_DEMO_CONTENT = "demo-content";
 
-  public DeferredContentDisclosurePanel(String html,
-      final DeferredContentPanel deferredContentPanel) {
+  public DeferredContentDisclosurePanel(String html, final DeferredContentPanel deferredContentPanel) {
     final DisclosurePanel realDisclosurePanel = new DisclosurePanel(html);
     realDisclosurePanel.setContent(deferredContentPanel);
 

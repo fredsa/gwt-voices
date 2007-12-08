@@ -194,7 +194,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         return "Exception: " + e.message + " / " + e.description;
       }
     }
-    
+  
     $doc.VoicesMovie[id].soundCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
@@ -207,9 +207,9 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
 
-//    $doc.VoicesMovie[id].log = function(text) {
-//      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
-//    }
+  //    $doc.VoicesMovie[id].log = function(text) {
+  //      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
+  //    }
   }-*/;
 
   private void movieReady() {

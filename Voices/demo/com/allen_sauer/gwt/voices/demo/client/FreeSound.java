@@ -26,8 +26,7 @@ public class FreeSound {
   private final String originalFreesoundFilename;
   private Sound sound;
 
-  public FreeSound(String mimeType, String actualURL,
-      String originalFreesoundFilename, String freesoundFileURL,
+  public FreeSound(String mimeType, String actualURL, String originalFreesoundFilename, String freesoundFileURL,
       String freeSoundAuthor, String freesoundAuthorURL) {
     this.mimeType = mimeType;
     this.originalFreesoundFilename = originalFreesoundFilename;
@@ -66,9 +65,8 @@ public class FreeSound {
   }
 
   public String toHTMLString() {
-    return "<a href='" + getFreesoundFileURL() + "'>"
-        + originalFreesoundFilename + "</a> by <a href='"
-        + getFreesoundAuthorURL() + "'>" + getFreeSoundAuthor() + "</a>";
+    return "<a href='" + getFreesoundFileURL() + "'>" + originalFreesoundFilename + "</a> by <a href='" + getFreesoundAuthorURL()
+        + "'>" + getFreeSoundAuthor() + "</a>";
   }
 
   public String toString() {

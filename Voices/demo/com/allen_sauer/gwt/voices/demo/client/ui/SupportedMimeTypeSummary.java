@@ -42,8 +42,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     HTML userAgentHTML = new HTML(getUserAgent());
     userAgentHTML.addStyleName("demo-user-agent");
     containerPanel.add(userAgentHTML);
-    containerPanel.add(new HTML("This browser/platform,"
-        + " and its installed plugins,"
+    containerPanel.add(new HTML("This browser/platform," + " and its installed plugins,"
         + " provide the following sound support via gwt-voices:"));
 
     FlexTable flexTable = new FlexTable();
@@ -51,16 +50,14 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     containerPanel.add(flexTable);
     flexTable.setWidget(0, 0, new HTML("MIME Type"));
     flexTable.setWidget(0, 1, new HTML("Flash based support"));
-    flexTable.setWidget(0, 2, new HTML(
-        "Native browser <i>or</i> Plugin based support"));
+    flexTable.setWidget(0, 2, new HTML("Native browser <i>or</i> Plugin based support"));
     flexTable.getRowFormatter().addStyleName(0, "header");
 
     SupportedMimeTypeSoundController soundController = new SupportedMimeTypeSoundController();
     VoicesMovieWidget movieWidget = soundController.getVoicesMovie();
 
     String[] mimeTypes = {
-        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG,
-        Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,
+        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,
         Sound.MIME_TYPE_AUDIO_X_WAV,};
 
     for (int i = 0; i < mimeTypes.length; i++) {
@@ -70,8 +67,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       int nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
       if (nativeMimeTypeSupport == SoundController.MIME_TYPE_SUPPORTED) {
-        nativeMimeTypeSupportText += " via <code>"
-            + soundController.getNativeSoundNodeName("empty.dat") + "</code>";
+        nativeMimeTypeSupportText += " via <code>" + soundController.getNativeSoundNodeName("empty.dat") + "</code>";
       }
 
       // Flash based support
@@ -81,8 +77,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       flexTable.setWidget(i + 1, 0, new HTML("<code>" + mimeType + "</code>"));
       flexTable.setWidget(i + 1, 1, new HTML(flashMimeTypeSupportText));
       flexTable.setWidget(i + 1, 2, new HTML(nativeMimeTypeSupportText));
-      flexTable.getRowFormatter().addStyleName(i + 1,
-          i % 2 == 0 ? "odd" : "even");
+      flexTable.getRowFormatter().addStyleName(i + 1, i % 2 == 0 ? "odd" : "even");
     }
     return containerPanel;
   }
@@ -108,8 +103,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
         color = "#0000BB";
         break;
       default:
-        throw new IllegalArgumentException("unknown MIME type support "
-            + mimeTypeSupport);
+        throw new IllegalArgumentException("unknown MIME type support " + mimeTypeSupport);
     }
     return "<span style='color: " + color + ";'>" + text + "</span>";
   }

@@ -35,8 +35,7 @@ public abstract class FlashMovieImpl {
    */
   public int getMajorVersion() {
     String versionString = getVersionString();
-    return versionString == null ? 0
-        : Integer.parseInt(versionString.replaceFirst(",.*", ""));
+    return versionString == null ? 0 : Integer.parseInt(versionString.replaceFirst(",.*", ""));
   }
 
   /**
@@ -50,8 +49,7 @@ public abstract class FlashMovieImpl {
    */
   public String getVersionString() {
     String rawVersionString = getRawVersionString();
-    return rawVersionString == null ? null : rawVersionString.replaceAll(
-        "\\D*(\\d+)", "$1,").replaceFirst(",$", "");
+    return rawVersionString == null ? null : rawVersionString.replaceAll("\\D*(\\d+)", "$1,").replaceFirst(",$", "");
   }
 
   public void maybeSetURL(Element elem, String url) {

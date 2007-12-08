@@ -26,8 +26,7 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
  * for Opera.
  */
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
-  private static final String[] ALWAYS_SUPPORTED_MIME_TYPES = {
-      Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
+  private static final String[] ALWAYS_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   public int getMimeTypeSupport(String mimeType) {
     if (StringUtil.contains(ALWAYS_SUPPORTED_MIME_TYPES, mimeType)) {
