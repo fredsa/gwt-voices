@@ -24,11 +24,16 @@ import com.google.gwt.user.client.Element;
 public abstract class FlashMovieImplStandard extends FlashMovieImpl {
   public native Element createElementMaybeSetURL(String id, String url)
   /*-{
-    var elem = document.createElement("object");
+    var elem = $doc.createElement("object");
     elem.setAttribute("id", id);
-    elem.setAttribute("FlashVars", "id=" + id);
     elem.setAttribute("type", "application/x-shockwave-flash");
     elem.setAttribute("data", url);
+
+    var param = $doc.createElement("param");
+    param.setAttribute("name", "FlashVars");
+    param.setAttribute("value", "id=" + id);
+    elem.appendChild(param);
+    
     return elem;
   }-*/;
 
