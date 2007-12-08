@@ -34,72 +34,45 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class VoicesDemo implements EntryPoint {
-  private static final String DEMO_MAIN_PANEL = "demo-main-panel";
   private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
+  private static final String DEMO_MAIN_PANEL = "demo-main-panel";
   private static FreeSound[] freeSounds;
   private static HashMap mimeTypeSoundMap = new HashMap();
 
   static {
     freeSounds = new FreeSound[] {
-        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-            "freesoundproject/35631__reinsamba__crystal_glass.wav",
-            "crystal_glass",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631",
-            "reinsamba",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV, "freesoundproject/35631__reinsamba__crystal_glass.wav", "crystal_glass",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631", "reinsamba",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=18799"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-            "freesoundproject/38403__THE_bizniss__snap.wav", "snap",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=38403",
-            "THE_bizniss",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV, "freesoundproject/38403__THE_bizniss__snap.wav", "snap",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=38403", "THE_bizniss",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=382028"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-            "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
-            "37 Click Finger",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=22740",
-            "FranciscoPadilla",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV, "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
+            "37 Click Finger", "http://freesound.iua.upf.edu/samplesViewSingle.php?id=22740", "FranciscoPadilla",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=132693"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-            "freesoundproject/9874__vixuxx__crow.wav", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874",
-            "vixuxx",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV, "freesoundproject/9874__vixuxx__crow.wav", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_X_AIFF,
-            "freesoundproject/9874__vixuxx__crow.aiff", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874",
-            "vixuxx",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_X_AIFF, "freesoundproject/9874__vixuxx__crow.aiff", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_BASIC,
-            "freesoundproject/9874__vixuxx__crow.au", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874",
-            "vixuxx",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_BASIC, "freesoundproject/9874__vixuxx__crow.au", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG,
-            "freesoundproject/28917__junggle__btn107.mp3", "btn107",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917",
-            "junggle",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/28917__junggle__btn107.mp3", "btn107",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917", "junggle",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG,
-            "freesoundproject/36846__EcoDTR__LaserRocket.mp3", "LaserRocket",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846",
-            "EcoDTR",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/36846__EcoDTR__LaserRocket.mp3", "LaserRocket",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846", "EcoDTR",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG,
-            "freesoundproject/35643__sandyrb__USAT_BOMB.mp3", "USAT BOMB",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643",
-            "sandyrb",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/35643__sandyrb__USAT_BOMB.mp3", "USAT BOMB",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643", "sandyrb",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771"),
-        new FreeSound(
-            Sound.MIME_TYPE_AUDIO_MPEG,
-            "freesoundproject/34961__grandpablaine2__grenade_reverse_reverb.mp3",
-            "grenade_reverse_reverb",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961",
-            "grandpablaine2",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/34961__grandpablaine2__grenade_reverse_reverb.mp3",
+            "grenade_reverse_reverb", "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961", "grandpablaine2",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084"),
-        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG,
-            "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
-            "CinematicBoomNorm",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637",
-            "HerbertBoland",
+        new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
+            "CinematicBoomNorm", "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),};
 
     for (int i = 0; i < freeSounds.length; i++) {
@@ -130,8 +103,7 @@ public class VoicesDemo implements EntryPoint {
           }
         }
         DialogBox dialogBox = new DialogBox(true);
-        DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor",
-            "#ABCDEF");
+        DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor", "#ABCDEF");
         text = text.replaceAll(" ", "&nbsp;");
         dialogBox.setHTML("<pre>" + text + "</pre>");
         dialogBox.center();
@@ -156,15 +128,13 @@ public class VoicesDemo implements EntryPoint {
     RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
     DOM.setInnerHTML(mainPanel.getElement(), "");
 
-    mainPanel.add(
-        new DeferredContentDisclosurePanel("Sound Support Matrix",
-            new SupportedMimeTypeSummary()));
+    mainPanel.add(new DeferredContentDisclosurePanel("Sound Support Matrix", new SupportedMimeTypeSummary()));
 
     for (Iterator iterator = mimeTypeSoundMap.keySet().iterator(); iterator.hasNext();) {
       String mimeType = (String) iterator.next();
       ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
-      DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(
-          mimeType, new MimeTypeDemo(mimeType, freesoundList, demoSoundHandler));
+      DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(mimeType, new MimeTypeDemo(mimeType,
+          freesoundList, demoSoundHandler));
       mainPanel.add(disclosurePanel);
     }
   }

@@ -57,7 +57,6 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "SoundLoadStateChangeEvent: " + sound + "; state="
-        + loadStateToString(loadState);
+    return "SoundLoadStateChangeEvent: " + sound + "; state=" + loadStateToString(loadState);
   }
 }

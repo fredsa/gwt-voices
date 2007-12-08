@@ -24,9 +24,8 @@ public abstract class DeferredContentPanel extends Composite {
   public DeferredContentPanel() {
     SimplePanel simplePanel = new SimplePanel();
     initWidget(simplePanel);
-    simplePanel.setWidget(new HTML(
-        "<img src='images/preview61_cycle_eight_16-black-on-white.gif' class='demo-loading'>"
-            + "Loading. Please wait..."));
+    simplePanel.setWidget(new HTML("<img src='images/preview61_cycle_eight_16-black-on-white.gif' class='demo-loading'>"
+        + "Loading. Please wait..."));
   }
 
   public abstract Panel initContent();

@@ -22,8 +22,7 @@ import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class SupportedMimeTypeSoundController extends SoundController {
   public String getNativeSoundNodeName(String url) {
-    NativeSoundWidget nativeSoundWidget = new NativeSoundWidget(
-        soundContainer.getElement(), url);
+    NativeSoundWidget nativeSoundWidget = new NativeSoundWidget(soundContainer.getElement(), url);
     return DOMUtil.getNodeName(nativeSoundWidget.getElement());
   }
 

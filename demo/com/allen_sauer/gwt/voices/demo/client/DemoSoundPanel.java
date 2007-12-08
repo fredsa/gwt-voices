@@ -57,8 +57,7 @@ public class DemoSoundPanel extends Composite {
         // simulate a slight variable delay for local development
         new Timer() {
           public void run() {
-            loadStateHTML.setHTML("&nbsp; (load state: <code>"
-                + event.getLoadStateAsString() + "</code>)");
+            loadStateHTML.setHTML("&nbsp; (load state: <code>" + event.getLoadStateAsString() + "</code>)");
             switch (event.getLoadState()) {
               case Sound.LOAD_STATE_LOADED:
               case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
@@ -76,8 +75,7 @@ public class DemoSoundPanel extends Composite {
                 break;
               case Sound.LOAD_STATE_UNINITIALIZED:
               default:
-                throw new IllegalArgumentException("Unhandled state "
-                    + event.getLoadState());
+                throw new IllegalArgumentException("Unhandled state " + event.getLoadState());
             }
           }
         }.schedule(Random.nextInt(500) + 200);
