@@ -15,7 +15,6 @@
  */
 package com.allen_sauer.gwt.voices.demo.client;
 
-
 public class WikipediaSound extends ThirdPartySound {
   private final String actualURL;
   private final String originalWikipediaFilename;

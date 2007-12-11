@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
 
-
 /**
  * Flash movie widget.
  */
