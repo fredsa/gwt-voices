@@ -30,13 +30,13 @@ import java.util.Iterator;
 
 public class VoicesMovieWidget extends FlashMovieWidget {
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
-  private static final String VOICES_SWF = "Voices.swf";
+  private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
   private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
   private ArrayList unitializedSoundList = new ArrayList();
 
   public VoicesMovieWidget(String id) {
-    super(id, VOICES_SWF);
+    super(id, GWT_VOICES_SWF);
     installFlashCallbackHooks();
 
     // Flash Player version check for ExternalInterface support
