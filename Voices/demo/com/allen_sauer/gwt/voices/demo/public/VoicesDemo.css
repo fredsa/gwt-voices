@@ -1,8 +1,15 @@
 @CHARSET "UTF-8";
 
-IMG.demo-loading {
+.demo-loading {
+  font-weight: bold;
+  padding: 1em;
+  color: #666666;
+}
+
+.demo-loading IMG {
   margin-left: 1em;
   margin-right: 0.3em;
+  vertical-align: middle;
 }
 
 .demo-main-panel {
