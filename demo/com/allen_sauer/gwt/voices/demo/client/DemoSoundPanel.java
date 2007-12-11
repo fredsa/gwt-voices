@@ -30,7 +30,7 @@ import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 public class DemoSoundPanel extends Composite {
-  public DemoSoundPanel(final FreeSound freeSound) {
+  public DemoSoundPanel(final ThirdPartySound thirdPartySound) {
     // use a horizontal panel to hold our content
     HorizontalPanel horizontalPanel = new HorizontalPanel();
     initWidget(horizontalPanel);
@@ -42,14 +42,14 @@ public class DemoSoundPanel extends Composite {
     horizontalPanel.add(playButton);
 
     // display a description of the sound next to the button
-    horizontalPanel.add(new HTML("&nbsp;" + freeSound.toHTMLString()));
+    horizontalPanel.add(new HTML("&nbsp;" + thirdPartySound.toHTMLString()));
 
     // display a load state status
     final HTML loadStateHTML = new HTML();
     horizontalPanel.add(loadStateHTML);
 
     // enable the play button once the sound has loaded
-    freeSound.getSound().addEventHandler(new SoundHandler() {
+    thirdPartySound.getSound().addEventHandler(new SoundHandler() {
       public void onSoundComplete(SoundCompleteEvent event) {
       }
 
@@ -85,7 +85,7 @@ public class DemoSoundPanel extends Composite {
     // play the sound when button is clicked
     playButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
-        freeSound.getSound().play();
+        thirdPartySound.getSound().play();
       }
     });
   }

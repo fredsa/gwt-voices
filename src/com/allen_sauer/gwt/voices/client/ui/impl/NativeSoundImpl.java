@@ -31,7 +31,7 @@ public abstract class NativeSoundImpl {
     soundControllerElement.appendChild(elem);
   }-*/;
 
-  public void preload(Element soundControllerElement, String url) {
+  public void preload(Element soundControllerElement, String mimeType, String url) {
     Element elem = createElement(url);
     setVolume(elem, 0);
     play(soundControllerElement, elem);

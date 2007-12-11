@@ -15,18 +15,29 @@
  */
 package com.allen_sauer.gwt.voices.demo.client;
 
-import com.allen_sauer.gwt.voices.client.SoundController;
-import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
-import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
-import com.allen_sauer.gwt.voices.client.util.DOMUtil;
+import com.allen_sauer.gwt.voices.client.Sound;
 
-public class SupportedMimeTypeSoundController extends SoundController {
-  public String getNativeSoundNodeName(String url) {
-    NativeSoundWidget nativeSoundWidget = new NativeSoundWidget(soundContainer.getElement(), null, url);
-    return DOMUtil.getNodeName(nativeSoundWidget.getElement());
+public abstract class ThirdPartySound {
+  private String mimeType;
+  private Sound sound;
+
+  public ThirdPartySound(String mimeType) {
+    this.mimeType = mimeType;
   }
 
-  public VoicesMovieWidget getVoicesMovie() {
-    return super.getVoicesMovie();
+  public abstract String getActualURL();
+
+  public final String getMimeType() {
+    return mimeType;
   }
+
+  public final Sound getSound() {
+    return sound;
+  }
+
+  public final void setSound(Sound sound) {
+    this.sound = sound;
+  }
+
+  public abstract String toHTMLString();
 }

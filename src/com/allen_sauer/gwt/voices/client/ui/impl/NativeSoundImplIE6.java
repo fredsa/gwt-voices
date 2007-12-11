@@ -26,6 +26,7 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
  * for IE.
  */
 public class NativeSoundImplIE6 extends NativeSoundImpl {
+  private static final String[] BGSOUND_NO_VOLUME_CONTROL_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_MIDI,};
   /**
    * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply
    * a background sound to a Web page in FrontPage</a> knowledge base article.
@@ -45,6 +46,12 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   public int getMimeTypeSupport(String mimeType) {
     return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType) ? SoundController.MIME_TYPE_SUPPORTED
         : SoundController.MIME_TYPE_UNSUPPORTED;
+  }
+
+  public void preload(Element soundControllerElement, String mimeType, String url) {
+    if (!StringUtil.contains(BGSOUND_NO_VOLUME_CONTROL_MIME_TYPES, mimeType)) {
+      super.preload(soundControllerElement, mimeType, url);
+    }
   }
 
   /**

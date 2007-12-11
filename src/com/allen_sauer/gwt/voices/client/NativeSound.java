@@ -29,7 +29,7 @@ public class NativeSound extends AbstractSound {
   public NativeSound(String mimeType, String url, Element soundControllerElement) {
     super(mimeType, url);
     this.soundControllerElement = soundControllerElement;
-    nativeSoundWidget = new NativeSoundWidget(soundControllerElement, url);
+    nativeSoundWidget = new NativeSoundWidget(soundControllerElement, mimeType, url);
     int mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
       case SoundController.MIME_TYPE_SUPPORTED:

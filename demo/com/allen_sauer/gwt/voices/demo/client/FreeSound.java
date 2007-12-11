@@ -15,20 +15,17 @@
  */
 package com.allen_sauer.gwt.voices.demo.client;
 
-import com.allen_sauer.gwt.voices.client.Sound;
 
-public class FreeSound {
+public class FreeSound extends ThirdPartySound {
   private final String actualURL;
   private final String freeSoundAuthor;
   private final String freesoundAuthorURL;
   private final String freesoundFileURL;
-  private final String mimeType;
   private final String originalFreesoundFilename;
-  private Sound sound;
 
   public FreeSound(String mimeType, String actualURL, String originalFreesoundFilename, String freesoundFileURL,
       String freeSoundAuthor, String freesoundAuthorURL) {
-    this.mimeType = mimeType;
+    super(mimeType);
     this.originalFreesoundFilename = originalFreesoundFilename;
     this.actualURL = actualURL;
     this.freesoundFileURL = freesoundFileURL;
@@ -50,18 +47,6 @@ public class FreeSound {
 
   public String getFreesoundFileURL() {
     return freesoundFileURL;
-  }
-
-  public String getMimeType() {
-    return mimeType;
-  }
-
-  public Sound getSound() {
-    return sound;
-  }
-
-  public void setSound(Sound sound) {
-    this.sound = sound;
   }
 
   public String toHTMLString() {
