@@ -3,11 +3,6 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name='com.google.gwt.user.User'/>
 
-	<!-- Include CSS                                          -->
-	<stylesheet src='Voices.css'/>
-
-
-
   <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplOpera">
     <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl"/>
     <when-property-is name="user.agent" value="opera"/>
@@ -58,4 +53,5 @@
     <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl"/>
     <when-property-is name="user.agent" value="gecko"/>
   </replace-with>
+
 </module>

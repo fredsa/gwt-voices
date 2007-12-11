@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="C:/fred/java/lib/gwt-voices/gwt-voices.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/Voices/GWT-VOICES.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="C:/fred/java/lib/gwt-voices/gwt-voices-0.0.0.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Voices/gwt-voices-0.0.0.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
