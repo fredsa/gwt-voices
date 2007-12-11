@@ -67,7 +67,8 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       int nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
       if (nativeMimeTypeSupport == SoundController.MIME_TYPE_SUPPORTED) {
-        nativeMimeTypeSupportText += " via <code>" + soundController.getNativeSoundNodeName("empty.dat") + "</code>";
+        nativeMimeTypeSupportText += " via <code>"
+            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au") + "</code>";
       }
 
       // Flash based support

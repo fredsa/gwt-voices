@@ -30,6 +30,10 @@ public class SoundController {
 
   static final int DEFAULT_VOLUME = 100;
 
+  static {
+    setVersion();
+  }
+
   private static String getLowercaseExtension(String filename) {
     int pos = filename.indexOf('.');
     if (pos == -1) {
@@ -38,6 +42,11 @@ public class SoundController {
       return filename.substring(pos).toLowerCase();
     }
   }
+
+  private static native void setVersion()
+  /*-{
+    $wnd.GWT_VOICES_VERSION = "1.0.0";
+  }-*/;
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
   private int defaultVolume = DEFAULT_VOLUME;
