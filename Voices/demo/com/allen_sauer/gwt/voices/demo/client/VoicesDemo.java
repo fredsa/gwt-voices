@@ -36,11 +36,11 @@ import java.util.Iterator;
 public class VoicesDemo implements EntryPoint {
   private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
   private static final String DEMO_MAIN_PANEL = "demo-main-panel";
-  private static FreeSound[] freeSounds;
+  private static ThirdPartySound[] freeSounds;
   private static HashMap mimeTypeSoundMap = new HashMap();
 
   static {
-    freeSounds = new FreeSound[] {
+    freeSounds = new ThirdPartySound[] {
         new FreeSound(Sound.MIME_TYPE_AUDIO_X_WAV, "freesoundproject/35631__reinsamba__crystal_glass.wav", "crystal_glass",
             "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631", "reinsamba",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=18799"),
@@ -73,7 +73,10 @@ public class VoicesDemo implements EntryPoint {
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084"),
         new FreeSound(Sound.MIME_TYPE_AUDIO_MPEG, "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
             "CinematicBoomNorm", "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),};
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),
+        new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Bass_sample2.mid", "Bass_sample2.mid",
+            "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
 
     for (int i = 0; i < freeSounds.length; i++) {
       String mimeType = freeSounds[i].getMimeType();
@@ -104,12 +107,13 @@ public class VoicesDemo implements EntryPoint {
         }
         DialogBox dialogBox = new DialogBox(true);
         DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor", "#ABCDEF");
+        System.err.print(text);
         text = text.replaceAll(" ", "&nbsp;");
         dialogBox.setHTML("<pre>" + text + "</pre>");
         dialogBox.center();
       }
     });
-
+    
     // use deferred command to catch initialization exceptions
     DeferredCommand.addCommand(new Command() {
       public void execute() {

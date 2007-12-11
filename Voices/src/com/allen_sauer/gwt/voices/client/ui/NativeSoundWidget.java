@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
 
+
 /**
  * Flash movie widget.
  */
@@ -37,13 +38,12 @@ public class NativeSoundWidget extends Widget {
 
   private final Element soundControllerElement;
   private final String url;
-
   private boolean wasLoaded = false;
 
-  public NativeSoundWidget(Element soundControllerElement, String url) {
+  public NativeSoundWidget(Element soundControllerElement, String mimeType, String url) {
     this.soundControllerElement = soundControllerElement;
     this.url = url;
-    impl.preload(soundControllerElement, url);
+    impl.preload(soundControllerElement, mimeType, url);
     setElement(impl.createElement(url));
   }
 

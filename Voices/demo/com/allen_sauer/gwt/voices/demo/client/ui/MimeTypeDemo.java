@@ -23,7 +23,7 @@ import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundHandler;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundPanel;
-import com.allen_sauer.gwt.voices.demo.client.FreeSound;
+import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,10 +47,10 @@ public class MimeTypeDemo extends DeferredContentPanel {
     VerticalPanel soundsPanel = new VerticalPanel();
 
     for (Iterator iterator = freesoundList.iterator(); iterator.hasNext();) {
-      FreeSound freesound = (FreeSound) iterator.next();
-      Sound sound = soundController.createSound(mimeType, freesound.getActualURL());
+      ThirdPartySound thirdPartySound = (ThirdPartySound) iterator.next();
+      Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL());
       sound.addEventHandler(demoSoundHandler);
-      freesound.setSound(sound);
+      thirdPartySound.setSound(sound);
       if (note == null) {
         note = new HTML("Note:<ul><li>Some browsers will play these sound files natively, while others may require"
             + " plugins such as <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,"
@@ -62,7 +62,7 @@ public class MimeTypeDemo extends DeferredContentPanel {
         note.addStyleName("demo-note");
         containerPanel.add(note);
       }
-      soundsPanel.add(new DemoSoundPanel(freesound));
+      soundsPanel.add(new DemoSoundPanel(thirdPartySound));
     }
     containerPanel.add(soundsPanel);
     return containerPanel;
