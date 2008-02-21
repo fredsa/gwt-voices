@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -58,7 +58,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
    * Best guess at conversion formula from standard -100 .. 100 range to -10000 ..
    * 10000 range used by IE.
    * 
-   * @TODO location documentation for IE
+   * TODO location documentation for IE
    */
   public native void setBalance(Element elem, int balance)
   /*-{
@@ -78,7 +78,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
    * Best guess at conversion formula from standard 0 .. 100 range to -10000 ..
    * 0 range used by IE.
    * 
-   * @TODO location documentation for IE
+   * TODO location documentation for IE
    */
   public native void setVolume(Element elem, int volume)
   /*-{

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Fred Sauer
+ * Copyright 2008 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -45,7 +45,7 @@ public class SoundController {
 
   private static native void setVersion()
   /*-{
-    $wnd.GWT_VOICES_VERSION = "1.0.0";
+    $wnd.GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
   }-*/;
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
