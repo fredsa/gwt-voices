@@ -45,7 +45,7 @@ public class SoundController {
 
   private static native void setVersion()
   /*-{
-    $wnd.GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
+    $wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
   }-*/;
 
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
