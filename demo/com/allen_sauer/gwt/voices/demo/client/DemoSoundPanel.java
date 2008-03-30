@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
@@ -62,21 +61,21 @@ public class DemoSoundPanel extends Composite {
             loadStateHTML.setHTML("&nbsp; (load state: <code>" + event.getLoadStateAsString()
                 + "</code>)");
             switch (event.getLoadState()) {
-              case Sound.LOAD_STATE_LOADED:
-              case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
-              case Sound.LOAD_STATE_SUPPORTED:
+              case LOAD_STATE_LOADED:
+              case LOAD_STATE_SUPPORTED_NOT_LOADED:
+              case LOAD_STATE_SUPPORTED:
                 playButton.setEnabled(true);
                 playButton.setText("play");
                 break;
-              case Sound.LOAD_STATE_UNSUPPORTED:
+              case LOAD_STATE_UNSUPPORTED:
                 playButton.setEnabled(false);
                 playButton.setText("(plugin unavailable)");
                 break;
-              case Sound.LOAD_STATE_UNKNOWN:
+              case LOAD_STATE_UNKNOWN:
                 playButton.setEnabled(true);
                 playButton.setText("play (may not work)");
                 break;
-              case Sound.LOAD_STATE_UNINITIALIZED:
+              case LOAD_STATE_UNINITIALIZED:
               default:
                 throw new IllegalArgumentException("Unhandled state " + event.getLoadState());
             }

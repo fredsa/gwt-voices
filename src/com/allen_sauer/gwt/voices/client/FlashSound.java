@@ -60,7 +60,7 @@ public class FlashSound extends AbstractSound {
   }
 
   public void play() {
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == Sound.LoadState.LOAD_STATE_LOADED) {
       voicesMovie.playSound(soundNumber);
     } else {
       playSoundWhenLoaded = true;
@@ -69,20 +69,20 @@ public class FlashSound extends AbstractSound {
 
   public void setBalance(int balance) {
     this.balance = balance;
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == Sound.LoadState.LOAD_STATE_LOADED) {
       voicesMovie.setBalance(soundNumber, balance);
     }
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == Sound.LoadState.LOAD_STATE_LOADED) {
       voicesMovie.setVolume(soundNumber, volume);
     }
   }
 
   public void stop() {
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == Sound.LoadState.LOAD_STATE_LOADED) {
       voicesMovie.stopSound(soundNumber);
     } else {
       playSoundWhenLoaded = false;
@@ -94,7 +94,7 @@ public class FlashSound extends AbstractSound {
   }
 
   protected void soundLoaded() {
-    setLoadState(Sound.LOAD_STATE_LOADED);
+    setLoadState(Sound.LoadState.LOAD_STATE_LOADED);
     if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
     }

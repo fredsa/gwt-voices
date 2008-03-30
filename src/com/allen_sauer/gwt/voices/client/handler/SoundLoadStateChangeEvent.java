@@ -16,30 +16,31 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.Sound.LoadState;
 
 import java.util.EventObject;
 
 public class SoundLoadStateChangeEvent extends EventObject {
-  private static String loadStateToString(int loadState) {
+  private static String loadStateToString(LoadState loadState) {
     switch (loadState) {
-      case Sound.LOAD_STATE_LOADED:
+      case LOAD_STATE_LOADED:
         return "loaded";
-      case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
+      case LOAD_STATE_SUPPORTED_NOT_LOADED:
         return "supported; not loaded";
-      case Sound.LOAD_STATE_SUPPORTED:
+      case LOAD_STATE_SUPPORTED:
         return "supported";
-      case Sound.LOAD_STATE_UNSUPPORTED:
+      case LOAD_STATE_UNSUPPORTED:
         return "unsupported";
-      case Sound.LOAD_STATE_UNKNOWN:
+      case LOAD_STATE_UNKNOWN:
         return "unknown load state";
-      case Sound.LOAD_STATE_UNINITIALIZED:
+      case LOAD_STATE_UNINITIALIZED:
         return "uninitialized";
       default:
         throw new IllegalArgumentException("loadState=" + loadState);
     }
   }
 
-  private final int loadState;
+  private final LoadState loadState;
 
   public SoundLoadStateChangeEvent(Object source) {
     super(source);
@@ -47,7 +48,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
     loadState = sound.getLoadState();
   }
 
-  public int getLoadState() {
+  public LoadState getLoadState() {
     return loadState;
   }
 
