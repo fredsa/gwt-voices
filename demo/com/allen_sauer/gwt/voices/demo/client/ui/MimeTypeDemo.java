@@ -27,12 +27,14 @@ import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
 
 import java.util.ArrayList;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final ArrayList<ThirdPartySound> freesoundList;
   private final String mimeType;
 
-  public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList, DemoSoundHandler demoSoundHandler) {
+  public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList,
+      DemoSoundHandler demoSoundHandler) {
     this.mimeType = mimeType;
     this.freesoundList = freesoundList;
     this.demoSoundHandler = demoSoundHandler;
@@ -51,13 +53,15 @@ public class MimeTypeDemo extends DeferredContentPanel {
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
       if (note == null) {
-        note = new HTML("Note:<ul><li>Some browsers will play these sound files natively, while others may require"
-            + " plugins such as <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,"
-            + " <a href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a>"
-            + " or <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>"
-            + " in order to hear sound.</li>\n"
-            + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)" + " <b>"
-            + sound.getSoundType() + "</b> to play <code>" + mimeType + "</code> sounds.</li></ul>");
+        note = new HTML(
+            "Note:<ul><li>Some browsers will play these sound files natively, while others may require"
+                + " plugins such as <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,"
+                + " <a href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a>"
+                + " or <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>"
+                + " in order to hear sound.</li>\n"
+                + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)"
+                + " <b>" + sound.getSoundType() + "</b> to play <code>" + mimeType
+                + "</code> sounds.</li></ul>");
         note.addStyleName("demo-note");
         containerPanel.add(note);
       }

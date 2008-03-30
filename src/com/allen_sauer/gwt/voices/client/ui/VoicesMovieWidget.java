@@ -62,8 +62,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     switch (flashSupport) {
       case SoundController.MIME_TYPE_SUPPORTED:
       case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
-        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? SoundController.MIME_TYPE_SUPPORTED
-            : SoundController.MIME_TYPE_UNSUPPORTED;
+        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType)
+            ? SoundController.MIME_TYPE_SUPPORTED : SoundController.MIME_TYPE_UNSUPPORTED;
       case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
       case SoundController.MIME_TYPE_UNSUPPORTED:
         return flashSupport;
@@ -108,6 +108,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
    * Defer the actual work of a flash callback so that any exceptions can be
    * caught by the browser or the uncaught exception handler, rather than being
    * swallow by flash.
+   *
+   * @param func the JavaScript function to call
    */
   protected void deferFlashCallback(final JavaScriptObject func) {
     DeferredCommand.addCommand(new Command() {

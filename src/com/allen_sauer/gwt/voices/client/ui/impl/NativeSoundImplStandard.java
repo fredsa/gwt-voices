@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,6 +22,7 @@ import com.google.gwt.user.client.Element;
  * for standard browsers.
  */
 public abstract class NativeSoundImplStandard extends NativeSoundImpl {
+  @Override
   public native Element createElement(String url)
   /*-{
     var elem = $doc.createElement("object");
@@ -31,6 +32,7 @@ public abstract class NativeSoundImplStandard extends NativeSoundImpl {
     return elem;
   }-*/;
 
+  @Override
   public native int getMimeTypeSupport(String mimeType)
   /*-{
     var m = navigator.mimeTypes[mimeType];
@@ -41,12 +43,14 @@ public abstract class NativeSoundImplStandard extends NativeSoundImpl {
         : @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_UNSUPPORTED;
   }-*/;
 
+  @Override
   public native void setBalance(Element elem, int balance)
   /*-{
     // did not find any browsers actually supporting this
     elem.setAttribute("balance", "" + balance);
   }-*/;
 
+  @Override
   public native void setVolume(Element elem, int volume)
   /*-{
     elem.setAttribute("volume", "" + volume);

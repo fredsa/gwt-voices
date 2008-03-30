@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -28,6 +28,7 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
   private static final String[] SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_WAV,};
 
+  @Override
   public int getMimeTypeSupport(String mimeType) {
     if (StringUtil.contains(SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES, mimeType)) {
       return SoundController.MIME_TYPE_SUPPORTED;
@@ -35,6 +36,7 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
     return operaGetMimeTypeSupport(mimeType);
   }
 
+  @Override
   public native void preload(Element soundControllerElement, String mimeType, String url)
   /*-{
     new Audio(url);

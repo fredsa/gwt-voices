@@ -16,7 +16,6 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 @SuppressWarnings("serial")
 public class SoundHandlerCollection extends ArrayList<SoundHandler> {
@@ -31,8 +30,7 @@ public class SoundHandlerCollection extends ArrayList<SoundHandler> {
   public void fireOnSoundLoadStateChange(Object sender) {
     SoundLoadStateChangeEvent event = new SoundLoadStateChangeEvent(sender);
 
-    for (Iterator<SoundHandler> iterator = iterator(); iterator.hasNext();) {
-      SoundHandler handler = iterator.next();
+    for (SoundHandler handler : this) {
       handler.onSoundLoadStateChange(event);
     }
   }
