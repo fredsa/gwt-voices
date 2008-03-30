@@ -18,12 +18,9 @@ package com.allen_sauer.gwt.voices.client;
 import com.allen_sauer.gwt.voices.client.handler.FiresSoundEvents;
 
 public interface Sound extends FiresSoundEvents {
-  int LOAD_STATE_LOADED = 6;
-  int LOAD_STATE_SUPPORTED = 4;
-  int LOAD_STATE_SUPPORTED_NOT_LOADED = 5;
-  int LOAD_STATE_UNINITIALIZED = 1;
-  int LOAD_STATE_UNKNOWN = 2;
-  int LOAD_STATE_UNSUPPORTED = 3;
+  enum LoadState {
+    LOAD_STATE_LOADED, LOAD_STATE_SUPPORTED, LOAD_STATE_SUPPORTED_NOT_LOADED, LOAD_STATE_UNINITIALIZED, LOAD_STATE_UNKNOWN, LOAD_STATE_UNSUPPORTED,
+  };
 
   /**
    * IANA assigned media type <code>audio/basic</code> for RFC 2045/2046.
@@ -60,7 +57,7 @@ public interface Sound extends FiresSoundEvents {
    */
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
 
-  int getLoadState();
+  LoadState getLoadState();
 
   String getMimeType();
 

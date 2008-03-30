@@ -20,10 +20,10 @@ import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 abstract class AbstractSound implements Sound {
-  private static final int INITIAL_LOAD_STATE = Sound.LOAD_STATE_UNINITIALIZED;
+  private static final LoadState INITIAL_LOAD_STATE = Sound.LoadState.LOAD_STATE_UNINITIALIZED;
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
 
-  private int loadState = INITIAL_LOAD_STATE;
+  private LoadState loadState = INITIAL_LOAD_STATE;
   private final String mimeType;
   private final String url;
 
@@ -39,7 +39,7 @@ abstract class AbstractSound implements Sound {
     }
   }
 
-  public final int getLoadState() {
+  public final LoadState getLoadState() {
     return loadState;
   }
 
@@ -57,7 +57,7 @@ abstract class AbstractSound implements Sound {
     soundHandlerCollection.remove(handler);
   }
 
-  public final void setLoadState(int loadState) {
+  public final void setLoadState(LoadState loadState) {
     this.loadState = loadState;
     if (loadState != INITIAL_LOAD_STATE) {
       soundHandlerCollection.fireOnSoundLoadStateChange(this);
