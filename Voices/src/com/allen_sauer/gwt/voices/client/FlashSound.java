@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,14 +20,16 @@ import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import java.util.ArrayList;
 
 public class FlashSound extends AbstractSound {
-  private static ArrayList soundList = new ArrayList();
+  private static ArrayList<FlashSound> soundList = new ArrayList<FlashSound>();
 
+  @SuppressWarnings("unused")
   private static void soundCompleted(int index) {
-    ((FlashSound) soundList.get(index)).soundCompleted();
+    soundList.get(index).soundCompleted();
   }
 
+  @SuppressWarnings("unused")
   private static void soundLoaded(final int index) {
-    ((FlashSound) soundList.get(index)).soundLoaded();
+    soundList.get(index).soundLoaded();
   }
 
   private int balance = 0;
@@ -48,6 +50,7 @@ public class FlashSound extends AbstractSound {
     return soundNumber;
   }
 
+  @Override
   public String getSoundType() {
     return "Flash";
   }

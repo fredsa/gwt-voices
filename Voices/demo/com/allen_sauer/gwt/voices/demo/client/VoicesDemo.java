@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -31,13 +31,12 @@ import com.allen_sauer.gwt.voices.demo.client.ui.SupportedMimeTypeSummary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class VoicesDemo implements EntryPoint {
   private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
   private static final String DEMO_MAIN_PANEL = "demo-main-panel";
   private static ThirdPartySound[] freeSounds;
-  private static HashMap mimeTypeSoundMap = new HashMap();
+  private static HashMap<String, ArrayList<ThirdPartySound>> mimeTypeSoundMap = new HashMap<String, ArrayList<ThirdPartySound>>();
 
   static {
     freeSounds = new ThirdPartySound[] {
@@ -78,14 +77,14 @@ public class VoicesDemo implements EntryPoint {
             "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
             "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
 
-    for (int i = 0; i < freeSounds.length; i++) {
-      String mimeType = freeSounds[i].getMimeType();
-      ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
+    for (ThirdPartySound element : freeSounds) {
+      String mimeType = element.getMimeType();
+      ArrayList<ThirdPartySound> freesoundList = mimeTypeSoundMap.get(mimeType);
       if (freesoundList == null) {
-        freesoundList = new ArrayList();
+        freesoundList = new ArrayList<ThirdPartySound>();
         mimeTypeSoundMap.put(mimeType, freesoundList);
       }
-      freesoundList.add(freeSounds[i]);
+      freesoundList.add(element);
     }
   }
 
@@ -97,8 +96,8 @@ public class VoicesDemo implements EntryPoint {
         while (throwable != null) {
           StackTraceElement[] stackTraceElements = throwable.getStackTrace();
           text += new String(throwable.toString() + "\n");
-          for (int i = 0; i < stackTraceElements.length; i++) {
-            text += "    at " + stackTraceElements[i] + "\n";
+          for (StackTraceElement element : stackTraceElements) {
+            text += "    at " + element + "\n";
           }
           throwable = throwable.getCause();
           if (throwable != null) {
@@ -134,9 +133,9 @@ public class VoicesDemo implements EntryPoint {
 
     mainPanel.add(new DeferredContentDisclosurePanel("Sound Support Matrix", new SupportedMimeTypeSummary()));
 
-    for (Iterator iterator = mimeTypeSoundMap.keySet().iterator(); iterator.hasNext();) {
-      String mimeType = (String) iterator.next();
-      ArrayList freesoundList = (ArrayList) mimeTypeSoundMap.get(mimeType);
+    for (Object element : mimeTypeSoundMap.keySet()) {
+      String mimeType = (String) element;
+      ArrayList<ThirdPartySound> freesoundList = mimeTypeSoundMap.get(mimeType);
       DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(mimeType, new MimeTypeDemo(mimeType,
           freesoundList, demoSoundHandler));
       mainPanel.add(disclosurePanel);

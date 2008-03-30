@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -33,7 +33,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
   private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
-  private ArrayList unitializedSoundList = new ArrayList();
+  private ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
   public VoicesMovieWidget(String id) {
     super(id, GWT_VOICES_SWF);
@@ -53,6 +53,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   // JSNI Helper for GWT Issue 1651 (JSNI inherited method support in web mode)
+  @Override
   public Element getElement() {
     return super.getElement();
   }
@@ -121,6 +122,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     });
   }
 
+  @Override
   protected void onUnload() {
     super.onUnload();
     removeFlashCallbackHooks();
@@ -182,7 +184,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         return "Exception: " + e.message + " / " + e.description;
       }
     }
-    
+
     $doc.VoicesMovie[id].soundLoaded = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
@@ -194,7 +196,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         return "Exception: " + e.message + " / " + e.description;
       }
     }
-  
+
     $doc.VoicesMovie[id].soundCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
@@ -214,16 +216,15 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
   private void movieReady() {
     flashSupport = SoundController.MIME_TYPE_SUPPORTED;
-    for (Iterator iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
-      FlashSound flashSound = (FlashSound) iterator.next();
+    for (Iterator<FlashSound> iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
+      FlashSound flashSound = iterator.next();
       doCreateSound(flashSound);
       iterator.remove();
     }
   }
 
   private void movieUnsupported() {
-    for (Iterator iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
-      FlashSound flashSound = (FlashSound) iterator.next();
+    for (FlashSound flashSound : unitializedSoundList) {
       flashSound.setLoadState(Sound.LOAD_STATE_UNSUPPORTED);
       // Flash plug-in may become available later; do not call iterator.remove()
     }
