@@ -1,4 +1,0 @@
-#!/bin/sh
-APPDIR=`dirname $0`;
-java  -cp "$APPDIR/src:$APPDIR/demo:$APPDIR/bin:$GWT_LIBS/gwt-log/gwt-log.jar:$GWT_PLATFORM/gwt-user.jar:$GWT_PLATFORM/gwt-dev-linux.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" com.allen_sauer.gwt.voices.demo.VoicesDemo
-
