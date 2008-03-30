@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -26,6 +26,7 @@ import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import com.allen_sauer.gwt.voices.demo.client.SupportedMimeTypeSoundController;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends DeferredContentPanel {
   private static final String CSS_DEMO_SUPPORTED_MIME_TYPE_SUMMARY_TABLE = "demo-SupportedMimeTypeSummary-table";
 
@@ -34,6 +35,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     return navigator.userAgent;
   }-*/;
 
+  @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     containerPanel.clear();
@@ -57,8 +59,8 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     VoicesMovieWidget movieWidget = soundController.getVoicesMovie();
 
     String[] mimeTypes = {
-        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,
-        Sound.MIME_TYPE_AUDIO_X_WAV,};
+        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF,
+        Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
 
     for (int i = 0; i < mimeTypes.length; i++) {
       String mimeType = mimeTypes[i];
@@ -68,7 +70,8 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
       if (nativeMimeTypeSupport == SoundController.MIME_TYPE_SUPPORTED) {
         nativeMimeTypeSupportText += " via <code>"
-            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au") + "</code>";
+            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au")
+            + "</code>";
       }
 
       // Flash based support

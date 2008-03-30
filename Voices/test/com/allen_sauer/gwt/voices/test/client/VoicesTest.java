@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -44,8 +44,8 @@ public class VoicesTest implements EntryPoint {
         while (throwable != null) {
           StackTraceElement[] stackTraceElements = throwable.getStackTrace();
           text += new String(throwable.toString() + "\n");
-          for (int i = 0; i < stackTraceElements.length; i++) {
-            text += "    at " + stackTraceElements[i] + "\n";
+          for (StackTraceElement element : stackTraceElements) {
+            text += "    at " + element + "\n";
           }
           throwable = throwable.getCause();
           if (throwable != null) {
@@ -53,8 +53,7 @@ public class VoicesTest implements EntryPoint {
           }
         }
         DialogBox dialogBox = new DialogBox(true);
-        DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor",
-            "#ABCDEF");
+        DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor", "#ABCDEF");
         text = text.replaceAll(" ", "&nbsp;");
         dialogBox.setHTML("<pre>" + text + "</pre>");
         dialogBox.center();
@@ -70,8 +69,7 @@ public class VoicesTest implements EntryPoint {
   }
 
   public void onModuleLoad2() {
-    RootPanel.get().add(
-        new HTML("VoicesTest is in <b>" + getCompatMode() + "</b> mode."));
+    RootPanel.get().add(new HTML("VoicesTest is in <b>" + getCompatMode() + "</b> mode."));
 
     addTest();
     addTest();
