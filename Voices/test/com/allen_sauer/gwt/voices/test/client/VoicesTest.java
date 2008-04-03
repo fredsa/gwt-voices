@@ -36,6 +36,10 @@ public class VoicesTest implements EntryPoint {
     return $doc.compatMode;
   }-*/;
 
+  /**
+   * Use DeferredCommand to ensure an UncaughtExceptionHandler is installed
+   * before any of our real code executes.
+   */
   public void onModuleLoad() {
     // set uncaught exception handler
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -43,7 +47,7 @@ public class VoicesTest implements EntryPoint {
         String text = "Uncaught exception: ";
         while (throwable != null) {
           StackTraceElement[] stackTraceElements = throwable.getStackTrace();
-          text += new String(throwable.toString() + "\n");
+          text += throwable.toString() + "\n";
           for (StackTraceElement element : stackTraceElements) {
             text += "    at " + element + "\n";
           }
@@ -68,6 +72,9 @@ public class VoicesTest implements EntryPoint {
     });
   }
 
+  /**
+   * The actual entry point that we use.
+   */
   public void onModuleLoad2() {
     RootPanel.get().add(new HTML("VoicesTest is in <b>" + getCompatMode() + "</b> mode."));
 

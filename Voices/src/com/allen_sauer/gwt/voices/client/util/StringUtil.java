@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.voices.client.util;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class StringUtil {
   public static boolean contains(String[] arr, String text) {
     for (String element : arr) {
