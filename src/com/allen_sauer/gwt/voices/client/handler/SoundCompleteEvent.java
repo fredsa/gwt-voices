@@ -19,6 +19,7 @@ import com.allen_sauer.gwt.voices.client.Sound;
 
 import java.util.EventObject;
 
+@SuppressWarnings("serial")
 public class SoundCompleteEvent extends EventObject {
   public SoundCompleteEvent(Object source) {
     super(source);

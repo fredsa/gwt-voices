@@ -33,7 +33,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
   private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
-  private ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
+  private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
   public VoicesMovieWidget(String id) {
     super(id, GWT_VOICES_SWF);
@@ -216,6 +216,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   //    }
   }-*/;
 
+  @SuppressWarnings("unused")
   private void movieReady() {
     flashSupport = SoundController.MIME_TYPE_SUPPORTED;
     for (Iterator<FlashSound> iterator = unitializedSoundList.iterator(); iterator.hasNext();) {

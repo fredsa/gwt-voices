@@ -32,7 +32,6 @@ public class FlashSound extends AbstractSound {
     soundList.get(index).soundLoaded();
   }
 
-  private int balance = 0;
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private final VoicesMovieWidget voicesMovie;
@@ -68,7 +67,6 @@ public class FlashSound extends AbstractSound {
   }
 
   public void setBalance(int balance) {
-    this.balance = balance;
     if (getLoadState() == Sound.LoadState.LOAD_STATE_LOADED) {
       voicesMovie.setBalance(soundNumber, balance);
     }

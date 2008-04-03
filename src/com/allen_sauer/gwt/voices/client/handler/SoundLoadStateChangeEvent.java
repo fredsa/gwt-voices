@@ -20,6 +20,7 @@ import com.allen_sauer.gwt.voices.client.Sound.LoadState;
 
 import java.util.EventObject;
 
+@SuppressWarnings("serial")
 public class SoundLoadStateChangeEvent extends EventObject {
   private static String loadStateToString(LoadState loadState) {
     switch (loadState) {

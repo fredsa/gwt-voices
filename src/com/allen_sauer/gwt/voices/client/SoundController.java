@@ -34,15 +34,6 @@ public class SoundController {
     setVersion();
   }
 
-  private static String getLowercaseExtension(String filename) {
-    int pos = filename.indexOf('.');
-    if (pos == -1) {
-      return "";
-    } else {
-      return filename.substring(pos).toLowerCase();
-    }
-  }
-
   private static native void setVersion()
   /*-{
     $wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
