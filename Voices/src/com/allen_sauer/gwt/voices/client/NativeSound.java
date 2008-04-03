@@ -21,14 +21,11 @@ import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class NativeSound extends AbstractSound {
-  private NativeSoundWidget nativeSoundWidget;
-  private Element preloadSoundElement;
-  private Element soundControllerElement;
+  private final NativeSoundWidget nativeSoundWidget;
   private int volume;
 
   public NativeSound(String mimeType, String url, Element soundControllerElement) {
     super(mimeType, url);
-    this.soundControllerElement = soundControllerElement;
     nativeSoundWidget = new NativeSoundWidget(soundControllerElement, mimeType, url);
     int mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
