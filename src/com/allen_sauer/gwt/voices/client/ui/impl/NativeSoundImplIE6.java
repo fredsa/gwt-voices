@@ -19,6 +19,7 @@ import com.google.gwt.user.client.Element;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 /**
@@ -46,9 +47,9 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   }-*/;
 
   @Override
-  public int getMimeTypeSupport(String mimeType) {
+  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType)
-        ? SoundController.MIME_TYPE_SUPPORTED : SoundController.MIME_TYPE_UNSUPPORTED;
+        ? SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED : SoundController.MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
   }
 
   @Override

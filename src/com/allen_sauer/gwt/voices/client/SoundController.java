@@ -23,10 +23,66 @@ import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 public class SoundController {
-  public static final int MIME_TYPE_SUPPORT_UNKNOWN = 1;
-  public static final int MIME_TYPE_SUPPORTED = 4;
-  public static final int MIME_TYPE_SUPPORTED_NOT_LOADED = 3;
-  public static final int MIME_TYPE_UNSUPPORTED = 2;
+  /**
+   * Enumeration for varying levels of MIME type support.
+   */
+  public enum MimeTypeSupport {
+    /**
+     * It is unknown (cannot be determined) whether play back of the MIME type
+     * is supported in this browser, based on known capabilities of browsers
+     * with the same user agent and installed plugins.
+     */
+    MIME_TYPE_SUPPORT_UNKNOWN,
+
+    /**
+     * Play back of the MIME type is known to be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins.
+     */
+    MIME_TYPE_SUPPORTED,
+
+    /**
+     * Play back of the MIME type is known to be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins, but this capability has not yet been initialized.
+     * Usually this is due to a browser plugin, such as
+     * <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,
+     * <a href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a> or
+     * <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>.
+     */
+    MIME_TYPE_SUPPORTED_NOT_LOADED,
+
+    /**
+     * Play back of the MIME type is known to NOT be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins.
+     */
+    MIME_TYPE_UNSUPPORTED,
+  };
+
+  /**
+   * @deprecated Use {@MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN} enum value instead.
+   */
+  @Deprecated
+  public static final MimeTypeSupport MIME_TYPE_SUPPORT_UNKNOWN = MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
+
+  /**
+   * @deprecated Use {@MimeTypeSupport.MIME_TYPE_SUPPORTED} enum value instead.
+   */
+  @Deprecated
+  public static final MimeTypeSupport MIME_TYPE_SUPPORTED = MimeTypeSupport.MIME_TYPE_SUPPORTED;
+
+  /**
+   * @deprecated Use {@MimeTypeSupport.MIME_TYPE_SUPPORTED_NOT_LOADED} enum value instead.
+   */
+  @Deprecated
+  public static final MimeTypeSupport MIME_TYPE_SUPPORTED_NOT_LOADED = MimeTypeSupport.MIME_TYPE_SUPPORTED_NOT_LOADED;
+
+  /**
+   * @deprecated Use {@MimeTypeSupport.MIME_TYPE_UNSUPPORTED} enum value instead.
+   */
+  @Deprecated
+  public static final MimeTypeSupport MIME_TYPE_UNSUPPORTED = MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
 
   static final int DEFAULT_VOLUME = 100;
 
@@ -83,9 +139,9 @@ public class SoundController {
   private Sound implCreateSound(String mimeType, String url) {
     if (FlashMovieWidget.isExternalInterfaceSupported()) {
       VoicesMovieWidget vm = getVoicesMovie();
-      int mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
-      if (mimeTypeSupport == MIME_TYPE_SUPPORTED
-          || mimeTypeSupport == MIME_TYPE_SUPPORTED_NOT_LOADED) {
+      MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
+      if (mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORTED
+          || mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORTED_NOT_LOADED) {
         FlashSound sound = new FlashSound(mimeType, url, vm);
         return sound;
       }

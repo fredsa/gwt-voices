@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.client;
 
 import com.google.gwt.user.client.Element;
 
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
@@ -27,18 +28,18 @@ public class NativeSound extends AbstractSound {
   public NativeSound(String mimeType, String url, Element soundControllerElement) {
     super(mimeType, url);
     nativeSoundWidget = new NativeSoundWidget(soundControllerElement, mimeType, url);
-    int mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
+    MimeTypeSupport mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
-      case SoundController.MIME_TYPE_SUPPORTED:
+      case MIME_TYPE_SUPPORTED:
         setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED);
         break;
-      case SoundController.MIME_TYPE_UNSUPPORTED:
+      case MIME_TYPE_UNSUPPORTED:
         setLoadState(Sound.LoadState.LOAD_STATE_UNSUPPORTED);
         break;
-      case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
+      case MIME_TYPE_SUPPORT_UNKNOWN:
         setLoadState(Sound.LoadState.LOAD_STATE_UNKNOWN);
         break;
-      case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
+      case MIME_TYPE_SUPPORTED_NOT_LOADED:
         setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED_NOT_LOADED);
         break;
       default:

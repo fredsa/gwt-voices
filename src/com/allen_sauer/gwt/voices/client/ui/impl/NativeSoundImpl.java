@@ -17,6 +17,8 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} default
  * cross-browser implementation.
@@ -24,7 +26,7 @@ import com.google.gwt.user.client.Element;
 public abstract class NativeSoundImpl {
   public abstract Element createElement(String url);
 
-  public abstract int getMimeTypeSupport(String mimeType);
+  public abstract MimeTypeSupport getMimeTypeSupport(String mimeType);
 
   public native void play(Element soundControllerElement, Element elem)
   /*-{

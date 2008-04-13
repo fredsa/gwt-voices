@@ -19,6 +19,7 @@ import com.google.gwt.user.client.Element;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 /**
@@ -29,9 +30,9 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
   private static final String[] SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   @Override
-  public int getMimeTypeSupport(String mimeType) {
+  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     if (StringUtil.contains(SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES, mimeType)) {
-      return SoundController.MIME_TYPE_SUPPORTED;
+      return SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED;
     }
     return operaGetMimeTypeSupport(mimeType);
   }
@@ -42,13 +43,13 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
     new Audio(url);
   }-*/;
 
-  private native int operaGetMimeTypeSupport(String mimeType)
+  private native MimeTypeSupport operaGetMimeTypeSupport(String mimeType)
   /*-{
     var m = navigator.mimeTypes[mimeType];
     // Note, m != null occurs in many browsers for well known MIME types
     // even though the MIME type is not supported without a plug-in
     return (m != null && m.description && m.description.length > 0)
-        ? @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_SUPPORTED
-        : @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_UNSUPPORTED;
+        ? @com.allen_sauer.gwt.voices.client.SoundController::MimeTypeSupport.MIME_TYPE_SUPPORTED
+        : @com.allen_sauer.gwt.voices.client.SoundController::MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
   }-*/;
 }

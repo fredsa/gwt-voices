@@ -19,6 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
 
 /**
@@ -31,7 +32,7 @@ public class NativeSoundWidget extends Widget {
     impl = (NativeSoundImpl) GWT.create(NativeSoundImpl.class);
   }
 
-  public static int getMimeTypeSupport(String mimeType) {
+  public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
     return impl.getMimeTypeSupport(mimeType);
   }
 
