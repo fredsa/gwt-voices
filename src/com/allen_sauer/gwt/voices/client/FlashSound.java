@@ -15,9 +15,9 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
-import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
-
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
 
 import java.util.ArrayList;
 
