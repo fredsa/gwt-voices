@@ -17,6 +17,8 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
  * for standard browsers.
@@ -33,7 +35,7 @@ public abstract class NativeSoundImplStandard extends NativeSoundImpl {
   }-*/;
 
   @Override
-  public native int getMimeTypeSupport(String mimeType)
+  public native MimeTypeSupport getMimeTypeSupport(String mimeType)
   /*-{
     var m = navigator.mimeTypes[mimeType];
     // Note, m != null occurs in many browsers for well known MIME types

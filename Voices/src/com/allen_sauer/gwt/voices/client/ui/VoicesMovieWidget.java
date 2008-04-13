@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Element;
 import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
   private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
-  private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
+  private MimeTypeSupport flashSupport = SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
   private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
   public VoicesMovieWidget(String id) {
@@ -41,9 +42,9 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
     // Flash Player version check for ExternalInterface support
     if (isExternalInterfaceSupported()) {
-      flashSupport = SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED;
+      flashSupport = SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED_NOT_LOADED;
     } else {
-      flashSupport = SoundController.MIME_TYPE_UNSUPPORTED;
+      flashSupport = SoundController.MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
       DeferredCommand.addCommand(new Command() {
         public void execute() {
           movieUnsupported();
@@ -58,14 +59,14 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     return super.getElement();
   }
 
-  public int getMimeTypeSupport(String mimeType) {
+  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     switch (flashSupport) {
-      case SoundController.MIME_TYPE_SUPPORTED:
-      case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
+      case MIME_TYPE_SUPPORTED:
+      case MIME_TYPE_SUPPORTED_NOT_LOADED:
         return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType)
-            ? SoundController.MIME_TYPE_SUPPORTED : SoundController.MIME_TYPE_UNSUPPORTED;
-      case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
-      case SoundController.MIME_TYPE_UNSUPPORTED:
+            ? SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED : SoundController.MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
+      case MIME_TYPE_SUPPORT_UNKNOWN:
+      case MIME_TYPE_UNSUPPORTED:
         return flashSupport;
       default:
         throw new RuntimeException("Unhandled flash support value " + flashSupport);
@@ -73,13 +74,13 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   public void playSound(int id) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
       callPlaySound(id);
     }
   }
 
   public void registerSound(FlashSound flashSound) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
       doCreateSound(flashSound);
     } else {
       unitializedSoundList.add(flashSound);
@@ -87,19 +88,19 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   public void setBalance(int id, int balance) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
       callSetBalance(id, balance);
     }
   }
 
   public void setVolume(int id, int volume) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
       callSetVolume(id, volume);
     }
   }
 
   public void stopSound(int id) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
       callStopSound(id);
     }
   }
@@ -218,7 +219,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
   @SuppressWarnings("unused")
   private void movieReady() {
-    flashSupport = SoundController.MIME_TYPE_SUPPORTED;
+    flashSupport = SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED;
     for (Iterator<FlashSound> iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
       FlashSound flashSound = iterator.next();
       doCreateSound(flashSound);
