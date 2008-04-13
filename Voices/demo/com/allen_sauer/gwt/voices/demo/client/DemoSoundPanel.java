@@ -61,17 +61,17 @@ public class DemoSoundPanel extends Composite {
             loadStateHTML.setHTML("&nbsp; (load state: <code>" + event.getLoadStateAsString()
                 + "</code>)");
             switch (event.getLoadState()) {
-              case LOAD_STATE_LOADED:
-              case LOAD_STATE_SUPPORTED_NOT_LOADED:
-              case LOAD_STATE_SUPPORTED:
+              case LOAD_STATE_SUPPORTED_AND_READY:
+              case LOAD_STATE_SUPPORTED_NOT_READY:
+              case LOAD_STATE_SUPPORTED_MAYBE_READY:
                 playButton.setEnabled(true);
                 playButton.setText("play");
                 break;
-              case LOAD_STATE_UNSUPPORTED:
+              case LOAD_STATE_NOT_SUPPORTED:
                 playButton.setEnabled(false);
                 playButton.setText("(plugin unavailable)");
                 break;
-              case LOAD_STATE_UNKNOWN:
+              case LOAD_STATE_NOT_KNOWN:
                 playButton.setEnabled(true);
                 playButton.setText("play (may not work)");
                 break;

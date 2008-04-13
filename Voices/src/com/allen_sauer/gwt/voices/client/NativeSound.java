@@ -31,16 +31,16 @@ public class NativeSound extends AbstractSound {
     MimeTypeSupport mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
       case MIME_TYPE_SUPPORT_READY:
-        setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED);
+        setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED_MAYBE_READY);
         break;
       case MIME_TYPE_NOT_SUPPORTED:
-        setLoadState(Sound.LoadState.LOAD_STATE_UNSUPPORTED);
+        setLoadState(Sound.LoadState.LOAD_STATE_NOT_SUPPORTED);
         break;
       case MIME_TYPE_SUPPORT_UNKNOWN:
-        setLoadState(Sound.LoadState.LOAD_STATE_UNKNOWN);
+        setLoadState(Sound.LoadState.LOAD_STATE_NOT_KNOWN);
         break;
       case MIME_TYPE_SUPPORT_NOT_READY:
-        setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED_NOT_LOADED);
+        setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED_NOT_READY);
         break;
       default:
         throw new IllegalArgumentException("unknown MIME type support " + mimeTypeSupport);

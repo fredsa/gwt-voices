@@ -24,15 +24,15 @@ import java.util.EventObject;
 public class SoundLoadStateChangeEvent extends EventObject {
   private static String loadStateToString(LoadState loadState) {
     switch (loadState) {
-      case LOAD_STATE_LOADED:
+      case LOAD_STATE_SUPPORTED_AND_READY:
         return "loaded";
-      case LOAD_STATE_SUPPORTED_NOT_LOADED:
+      case LOAD_STATE_SUPPORTED_NOT_READY:
         return "supported; not loaded";
-      case LOAD_STATE_SUPPORTED:
+      case LOAD_STATE_SUPPORTED_MAYBE_READY:
         return "supported";
-      case LOAD_STATE_UNSUPPORTED:
+      case LOAD_STATE_NOT_SUPPORTED:
         return "unsupported";
-      case LOAD_STATE_UNKNOWN:
+      case LOAD_STATE_NOT_KNOWN:
         return "unknown load state";
       case LOAD_STATE_UNINITIALIZED:
         return "uninitialized";
