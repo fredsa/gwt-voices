@@ -18,9 +18,11 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 import com.google.gwt.user.client.Element;
 
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
+
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
@@ -48,8 +50,8 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
 
   @Override
   public MimeTypeSupport getMimeTypeSupport(String mimeType) {
-    return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType)
-        ? SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY : SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+    return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType) ? MIME_TYPE_SUPPORT_READY
+        : MIME_TYPE_NOT_SUPPORTED;
   }
 
   @Override

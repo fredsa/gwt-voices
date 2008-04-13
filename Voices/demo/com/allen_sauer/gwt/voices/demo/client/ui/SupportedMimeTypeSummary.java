@@ -21,11 +21,12 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import com.allen_sauer.gwt.voices.demo.client.SupportedMimeTypeSoundController;
+
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends DeferredContentPanel {
@@ -69,7 +70,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       // Native/Plugin based support
       MimeTypeSupport nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
-      if (nativeMimeTypeSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+      if (nativeMimeTypeSupport == MIME_TYPE_SUPPORT_READY) {
         nativeMimeTypeSupportText += " via <code>"
             + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au")
             + "</code>";

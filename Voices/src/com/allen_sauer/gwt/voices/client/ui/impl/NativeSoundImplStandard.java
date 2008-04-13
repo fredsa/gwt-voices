@@ -43,8 +43,8 @@ public abstract class NativeSoundImplStandard extends NativeSoundImpl {
     // Note, m != null occurs in many browsers for well known MIME types
     // even though the MIME type is not supported without a plug-in
     return (m != null && m.enabledPlugin != null)
-        ? @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_SUPPORTED
-        : @com.allen_sauer.gwt.voices.client.SoundController::MIME_TYPE_UNSUPPORTED;
+        ? @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_READY
+        : @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_NOT_SUPPORTED;
   }-*/;
 
   @Override

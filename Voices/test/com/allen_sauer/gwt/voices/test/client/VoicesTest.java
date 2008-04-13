@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class VoicesTest implements EntryPoint {
   private static native String getCompatMode()
   /*-{
