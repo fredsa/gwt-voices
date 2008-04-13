@@ -69,7 +69,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       // Native/Plugin based support
       MimeTypeSupport nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
-      if (nativeMimeTypeSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED) {
+      if (nativeMimeTypeSupport == SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
         nativeMimeTypeSupportText += " via <code>"
             + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au")
             + "</code>";
@@ -91,11 +91,11 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     String text;
     String color;
     switch (mimeTypeSupport) {
-      case MIME_TYPE_SUPPORTED:
+      case MIME_TYPE_SUPPORT_READY:
         text = "Supported";
         color = "#00BB00";
         break;
-      case MIME_TYPE_UNSUPPORTED:
+      case MIME_TYPE_NOT_SUPPORTED:
         text = "Unsupported";
         color = "#BB0000";
         break;
@@ -103,7 +103,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
         text = "Support Unknown";
         color = "#FF8040";
         break;
-      case MIME_TYPE_SUPPORTED_NOT_LOADED:
+      case MIME_TYPE_SUPPORT_NOT_READY:
         text = "Supported, but not (yet) Loaded";
         color = "#0000BB";
         break;
