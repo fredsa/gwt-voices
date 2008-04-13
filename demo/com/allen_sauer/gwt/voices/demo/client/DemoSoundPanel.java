@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
+import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
@@ -50,7 +50,7 @@ public class DemoSoundPanel extends Composite {
 
     // enable the play button once the sound has loaded
     thirdPartySound.getSound().addEventHandler(new SoundHandler() {
-      public void onSoundComplete(SoundCompleteEvent event) {
+      public void onPlaybackComplete(PlaybackCompleteEvent event) {
       }
 
       public void onSoundLoadStateChange(final SoundLoadStateChangeEvent event) {

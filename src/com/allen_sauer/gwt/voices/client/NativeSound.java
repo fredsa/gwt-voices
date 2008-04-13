@@ -21,7 +21,13 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
+/**
+ * Sound object representing sounds which can be played back
+ * natively by the browser, i.e. without additional plugins.
+ */
 public class NativeSound extends AbstractSound {
+  // CHECKSTYLE_JAVADOC_OFF
+
   private final NativeSoundWidget nativeSoundWidget;
   private int volume;
 

@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.client.util;
 
 import com.google.gwt.user.client.Element;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class DOMUtil {
   private static int uniqueId = 1000;
 

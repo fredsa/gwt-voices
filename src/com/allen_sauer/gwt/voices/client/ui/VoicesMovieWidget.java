@@ -200,10 +200,10 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
 
-    $doc.VoicesMovie[id].soundCompleted = function(id) {
+    $doc.VoicesMovie[id].playbackCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          @com.allen_sauer.gwt.voices.client.FlashSound::soundCompleted(I)(id);
+          @com.allen_sauer.gwt.voices.client.FlashSound::playbackCompleted(I)(id);
         });
         return true;
       } catch(e) {

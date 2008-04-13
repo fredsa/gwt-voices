@@ -27,6 +27,8 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
  * for Opera.
  */
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
+//CHECKSTYLE_JAVADOC_OFF
+
   private static final String[] SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   @Override

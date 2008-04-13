@@ -19,12 +19,18 @@ import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 
 import java.util.ArrayList;
 
+/**
+ * <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>
+ * based sound.
+ */
 public class FlashSound extends AbstractSound {
+  // CHECKSTYLE_JAVADOC_OFF
+
   private static ArrayList<FlashSound> soundList = new ArrayList<FlashSound>();
 
   @SuppressWarnings("unused")
-  private static void soundCompleted(int index) {
-    soundList.get(index).soundCompleted();
+  private static void playbackCompleted(int index) {
+    soundList.get(index).playbackCompleted();
   }
 
   @SuppressWarnings("unused")
@@ -87,8 +93,8 @@ public class FlashSound extends AbstractSound {
     }
   }
 
-  protected void soundCompleted() {
-    soundHandlerCollection.fireOnSoundComplete(this);
+  protected void playbackCompleted() {
+    soundHandlerCollection.fireOnPlaybackComplete(this);
   }
 
   protected void soundLoaded() {

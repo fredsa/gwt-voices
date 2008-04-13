@@ -24,6 +24,8 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
  * cross-browser implementation.
  */
 public abstract class NativeSoundImpl {
+//CHECKSTYLE_JAVADOC_OFF
+
   public abstract Element createElement(String url);
 
   public abstract MimeTypeSupport getMimeTypeSupport(String mimeType);
