@@ -229,7 +229,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
   private void movieUnsupported() {
     for (FlashSound flashSound : unitializedSoundList) {
-      flashSound.setLoadState(Sound.LoadState.LOAD_STATE_UNSUPPORTED);
+      flashSound.setLoadState(Sound.LoadState.LOAD_STATE_NOT_SUPPORTED);
       // Flash plug-in may become available later; do not call iterator.remove()
     }
   }
