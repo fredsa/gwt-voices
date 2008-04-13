@@ -24,6 +24,8 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
  * for standard browsers.
  */
 public abstract class NativeSoundImplStandard extends NativeSoundImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
   @Override
   public native Element createElement(String url)
   /*-{

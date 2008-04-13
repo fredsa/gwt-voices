@@ -22,6 +22,8 @@ import com.google.gwt.user.client.Element;
  * for Webkit/Safari.
  */
 public class NativeSoundImplSafari extends NativeSoundImplStandard {
+  // CHECKSTYLE_JAVADOC_OFF
+
   @Override
   public native void play(Element soundControllerElement, Element elem)
   /*-{

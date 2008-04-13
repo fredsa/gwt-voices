@@ -15,6 +15,8 @@
  */
 package com.allen_sauer.gwt.voices.client.ui;
 
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_NOT_SUPPORTED;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -29,7 +31,9 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class VoicesMovieWidget extends FlashMovieWidget {
+
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
   private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
@@ -229,7 +233,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
   private void movieUnsupported() {
     for (FlashSound flashSound : unitializedSoundList) {
-      flashSound.setLoadState(Sound.LoadState.LOAD_STATE_NOT_SUPPORTED);
+      flashSound.setLoadState(LOAD_STATE_NOT_SUPPORTED);
       // Flash plug-in may become available later; do not call iterator.remove()
     }
   }

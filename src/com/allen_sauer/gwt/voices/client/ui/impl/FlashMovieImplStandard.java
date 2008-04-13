@@ -22,6 +22,8 @@ import com.google.gwt.user.client.Element;
  * for standard browsers.
  */
 public abstract class FlashMovieImplStandard extends FlashMovieImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
   @Override
   public native Element createElementMaybeSetURL(String id, String url)
   /*-{

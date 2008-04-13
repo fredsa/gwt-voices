@@ -25,15 +25,15 @@ public class SoundLoadStateChangeEvent extends EventObject {
   private static String loadStateToString(LoadState loadState) {
     switch (loadState) {
       case LOAD_STATE_SUPPORTED_AND_READY:
-        return "loaded";
+        return "supported and ready";
       case LOAD_STATE_SUPPORTED_NOT_READY:
-        return "supported; not loaded";
+        return "supported; not ready";
       case LOAD_STATE_SUPPORTED_MAYBE_READY:
-        return "supported";
+        return "supported; maybe ready";
       case LOAD_STATE_NOT_SUPPORTED:
-        return "unsupported";
-      case LOAD_STATE_NOT_KNOWN:
-        return "unknown load state";
+        return "not supported";
+      case LOAD_STATE_SUPPORT_NOT_KNOWN:
+        return "support not known";
       case LOAD_STATE_UNINITIALIZED:
         return "uninitialized";
       default:

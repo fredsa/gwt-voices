@@ -24,6 +24,8 @@ import com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl;
  * Flash movie widget.
  */
 public class FlashMovieWidget extends Widget {
+  // CHECKSTYLE_JAVADOC_OFF
+
   /**
    * Flash movie MIME type. Typical filename extension is <code>.swf</code>.
    */

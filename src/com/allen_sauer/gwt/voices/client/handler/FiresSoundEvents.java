@@ -16,7 +16,7 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 /**
- * Interface for classes wishing to fire sound events
+ * Interface for classes wishing to fire sound events.
  */
 public interface FiresSoundEvents {
   /**
