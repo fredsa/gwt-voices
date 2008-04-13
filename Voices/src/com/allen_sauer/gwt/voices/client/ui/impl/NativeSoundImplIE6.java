@@ -49,7 +49,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   @Override
   public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     return StringUtil.contains(BGSOUND_SUPPORTED_MIME_TYPES, mimeType)
-        ? SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED : SoundController.MimeTypeSupport.MIME_TYPE_UNSUPPORTED;
+        ? SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY : SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
   }
 
   @Override

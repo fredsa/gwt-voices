@@ -32,7 +32,7 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
   @Override
   public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     if (StringUtil.contains(SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES, mimeType)) {
-      return SoundController.MimeTypeSupport.MIME_TYPE_SUPPORTED;
+      return SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
     }
     return operaGetMimeTypeSupport(mimeType);
   }
