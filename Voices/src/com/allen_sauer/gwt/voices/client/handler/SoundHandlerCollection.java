@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class SoundHandlerCollection extends ArrayList<SoundHandler> {
-  public void fireOnSoundComplete(Object sender) {
-    SoundCompleteEvent event = new SoundCompleteEvent(sender);
+  public void fireOnPlaybackComplete(Object sender) {
+    PlaybackCompleteEvent event = new PlaybackCompleteEvent(sender);
 
     for (SoundHandler handler : this) {
-      handler.onSoundComplete(event);
+      handler.onPlaybackComplete(event);
     }
   }
 

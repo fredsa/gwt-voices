@@ -17,14 +17,10 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.user.client.ui.HTML;
 
-import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
+import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
-/**
- * Shared drag handler which display events as they are received by the various
- * drag controllers.
- */
 public final class DemoSoundHandler implements SoundHandler {
   // CHECKSTYLE_JAVADOC_OFF
   private static final String BLUE = "blue";
@@ -35,7 +31,7 @@ public final class DemoSoundHandler implements SoundHandler {
     eventTextArea = dragHandlerHTML;
   }
 
-  public void onSoundComplete(SoundCompleteEvent event) {
+  public void onPlaybackComplete(PlaybackCompleteEvent event) {
     log(event.toString(), GREEN);
   }
 

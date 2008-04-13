@@ -18,7 +18,7 @@ package com.allen_sauer.gwt.voices.client.handler;
 import java.util.EventListener;
 
 public interface SoundHandler extends EventListener {
-  void onSoundComplete(SoundCompleteEvent event);
+  void onPlaybackComplete(PlaybackCompleteEvent event);
 
   void onSoundLoadStateChange(SoundLoadStateChangeEvent event);
 }

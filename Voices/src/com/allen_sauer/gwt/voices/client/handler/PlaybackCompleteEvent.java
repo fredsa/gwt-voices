@@ -19,15 +19,23 @@ import com.allen_sauer.gwt.voices.client.Sound;
 
 import java.util.EventObject;
 
+/**
+ * Event object when play back of a sound completes.
+ */
 @SuppressWarnings("serial")
-public class SoundCompleteEvent extends EventObject {
-  public SoundCompleteEvent(Object source) {
+public class PlaybackCompleteEvent extends EventObject {
+  /**
+   * Constructor, used by {@link SoundHandlerCollection}.
+   *
+   * @param source the {@link Sound} object which completed play back
+   */
+  public PlaybackCompleteEvent(Object source) {
     super(source);
   }
 
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "SoundCompleteEvent: " + sound;
+    return "PlaybackCompleteEvent: " + sound;
   }
 }
