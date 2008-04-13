@@ -15,6 +15,8 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
+
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class FlashSound extends AbstractSound {
   }
 
   public void play() {
-    if (getLoadState() == Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.playSound(soundNumber);
     } else {
       playSoundWhenLoaded = true;
@@ -73,20 +75,20 @@ public class FlashSound extends AbstractSound {
   }
 
   public void setBalance(int balance) {
-    if (getLoadState() == Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
     }
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    if (getLoadState() == Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setVolume(soundNumber, volume);
     }
   }
 
   public void stop() {
-    if (getLoadState() == Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.stopSound(soundNumber);
     } else {
       playSoundWhenLoaded = false;
@@ -98,7 +100,7 @@ public class FlashSound extends AbstractSound {
   }
 
   protected void soundLoaded() {
-    setLoadState(Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY);
+    setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
     }

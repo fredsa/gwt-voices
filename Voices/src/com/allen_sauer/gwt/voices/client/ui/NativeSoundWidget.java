@@ -23,9 +23,11 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
 
 /**
- * Flash movie widget.
+ * Native sound widget.
  */
 public class NativeSoundWidget extends Widget {
+  // CHECKSTYLE_JAVADOC_OFF
+
   protected static NativeSoundImpl impl;
 
   static {

@@ -14,13 +14,12 @@
  * the License.
  */
 package com.allen_sauer.gwt.voices.client;
-
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandlerCollection;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 abstract class AbstractSound implements Sound {
-  private static final LoadState INITIAL_LOAD_STATE = Sound.LoadState.LOAD_STATE_UNINITIALIZED;
+  private static final LoadState INITIAL_LOAD_STATE = LOAD_STATE_UNINITIALIZED;
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
 
   private LoadState loadState = INITIAL_LOAD_STATE;

@@ -26,16 +26,16 @@ public interface Sound extends FiresSoundEvents {
    */
   enum LoadState {
     /**
-     * The sound load state is unknown, and cannot be determined. Hope for the best.
-     * Calling {@link Sound#play()} may or may not work.
-     */
-    LOAD_STATE_NOT_KNOWN,
-
-    /**
      * Play back of this sound's MIME type is known NOT to be supported.
      * Calling {@link Sound#play()} may in rare occasions still work.
      */
     LOAD_STATE_NOT_SUPPORTED,
+
+    /**
+     * The sound load state is unknown, and cannot be determined. Hope for the best.
+     * Calling {@link Sound#play()} may or may not work.
+     */
+    LOAD_STATE_SUPPORT_NOT_KNOWN,
 
     /**
      * Play back of this sound's MIME type is supported and this sound object
@@ -93,10 +93,10 @@ public interface Sound extends FiresSoundEvents {
   LoadState LOAD_STATE_UNINITIALIZED = LoadState.LOAD_STATE_UNINITIALIZED;
 
   /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_NOT_KNOWN} enum value instead.
+   * @deprecated Use {@link LoadState#LOAD_STATE_SUPPORT_NOT_KNOWN} enum value instead.
    */
   @Deprecated
-  LoadState LOAD_STATE_UNKNOWN = LoadState.LOAD_STATE_NOT_KNOWN;
+  LoadState LOAD_STATE_UNKNOWN = LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
   /**
    * @deprecated Use {@link LoadState#LOAD_STATE_NOT_SUPPORTED} enum value instead.
@@ -139,21 +139,65 @@ public interface Sound extends FiresSoundEvents {
    */
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
 
+  /**
+   * Determine the current {@link LoadState} of this sound.
+   *
+   * @return current {@link LoadState}
+   */
   LoadState getLoadState();
 
+  /**
+   * Determine this sound's MIME type.
+   *
+   * @return this sound's MIME type
+   */
   String getMimeType();
 
+  /**
+   * Get a brief, human readable, description of the sound type,
+   * which is an indication of the mechanism used for play back.
+   * The returned value is subject to change and is not intended
+   * to be machine parseable.
+   *
+   * @return brief text describing type of sound
+   */
   String getSoundType();
 
+  /**
+   * Determine the URL for this sound.
+   *
+   * @return this sound's URL
+   */
   String getUrl();
 
+  /**
+   * Determine the current volume (range <code>0..100</code>).
+   *
+   * @return this sound's current play back volume (range <code>0..100</code>)
+   */
   int getVolume();
 
+  /**
+   * Play (or restart) this sound.
+   */
   void play();
 
+  /**
+   * Set the left/right speaker balance (range <code>-100..100</code>).
+   *
+   * @param balance new balance (range <code>-100..100</code>)
+   */
   void setBalance(int balance);
 
+  /**
+   * Set this sound's volume (range <code>0..100</code>).
+   *
+   * @param volume new volume (range <code>0..100</code>)
+   */
   void setVolume(int volume);
 
+  /**
+   * Stop play back of this sound.
+   */
   void stop();
 }

@@ -22,6 +22,8 @@ import com.google.gwt.user.client.Element;
  * cross-browser implementation.
  */
 public abstract class FlashMovieImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
   public abstract Element createElementMaybeSetURL(String id, String url);
 
   /**

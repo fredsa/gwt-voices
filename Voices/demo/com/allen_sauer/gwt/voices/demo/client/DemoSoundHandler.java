@@ -21,14 +21,18 @@ import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
+/**
+ * Sound handler for the online demo, which displays sound
+ * events as they occur.
+ */
 public final class DemoSoundHandler implements SoundHandler {
   // CHECKSTYLE_JAVADOC_OFF
   private static final String BLUE = "blue";
   private static final String GREEN = "green";
   private final HTML eventTextArea;
 
-  public DemoSoundHandler(HTML dragHandlerHTML) {
-    eventTextArea = dragHandlerHTML;
+  public DemoSoundHandler(HTML soundHandlerHTML) {
+    eventTextArea = soundHandlerHTML;
   }
 
   public void onPlaybackComplete(PlaybackCompleteEvent event) {
