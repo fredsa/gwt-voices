@@ -38,16 +38,18 @@ public class NativeSoundWidget extends Widget {
     return impl.getMimeTypeSupport(mimeType);
   }
 
+  private final String mimeType;
   private final Element soundControllerElement;
 
   public NativeSoundWidget(Element soundControllerElement, String mimeType, String url) {
     this.soundControllerElement = soundControllerElement;
+    this.mimeType = mimeType;
     impl.preload(soundControllerElement, mimeType, url);
     setElement(impl.createElement(url));
   }
 
   public void play() {
-    impl.play(soundControllerElement, getElement());
+    impl.play(soundControllerElement, getElement(), mimeType);
   }
 
   public void setBalance(int balance) {

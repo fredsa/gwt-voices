@@ -30,7 +30,7 @@ public abstract class NativeSoundImpl {
 
   public abstract MimeTypeSupport getMimeTypeSupport(String mimeType);
 
-  public native void play(Element soundControllerElement, Element elem)
+  public native void play(Element soundControllerElement, Element elem, String mimeType)
   /*-{
     soundControllerElement.appendChild(elem);
   }-*/;
@@ -38,7 +38,7 @@ public abstract class NativeSoundImpl {
   public void preload(Element soundControllerElement, String mimeType, String url) {
     Element elem = createElement(url);
     setVolume(elem, 0);
-    play(soundControllerElement, elem);
+    play(soundControllerElement, elem, mimeType);
   }
 
   public abstract void setBalance(Element elem, int balancePercentage);
