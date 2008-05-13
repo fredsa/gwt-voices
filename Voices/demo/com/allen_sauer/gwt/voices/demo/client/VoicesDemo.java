@@ -89,6 +89,10 @@ public class VoicesDemo implements EntryPoint {
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Bass_sample2.mid",
             "Bass_sample2.mid",
             "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),
+        new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Drum_sample.mid",
+            "Drum_sample.mid",
+            "http://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid",
             "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
 
     for (ThirdPartySound element : freeSounds) {
