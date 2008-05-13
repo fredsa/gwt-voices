@@ -41,6 +41,11 @@ public class DemoSoundPanel extends Composite {
     playButton.addStyleName("voices-button");
     horizontalPanel.add(playButton);
 
+    final Button stopButton = new Button("wait...");
+    stopButton.setEnabled(false);
+    stopButton.addStyleName("voices-button");
+    horizontalPanel.add(stopButton);
+
     // display a description of the sound next to the button
     horizontalPanel.add(new HTML("&nbsp;" + thirdPartySound.toHTMLString()));
 
@@ -66,14 +71,17 @@ public class DemoSoundPanel extends Composite {
               case LOAD_STATE_SUPPORTED_MAYBE_READY:
                 playButton.setEnabled(true);
                 playButton.setText("play");
+                stopButton.setEnabled(true);
+                stopButton.setText("stop");
                 break;
               case LOAD_STATE_NOT_SUPPORTED:
-                playButton.setEnabled(false);
                 playButton.setText("(plugin unavailable)");
                 break;
               case LOAD_STATE_SUPPORT_NOT_KNOWN:
                 playButton.setEnabled(true);
                 playButton.setText("play (may not work)");
+                stopButton.setEnabled(true);
+                stopButton.setText("stop");
                 break;
               case LOAD_STATE_UNINITIALIZED:
               default:
@@ -88,6 +96,12 @@ public class DemoSoundPanel extends Composite {
     playButton.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         thirdPartySound.getSound().play();
+      }
+    });
+
+    stopButton.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        thirdPartySound.getSound().stop();
       }
     });
   }
