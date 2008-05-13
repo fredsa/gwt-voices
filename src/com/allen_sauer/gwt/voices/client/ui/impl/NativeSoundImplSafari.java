@@ -25,7 +25,7 @@ public class NativeSoundImplSafari extends NativeSoundImplStandard {
   // CHECKSTYLE_JAVADOC_OFF
 
   @Override
-  public native void play(Element soundControllerElement, Element elem)
+  public native void play(Element soundControllerElement, Element elem, String mimeType)
   /*-{
     var parent = elem.parentNode;
     if (parent != null) {

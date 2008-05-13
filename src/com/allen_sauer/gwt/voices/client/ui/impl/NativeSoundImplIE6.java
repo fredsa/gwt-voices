@@ -24,13 +24,13 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
+import java.util.HashMap;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
  * for IE.
  */
 public class NativeSoundImplIE6 extends NativeSoundImpl {
-  // CHECKSTYLE_JAVADOC_OFF
-  private static final String[] BGSOUND_NO_VOLUME_CONTROL_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_MIDI,};
   /**
    * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply
    * a background sound to a Web page in FrontPage</a> knowledge base article.
@@ -38,6 +38,13 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   private static final String[] BGSOUND_SUPPORTED_MIME_TYPES = {
       Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_X_MIDI,
       Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV,};
+
+  // CHECKSTYLE_JAVADOC_OFF
+  private static final String[] MIME_TYPES_BGSOUND_NO_VOLUME_CONTROL = {Sound.MIME_TYPE_AUDIO_X_MIDI,};
+
+  private static final String[] MIME_TYPES_ONE_AT_ATIME = {Sound.MIME_TYPE_AUDIO_X_MIDI,};
+
+  private static final HashMap<String, Element> oneAtATimeElements = new HashMap<String, Element>();
 
   @Override
   public native Element createElement(String url)
@@ -55,8 +62,20 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   }
 
   @Override
+  public void play(Element soundControllerElement, Element elem, String mimeType) {
+    Element currentElement = oneAtATimeElements.remove(mimeType);
+    if (currentElement != null) {
+      stop(currentElement);
+    }
+    if (StringUtil.contains(MIME_TYPES_ONE_AT_ATIME, mimeType)) {
+      oneAtATimeElements.put(mimeType, elem);
+    }
+    super.play(soundControllerElement, elem, mimeType);
+  }
+
+  @Override
   public void preload(Element soundControllerElement, String mimeType, String url) {
-    if (!StringUtil.contains(BGSOUND_NO_VOLUME_CONTROL_MIME_TYPES, mimeType)) {
+    if (!StringUtil.contains(MIME_TYPES_BGSOUND_NO_VOLUME_CONTROL, mimeType)) {
       super.preload(soundControllerElement, mimeType, url);
     }
   }
