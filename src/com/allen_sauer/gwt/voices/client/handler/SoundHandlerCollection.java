@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,23 +16,21 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class SoundHandlerCollection extends ArrayList {
-  public void fireOnSoundComplete(Object sender) {
-    SoundCompleteEvent event = new SoundCompleteEvent(sender);
+@SuppressWarnings("serial")
+public class SoundHandlerCollection extends ArrayList<SoundHandler> {
+  public void fireOnPlaybackComplete(Object sender) {
+    PlaybackCompleteEvent event = new PlaybackCompleteEvent(sender);
 
-    for (Iterator it = iterator(); it.hasNext();) {
-      SoundHandler handler = (SoundHandler) it.next();
-      handler.onSoundComplete(event);
+    for (SoundHandler handler : this) {
+      handler.onPlaybackComplete(event);
     }
   }
 
   public void fireOnSoundLoadStateChange(Object sender) {
     SoundLoadStateChangeEvent event = new SoundLoadStateChangeEvent(sender);
 
-    for (Iterator it = iterator(); it.hasNext();) {
-      SoundHandler handler = (SoundHandler) it.next();
+    for (SoundHandler handler : this) {
       handler.onSoundLoadStateChange(event);
     }
   }

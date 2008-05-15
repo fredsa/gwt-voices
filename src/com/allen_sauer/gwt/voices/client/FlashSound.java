@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,20 +17,29 @@ package com.allen_sauer.gwt.voices.client;
 
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
+
 import java.util.ArrayList;
 
+/**
+ * <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>
+ * based sound.
+ */
 public class FlashSound extends AbstractSound {
-  private static ArrayList soundList = new ArrayList();
+  // CHECKSTYLE_JAVADOC_OFF
 
-  private static void soundCompleted(int index) {
-    ((FlashSound) soundList.get(index)).soundCompleted();
+  private static ArrayList<FlashSound> soundList = new ArrayList<FlashSound>();
+
+  @SuppressWarnings("unused")
+  private static void playbackCompleted(int index) {
+    soundList.get(index).playbackCompleted();
   }
 
+  @SuppressWarnings("unused")
   private static void soundLoaded(final int index) {
-    ((FlashSound) soundList.get(index)).soundLoaded();
+    soundList.get(index).soundLoaded();
   }
 
-  private int balance = 0;
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private final VoicesMovieWidget voicesMovie;
@@ -48,6 +57,7 @@ public class FlashSound extends AbstractSound {
     return soundNumber;
   }
 
+  @Override
   public String getSoundType() {
     return "Flash";
   }
@@ -57,7 +67,7 @@ public class FlashSound extends AbstractSound {
   }
 
   public void play() {
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.playSound(soundNumber);
     } else {
       playSoundWhenLoaded = true;
@@ -65,33 +75,32 @@ public class FlashSound extends AbstractSound {
   }
 
   public void setBalance(int balance) {
-    this.balance = balance;
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
     }
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setVolume(soundNumber, volume);
     }
   }
 
   public void stop() {
-    if (getLoadState() == Sound.LOAD_STATE_LOADED) {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.stopSound(soundNumber);
     } else {
       playSoundWhenLoaded = false;
     }
   }
 
-  protected void soundCompleted() {
-    soundHandlerCollection.fireOnSoundComplete(this);
+  protected void playbackCompleted() {
+    soundHandlerCollection.fireOnPlaybackComplete(this);
   }
 
   protected void soundLoaded() {
-    setLoadState(Sound.LOAD_STATE_LOADED);
+    setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
     }

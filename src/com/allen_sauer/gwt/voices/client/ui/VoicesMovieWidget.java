@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,18 +22,26 @@ import com.google.gwt.user.client.Element;
 
 import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
+
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_NOT_SUPPORTED;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class VoicesMovieWidget extends FlashMovieWidget {
+
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
   private static final String GWT_VOICES_SWF = "gwt-voices.swf";
 
-  private int flashSupport = SoundController.MIME_TYPE_SUPPORT_UNKNOWN;
-  private ArrayList unitializedSoundList = new ArrayList();
+  private MimeTypeSupport flashSupport = MIME_TYPE_SUPPORT_UNKNOWN;
+  private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
   public VoicesMovieWidget(String id) {
     super(id, GWT_VOICES_SWF);
@@ -41,9 +49,9 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
     // Flash Player version check for ExternalInterface support
     if (isExternalInterfaceSupported()) {
-      flashSupport = SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED;
+      flashSupport = MIME_TYPE_SUPPORT_NOT_READY;
     } else {
-      flashSupport = SoundController.MIME_TYPE_UNSUPPORTED;
+      flashSupport = MIME_TYPE_NOT_SUPPORTED;
       DeferredCommand.addCommand(new Command() {
         public void execute() {
           movieUnsupported();
@@ -53,18 +61,19 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   // JSNI Helper for GWT Issue 1651 (JSNI inherited method support in web mode)
+  @Override
   public Element getElement() {
     return super.getElement();
   }
 
-  public int getMimeTypeSupport(String mimeType) {
+  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
     switch (flashSupport) {
-      case SoundController.MIME_TYPE_SUPPORTED:
-      case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
-        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? SoundController.MIME_TYPE_SUPPORTED
-            : SoundController.MIME_TYPE_UNSUPPORTED;
-      case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
-      case SoundController.MIME_TYPE_UNSUPPORTED:
+      case MIME_TYPE_SUPPORT_READY:
+      case MIME_TYPE_SUPPORT_NOT_READY:
+        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? MIME_TYPE_SUPPORT_READY
+            : MIME_TYPE_NOT_SUPPORTED;
+      case MIME_TYPE_SUPPORT_UNKNOWN:
+      case MIME_TYPE_NOT_SUPPORTED:
         return flashSupport;
       default:
         throw new RuntimeException("Unhandled flash support value " + flashSupport);
@@ -72,13 +81,13 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   public void playSound(int id) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
       callPlaySound(id);
     }
   }
 
   public void registerSound(FlashSound flashSound) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
       doCreateSound(flashSound);
     } else {
       unitializedSoundList.add(flashSound);
@@ -86,19 +95,19 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }
 
   public void setBalance(int id, int balance) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
       callSetBalance(id, balance);
     }
   }
 
   public void setVolume(int id, int volume) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
       callSetVolume(id, volume);
     }
   }
 
   public void stopSound(int id) {
-    if (flashSupport == SoundController.MIME_TYPE_SUPPORTED) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
       callStopSound(id);
     }
   }
@@ -107,6 +116,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
    * Defer the actual work of a flash callback so that any exceptions can be
    * caught by the browser or the uncaught exception handler, rather than being
    * swallow by flash.
+   *
+   * @param func the JavaScript function to call
    */
   protected void deferFlashCallback(final JavaScriptObject func) {
     DeferredCommand.addCommand(new Command() {
@@ -121,6 +132,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     });
   }
 
+  @Override
   protected void onUnload() {
     super.onUnload();
     removeFlashCallbackHooks();
@@ -182,7 +194,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         return "Exception: " + e.message + " / " + e.description;
       }
     }
-    
+
     $doc.VoicesMovie[id].soundLoaded = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
@@ -194,11 +206,11 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         return "Exception: " + e.message + " / " + e.description;
       }
     }
-  
-    $doc.VoicesMovie[id].soundCompleted = function(id) {
+
+    $doc.VoicesMovie[id].playbackCompleted = function(id) {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          @com.allen_sauer.gwt.voices.client.FlashSound::soundCompleted(I)(id);
+          @com.allen_sauer.gwt.voices.client.FlashSound::playbackCompleted(I)(id);
         });
         return true;
       } catch(e) {
@@ -212,19 +224,19 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   //    }
   }-*/;
 
+  @SuppressWarnings("unused")
   private void movieReady() {
-    flashSupport = SoundController.MIME_TYPE_SUPPORTED;
-    for (Iterator iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
-      FlashSound flashSound = (FlashSound) iterator.next();
+    flashSupport = MIME_TYPE_SUPPORT_READY;
+    for (Iterator<FlashSound> iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
+      FlashSound flashSound = iterator.next();
       doCreateSound(flashSound);
       iterator.remove();
     }
   }
 
   private void movieUnsupported() {
-    for (Iterator iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
-      FlashSound flashSound = (FlashSound) iterator.next();
-      flashSound.setLoadState(Sound.LOAD_STATE_UNSUPPORTED);
+    for (FlashSound flashSound : unitializedSoundList) {
+      flashSound.setLoadState(LOAD_STATE_NOT_SUPPORTED);
       // Flash plug-in may become available later; do not call iterator.remove()
     }
   }

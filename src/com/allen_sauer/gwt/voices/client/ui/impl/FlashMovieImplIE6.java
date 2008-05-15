@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,6 +22,9 @@ import com.google.gwt.user.client.Element;
  * for IE.
  */
 public class FlashMovieImplIE6 extends FlashMovieImpl {
+  // CHECKSTYLE_JAVADOC_OFF
+
+  @Override
   public native Element createElementMaybeSetURL(String id, String url)
   /*-{
     var elem = $doc.createElement("object");
@@ -37,6 +40,7 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
     return elem;
   }-*/;
 
+  @Override
   public native void maybeSetURL(Element elem, String url)
   /*-{
     elem.Movie = url;
@@ -47,10 +51,11 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
    * <code>WIN&nbsp;9,0,47,0</code> or <code>UNIX&nbsp;9,0,47,0</code>,
    * starting with Flash Player version 4,0,11,0. Earlier versions are not
    * currently detected and result in <code>null</code> being returned.
-   * 
+   *
    * @return IE specific Flash plug-in version string or <code>null</code> if
    *         version could not be determined, or plug-in is unavailable
    */
+  @Override
   protected native String getRawVersionString()
   /*-{
     try {

@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,24 +17,25 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.user.client.ui.HTML;
 
-import com.allen_sauer.gwt.voices.client.handler.SoundCompleteEvent;
+import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 /**
- * Shared drag handler which display events as they are received by the various
- * drag controllers.
+ * Sound handler for the online demo, which displays sound
+ * events as they occur.
  */
 public final class DemoSoundHandler implements SoundHandler {
+  // CHECKSTYLE_JAVADOC_OFF
   private static final String BLUE = "blue";
   private static final String GREEN = "green";
   private final HTML eventTextArea;
 
-  public DemoSoundHandler(HTML dragHandlerHTML) {
-    eventTextArea = dragHandlerHTML;
+  public DemoSoundHandler(HTML soundHandlerHTML) {
+    eventTextArea = soundHandlerHTML;
   }
 
-  public void onSoundComplete(SoundCompleteEvent event) {
+  public void onPlaybackComplete(PlaybackCompleteEvent event) {
     log(event.toString(), GREEN);
   }
 

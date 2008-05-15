@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,30 +16,32 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.Sound.LoadState;
 
 import java.util.EventObject;
 
+@SuppressWarnings("serial")
 public class SoundLoadStateChangeEvent extends EventObject {
-  private static String loadStateToString(int loadState) {
+  private static String loadStateToString(LoadState loadState) {
     switch (loadState) {
-      case Sound.LOAD_STATE_LOADED:
-        return "loaded";
-      case Sound.LOAD_STATE_SUPPORTED_NOT_LOADED:
-        return "supported; not loaded";
-      case Sound.LOAD_STATE_SUPPORTED:
-        return "supported";
-      case Sound.LOAD_STATE_UNSUPPORTED:
-        return "unsupported";
-      case Sound.LOAD_STATE_UNKNOWN:
-        return "unknown load state";
-      case Sound.LOAD_STATE_UNINITIALIZED:
+      case LOAD_STATE_SUPPORTED_AND_READY:
+        return "supported and ready";
+      case LOAD_STATE_SUPPORTED_NOT_READY:
+        return "supported; not ready";
+      case LOAD_STATE_SUPPORTED_MAYBE_READY:
+        return "supported; maybe ready";
+      case LOAD_STATE_NOT_SUPPORTED:
+        return "not supported";
+      case LOAD_STATE_SUPPORT_NOT_KNOWN:
+        return "support not known";
+      case LOAD_STATE_UNINITIALIZED:
         return "uninitialized";
       default:
         throw new IllegalArgumentException("loadState=" + loadState);
     }
   }
 
-  private final int loadState;
+  private final LoadState loadState;
 
   public SoundLoadStateChangeEvent(Object source) {
     super(source);
@@ -47,7 +49,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
     loadState = sound.getLoadState();
   }
 
-  public int getLoadState() {
+  public LoadState getLoadState() {
     return loadState;
   }
 
@@ -55,6 +57,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
     return loadStateToString(loadState);
   }
 
+  @Override
   public String toString() {
     Sound sound = (Sound) getSource();
     return "SoundLoadStateChangeEvent: " + sound + "; state=" + loadStateToString(loadState);

@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,11 +21,14 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
-import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import com.allen_sauer.gwt.voices.demo.client.SupportedMimeTypeSoundController;
 
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
+
+// CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends DeferredContentPanel {
   private static final String CSS_DEMO_SUPPORTED_MIME_TYPE_SUMMARY_TABLE = "demo-SupportedMimeTypeSummary-table";
 
@@ -34,6 +37,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     return navigator.userAgent;
   }-*/;
 
+  @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     containerPanel.clear();
@@ -57,22 +61,23 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     VoicesMovieWidget movieWidget = soundController.getVoicesMovie();
 
     String[] mimeTypes = {
-        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,
-        Sound.MIME_TYPE_AUDIO_X_WAV,};
+        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF,
+        Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
 
     for (int i = 0; i < mimeTypes.length; i++) {
       String mimeType = mimeTypes[i];
 
       // Native/Plugin based support
-      int nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
+      MimeTypeSupport nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
-      if (nativeMimeTypeSupport == SoundController.MIME_TYPE_SUPPORTED) {
+      if (nativeMimeTypeSupport == MIME_TYPE_SUPPORT_READY) {
         nativeMimeTypeSupportText += " via <code>"
-            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au") + "</code>";
+            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au")
+            + "</code>";
       }
 
       // Flash based support
-      int flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
+      MimeTypeSupport flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 
       flexTable.setWidget(i + 1, 0, new HTML("<code>" + mimeType + "</code>"));
@@ -83,23 +88,23 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     return containerPanel;
   }
 
-  private String mimeTypeSupportToString(int mimeTypeSupport) {
+  private String mimeTypeSupportToString(MimeTypeSupport mimeTypeSupport) {
     String text;
     String color;
     switch (mimeTypeSupport) {
-      case SoundController.MIME_TYPE_SUPPORTED:
+      case MIME_TYPE_SUPPORT_READY:
         text = "Supported";
         color = "#00BB00";
         break;
-      case SoundController.MIME_TYPE_UNSUPPORTED:
+      case MIME_TYPE_NOT_SUPPORTED:
         text = "Unsupported";
         color = "#BB0000";
         break;
-      case SoundController.MIME_TYPE_SUPPORT_UNKNOWN:
+      case MIME_TYPE_SUPPORT_UNKNOWN:
         text = "Support Unknown";
         color = "#FF8040";
         break;
-      case SoundController.MIME_TYPE_SUPPORTED_NOT_LOADED:
+      case MIME_TYPE_SUPPORT_NOT_READY:
         text = "Supported, but not (yet) Loaded";
         color = "#0000BB";
         break;

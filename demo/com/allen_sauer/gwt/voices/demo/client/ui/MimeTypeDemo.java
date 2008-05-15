@@ -1,12 +1,12 @@
 /*
- * Copyright 2007 Fred Sauer
- * 
+ * Copyright 2008 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -26,19 +26,21 @@ import com.allen_sauer.gwt.voices.demo.client.DemoSoundPanel;
 import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
+// CHECKSTYLE_JAVADOC_OFF
 public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
-  private final ArrayList freesoundList;
+  private final ArrayList<ThirdPartySound> freesoundList;
   private final String mimeType;
 
-  public MimeTypeDemo(String mimeType, ArrayList freesoundList, DemoSoundHandler demoSoundHandler) {
+  public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList,
+      DemoSoundHandler demoSoundHandler) {
     this.mimeType = mimeType;
     this.freesoundList = freesoundList;
     this.demoSoundHandler = demoSoundHandler;
   }
 
+  @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
@@ -46,19 +48,20 @@ public class MimeTypeDemo extends DeferredContentPanel {
     HTML note = null;
     VerticalPanel soundsPanel = new VerticalPanel();
 
-    for (Iterator iterator = freesoundList.iterator(); iterator.hasNext();) {
-      ThirdPartySound thirdPartySound = (ThirdPartySound) iterator.next();
+    for (ThirdPartySound thirdPartySound : freesoundList) {
       Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL());
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
       if (note == null) {
-        note = new HTML("Note:<ul><li>Some browsers will play these sound files natively, while others may require"
-            + " plugins such as <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,"
-            + " <a href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a>"
-            + " or <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>"
-            + " in order to hear sound.</li>\n"
-            + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)" + " <b>"
-            + sound.getSoundType() + "</b> to play <code>" + mimeType + "</code> sounds.</li></ul>");
+        note = new HTML(
+            "Note:<ul><li>Some browsers will play these sound files natively, while others may require"
+                + " plugins such as <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>,"
+                + " <a href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a>"
+                + " or <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>"
+                + " in order to hear sound.</li>\n"
+                + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)"
+                + " <b>" + sound.getSoundType() + "</b> to play <code>" + mimeType
+                + "</code> sounds.</li></ul>");
         note.addStyleName("demo-note");
         containerPanel.add(note);
       }
