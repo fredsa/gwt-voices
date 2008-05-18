@@ -33,9 +33,16 @@ public class PlaybackCompleteEvent extends EventObject {
     super(source);
   }
 
+  /**
+   * Returns the string <code>"PlaybackCompleteEvent: "</code>
+   * followed by <code>sound.toString()</code>, whereby <code>sound</code>
+   * is the <code>source</code> of this {@link EventObject}.
+   *
+   * @return the string representation of this event
+   */
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "PlaybackCompleteEvent: " + sound;
+    return PlaybackCompleteEvent.class.getSimpleName() + ": " + sound;
   }
 }

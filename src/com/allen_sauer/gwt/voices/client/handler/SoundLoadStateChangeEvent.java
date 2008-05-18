@@ -20,8 +20,17 @@ import com.allen_sauer.gwt.voices.client.Sound.LoadState;
 
 import java.util.EventObject;
 
+/**
+ * Event object representing a load state change.
+ */
 @SuppressWarnings("serial")
 public class SoundLoadStateChangeEvent extends EventObject {
+  /**
+   * Convert a load state <code>enum</code> to a string representation.
+   *
+   * @param loadState the load state
+   * @return a string representation of the load state
+   */
   private static String loadStateToString(LoadState loadState) {
     switch (loadState) {
       case LOAD_STATE_SUPPORTED_AND_READY:
@@ -43,23 +52,44 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   private final LoadState loadState;
 
+  /**
+   * Event constructor.
+   *
+   * @param source the sound object
+   */
   public SoundLoadStateChangeEvent(Object source) {
     super(source);
     Sound sound = (Sound) source;
     loadState = sound.getLoadState();
   }
 
+  /**
+   * Determine the load state for this event.
+   *
+   * @return this event's load state
+   */
   public LoadState getLoadState() {
     return loadState;
   }
 
+  /**
+   * Get a string representation of this event's load state.
+   *
+   * @return string representation of this event's load state
+   */
   public String getLoadStateAsString() {
     return loadStateToString(loadState);
   }
 
+  /**
+   * Get a string representation of this event object.
+   *
+   * @return a string representation of this event object
+   */
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return "SoundLoadStateChangeEvent: " + sound + "; state=" + loadStateToString(loadState);
+    return SoundLoadStateChangeEvent.class.getSimpleName() + ": " + sound + "; state="
+        + loadStateToString(loadState);
   }
 }
