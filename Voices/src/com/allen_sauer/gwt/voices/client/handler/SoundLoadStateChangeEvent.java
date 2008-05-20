@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.client.handler;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.Sound.LoadState;
+import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 import java.util.EventObject;
 
@@ -89,7 +90,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return SoundLoadStateChangeEvent.class.getSimpleName() + ": " + sound + "; state="
+    return StringUtil.getSimpleName(SoundLoadStateChangeEvent.class) + ": " + sound + "; state="
         + loadStateToString(loadState);
   }
 }

@@ -16,6 +16,7 @@
 package com.allen_sauer.gwt.voices.client.handler;
 
 import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 import java.util.EventObject;
 
@@ -43,6 +44,6 @@ public class PlaybackCompleteEvent extends EventObject {
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return PlaybackCompleteEvent.class.getSimpleName() + ": " + sound;
+    return StringUtil.getSimpleName(PlaybackCompleteEvent.class) + ": " + sound;
   }
 }
