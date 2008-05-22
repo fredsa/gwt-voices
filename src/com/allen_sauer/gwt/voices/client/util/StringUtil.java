@@ -25,4 +25,9 @@ public class StringUtil {
     }
     return false;
   }
+
+  public static String getSimpleName(Class<?> clazz) {
+    String name = clazz.getName();
+    return name.substring(name.lastIndexOf('.') + 1);
+  }
 }
