@@ -77,7 +77,7 @@
 
 
 		<!-- gwt-voices.libdir property -->
-		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/java/lib/gwt-voices" message="gwt-voices library directory" />
+		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/lib/gwt-voices" message="gwt-voices library directory" />
 
 		<for param="file">
 			<fileset dir="${gwt-voices.libdir}">
