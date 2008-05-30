@@ -157,12 +157,10 @@
 
 	</target>
 
-	<target name="build" depends="init,clean,filter, javac, gwtc">
+	<target name="build" depends="init, clean, filter, javac, gwtc">
 	</target>
 
-	<target name="javac">
-		<mkdir dir="build/out" />
-		<mkdir dir="build/dummy" />
+	<target name="javac" depends="filter">
 
 		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/out" />
@@ -175,10 +173,11 @@
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
+
 	</target>
 
 
-	<target name="gwtc" description="Compile to JavaScript" depends="init">
+	<target name="gwtc" description="Compile to JavaScript" depends="filter">
 		<outofdate>
 			<sourcefiles>
 				<fileset dir="build/out" />
