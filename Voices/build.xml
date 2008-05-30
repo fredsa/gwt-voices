@@ -121,16 +121,16 @@
 		<copy todir="build/out">
 			<fileset dir="src">
 				<include name="**/*.swf" />
+				<include name="**/public/**" />
+				
+				<exclude name="**/*.as" />
 			</fileset>
 		</copy>
 
 		<copy todir="build/out">
 			<fileset dir="src">
-				<include name="**/public/**" />
 				<include name="**/*.java" />
 				<include name="**/*.gwt.xml" />
-				<exclude name="**/*.as" />
-				<exclude name="**/*.swf" />
 			</fileset>
 			<fileset dir=".">
 				<include name="**/LICENSE" />
@@ -157,7 +157,10 @@
 
 	</target>
 
-	<target name="build" depends="init,clean,filter">
+	<target name="build" depends="init,clean,filter, javac, gwtc">
+	</target>
+
+	<target name="javac">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/dummy" />
 
@@ -172,10 +175,8 @@
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
-
-		<antcall target="gwtc" />
-
 	</target>
+
 
 	<target name="gwtc" description="Compile to JavaScript" depends="init">
 		<outofdate>
