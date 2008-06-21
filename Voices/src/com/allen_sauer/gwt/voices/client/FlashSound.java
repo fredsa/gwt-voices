@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -42,15 +42,18 @@ public class FlashSound extends AbstractSound {
 
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
+  private boolean soundRegistered = false;
   private final VoicesMovieWidget voicesMovie;
   private int volume = SoundController.DEFAULT_VOLUME;
 
-  public FlashSound(String mimeType, String url, VoicesMovieWidget voicesMovie) {
-    super(mimeType, url);
+  public FlashSound(String mimeType, String url, boolean streaming, VoicesMovieWidget voicesMovie) {
+    super(mimeType, url, streaming);
     this.voicesMovie = voicesMovie;
     soundNumber = soundList.size();
     soundList.add(this);
-    voicesMovie.registerSound(this);
+    if (!streaming) {
+      registerSound();
+    }
   }
 
   public int getSoundNumber() {
@@ -67,6 +70,7 @@ public class FlashSound extends AbstractSound {
   }
 
   public void play() {
+    registerSound();
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.playSound(soundNumber);
     } else {
@@ -109,5 +113,12 @@ public class FlashSound extends AbstractSound {
       playSoundWhenLoaded = false;
     }
     soundHandlerCollection.fireOnSoundLoadStateChange(this);
+  }
+
+  private void registerSound() {
+    if (!soundRegistered) {
+      voicesMovie.registerSound(this);
+      soundRegistered = true;
+    }
   }
 }

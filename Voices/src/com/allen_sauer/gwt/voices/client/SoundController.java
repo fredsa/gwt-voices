@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -123,13 +123,26 @@ public class SoundController {
 
   /**
    * Create a new Sound object using the provided MIME type and URL.
-   *
+   * To enable streaming, use {@link #createSound(String, String, boolean)}.
+   * 
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @return a new Sound object
    */
   public Sound createSound(String mimeType, String url) {
-    Sound sound = implCreateSound(mimeType, url);
+    return createSound(mimeType, url, false);
+  }
+
+  /**
+   * Create a new Sound object using the provided MIME type and URL.
+   *
+   * @param mimeType MIME type of the new Sound object
+   * @param url location of the new Sound object
+   * @param streaming whether or not to allow play back to start before sound has been fully downloaded
+   * @return a new Sound object
+   */
+  public Sound createSound(String mimeType, String url, boolean streaming) {
+    Sound sound = implCreateSound(mimeType, url, streaming);
     sound.setVolume(defaultVolume);
     return sound;
   }
@@ -177,17 +190,17 @@ public class SoundController {
     return voicesMovie;
   }
 
-  private Sound implCreateSound(String mimeType, String url) {
+  private Sound implCreateSound(String mimeType, String url, boolean streaming) {
     if (FlashMovieWidget.isExternalInterfaceSupported()) {
       VoicesMovieWidget vm = getVoicesMovie();
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
       if (mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_READY
           || mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY) {
-        FlashSound sound = new FlashSound(mimeType, url, vm);
+        FlashSound sound = new FlashSound(mimeType, url, streaming, vm);
         return sound;
       }
     }
-    return new NativeSound(mimeType, url, soundContainer.getElement());
+    return new NativeSound(mimeType, url, streaming, soundContainer.getElement());
   }
 
   private void initSoundContainer() {

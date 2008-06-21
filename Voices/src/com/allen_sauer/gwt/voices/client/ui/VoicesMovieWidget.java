@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -112,6 +112,10 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     }
   }
 
+  protected void debug(String text) {
+    System.out.println(text);
+  }
+
   /**
    * Defer the actual work of a flash callback so that any exceptions can be
    * caught by the browser or the uncaught exception handler, rather than being
@@ -169,7 +173,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   }-*/;
 
   private void doCreateSound(FlashSound flashSound) {
-    callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl(), false);
+    callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl(), flashSound.isStreaming());
   }
 
   private native void installFlashCallbackHooks()
@@ -219,11 +223,11 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       }
     }
 
-  //    $doc.VoicesMovie[id].log = function(text) {
-  //      @com.allen_sauer.gwt.log.client.Log::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
-  //    }
+    $doc.VoicesMovie[id].log = function(text) {
+      self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
+    }
   }-*/;
-
+  
   @SuppressWarnings("unused")
   private void movieReady() {
     flashSupport = MIME_TYPE_SUPPORT_READY;
