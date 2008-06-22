@@ -39,8 +39,8 @@ public interface Sound extends FiresSoundEvents {
 
     /**
      * Play back of this sound's MIME type is supported and this sound object
-     * is ready for immediate play back. This usually means that the sound
-     * file has been downloaded by the client.
+     * is ready for immediate play back. This means that the sound file has either
+     * been downloaded by the client (when not streaming), or is ready for streaming.
      */
     LOAD_STATE_SUPPORTED_AND_READY,
 

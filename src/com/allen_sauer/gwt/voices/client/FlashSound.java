@@ -51,7 +51,9 @@ public class FlashSound extends AbstractSound {
     this.voicesMovie = voicesMovie;
     soundNumber = soundList.size();
     soundList.add(this);
-    if (!streaming) {
+    if (streaming) {
+      setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
+    } else {
       registerSound();
     }
   }
@@ -73,7 +75,7 @@ public class FlashSound extends AbstractSound {
     registerSound();
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.playSound(soundNumber);
-    } else {
+    } else if (!isStreaming()) {
       playSoundWhenLoaded = true;
     }
   }
@@ -112,7 +114,6 @@ public class FlashSound extends AbstractSound {
       play();
       playSoundWhenLoaded = false;
     }
-    soundHandlerCollection.fireOnSoundLoadStateChange(this);
   }
 
   private void registerSound() {
