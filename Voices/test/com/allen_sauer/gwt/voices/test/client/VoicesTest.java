@@ -85,8 +85,10 @@ public class VoicesTest implements EntryPoint {
   private void addTest() {
     String[] urls = new String[] {
         "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
-        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav", };
-    String[] mimeTypes = new String[] {Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV};
+        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
+        "http://media3.7digital.com/clips/34/2934485.clip.mp3"};
+    String[] mimeTypes = new String[] {
+        Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
     SoundController soundController = new SoundController();
 
     for (int i = 0; i < urls.length; i++) {
