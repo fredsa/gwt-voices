@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -80,19 +80,26 @@ public class VoicesTest implements EntryPoint {
     RootPanel.get().add(new HTML("VoicesTest is in <b>" + getCompatMode() + "</b> mode."));
 
     addTest();
-    addTest();
   }
 
   private void addTest() {
+    String[] urls = new String[] {
+        "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
+        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
+        "http://media3.7digital.com/clips/34/2934485.clip.mp3"};
+    String[] mimeTypes = new String[] {
+        Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
     SoundController soundController = new SoundController();
-    final Sound sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3");
-    Button button = new Button("play");
-    button.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        sound.play();
-      }
-    });
-    RootPanel.get().add(button);
+
+    for (int i = 0; i < urls.length; i++) {
+      final Sound sound = soundController.createSound(mimeTypes[i], urls[i], true);
+      Button button = new Button(urls[i]);
+      button.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          sound.play();
+        }
+      });
+      RootPanel.get().add(button);
+    }
   }
 }

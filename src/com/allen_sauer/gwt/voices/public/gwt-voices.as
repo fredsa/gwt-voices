@@ -50,45 +50,44 @@ class Voices
   }
   
   function createSound(id:Number, url:String, streaming:Boolean):Void {
-    Voices.log("createSound(" + id + ")...");
+    Voices.log("createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")...");
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
-      Voices.log("soundLoaded " + id);
+      Voices.log("soundLoaded id=" + id);
       var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundLoaded", id);
       Voices.log("document.VoicesMovie['" + _root.id + "'].soundLoaded(" + id + ") -> " + result);
     }
-    sounds[id].onSoundComplete = function() {
-      Voices.log("soundCompleted " + id);
-      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundCompleted", id);
-      Voices.log("document.VoicesMovie['" + _root.id + "'].soundCompleted(" + id + ") -> " + result);
+    sounds[id].onPlaybackComplete = function() {
+      Voices.log("playbackCompleted id=" + id);
+      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].playbackCompleted", id);
+      Voices.log("document.VoicesMovie['" + _root.id + "'].playbackCompleted(" + id + ") -> " + result);
     }
     sounds[id].loadSound(url, streaming);
-    Voices.log("...createSound(" + id + ")");
+    Voices.log("...createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")");
   }
   
   function playSound(id:Number):Void {
-    Voices.log("playSound(" + id + ")");
+    Voices.log("playSound(id=" + id + ")");
     sounds[id].start();
   }
   
   function stopSound(id:Number):Void {
-    Voices.log("stopSound(" + id + ")");
+    Voices.log("stopSound(id=" + id + ")");
     sounds[id].stop();
   }
   
   function setVolume(id:Number, volume:Number):Void {
-    Voices.log("setVolume " + id + " => " + volume + "%");
+    Voices.log("setVolume(id=" + id + ", volume=" + volume + "%)");
     sounds[id].setVolume(volume);
   }
   
   function setBalance(id:Number, balance:Number):Void {
-    Voices.log("setBalance " + id + " => " + balance);
+    Voices.log("setBalance(id=" + id + ", balance=" + balance + ")");
     sounds[id].setBalance(balance);
   }
   
   static function log(text:String) {
 //    ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].log", text);
-//    getURL("javascript:alert('" + text + "')");
   }
   
   static function main(mc:MovieClip) {
