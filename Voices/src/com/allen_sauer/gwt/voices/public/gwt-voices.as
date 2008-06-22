@@ -53,17 +53,17 @@ class Voices
     Voices.log("createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")...");
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
-      Voices.log("soundLoaded " + id);
+      Voices.log("soundLoaded id=" + id);
       var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundLoaded", id);
       Voices.log("document.VoicesMovie['" + _root.id + "'].soundLoaded(" + id + ") -> " + result);
     }
-    sounds[id].onSoundComplete = function() {
-      Voices.log("soundCompleted " + id);
-      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundCompleted", id);
-      Voices.log("document.VoicesMovie['" + _root.id + "'].soundCompleted(" + id + ") -> " + result);
+    sounds[id].onPlaybackComplete = function() {
+      Voices.log("playbackCompleted id=" + id);
+      var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].playbackCompleted", id);
+      Voices.log("document.VoicesMovie['" + _root.id + "'].playbackCompleted(" + id + ") -> " + result);
     }
     sounds[id].loadSound(url, streaming);
-    Voices.log("...createSound(" + id + ")");
+    Voices.log("...createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")");
   }
   
   function playSound(id:Number):Void {
