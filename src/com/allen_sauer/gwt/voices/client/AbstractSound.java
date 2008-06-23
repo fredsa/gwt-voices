@@ -64,9 +64,11 @@ abstract class AbstractSound implements Sound {
   }
 
   public final void setLoadState(LoadState loadState) {
-    this.loadState = loadState;
-    if (loadState != INITIAL_LOAD_STATE) {
-      soundHandlerCollection.fireOnSoundLoadStateChange(this);
+    if (loadState != this.loadState) {
+      this.loadState = loadState;
+      if (loadState != INITIAL_LOAD_STATE) {
+        soundHandlerCollection.fireOnSoundLoadStateChange(this);
+      }
     }
   }
 
