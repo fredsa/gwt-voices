@@ -57,7 +57,7 @@ class Voices
       var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].soundLoaded", id);
       Voices.log("document.VoicesMovie['" + _root.id + "'].soundLoaded(" + id + ") -> " + result);
     }
-    sounds[id].onPlaybackComplete = function() {
+    sounds[id].onSoundComplete = function() {
       Voices.log("playbackCompleted id=" + id);
       var result:Object = ExternalInterface.call("document.VoicesMovie['" + _root.id + "'].playbackCompleted", id);
       Voices.log("document.VoicesMovie['" + _root.id + "'].playbackCompleted(" + id + ") -> " + result);
