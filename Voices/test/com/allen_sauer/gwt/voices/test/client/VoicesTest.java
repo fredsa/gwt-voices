@@ -29,6 +29,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
+import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
+import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class VoicesTest implements EntryPoint {
@@ -86,13 +89,22 @@ public class VoicesTest implements EntryPoint {
     String[] urls = new String[] {
         "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
         "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
-        "http://media3.7digital.com/clips/34/2934485.clip.mp3"};
+        "http://media3.7digital.com/clips/34/2934485.clip.mp3", };
     String[] mimeTypes = new String[] {
         Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
     SoundController soundController = new SoundController();
 
     for (int i = 0; i < urls.length; i++) {
       final Sound sound = soundController.createSound(mimeTypes[i], urls[i], true);
+      sound.addEventHandler(new SoundHandler() {
+        public void onPlaybackComplete(PlaybackCompleteEvent event) {
+          System.out.println(event);
+        }
+
+        public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
+          System.out.println(event);
+        }
+      });
       Button button = new Button(urls[i]);
       button.addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
