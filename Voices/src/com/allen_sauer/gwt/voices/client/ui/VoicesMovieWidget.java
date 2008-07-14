@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.voices.client.ui;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -38,7 +39,7 @@ import java.util.Iterator;
 public class VoicesMovieWidget extends FlashMovieWidget {
 
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
-  private static final String GWT_VOICES_SWF = "gwt-voices.swf";
+  private static final String GWT_VOICES_SWF = GWT.getModuleBaseURL() + "gwt-voices.swf";
 
   private MimeTypeSupport flashSupport = MIME_TYPE_SUPPORT_UNKNOWN;
   private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
@@ -227,7 +228,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
       self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
     }
   }-*/;
-  
+
   @SuppressWarnings("unused")
   private void movieReady() {
     flashSupport = MIME_TYPE_SUPPORT_READY;
