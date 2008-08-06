@@ -18,6 +18,7 @@ import flash.external.ExternalInterface;
 class Voices
 {
   var sounds:Array = [];
+  var stream:Array = [];
   
   function Voices() {
     Voices.log("Creating Voices '" + _root.id + "' ...");
@@ -51,6 +52,7 @@ class Voices
   
   function createSound(id:Number, url:String, streaming:Boolean):Void {
     Voices.log("createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")...");
+    stream[id] = streaming;
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
       Voices.log("soundLoaded id=" + id);
@@ -74,6 +76,9 @@ class Voices
   function stopSound(id:Number):Void {
     Voices.log("stopSound(id=" + id + ")");
     sounds[id].stop();
+    if (stream[id]) {
+      sounds[id].loadSound("", true);
+    }
   }
   
   function setVolume(id:Number, volume:Number):Void {
