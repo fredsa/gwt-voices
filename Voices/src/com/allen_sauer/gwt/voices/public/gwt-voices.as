@@ -52,7 +52,7 @@ class Voices
   
   function createSound(id:Number, url:String, streaming:Boolean):Void {
     Voices.log("createSound(id=" + id + ", url='" + url + "', streaming=" + streaming + ")...");
-    stream[id] = streaming;
+    stream[id] = streaming ? url : null;
     sounds[id] = new Sound();
     sounds[id].onLoad = function() {
       Voices.log("soundLoaded id=" + id);
@@ -70,13 +70,16 @@ class Voices
   
   function playSound(id:Number):Void {
     Voices.log("playSound(id=" + id + ")");
+    if (stream[id] != null) {
+      sounds[id].loadSound(stream[id], true);
+    }
     sounds[id].start();
   }
   
   function stopSound(id:Number):Void {
     Voices.log("stopSound(id=" + id + ")");
     sounds[id].stop();
-    if (stream[id]) {
+    if (stream[id] != null) {
       sounds[id].loadSound("", true);
     }
   }
