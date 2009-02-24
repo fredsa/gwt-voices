@@ -41,8 +41,8 @@
 
 
 		<!-- gwt.location property -->
-		<condition property="gwt.location.default" value="${env.GWT15_HOME}" else="">
-			<isset property="env.GWT15_HOME" />
+		<condition property="gwt.location.default" value="${env.GWTTRUNK_HOME}" else="">
+			<isset property="env.GWTTRUNK_HOME" />
 		</condition>
 		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT 1.5 install directory" />
 
@@ -190,9 +190,9 @@
 			<targetfiles path="build/www/com.allen_sauer.gwt.voices.demo.VoicesDemo/VoicesDemo.nocache.html" />
 			<sequential>
 				<mkdir dir="build/www" />
-				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.GWTCompiler" classpath="build/out:build/dummy:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
-					<arg value="-out" />
-					<arg path="build/www" />
+				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/out:build/dummy:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
+					<arg value="-war" />
+					<arg path="build/war" />
 
 					<arg value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
 
