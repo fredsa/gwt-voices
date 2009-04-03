@@ -1,92 +1,92 @@
 @CHARSET "UTF-8";
 
 .demo-loading {
-  font-weight: bold;
-  padding: 1em;
-  color: #666666;
+	font-weight: bold;
+	padding: 1em;
+	color: #666666;
 }
 
 .demo-loading IMG {
-  margin-left: 1em;
-  margin-right: 0.3em;
-  vertical-align: middle;
+	margin-left: 1em;
+	margin-right: 0.3em;
+	vertical-align: middle;
 }
 
 .demo-main-panel {
-  margin: 0.5em;
+	margin: 0.5em;
 }
 
 .demo-event-text-area {
-  border: 1px solid #AAAAAA;
-  width: 90%;
-  height: 8em;
-  overflow: auto;
+	border: 1px solid #AAAAAA;
+	width: 90%;
+	height: 8em;
+	overflow: auto;
 }
 
 .demo-event-text-area-header {
-  color: #333333;
-  margin-top: 2em;
+	color: #333333;
+	margin-top: 2em;
 }
 
 .demo-footer {
-  margin-top: 1em;
-  font-style: italic;
+	margin-top: 1em;
+	font-style: italic;
 }
 
 .demo-note {
-  font-size: 0.8em;
-  font-style: italic;
+	font-size: 0.8em;
+	font-style: italic;
 }
 
 .demo-note ul {
-  margin: 0em 0em 0em 1.5em;
+	margin: 0em 0em 0em 1.5em;
 }
 
 .gwt-DisclosurePanel .header {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .gwt-DisclosurePanel .content {
-  padding: 0.5em;
-  margin-left: 1.5em;
+	padding: 0.5em;
+	margin-left: 1.5em;
 }
 
 .gwt-DisclosurePanel .demo-content {
-  border: 1px solid #DDDDDD;
-  background-color: #DDEEFF;
+	border: 1px solid #DDDDDD;
+	background-color: #DDEEFF;
 }
 
 TABLE {
-  border-collapse: separate;
+	border-collapse: separate;
 }
 
 .demo-SupportedMimeTypeSummary-table {
-  margin: 0.1em 3em;
+	margin: 0.1em 3em;
 }
 
 .demo-SupportedMimeTypeSummary-table TD {
-  padding: 3px 5px;
+	padding: 3px 5px;
 }
 
 .demo-SupportedMimeTypeSummary-table TR.header {
-  font-weight: bold;
-  background-color: #ABCDEF;
+	font-weight: bold;
+	background-color: #ABCDEF;
 }
 
 .demo-SupportedMimeTypeSummary-table TR.odd {
-  background-color: #EEEEFF;
+	background-color: #EEEEFF;
 }
 
 .demo-SupportedMimeTypeSummary-table TR.even {
-  background-color: #DDDDEE;
+	background-color: #DDDDEE;
 }
 
 .demo-user-agent {
-  color: #2554C7;
-  margin: 0.5em 3em;
-  display: block;
-  margin: 0.5em 3em;
-  font-family: monospace;
-  font-size: 0.9em;
-  font-weight: bold;
+	color: #2554C7;
+	margin: 0.5em 3em;
+	display: block;
+	margin: 0.5em 3em;
+	font-family: monospace;
+	font-size: 0.9em;
+	font-weight: bold;
 }
