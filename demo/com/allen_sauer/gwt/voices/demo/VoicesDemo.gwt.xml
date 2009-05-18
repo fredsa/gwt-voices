@@ -23,7 +23,4 @@
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class='com.allen_sauer.gwt.voices.demo.client.VoicesDemo' />
 
-	<!-- Include CSS                                          -->
-	<stylesheet src='VoicesDemo.css' />
-
 </module>
