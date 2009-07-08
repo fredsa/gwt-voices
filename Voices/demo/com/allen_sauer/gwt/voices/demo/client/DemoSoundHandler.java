@@ -22,8 +22,7 @@ import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 /**
- * Sound handler for the online demo, which displays sound
- * events as they occur.
+ * Sound handler for the online demo, which displays sound events as they occur.
  */
 public final class DemoSoundHandler implements SoundHandler {
   // CHECKSTYLE_JAVADOC_OFF
@@ -35,16 +34,16 @@ public final class DemoSoundHandler implements SoundHandler {
     eventTextArea = soundHandlerHTML;
   }
 
+  private void log(String text, String color) {
+    eventTextArea.setHTML("<span style='color: " + color + "'>" + text + "</span>"
+        + (eventTextArea.getHTML().length() == 0 ? "" : "<br>") + eventTextArea.getHTML());
+  }
+
   public void onPlaybackComplete(PlaybackCompleteEvent event) {
     log(event.toString(), GREEN);
   }
 
   public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
     log(event.toString(), BLUE);
-  }
-
-  private void log(String text, String color) {
-    eventTextArea.setHTML("<span style='color: " + color + "'>" + text + "</span>"
-        + (eventTextArea.getHTML().length() == 0 ? "" : "<br>") + eventTextArea.getHTML());
   }
 }

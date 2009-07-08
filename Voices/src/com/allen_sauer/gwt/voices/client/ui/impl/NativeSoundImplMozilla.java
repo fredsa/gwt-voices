@@ -23,23 +23,19 @@ import com.google.gwt.user.client.Element;
  */
 public class NativeSoundImplMozilla extends NativeSoundImplStandard {
 
-  @Override
-  public void preload(Element soundControllerElement, String mimeType, String url) {
-    if (mimeTypeSupportsVolume(mimeType)) {
-      super.preload(soundControllerElement, mimeType, url);
-    }
-  }
-
   /**
    * Determine whether volume control is supported for the provided MIME type.
-   *
-   * Returns <code>false</code> if <code>navigator.mimeTypes[mimeType].enabledPlugin.filename</code>
-   * ends with <code>wmp.so</code>, indicating the mplayer plugin on Linux, which does
-   * not support volume control. Known strings to date are <code>gecko-mediaplayer-wmp.so</code> and
+   * 
+   * Returns <code>false</code> if
+   * <code>navigator.mimeTypes[mimeType].enabledPlugin.filename</code> ends with
+   * <code>wmp.so</code>, indicating the mplayer plugin on Linux, which does not
+   * support volume control. Known strings to date are
+   * <code>gecko-mediaplayer-wmp.so</code> and
    * <code>mplayerplug-in-wmp.so</code>.
-   *
+   * 
    * @param mimeType the MIME type to test
-   * @return true if the MIME type and enabled plugin is believed to provide volume support
+   * @return true if the MIME type and enabled plugin is believed to provide
+   *         volume support
    */
   private native boolean mimeTypeSupportsVolume(String mimeType)
   /*-{
@@ -49,5 +45,12 @@ public class NativeSoundImplMozilla extends NativeSoundImplStandard {
     }
     return true;
   }-*/;
+
+  @Override
+  public void preload(Element soundControllerElement, String mimeType, String url) {
+    if (mimeTypeSupportsVolume(mimeType)) {
+      super.preload(soundControllerElement, mimeType, url);
+    }
+  }
 
 }

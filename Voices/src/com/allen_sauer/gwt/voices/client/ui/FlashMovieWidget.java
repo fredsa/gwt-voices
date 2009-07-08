@@ -26,13 +26,13 @@ import com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl;
 public class FlashMovieWidget extends Widget {
   // CHECKSTYLE_JAVADOC_OFF
 
+  private static final int EXTERNAL_INTERFACE_MINIMUM_MAJOR_VERSION = 8;
+  private static FlashMovieImpl impl;
+
   /**
    * Flash movie MIME type. Typical filename extension is <code>.swf</code>.
    */
   public static final String MIME_TYPE_APPLICATION_X_SHOCKWAVE_FLASH = "application/x-shockwave-flash";
-  private static final int EXTERNAL_INTERFACE_MINIMUM_MAJOR_VERSION = 8;
-
-  private static FlashMovieImpl impl;
 
   static {
     impl = (FlashMovieImpl) GWT.create(FlashMovieImpl.class);

@@ -27,7 +27,7 @@ import java.util.EventObject;
 public class PlaybackCompleteEvent extends EventObject {
   /**
    * Constructor, used by {@link SoundHandlerCollection}.
-   *
+   * 
    * @param source the {@link Sound} object which completed play back
    */
   public PlaybackCompleteEvent(Object source) {
@@ -35,10 +35,10 @@ public class PlaybackCompleteEvent extends EventObject {
   }
 
   /**
-   * Returns the string <code>"PlaybackCompleteEvent: "</code>
-   * followed by <code>sound.toString()</code>, whereby <code>sound</code>
-   * is the <code>source</code> of this {@link EventObject}.
-   *
+   * Returns the string <code>"PlaybackCompleteEvent: "</code> followed by
+   * <code>sound.toString()</code>, whereby <code>sound</code> is the
+   * <code>source</code> of this {@link EventObject}.
+   * 
    * @return the string representation of this event
    */
   @Override

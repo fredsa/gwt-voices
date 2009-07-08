@@ -21,14 +21,14 @@ package com.allen_sauer.gwt.voices.client.handler;
 public interface FiresSoundEvents {
   /**
    * Register a new sound handler.
-   *
+   * 
    * @param handler sound handler to register
    */
   void addEventHandler(SoundHandler handler);
 
   /**
    * Remove a previously registered sound handler.
-   *
+   * 
    * @param handler sound handler to unregister
    */
   void removeEventHandler(SoundHandler handler);

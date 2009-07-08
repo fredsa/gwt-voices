@@ -40,18 +40,12 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
     return elem;
   }-*/;
 
-  @Override
-  public native void maybeSetURL(Element elem, String url)
-  /*-{
-    elem.Movie = url;
-  }-*/;
-
   /**
    * Returns an IE specific version string such as
-   * <code>WIN&nbsp;9,0,47,0</code> or <code>UNIX&nbsp;9,0,47,0</code>,
-   * starting with Flash Player version 4,0,11,0. Earlier versions are not
-   * currently detected and result in <code>null</code> being returned.
-   *
+   * <code>WIN&nbsp;9,0,47,0</code> or <code>UNIX&nbsp;9,0,47,0</code>, starting
+   * with Flash Player version 4,0,11,0. Earlier versions are not currently
+   * detected and result in <code>null</code> being returned.
+   * 
    * @return IE specific Flash plug-in version string or <code>null</code> if
    *         version could not be determined, or plug-in is unavailable
    */
@@ -63,5 +57,11 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
     } catch(e) {
       return null;
     }
+  }-*/;
+
+  @Override
+  public native void maybeSetURL(Element elem, String url)
+  /*-{
+    elem.Movie = url;
   }-*/;
 }
