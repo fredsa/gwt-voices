@@ -1,1 +1,0 @@
-@java -cp "%~dp0\demo;%~dp0\src;%GWT_TRUNK%/user/src;%GWT14_HOME%/gwt-user.jar;%GWT14_HOME%/gwt-dev-windows.jar" com.google.gwt.dev.GWTShell -out "%~dp0\www" %* com.allen_sauer.gwt.voices.demo.VoicesDemo/VoicesDemo.html
