@@ -15,39 +15,28 @@
  */
 package com.allen_sauer.gwt.voices.demo.client.ui;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosureEvent;
-import com.google.gwt.user.client.ui.DisclosureHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Panel;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class DeferredContentDisclosurePanel extends Composite {
   private static final String CSS_DEMO_CONTENT = "demo-content";
+  private HandlerRegistration openHandlerRegistration;
 
   public DeferredContentDisclosurePanel(String html, final DeferredContentPanel deferredContentPanel) {
     final DisclosurePanel realDisclosurePanel = new DisclosurePanel(html);
     realDisclosurePanel.setContent(deferredContentPanel);
 
-    realDisclosurePanel.addEventHandler(new DisclosureHandler() {
-      public void onClose(DisclosureEvent event) {
-      }
-
-      public void onOpen(DisclosureEvent event) {
-        DeferredCommand.addCommand(new Command() {
-          public void execute() {
-            Panel panel = deferredContentPanel.initContent();
-            panel.addStyleName(CSS_DEMO_CONTENT);
-            realDisclosurePanel.setContent(panel);
-            removeEventHandler();
-          }
-        });
-      }
-
-      private void removeEventHandler() {
-        realDisclosurePanel.removeEventHandler(this);
+    openHandlerRegistration = realDisclosurePanel.addOpenHandler(new OpenHandler<DisclosurePanel>() {
+      public void onOpen(OpenEvent<DisclosurePanel> event) {
+        Panel panel = deferredContentPanel.initContent();
+        panel.addStyleName(CSS_DEMO_CONTENT);
+        realDisclosurePanel.setContent(panel);
+        openHandlerRegistration.removeHandler();
       }
     });
     initWidget(realDisclosurePanel);

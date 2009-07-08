@@ -15,14 +15,14 @@
  */
 package com.allen_sauer.gwt.voices.demo.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
@@ -93,14 +93,14 @@ public class DemoSoundPanel extends Composite {
     });
 
     // play the sound when button is clicked
-    playButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    playButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         thirdPartySound.getSound().play();
       }
     });
 
-    stopButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    stopButton.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         thirdPartySound.getSound().stop();
       }
     });
