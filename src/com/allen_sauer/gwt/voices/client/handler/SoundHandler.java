@@ -18,20 +18,20 @@ package com.allen_sauer.gwt.voices.client.handler;
 import java.util.EventListener;
 
 /**
- * Implement this interface to receive events related to
- * sound load states sound playback.
+ * Implement this interface to receive events related to sound load states sound
+ * playback.
  */
 public interface SoundHandler extends EventListener {
   /**
    * Fired when playback of a sound completes.
-   *
+   * 
    * @param event the completion event
    */
   void onPlaybackComplete(PlaybackCompleteEvent event);
 
   /**
    * Fired when the load state changes.
-   *
+   * 
    * @param event the load state completion event
    */
   void onSoundLoadStateChange(SoundLoadStateChangeEvent event);

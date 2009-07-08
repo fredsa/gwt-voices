@@ -15,14 +15,15 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
-import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
-
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
+
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 
 import java.util.ArrayList;
 
 /**
- * <a href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>
+ * <a href=
+ * 'http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>
  * based sound.
  */
 public class FlashSound extends AbstractSound {
@@ -80,6 +81,17 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  protected void playbackCompleted() {
+    soundHandlerCollection.fireOnPlaybackComplete(this);
+  }
+
+  private void registerSound() {
+    if (!soundRegistered) {
+      voicesMovie.registerSound(this);
+      soundRegistered = true;
+    }
+  }
+
   public void setBalance(int balance) {
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
@@ -93,18 +105,6 @@ public class FlashSound extends AbstractSound {
     }
   }
 
-  public void stop() {
-    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
-      voicesMovie.stopSound(soundNumber);
-    } else {
-      playSoundWhenLoaded = false;
-    }
-  }
-
-  protected void playbackCompleted() {
-    soundHandlerCollection.fireOnPlaybackComplete(this);
-  }
-
   protected void soundLoaded() {
     setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
@@ -116,10 +116,11 @@ public class FlashSound extends AbstractSound {
     }
   }
 
-  private void registerSound() {
-    if (!soundRegistered) {
-      voicesMovie.registerSound(this);
-      soundRegistered = true;
+  public void stop() {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
+      voicesMovie.stopSound(soundNumber);
+    } else {
+      playSoundWhenLoaded = false;
     }
   }
 }

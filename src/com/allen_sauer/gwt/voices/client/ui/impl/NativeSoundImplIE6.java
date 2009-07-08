@@ -81,9 +81,9 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   }
 
   /**
-   * Best guess at conversion formula from standard -100 .. 100 range to -10000 ..
-   * 10000 range used by IE.
-   *
+   * Best guess at conversion formula from standard -100 .. 100 range to -10000
+   * .. 10000 range used by IE.
+   * 
    * TODO location documentation for IE
    */
   @Override
@@ -104,7 +104,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   /**
    * Best guess at conversion formula from standard 0 .. 100 range to -10000 ..
    * 0 range used by IE.
-   *
+   * 
    * TODO location documentation for IE
    */
   @Override

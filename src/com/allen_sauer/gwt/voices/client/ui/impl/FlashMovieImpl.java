@@ -30,10 +30,10 @@ public abstract class FlashMovieImpl {
    * Returns a major version number, starting with Flash Players version 3 or 4,
    * depending on the browser. Earlier versions are not currently detected and
    * result in <code>0</code> being returned.
-   *
+   * 
    * @return major version number for the installed Flash Player, or
-   *         <code>0</code> if version cannot be determined, or Flash Player
-   *         is not installed
+   *         <code>0</code> if version cannot be determined, or Flash Player is
+   *         not installed
    */
   public int getMajorVersion() {
     String versionString = getVersionString();
@@ -41,13 +41,25 @@ public abstract class FlashMovieImpl {
   }
 
   /**
+   * Returns a browser specific version string such as
+   * <code>WIN&nbsp;9,0,47,0</code> or
+   * <code>Shockwave&nbsp;Flash&nbsp;9.0&nbsp;&nbsp;r47</code>, starting with
+   * Flash Player version 3. Earlier versions are not currently detected and
+   * result in <code>null</code> being returned.
+   * 
+   * @return non-IE Flash plug-in version string or <code>null</code> if version
+   *         could not be determined, or plug-in is unavailable
+   */
+  protected abstract String getRawVersionString();
+
+  /**
    * Returns a generic string of comma delimited version numbers, e.g.
-   * <code>9,0,47,0</code> or <code>9,0,47</code>, starting with Flash
-   * Players version 3 or 4, depending on the browser. Earlier versions are not
+   * <code>9,0,47,0</code> or <code>9,0,47</code>, starting with Flash Players
+   * version 3 or 4, depending on the browser. Earlier versions are not
    * currently detected and result in <code>null</code> being returned.
-   *
-   * @return generic version string or <code>null</code> if version could not
-   *         be determined, or plug-in is unavailable
+   * 
+   * @return generic version string or <code>null</code> if version could not be
+   *         determined, or plug-in is unavailable
    */
   public String getVersionString() {
     String rawVersionString = getRawVersionString();
@@ -57,16 +69,4 @@ public abstract class FlashMovieImpl {
 
   public void maybeSetURL(Element elem, String url) {
   }
-
-  /**
-   * Returns a browser specific version string such as
-   * <code>WIN&nbsp;9,0,47,0</code> or
-   * <code>Shockwave&nbsp;Flash&nbsp;9.0&nbsp;&nbsp;r47</code>, starting with
-   * Flash Player version 3. Earlier versions are not currently detected and
-   * result in <code>null</code> being returned.
-   *
-   * @return non-IE Flash plug-in version string or <code>null</code> if
-   *         version could not be determined, or plug-in is unavailable
-   */
-  protected abstract String getRawVersionString();
 }

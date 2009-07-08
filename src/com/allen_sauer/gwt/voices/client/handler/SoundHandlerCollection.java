@@ -18,13 +18,14 @@ package com.allen_sauer.gwt.voices.client.handler;
 import java.util.ArrayList;
 
 /**
- * Utility collection class used by {@link com.allen_sauer.gwt.voices.client.AbstractSound}.
+ * Utility collection class used by
+ * {@link com.allen_sauer.gwt.voices.client.AbstractSound}.
  */
 @SuppressWarnings("serial")
 public class SoundHandlerCollection extends ArrayList<SoundHandler> {
   /**
    * Fires when playback of a sound completes.
-   *
+   * 
    * @param sender the sound which finished playing
    */
   public void fireOnPlaybackComplete(Object sender) {
@@ -37,7 +38,7 @@ public class SoundHandlerCollection extends ArrayList<SoundHandler> {
 
   /**
    * Fires when a sound's load state changes.
-   *
+   * 
    * @param sender the sound who's load state changed
    */
   public void fireOnSoundLoadStateChange(Object sender) {

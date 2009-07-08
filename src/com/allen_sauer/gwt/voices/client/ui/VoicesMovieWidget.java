@@ -15,6 +15,12 @@
  */
 package com.allen_sauer.gwt.voices.client.ui;
 
+import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_NOT_SUPPORTED;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
+import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
@@ -25,12 +31,6 @@ import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
-
-import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_NOT_SUPPORTED;
-import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
-import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY;
-import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
-import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,88 +59,6 @@ public class VoicesMovieWidget extends FlashMovieWidget {
         }
       });
     }
-  }
-
-  // JSNI Helper for GWT Issue 1651 (JSNI inherited method support in web mode)
-  @Override
-  public Element getElement() {
-    return super.getElement();
-  }
-
-  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
-    switch (flashSupport) {
-      case MIME_TYPE_SUPPORT_READY:
-      case MIME_TYPE_SUPPORT_NOT_READY:
-        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? MIME_TYPE_SUPPORT_READY
-            : MIME_TYPE_NOT_SUPPORTED;
-      case MIME_TYPE_SUPPORT_UNKNOWN:
-      case MIME_TYPE_NOT_SUPPORTED:
-        return flashSupport;
-      default:
-        throw new RuntimeException("Unhandled flash support value " + flashSupport);
-    }
-  }
-
-  public void playSound(int id) {
-    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callPlaySound(id);
-    }
-  }
-
-  public void registerSound(FlashSound flashSound) {
-    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      doCreateSound(flashSound);
-    } else {
-      unitializedSoundList.add(flashSound);
-    }
-  }
-
-  public void setBalance(int id, int balance) {
-    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callSetBalance(id, balance);
-    }
-  }
-
-  public void setVolume(int id, int volume) {
-    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callSetVolume(id, volume);
-    }
-  }
-
-  public void stopSound(int id) {
-    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callStopSound(id);
-    }
-  }
-
-  protected void debug(String text) {
-    System.out.println(text);
-  }
-
-  /**
-   * Defer the actual work of a flash callback so that any exceptions can be
-   * caught by the browser or the uncaught exception handler, rather than being
-   * swallow by flash.
-   *
-   * @param func the JavaScript function to call
-   */
-  protected void deferFlashCallback(final JavaScriptObject func) {
-    DeferredCommand.addCommand(new Command() {
-      public native void callFunc(JavaScriptObject func, VoicesMovieWidget thiz)
-      /*-{
-        func.apply(thiz);
-      }-*/;
-
-      public void execute() {
-        callFunc(func, VoicesMovieWidget.this);
-      }
-    });
-  }
-
-  @Override
-  protected void onUnload() {
-    super.onUnload();
-    removeFlashCallbackHooks();
   }
 
   private native void callCreateSound(int id, String soundURL, boolean streaming)
@@ -173,8 +91,52 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     elem.stopSound(id);
   }-*/;
 
+  protected void debug(String text) {
+    System.out.println(text);
+  }
+
+  /**
+   * Defer the actual work of a flash callback so that any exceptions can be
+   * caught by the browser or the uncaught exception handler, rather than being
+   * swallow by flash.
+   * 
+   * @param func the JavaScript function to call
+   */
+  protected void deferFlashCallback(final JavaScriptObject func) {
+    DeferredCommand.addCommand(new Command() {
+      public native void callFunc(JavaScriptObject func, VoicesMovieWidget thiz)
+      /*-{
+        func.apply(thiz);
+      }-*/;
+
+      public void execute() {
+        callFunc(func, VoicesMovieWidget.this);
+      }
+    });
+  }
+
   private void doCreateSound(FlashSound flashSound) {
     callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl(), flashSound.isStreaming());
+  }
+
+  // JSNI Helper for GWT Issue 1651 (JSNI inherited method support in web mode)
+  @Override
+  public Element getElement() {
+    return super.getElement();
+  }
+
+  public MimeTypeSupport getMimeTypeSupport(String mimeType) {
+    switch (flashSupport) {
+      case MIME_TYPE_SUPPORT_READY:
+      case MIME_TYPE_SUPPORT_NOT_READY:
+        return StringUtil.contains(FLASH_SUPPORTED_MIME_TYPES, mimeType) ? MIME_TYPE_SUPPORT_READY
+            : MIME_TYPE_NOT_SUPPORTED;
+      case MIME_TYPE_SUPPORT_UNKNOWN:
+      case MIME_TYPE_NOT_SUPPORTED:
+        return flashSupport;
+      default:
+        throw new RuntimeException("Unhandled flash support value " + flashSupport);
+    }
   }
 
   private native void installFlashCallbackHooks()
@@ -246,8 +208,46 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     }
   }
 
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    removeFlashCallbackHooks();
+  }
+
+  public void playSound(int id) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
+      callPlaySound(id);
+    }
+  }
+
+  public void registerSound(FlashSound flashSound) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
+      doCreateSound(flashSound);
+    } else {
+      unitializedSoundList.add(flashSound);
+    }
+  }
+
   private native void removeFlashCallbackHooks()
   /*-{
     $doc.VoicesMovie = null;
   }-*/;
+
+  public void setBalance(int id, int balance) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
+      callSetBalance(id, balance);
+    }
+  }
+
+  public void setVolume(int id, int volume) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
+      callSetVolume(id, volume);
+    }
+  }
+
+  public void stopSound(int id) {
+    if (flashSupport == MIME_TYPE_SUPPORT_READY) {
+      callStopSound(id);
+    }
+  }
 }

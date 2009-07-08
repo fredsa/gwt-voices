@@ -28,7 +28,7 @@ import java.util.EventObject;
 public class SoundLoadStateChangeEvent extends EventObject {
   /**
    * Convert a load state <code>enum</code> to a string representation.
-   *
+   * 
    * @param loadState the load state
    * @return a string representation of the load state
    */
@@ -55,7 +55,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   /**
    * Event constructor.
-   *
+   * 
    * @param source the sound object
    */
   public SoundLoadStateChangeEvent(Object source) {
@@ -66,7 +66,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   /**
    * Determine the load state for this event.
-   *
+   * 
    * @return this event's load state
    */
   public LoadState getLoadState() {
@@ -75,7 +75,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   /**
    * Get a string representation of this event's load state.
-   *
+   * 
    * @return string representation of this event's load state
    */
   public String getLoadStateAsString() {
@@ -84,7 +84,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
 
   /**
    * Get a string representation of this event object.
-   *
+   * 
    * @return a string representation of this event object
    */
   @Override
