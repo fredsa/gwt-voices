@@ -17,15 +17,15 @@ package com.allen_sauer.gwt.voices.test.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
@@ -106,8 +106,8 @@ public class VoicesTest implements EntryPoint {
         }
       });
       Button button = new Button(urls[i]);
-      button.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      button.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           sound.play();
         }
       });
