@@ -21,10 +21,10 @@ import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
 
 abstract class AbstractSound implements Sound {
   private static final LoadState INITIAL_LOAD_STATE = LoadState.LOAD_STATE_UNINITIALIZED;
-  private LoadState loadState = INITIAL_LOAD_STATE;
-
-  private final String mimeType;
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
+
+  private LoadState loadState = INITIAL_LOAD_STATE;
+  private final String mimeType;
   private final boolean streaming;
   private final String url;
 

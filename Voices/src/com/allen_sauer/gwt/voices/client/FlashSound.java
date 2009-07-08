@@ -81,17 +81,6 @@ public class FlashSound extends AbstractSound {
     }
   }
 
-  protected void playbackCompleted() {
-    soundHandlerCollection.fireOnPlaybackComplete(this);
-  }
-
-  private void registerSound() {
-    if (!soundRegistered) {
-      voicesMovie.registerSound(this);
-      soundRegistered = true;
-    }
-  }
-
   public void setBalance(int balance) {
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
@@ -105,6 +94,18 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  public void stop() {
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
+      voicesMovie.stopSound(soundNumber);
+    } else {
+      playSoundWhenLoaded = false;
+    }
+  }
+
+  protected void playbackCompleted() {
+    soundHandlerCollection.fireOnPlaybackComplete(this);
+  }
+
   protected void soundLoaded() {
     setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
@@ -116,11 +117,10 @@ public class FlashSound extends AbstractSound {
     }
   }
 
-  public void stop() {
-    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
-      voicesMovie.stopSound(soundNumber);
-    } else {
-      playSoundWhenLoaded = false;
+  private void registerSound() {
+    if (!soundRegistered) {
+      voicesMovie.registerSound(this);
+      soundRegistered = true;
     }
   }
 }

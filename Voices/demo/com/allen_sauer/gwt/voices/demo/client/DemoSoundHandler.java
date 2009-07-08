@@ -34,16 +34,16 @@ public final class DemoSoundHandler implements SoundHandler {
     eventTextArea = soundHandlerHTML;
   }
 
-  private void log(String text, String color) {
-    eventTextArea.setHTML("<span style='color: " + color + "'>" + text + "</span>"
-        + (eventTextArea.getHTML().length() == 0 ? "" : "<br>") + eventTextArea.getHTML());
-  }
-
   public void onPlaybackComplete(PlaybackCompleteEvent event) {
     log(event.toString(), GREEN);
   }
 
   public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
     log(event.toString(), BLUE);
+  }
+
+  private void log(String text, String color) {
+    eventTextArea.setHTML("<span style='color: " + color + "'>" + text + "</span>"
+        + (eventTextArea.getHTML().length() == 0 ? "" : "<br>") + eventTextArea.getHTML());
   }
 }

@@ -49,11 +49,11 @@ public class SoundController {
      * based on known capabilities of browsers with the same user agent and
      * installed plugins, but this capability has not yet been initialized.
      * Usually this is due to a browser plugin, such as <a href=
-     * 'http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>
-     * , <a href=
+     * 'http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a
+     * > , <a href=
      * 'http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a> or <a
-     * href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>
-     * .
+     * href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a
+     * > .
      */
     MIME_TYPE_SUPPORT_NOT_READY,
 
@@ -71,8 +71,6 @@ public class SoundController {
      */
     MIME_TYPE_SUPPORT_UNKNOWN,
   };
-
-  static final int DEFAULT_VOLUME = 100;
 
   /**
    * @deprecated Use {@link MimeTypeSupport#MIME_TYPE_SUPPORT_UNKNOWN} enum
@@ -102,6 +100,8 @@ public class SoundController {
   @Deprecated
   public static final MimeTypeSupport MIME_TYPE_UNSUPPORTED = MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
 
+  static final int DEFAULT_VOLUME = 100;
+
   static {
     setVersion();
   }
@@ -111,12 +111,12 @@ public class SoundController {
     $wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
   }-*/;
 
-  private int defaultVolume = DEFAULT_VOLUME;
-  private boolean prioritizeFlashSound = false;
   /**
    * Our DOM sound container which is positioned off screen.
    */
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
+  private int defaultVolume = DEFAULT_VOLUME;
+  private boolean prioritizeFlashSound = false;
   private VoicesMovieWidget voicesMovie;
 
   /**
@@ -154,6 +154,36 @@ public class SoundController {
   }
 
   /**
+   * Determine if Flash play back is prioritized over other play back methods.
+   * Defaults to <code>false</code>.
+   * 
+   * @return <code>true</code> if Flash based sound is being prioritized
+   */
+  public boolean isPrioritizeFlashSound() {
+    return prioritizeFlashSound;
+  }
+
+  /**
+   * Set the default volume (range <code>0-100</code>) for new sound.
+   * 
+   * @param defaultVolume the default volume (range <code>0-100</code>) to be
+   *          used for new sounds
+   */
+  public void setDefaultVolume(int defaultVolume) {
+    this.defaultVolume = defaultVolume;
+  }
+
+  /**
+   * Set whethe Flash play back is to be prioritized over other play back
+   * methods. Defaults to <code>false</code>.
+   * 
+   * @param prioritizeFlashSound whether or not to prioritize Flash play back
+   */
+  public void setPrioritizeFlashSound(boolean prioritizeFlashSound) {
+    this.prioritizeFlashSound = prioritizeFlashSound;
+  }
+
+  /**
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily
    * triggered.
    * 
@@ -184,35 +214,5 @@ public class SoundController {
     // place off screen with fixed dimensions and overflow:hidden
     RootPanel.get().add(soundContainer, -500, -500);
     soundContainer.setPixelSize(0, 0);
-  }
-
-  /**
-   * Determine if Flash play back is prioritized over other play back methods.
-   * Defaults to <code>false</code>.
-   * 
-   * @return <code>true</code> if Flash based sound is being prioritized
-   */
-  public boolean isPrioritizeFlashSound() {
-    return prioritizeFlashSound;
-  }
-
-  /**
-   * Set the default volume (range <code>0-100</code>) for new sound.
-   * 
-   * @param defaultVolume the default volume (range <code>0-100</code>) to be
-   *          used for new sounds
-   */
-  public void setDefaultVolume(int defaultVolume) {
-    this.defaultVolume = defaultVolume;
-  }
-
-  /**
-   * Set whethe Flash play back is to be prioritized over other play back
-   * methods. Defaults to <code>false</code>.
-   * 
-   * @param prioritizeFlashSound whether or not to prioritize Flash play back
-   */
-  public void setPrioritizeFlashSound(boolean prioritizeFlashSound) {
-    this.prioritizeFlashSound = prioritizeFlashSound;
   }
 }

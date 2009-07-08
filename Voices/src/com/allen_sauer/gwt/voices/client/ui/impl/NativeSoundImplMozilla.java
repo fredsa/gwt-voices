@@ -23,6 +23,13 @@ import com.google.gwt.user.client.Element;
  */
 public class NativeSoundImplMozilla extends NativeSoundImplStandard {
 
+  @Override
+  public void preload(Element soundControllerElement, String mimeType, String url) {
+    if (mimeTypeSupportsVolume(mimeType)) {
+      super.preload(soundControllerElement, mimeType, url);
+    }
+  }
+
   /**
    * Determine whether volume control is supported for the provided MIME type.
    * 
@@ -45,12 +52,5 @@ public class NativeSoundImplMozilla extends NativeSoundImplStandard {
     }
     return true;
   }-*/;
-
-  @Override
-  public void preload(Element soundControllerElement, String mimeType, String url) {
-    if (mimeTypeSupportsVolume(mimeType)) {
-      super.preload(soundControllerElement, mimeType, url);
-    }
-  }
 
 }
