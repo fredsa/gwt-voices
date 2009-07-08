@@ -40,6 +40,12 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
     return elem;
   }-*/;
 
+  @Override
+  public native void maybeSetURL(Element elem, String url)
+  /*-{
+    elem.Movie = url;
+  }-*/;
+
   /**
    * Returns an IE specific version string such as
    * <code>WIN&nbsp;9,0,47,0</code> or <code>UNIX&nbsp;9,0,47,0</code>, starting
@@ -57,11 +63,5 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
     } catch(e) {
       return null;
     }
-  }-*/;
-
-  @Override
-  public native void maybeSetURL(Element elem, String url)
-  /*-{
-    elem.Movie = url;
   }-*/;
 }

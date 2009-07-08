@@ -41,18 +41,6 @@ public abstract class FlashMovieImpl {
   }
 
   /**
-   * Returns a browser specific version string such as
-   * <code>WIN&nbsp;9,0,47,0</code> or
-   * <code>Shockwave&nbsp;Flash&nbsp;9.0&nbsp;&nbsp;r47</code>, starting with
-   * Flash Player version 3. Earlier versions are not currently detected and
-   * result in <code>null</code> being returned.
-   * 
-   * @return non-IE Flash plug-in version string or <code>null</code> if version
-   *         could not be determined, or plug-in is unavailable
-   */
-  protected abstract String getRawVersionString();
-
-  /**
    * Returns a generic string of comma delimited version numbers, e.g.
    * <code>9,0,47,0</code> or <code>9,0,47</code>, starting with Flash Players
    * version 3 or 4, depending on the browser. Earlier versions are not
@@ -69,4 +57,16 @@ public abstract class FlashMovieImpl {
 
   public void maybeSetURL(Element elem, String url) {
   }
+
+  /**
+   * Returns a browser specific version string such as
+   * <code>WIN&nbsp;9,0,47,0</code> or
+   * <code>Shockwave&nbsp;Flash&nbsp;9.0&nbsp;&nbsp;r47</code>, starting with
+   * Flash Player version 3. Earlier versions are not currently detected and
+   * result in <code>null</code> being returned.
+   * 
+   * @return non-IE Flash plug-in version string or <code>null</code> if version
+   *         could not be determined, or plug-in is unavailable
+   */
+  protected abstract String getRawVersionString();
 }
