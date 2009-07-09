@@ -1,16 +1,14 @@
 /*
  * Copyright 2009 Fred Sauer
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.voices.client.ui.impl;
@@ -27,13 +25,12 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 import java.util.HashMap;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation
- * for IE.
+ * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for IE.
  */
 public class NativeSoundImplIE6 extends NativeSoundImpl {
   /**
-   * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply
-   * a background sound to a Web page in FrontPage</a> knowledge base article.
+   * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply a background sound
+   * to a Web page in FrontPage</a> knowledge base article.
    */
   private static final String[] BGSOUND_SUPPORTED_MIME_TYPES = {
       Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_X_MIDI,
@@ -81,8 +78,8 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   }
 
   /**
-   * Best guess at conversion formula from standard -100 .. 100 range to -10000
-   * .. 10000 range used by IE.
+   * Best guess at conversion formula from standard -100 .. 100 range to -10000 .. 10000 range used
+   * by IE.
    * 
    * TODO location documentation for IE
    */
@@ -102,8 +99,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
   }-*/;
 
   /**
-   * Best guess at conversion formula from standard 0 .. 100 range to -10000 ..
-   * 0 range used by IE.
+   * Best guess at conversion formula from standard 0 .. 100 range to -10000 .. 0 range used by IE.
    * 
    * TODO location documentation for IE
    */
