@@ -1,5 +1,17 @@
 @CHARSET "UTF-8";
 
+/* DisclosurePanel */
+@external .gwt-DisclosurePanel;
+@external .header
+@external .footer
+
+/* VoicesDemo */
+@external .demo-main-panel;
+@external .demo-loading;
+@external .demo-event-text-area-header;
+@external .demo-event-text-area;
+@external .demo-footer;
+
 .demo-loading {
 	font-weight: bold;
 	padding: 1em;

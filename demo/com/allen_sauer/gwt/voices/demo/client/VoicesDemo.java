@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -34,8 +35,6 @@ import java.util.HashMap;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class VoicesDemo implements EntryPoint {
-  private static final String DEMO_EVENT_TEXT_AREA = "demo-event-text-area";
-  private static final String DEMO_MAIN_PANEL = "demo-main-panel";
   private static ThirdPartySound[] freeSounds;
   private static HashMap<String, ArrayList<ThirdPartySound>> mimeTypeSoundMap = new HashMap<String, ArrayList<ThirdPartySound>>();
 
@@ -140,13 +139,15 @@ public class VoicesDemo implements EntryPoint {
   }
 
   public void onModuleLoad2() {
+    StyleInjector.injectStylesheet(DemoClientBundle.INSTANCE.css().getText());
+
     // text area to log sound events as they are triggered
     final HTML eventTextArea = new HTML();
-    RootPanel.get(DEMO_EVENT_TEXT_AREA).add(eventTextArea);
+    RootPanel.get(DemoClientBundle.INSTANCE.css().demoEventTextArea()).add(eventTextArea);
 
     DemoSoundHandler demoSoundHandler = new DemoSoundHandler(eventTextArea);
 
-    RootPanel mainPanel = RootPanel.get(DEMO_MAIN_PANEL);
+    RootPanel mainPanel = RootPanel.get(DemoClientBundle.INSTANCE.css().demoMainPanel());
     DOM.setInnerHTML(mainPanel.getElement(), "");
 
     mainPanel.add(new DeferredContentDisclosurePanel("Sound Support Matrix",
