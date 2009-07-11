@@ -121,17 +121,8 @@
 
 		<copy todir="build/out">
 			<fileset dir="src">
-				<include name="**/*.swf" />
-				<include name="**/public/**" />
-				
 				<exclude name="**/*.as" />
-			</fileset>
-		</copy>
-
-		<copy todir="build/out">
-			<fileset dir="src">
-				<include name="**/*.java" />
-				<include name="**/*.gwt.xml" />
+				<exclude name="**/package.html" />
 			</fileset>
 			<fileset dir=".">
 				<include name="**/LICENSE" />
@@ -144,12 +135,8 @@
 
 		<copy todir="build/dummy">
 			<fileset dir="build/out" />
-		</copy>
-
-		<copy todir="build/dummy">
 			<fileset dir="demo">
-				<include name="**/*.java" />
-				<include name="**/*.gwt.xml" />
+				<exclude name="**/package.html" />
 			</fileset>
 			<filterset>
 				<filter token="GWT_VOICES_VERSION" value="${gwt-voices.version}" />
