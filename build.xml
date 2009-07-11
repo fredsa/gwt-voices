@@ -1,6 +1,6 @@
 <project name="gwt-voices" default="dist">
 
-	<target name="init">
+	<target name="init" description="Initialization of ant properties">
 		<!-- Global Properties -->
 		<property environment="env" />
 
@@ -44,7 +44,7 @@
 		<condition property="gwt.location.default" value="${env.GWTTRUNK_HOME}" else="">
 			<isset property="env.GWTTRUNK_HOME" />
 		</condition>
-		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT 1.5 install directory" />
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT trunk installation directory" />
 
 		<!-- gwt.tools property -->
 		<condition property="gwt.tools" value="${env.GWT_TOOLS}" else="${gwt.root}/../tools">
@@ -76,7 +76,6 @@
 			</classpath>
 		</taskdef>
 
-
 		<!-- gwt-voices.libdir property -->
 		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/lib/gwt-voices" message="gwt-voices library directory" />
 
@@ -90,8 +89,11 @@
 			</sequential>
 		</for>
 
+	</target>
+
+	<target name="lib-locations" description="Determine library locations">
 		<!-- gwt-voices.version property -->
-		<input addproperty="gwt-voices.version" defaultvalue="0.0.0" message="gwt-voices library version" />
+		<input addproperty="gwt-voices.version" defaultvalue="0.0.0" message="gwt-voices release version" />
 
 		<!-- gwt-voices.jar property -->
 		<property name="gwt-voices.jar" value="gwt-voices-${gwt-voices.version}.jar" />
@@ -116,28 +118,32 @@
 
 	<!-- Replace @GWT_VOICES_VERION@ with actual version of build -->
 	<target name="filter" description="Filters distro files for versioning">
-		<mkdir dir="build/out" />
-		<mkdir dir="build/dummy" />
+		<mkdir dir="build/src" />
+		<mkdir dir="build/demo" />
 
-		<copy todir="build/out">
+		<copy todir="build/src">
 			<fileset dir="src">
-				<exclude name="**/*.as" />
 				<exclude name="**/package.html" />
+				<exclude name="**/*.as" />
 			</fileset>
 			<fileset dir=".">
-				<include name="**/LICENSE" />
-				<include name="**/NOTICE" />
+				<include name="LICENSE" />
+				<include name="NOTICE" />
 			</fileset>
 			<filterset>
 				<filter token="GWT_VOICES_VERSION" value="${gwt-voices.version}" />
 			</filterset>
 		</copy>
 
-		<copy todir="build/dummy">
-			<fileset dir="build/out" />
+		<copy todir="build/demo">
+			<fileset dir="build/src" />
 			<fileset dir="demo">
 				<exclude name="**/package.html" />
 			</fileset>
+			<fileset dir=".">
+				<include name="LICENSE" />
+				<include name="NOTICE" />
+			</fileset>
 			<filterset>
 				<filter token="GWT_VOICES_VERSION" value="${gwt-voices.version}" />
 			</filterset>
@@ -145,53 +151,81 @@
 
 	</target>
 
-	<target name="build" depends="init, clean, filter, javac, gwtc">
+	<target name="build" depends="init, lib-locations, clean, filter, javac, gwtc">
 	</target>
 
-	<target name="javac" depends="filter">
+	<target name="javac" description="Java compile" depends="filter">
 
-		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
-			<src path="build/out" />
+		<echo message="Compiling build/src ..." />
+
+		<javac compiler="javac1.5" listfiles="true" destdir="build/src" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
 
-		<javac compiler="javac1.5" listfiles="true" destdir="build/dummy" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
-			<src path="build/dummy" />
+		<echo message="Copying src files build/src ..." />
+
+		<copy todir="build/src">
+			<fileset dir="build/src">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<!-- build demo files as a sanity check -->
+
+		<echo message="Copying src files (for reference purposes) and NOTICE/LICENSE files to build/demo ..." />
+
+		<copy todir="build/demo">
+			<fileset dir="build/src">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<echo message="Compiling build/demo ..." />
+
+		<javac compiler="javac1.5" listfiles="false" destdir="build/demo" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+			<src path="build/demo" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
 
 	</target>
 
-
-	<target name="gwtc" description="Compile to JavaScript" depends="filter">
+	<target name="gwtc" description="Compile to JavaScript" depends="javac">
 		<outofdate>
 			<sourcefiles>
-				<fileset dir="build/out" />
-				<fileset dir="build/dummy" />
+				<fileset dir="build/src" />
+				<fileset dir="build/demo" />
 				<fileset file="${gwt-user.jar}" />
 				<fileset file="${gwt-dev.jar}" />
 			</sourcefiles>
 
-			<targetfiles path="build/www/com.allen_sauer.gwt.voices.demo.VoicesDemo/VoicesDemo.nocache.html" />
+			<targetfiles path="build/war/com.allen_sauer.gwt.voices.demo.voicesDemo/com.allen_sauer.gwt.voices.demo.voicesDemo.nocache.js" />
+
 			<sequential>
-				<mkdir dir="build/www" />
-				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/out:build/dummy:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
+				<mkdir dir="build/war" />
+
+				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/src:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
 					<arg value="-war" />
 					<arg path="build/war" />
-
 					<arg value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
-
 					<arg value="-style" />
 					<arg value="PRETTY" />
 				</java>
+
+				<copy todir="build/war">
+					<fileset file="war/VoicesDemo.html" />
+					<fileset file="war/VoicesDemo.css" />
+				</copy>
+
+				<copydir dest="build/war/images" src="war/images" />
 			</sequential>
 		</outofdate>
 	</target>
 
-	<target name="javadoc">
-		<javadoc access="protected" classpath="${gwt-user.jar}:{gwt-dev.jar}" destdir="build/javadoc" doctitle="gwt-voices - Drag-and-drop for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/dummy" />
+	<target name="javadoc" description="Generate Javadoc" depends="javac">
+		<javadoc access="protected" classpath="${gwt-user.jar}:${voices4j.location}" destdir="build/javadoc" doctitle="gwt-voices - voicesging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.voices.rebind" />
 	</target>
 
 	<target name="stat">
@@ -216,25 +250,44 @@
 		<echo message="" />
 	</target>
 
-	<target name="dist" depends="build,javadoc">
+	<target name="dist" description="Create distribution jar" depends="build,javadoc">
 		<mkdir dir="build/dist" />
 
 		<jar destfile="build/dist/${gwt-voices.jar}">
-			<fileset dir="build/out" />
+			<fileset dir="build/src" />
 		</jar>
+
 		<jar basedir="build/javadoc" destfile="build/dist/${gwt-voices.javadoc-jar}" />
 
 		<copy todir="${gwt-voices.libdir}">
 			<fileset dir="build/dist" />
 		</copy>
 
-    <antcall target="tag" />
+		<antcall target="tag" />
 
 		<antcall target="stat" />
 	</target>
 
 	<target name="clean">
 		<delete dir="build" />
+	</target>
+
+	<target name="sshls" description="SSH ls (test)" >
+
+		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+
+	</target>
+
+	<target name="deploy" description="Build and deploy to demo site" depends="clean, init, javac, gwtc">
+
+		<sshexec command="mkdir com.allen_sauer.gwt.voices.demo.VoicesDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+
+		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.voices.demo.VoicesDemo/" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" verbose="true">
+			<fileset dir="build/war" />
+		</scp>
+
+		<sshexec command="./deploy.sh com.allen_sauer.gwt.voices.demo.VoicesDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+
 	</target>
 
 </project>
