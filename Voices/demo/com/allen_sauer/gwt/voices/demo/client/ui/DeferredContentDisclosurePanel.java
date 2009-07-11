@@ -22,9 +22,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Panel;
 
+import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
+
 // CHECKSTYLE_JAVADOC_OFF
 public class DeferredContentDisclosurePanel extends Composite {
-  private static final String CSS_DEMO_CONTENT = "demo-content";
   private HandlerRegistration openHandlerRegistration;
 
   public DeferredContentDisclosurePanel(String html, final DeferredContentPanel deferredContentPanel) {
@@ -34,7 +35,7 @@ public class DeferredContentDisclosurePanel extends Composite {
     openHandlerRegistration = realDisclosurePanel.addOpenHandler(new OpenHandler<DisclosurePanel>() {
       public void onOpen(OpenEvent<DisclosurePanel> event) {
         Panel panel = deferredContentPanel.initContent();
-        panel.addStyleName(CSS_DEMO_CONTENT);
+        panel.addStyleName(DemoClientBundle.INSTANCE.css().demoContent());
         realDisclosurePanel.setContent(panel);
         openHandlerRegistration.removeHandler();
       }

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundHandler;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundPanel;
 import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
@@ -62,7 +63,7 @@ public class MimeTypeDemo extends DeferredContentPanel {
                 + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)"
                 + " <b>" + sound.getSoundType() + "</b> to play <code>" + mimeType
                 + "</code> sounds.</li></ul>");
-        note.addStyleName("demo-note");
+        note.addStyleName(DemoClientBundle.INSTANCE.css().demoNote());
         containerPanel.add(note);
       }
       soundsPanel.add(new DemoSoundPanel(thirdPartySound));
