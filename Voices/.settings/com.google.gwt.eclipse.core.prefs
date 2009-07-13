@@ -1,0 +1,4 @@
+#Sun May 17 21:28:32 PDT 2009
+eclipse.preferences.version=1
+entryPointModules=com.allen_sauer.gwt.voices.demo.VoicesDemo|com.allen_sauer.gwt.voices.test.VoicesTest
+filesCopiedToWebInfLib=gwt-servlet.jar
