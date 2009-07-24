@@ -125,8 +125,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     DeferredCommand.addCommand(new Command() {
       public native void callFunc(JavaScriptObject func, VoicesMovieWidget thiz)
       /*-{
-        func.apply(thiz);
-      }-*/;
+    func.apply(thiz);
+  }-*/;
 
       public void execute() {
         callFunc(func, VoicesMovieWidget.this);
@@ -186,9 +186,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     $doc.VoicesMovie[id].ready = function() {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          var elem = this.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::getElement()();
           this.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::movieReady()();
-          $doc.VoicesMovieReady = null;
         });
         return true;
       } catch(e) {
