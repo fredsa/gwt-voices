@@ -1,16 +1,14 @@
 /*
  * Copyright 2009 Fred Sauer
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.voices.test.client;
@@ -41,8 +39,8 @@ public class VoicesTest implements EntryPoint {
   }-*/;
 
   /**
-   * Use DeferredCommand to ensure an UncaughtExceptionHandler is installed
-   * before any of our real code executes.
+   * Use DeferredCommand to ensure an UncaughtExceptionHandler is installed before any of our real
+   * code executes.
    */
   public void onModuleLoad() {
     // set uncaught exception handler
@@ -87,7 +85,7 @@ public class VoicesTest implements EntryPoint {
 
   private void addTest() {
     String[] urls = new String[] {
-        "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3",
+        "freesoundproject/36846__EcoDTR__LaserRocket.mp3",
         "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
         "http://media3.7digital.com/clips/34/2934485.clip.mp3",};
     String[] mimeTypes = new String[] {
