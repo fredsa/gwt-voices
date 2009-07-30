@@ -91,7 +91,7 @@ class Voices
   
   function setBalance(id:Number, balance:Number):Void {
     Voices.log("setBalance(id=" + id + ", balance=" + balance + ")");
-    sounds[id].setBalance(balance);
+    sounds[id].setPan(balance);
   }
   
   static function log(text:String) {
