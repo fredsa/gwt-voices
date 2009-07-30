@@ -65,30 +65,6 @@ public class SoundController {
     MIME_TYPE_SUPPORT_UNKNOWN,
   };
 
-  /**
-   * @deprecated Use {@link MimeTypeSupport#MIME_TYPE_SUPPORT_UNKNOWN} enum value instead.
-   */
-  @Deprecated
-  public static final MimeTypeSupport MIME_TYPE_SUPPORT_UNKNOWN = MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
-
-  /**
-   * @deprecated Use {@link MimeTypeSupport#MIME_TYPE_SUPPORT_READY} enum value instead.
-   */
-  @Deprecated
-  public static final MimeTypeSupport MIME_TYPE_SUPPORTED = MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
-
-  /**
-   * @deprecated Use {@link MimeTypeSupport#MIME_TYPE_SUPPORT_NOT_READY} enum value instead.
-   */
-  @Deprecated
-  public static final MimeTypeSupport MIME_TYPE_SUPPORTED_NOT_LOADED = MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY;
-
-  /**
-   * @deprecated Use {@link MimeTypeSupport#MIME_TYPE_NOT_SUPPORTED} enum value instead.
-   */
-  @Deprecated
-  public static final MimeTypeSupport MIME_TYPE_UNSUPPORTED = MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
-
   static final int DEFAULT_VOLUME = 100;
 
   static {
