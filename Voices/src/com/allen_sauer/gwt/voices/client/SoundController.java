@@ -105,7 +105,6 @@ public class SoundController {
    */
   protected final AbsolutePanel soundContainer = new AbsolutePanel();
   private int defaultVolume = DEFAULT_VOLUME;
-  private boolean prioritizeFlashSound = false;
   private VoicesMovieWidget voicesMovie;
 
   /**
@@ -143,32 +142,12 @@ public class SoundController {
   }
 
   /**
-   * Determine if Flash play back is prioritized over other play back methods. Defaults to
-   * <code>false</code>.
-   * 
-   * @return <code>true</code> if Flash based sound is being prioritized
-   */
-  public boolean isPrioritizeFlashSound() {
-    return prioritizeFlashSound;
-  }
-
-  /**
    * Set the default volume (range <code>0-100</code>) for new sound.
    * 
    * @param defaultVolume the default volume (range <code>0-100</code>) to be used for new sounds
    */
   public void setDefaultVolume(int defaultVolume) {
     this.defaultVolume = defaultVolume;
-  }
-
-  /**
-   * Set whethe Flash play back is to be prioritized over other play back methods. Defaults to
-   * <code>false</code>.
-   * 
-   * @param prioritizeFlashSound whether or not to prioritize Flash play back
-   */
-  public void setPrioritizeFlashSound(boolean prioritizeFlashSound) {
-    this.prioritizeFlashSound = prioritizeFlashSound;
   }
 
   /**
