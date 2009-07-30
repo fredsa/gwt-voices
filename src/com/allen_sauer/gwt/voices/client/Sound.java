@@ -66,42 +66,6 @@ public interface Sound extends FiresSoundEvents {
   };
 
   /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_SUPPORTED_AND_READY} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_LOADED = LoadState.LOAD_STATE_SUPPORTED_AND_READY;
-
-  /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_SUPPORTED_MAYBE_READY} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_SUPPORTED = LoadState.LOAD_STATE_SUPPORTED_MAYBE_READY;
-
-  /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_SUPPORTED_NOT_READY} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_SUPPORTED_NOT_LOADED = LoadState.LOAD_STATE_SUPPORTED_NOT_READY;
-
-  /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_UNINITIALIZED} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_UNINITIALIZED = LoadState.LOAD_STATE_UNINITIALIZED;
-
-  /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_SUPPORT_NOT_KNOWN} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_UNKNOWN = LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
-
-  /**
-   * @deprecated Use {@link LoadState#LOAD_STATE_NOT_SUPPORTED} enum value instead.
-   */
-  @Deprecated
-  LoadState LOAD_STATE_UNSUPPORTED = LoadState.LOAD_STATE_NOT_SUPPORTED;
-
-  /**
    * IANA assigned media type <code>audio/basic</code> for RFC 2045/2046. Typical filename
    * extensions include <code>.au</code> and <code>.snd</code>.
    */
