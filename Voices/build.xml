@@ -216,11 +216,11 @@
 	<target name="tag">
 		<exec executable="svn">
 			<arg value="ls" />
-			<arg value="https://gwt-voices.googlecode.com/svn/tags/" />
+			<arg value="http://gwt-voices.googlecode.com/svn/tags/" />
 		</exec>
 		<exec executable="svn">
 			<arg value="info" />
-			<arg value="https://gwt-voices.googlecode.com/svn/" />
+			<arg value="http://gwt-voices.googlecode.com/svn/" />
 		</exec>
 		<echo message="" />
 		<echo message="*****************************************************************************************************" />
