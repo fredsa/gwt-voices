@@ -223,9 +223,9 @@
 			<arg value="http://gwt-voices.googlecode.com/svn/" />
 		</exec>
 		<echo message="" />
-		<echo message="*****************************************************************************************************" />
-		<echo message="svn -m 'for prosterity' cp . https://gwt-voices.googlecode.com/svn/tags/gwt-voices-${gwt-voices.version}-r" />
-		<echo message="*****************************************************************************************************" />
+		<echo message="********************************************************************************************************************************************************" />
+		<echo message="svn -m 'for prosterity' cp https://gwt-voices.googlecode.com/svn/trunk https://gwt-voices.googlecode.com/svn/tags/gwt-voices-${gwt-voices.version}-r" />
+		<echo message="********************************************************************************************************************************************************" />
 		<echo message="" />
 	</target>
 
