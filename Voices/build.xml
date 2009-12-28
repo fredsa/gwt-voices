@@ -175,6 +175,8 @@
 					<arg value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
 					<arg value="-style" />
 					<arg value="OBF" />
+					<arg value="-localWorkers" />
+					<arg value="2" />
 				</java>
 
 				<copy todir="build/war">
