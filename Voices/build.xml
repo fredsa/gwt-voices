@@ -233,11 +233,13 @@
 
 	<target name="clean">
 		<delete dir="build" />
+		<delete dir="war/WEB-INF/classes" />
 		<delete dir="war/demo" />
 		<delete dir="war/test" />
 
 		<!-- Put the directories back so Eclipse doesn't loose the 'derived' attribute -->
 		<mkdir dir="build" />
+		<mkdir dir="war/WEB-INF/classes" />
 		<mkdir dir="war/demo" />
 		<mkdir dir="war/test" />
 	</target>
