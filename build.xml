@@ -4,53 +4,17 @@
 		<!-- Global Properties -->
 		<property environment="env" />
 
-		<!-- build.host.platform property -->
-		<condition property="build.host.islinux">
-			<and>
-				<os family="unix" />
-				<not>
-					<contains string="${os.name}" substring="mac" casesensitive="false" />
-				</not>
-			</and>
-		</condition>
-		<condition property="build.host.platform" value="linux">
-			<isset property="build.host.islinux" />
-		</condition>
-
-		<condition property="build.host.ismac">
-			<and>
-				<os family="unix" />
-				<contains string="${os.name}" substring="mac" casesensitive="false" />
-			</and>
-		</condition>
-		<condition property="build.host.platform" value="mac">
-			<isset property="build.host.ismac" />
-		</condition>
-
-		<condition property="build.host.iswindows">
-			<os family="windows" />
-		</condition>
-		<condition property="build.host.platform" value="windows">
-			<isset property="build.host.iswindows" />
-		</condition>
-		<fail unless="build.host.platform" message="Building on ${os.name} is not supported" />
-
-		<condition property="junit.platform.args" value="-XstartOnFirstThread" else="">
-			<equals arg1="${build.host.platform}" arg2="mac" casesensitive="false" />
-		</condition>
-
-
 		<!-- gwt.location property -->
 		<condition property="gwt.location.default" value="${env.GWTTRUNK_HOME}" else="">
 			<isset property="env.GWTTRUNK_HOME" />
 		</condition>
-		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT trunk installation directory" />
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
 
 		<!-- gwt.tools property -->
-		<condition property="gwt.tools" value="${env.GWT_TOOLS}" else="${gwt.root}/../tools">
+		<condition property="gwt.tools.default" value="${env.GWT_TOOLS}" else="">
 			<isset property="env.GWT_TOOLS" />
 		</condition>
-		<fail message="can't find gwt tools, please set gwt.tools property" unless="gwt.tools" />
+		<input addproperty="gwt.tools" defaultvalue="${gwt.tools.default}" message="GWT tools directory, i.e. directory where http://google-web-toolkit.googlecode.com/svn/tools/ is checked out" />
 
 		<!-- gwt tools stuff -->
 		<property name="gwt.tools.lib" location="${gwt.tools}/lib" />
@@ -67,7 +31,7 @@
 
 		<!-- gwt jars -->
 		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
-		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev-${build.host.platform}.jar" />
+		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev.jar" />
 
 		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -77,7 +41,7 @@
 		</taskdef>
 
 		<!-- gwt-voices.libdir property -->
-		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/lib/gwt-voices" message="gwt-voices library directory" />
+		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/lib/gwt-voices" message="gwt-voices library, i.e. directory where you keep your gwt-voices jar file(s)" />
 
 		<for param="file">
 			<fileset dir="${gwt-voices.libdir}">
@@ -91,7 +55,7 @@
 
 	</target>
 
-	<target name="lib-locations" description="Determine library locations">
+	<target name="lib-locations" description="Determine library locations" depends="init">
 		<!-- gwt-voices.version property -->
 		<input addproperty="gwt-voices.version" defaultvalue="0.0.0" message="gwt-voices release version" />
 
@@ -117,8 +81,8 @@
 
 
 	<!-- Replace @GWT_VOICES_VERION@ with actual version of build -->
-	<target name="filter" description="Filters distro files for versioning">
-		<mkdir dir="build/src" />
+	<target name="filter" description="Filters distro files for versioning" depends="lib-locations">
+		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 
 		<copy todir="build/src">
@@ -136,7 +100,6 @@
 		</copy>
 
 		<copy todir="build/demo">
-			<fileset dir="build/src" />
 			<fileset dir="demo">
 				<exclude name="**/package.html" />
 			</fileset>
@@ -151,22 +114,22 @@
 
 	</target>
 
-	<target name="build" depends="init, lib-locations, clean, filter, javac, gwtc">
+	<target name="build" depends="lib-locations, clean, javac, gwtc">
 	</target>
 
 	<target name="javac" description="Java compile" depends="filter">
 
 		<echo message="Compiling build/src ..." />
 
-		<javac compiler="javac1.5" listfiles="true" destdir="build/src" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
+		<javac compiler="javac1.5" listfiles="true" destdir="build/out" debug="${javac.debug}" debuglevel="${javac.debuglevel}" source="${javac.source}" target="${javac.target}" nowarn="${javac.nowarn}" encoding="${javac.encoding}">
 			<src path="build/src" />
 			<classpath location="${gwt-user.jar}" />
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
 
-		<echo message="Copying src files build/src ..." />
+		<echo message="Copying src files build/out ..." />
 
-		<copy todir="build/src">
+		<copy todir="build/out">
 			<fileset dir="build/src">
 				<include name="**/*" />
 			</fileset>
@@ -195,23 +158,23 @@
 	<target name="gwtc" description="Compile to JavaScript" depends="javac">
 		<outofdate>
 			<sourcefiles>
-				<fileset dir="build/src" />
+				<fileset dir="build/out" />
 				<fileset dir="build/demo" />
 				<fileset file="${gwt-user.jar}" />
 				<fileset file="${gwt-dev.jar}" />
 			</sourcefiles>
 
-			<targetfiles path="build/war/com.allen_sauer.gwt.voices.demo.voicesDemo/com.allen_sauer.gwt.voices.demo.voicesDemo.nocache.js" />
+			<targetfiles path="build/war/demo/demo.nocache.js" />
 
 			<sequential>
 				<mkdir dir="build/war" />
 
-				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/src:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
+				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
 					<arg value="-war" />
 					<arg path="build/war" />
 					<arg value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
 					<arg value="-style" />
-					<arg value="PRETTY" />
+					<arg value="OBF" />
 				</java>
 
 				<copy todir="build/war">
@@ -225,7 +188,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}:${voices4j.location}" destdir="build/javadoc" doctitle="gwt-voices - voicesging for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" excludepackagenames="com.allen_sauer.gwt.voices.rebind" />
+		<javadoc access="protected" classpath="${gwt-user.jar}" destdir="build/javadoc" doctitle="gwt-voices - Sound support for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" />
 	</target>
 
 	<target name="stat">
@@ -237,16 +200,16 @@
 	<target name="tag">
 		<exec executable="svn">
 			<arg value="ls" />
-			<arg value="https://gwt-voices.googlecode.com/svn/tags/" />
+			<arg value="http://gwt-voices.googlecode.com/svn/tags/" />
 		</exec>
 		<exec executable="svn">
 			<arg value="info" />
-			<arg value="https://gwt-voices.googlecode.com/svn/" />
+			<arg value="http://gwt-voices.googlecode.com/svn/" />
 		</exec>
 		<echo message="" />
-		<echo message="*****************************************************************************************************" />
+		<echo message="********************************************************************************************************************************************" />
 		<echo message="svn -m 'for prosterity' cp . https://gwt-voices.googlecode.com/svn/tags/gwt-voices-${gwt-voices.version}-r" />
-		<echo message="*****************************************************************************************************" />
+		<echo message="********************************************************************************************************************************************" />
 		<echo message="" />
 	</target>
 
@@ -254,7 +217,7 @@
 		<mkdir dir="build/dist" />
 
 		<jar destfile="build/dist/${gwt-voices.jar}">
-			<fileset dir="build/src" />
+			<fileset dir="build/out" />
 		</jar>
 
 		<jar basedir="build/javadoc" destfile="build/dist/${gwt-voices.javadoc-jar}" />
@@ -270,15 +233,22 @@
 
 	<target name="clean">
 		<delete dir="build" />
+		<delete dir="war/demo" />
+		<delete dir="war/test" />
+
+		<!-- Put the directories back so Eclipse doesn't loose the 'derived' attribute -->
+		<mkdir dir="build" />
+		<mkdir dir="war/demo" />
+		<mkdir dir="war/test" />
 	</target>
 
-	<target name="sshls" description="SSH ls (test)" >
+	<target name="sshls" description="SSH ls (test)">
 
 		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
 	</target>
 
-	<target name="deploy" description="Build and deploy to demo site" depends="clean, init, javac, gwtc">
+	<target name="deploy" description="Build and deploy to demo site" depends="clean, javac, gwtc">
 
 		<sshexec command="mkdir com.allen_sauer.gwt.voices.demo.VoicesDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
