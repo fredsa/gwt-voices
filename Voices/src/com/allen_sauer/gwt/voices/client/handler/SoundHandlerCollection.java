@@ -16,7 +16,7 @@ package com.allen_sauer.gwt.voices.client.handler;
 import java.util.ArrayList;
 
 /**
- * Utility collection class used by {@link com.allen_sauer.gwt.voices.client.AbstractSound}.
+ * Utility collection class used by AbstractSound.
  */
 @SuppressWarnings("serial")
 public class SoundHandlerCollection extends ArrayList<SoundHandler> {

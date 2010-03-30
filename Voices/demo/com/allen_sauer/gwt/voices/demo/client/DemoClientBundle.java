@@ -3,7 +3,6 @@ package com.allen_sauer.gwt.voices.demo.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.CssResource.Strict;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 
 public interface DemoClientBundle extends ClientBundle {
@@ -51,7 +50,6 @@ public interface DemoClientBundle extends ClientBundle {
 
   DemoClientBundle INSTANCE = GWT.create(DemoClientBundle.class);
 
-  @Strict
   @Source("VoicesDemo.css")
   DemoCssResource css();
 }

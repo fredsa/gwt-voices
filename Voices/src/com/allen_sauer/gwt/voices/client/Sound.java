@@ -63,7 +63,7 @@ public interface Sound extends FiresSoundEvents {
      * new load state.
      */
     LOAD_STATE_UNINITIALIZED,
-  };
+  }
 
   /**
    * IANA assigned media type <code>audio/basic</code> for RFC 2045/2046. Typical filename

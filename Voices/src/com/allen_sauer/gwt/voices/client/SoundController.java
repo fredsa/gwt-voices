@@ -63,7 +63,7 @@ public class SoundController {
      * plugins.
      */
     MIME_TYPE_SUPPORT_UNKNOWN,
-  };
+  }
 
   static final int DEFAULT_VOLUME = 100;
 
