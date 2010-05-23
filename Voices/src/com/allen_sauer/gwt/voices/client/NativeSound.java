@@ -1,14 +1,16 @@
 /*
- * Copyright 2009 Fred Sauer
+ * Copyright 2010 Fred Sauer
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.voices.client;
@@ -18,10 +20,11 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_NOT_READY;
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Element;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
-import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
+import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 /**
@@ -31,13 +34,32 @@ import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 public class NativeSound extends AbstractSound {
   // CHECKSTYLE_JAVADOC_OFF
 
-  private final NativeSoundWidget nativeSoundWidget;
+  protected static NativeSoundImpl impl;
+  static {
+    impl = (NativeSoundImpl) GWT.create(NativeSoundImpl.class);
+  }
+
+  public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
+    return impl.getMimeTypeSupport(mimeType);
+  }
+
+  private Element element;
+
+  private final String mimeType;
+
+  private final Element soundControllerElement;
+
   private int volume;
 
   public NativeSound(String mimeType, String url, boolean streaming, Element soundControllerElement) {
     super(mimeType, url, streaming);
-    nativeSoundWidget = new NativeSoundWidget(soundControllerElement, mimeType, url);
-    MimeTypeSupport mimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
+
+    this.soundControllerElement = soundControllerElement;
+    this.mimeType = mimeType;
+    impl.preload(soundControllerElement, mimeType, url);
+    element = impl.createElement(url);
+
+    MimeTypeSupport mimeTypeSupport = getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
       case MIME_TYPE_SUPPORT_READY:
         setLoadState(LOAD_STATE_SUPPORTED_MAYBE_READY);
@@ -58,7 +80,7 @@ public class NativeSound extends AbstractSound {
 
   @Override
   public String getSoundType() {
-    return DOMUtil.getNodeName(nativeSoundWidget.getElement());
+    return DOMUtil.getNodeName(element);
   }
 
   public int getVolume() {
@@ -66,19 +88,20 @@ public class NativeSound extends AbstractSound {
   }
 
   public void play() {
-    nativeSoundWidget.play();
+    impl.play(soundControllerElement, element, mimeType);
   }
 
   public void setBalance(int balance) {
-    nativeSoundWidget.setBalance(balance);
+    impl.setBalance(element, balance);
   }
 
   public void setVolume(int volume) {
     this.volume = volume;
-    nativeSoundWidget.setVolume(volume);
+    impl.setVolume(element, volume);
   }
 
   public void stop() {
-    nativeSoundWidget.stop();
+    impl.stop(element);
   }
+
 }

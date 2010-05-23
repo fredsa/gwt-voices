@@ -6,4 +6,5 @@
     <file-match-pattern match-pattern="^demo[/\\].*java$" include-pattern="true"/>
     <file-match-pattern match-pattern="^test[/\\].*java$" include-pattern="true"/>
   </fileset>
+  <filter name="FilesInSync" enabled="true"/>
 </fileset-config>

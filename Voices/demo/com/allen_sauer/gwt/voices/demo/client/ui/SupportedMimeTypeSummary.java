@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Fred Sauer
+ * Copyright 2010 Fred Sauer
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,12 +22,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import com.allen_sauer.gwt.voices.client.NativeSound;
 import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
-import com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
-import com.allen_sauer.gwt.voices.demo.client.SupportedMimeTypeSoundController;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends DeferredContentPanel {
@@ -56,8 +56,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     flexTable.setWidget(0, 2, new HTML("Native browser <i>or</i> Plugin based support"));
     flexTable.getRowFormatter().addStyleName(0, DemoClientBundle.INSTANCE.css().header());
 
-    SupportedMimeTypeSoundController soundController = new SupportedMimeTypeSoundController();
-    VoicesMovieWidget movieWidget = soundController.getVoicesMovie();
+    SoundController soundController = new SoundController();
 
     String[] mimeTypes = {
         Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF,
@@ -67,15 +66,15 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       String mimeType = mimeTypes[i];
 
       // Native/Plugin based support
-      MimeTypeSupport nativeMimeTypeSupport = NativeSoundWidget.getMimeTypeSupport(mimeType);
+      MimeTypeSupport nativeMimeTypeSupport = NativeSound.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
+      Sound dummySound = soundController.createSound(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au");
       if (nativeMimeTypeSupport == MIME_TYPE_SUPPORT_READY) {
-        nativeMimeTypeSupportText += " via <code>"
-            + soundController.getNativeSoundNodeName(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au")
-            + "</code>";
+        nativeMimeTypeSupportText += " via <code>" + dummySound.getSoundType() + "</code>";
       }
 
       // Flash based support
+      VoicesMovieWidget movieWidget = new VoicesMovieWidget("gwt-voices-dummy");
       MimeTypeSupport flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 
