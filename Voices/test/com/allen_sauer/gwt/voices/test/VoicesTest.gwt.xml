@@ -18,7 +18,7 @@
 	<inherits name='com.google.gwt.user.User' />
 
 	<!-- Inherit sound stuff.                                 -->
-	<inherits name='com.allen_sauer.gwt.voices.Voices' />
+	<inherits name='com.allen_sauer.gwt.voices.gwt-voices' />
 
 	<!-- Specify the app entry point class.                   -->
 	<entry-point class='com.allen_sauer.gwt.voices.test.client.VoicesTest' />
