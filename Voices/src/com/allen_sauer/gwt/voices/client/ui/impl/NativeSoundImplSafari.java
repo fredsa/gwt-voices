@@ -15,6 +15,8 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
+import com.allen_sauer.gwt.voices.client.Sound;
+
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for Webkit/Safari.
  */
@@ -30,4 +32,14 @@ public class NativeSoundImplSafari extends NativeSoundImplStandard {
     }
     soundControllerElement.appendChild(elem);
   }-*/;
+
+  @Override
+  protected boolean mimeTypeSupportsVolume(String mimeType) {
+    if (Sound.MIME_TYPE_AUDIO_X_MIDI.equals(mimeType)) {
+      // No MIDI volume support in Safari 4 and Chrome 5
+      // (Tested on OSX)
+      return false;
+    }
+    return true;
+  }
 }

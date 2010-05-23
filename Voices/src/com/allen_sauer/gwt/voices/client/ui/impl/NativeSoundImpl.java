@@ -34,9 +34,11 @@ public abstract class NativeSoundImpl {
   }-*/;
 
   public void preload(Element soundControllerElement, String mimeType, String url) {
-    Element elem = createElement(url);
-    setVolume(elem, 0);
-    play(soundControllerElement, elem, mimeType);
+    if (mimeTypeSupportsVolume(mimeType)) {
+      Element elem = createElement(url);
+      setVolume(elem, 0);
+      play(soundControllerElement, elem, mimeType);
+    }
   }
 
   public abstract void setBalance(Element elem, int balancePercentage);
@@ -50,4 +52,8 @@ public abstract class NativeSoundImpl {
       parent.removeChild(elem);
     }
   }-*/;
+
+  protected boolean mimeTypeSupportsVolume(String mimeType) {
+    return true;
+  }
 }

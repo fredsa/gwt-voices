@@ -13,19 +13,10 @@
  */
 package com.allen_sauer.gwt.voices.client.ui.impl;
 
-import com.google.gwt.user.client.Element;
-
 /**
  * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for Mozilla.
  */
 public class NativeSoundImplMozilla extends NativeSoundImplStandard {
-
-  @Override
-  public void preload(Element soundControllerElement, String mimeType, String url) {
-    if (mimeTypeSupportsVolume(mimeType)) {
-      super.preload(soundControllerElement, mimeType, url);
-    }
-  }
 
   /**
    * Determine whether volume control is supported for the provided MIME type.
@@ -38,8 +29,14 @@ public class NativeSoundImplMozilla extends NativeSoundImplStandard {
    * @param mimeType the MIME type to test
    * @return true if the MIME type and enabled plugin is believed to provide volume support
    */
-  private native boolean mimeTypeSupportsVolume(String mimeType)
+  @Override
+  protected native boolean mimeTypeSupportsVolume(String mimeType)
   /*-{
+    if (mimeType = @com.allen_sauer.gwt.voices.client.Sound::MIME_TYPE_AUDIO_X_MIDI) {
+      // No MIDI volume support in Firefox 3.6
+      // (Tested on OSX)
+      return false;
+    }
     var m = navigator.mimeTypes[mimeType];
     if (m != null && m.enabledPlugin != null && m.enabledPlugin.filename.search(/wmp.so$/) != -1) {
       return false;
