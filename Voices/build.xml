@@ -1,6 +1,11 @@
 <project name="gwt-voices" default="dist">
 
 	<target name="init" description="Initialization of ant properties">
+		<!-- Project Properties -->
+		<property name="packagename" value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
+		<property name="projectdescription" value="Sound support for your Google-Web-Toolkit Projects" />
+		<property name="filtertoken" value="GWT_VOICES_VERSION" />
+
 		<!-- Global Properties -->
 		<property environment="env" />
 
@@ -40,13 +45,13 @@
 			</classpath>
 		</taskdef>
 
-		<!-- gwt-voices.libdir property -->
-		<input addproperty="gwt-voices.libdir" defaultvalue="/fred/lib/gwt-voices" message="gwt-voices library, i.e. directory where you keep your gwt-voices jar file(s)" />
+		<!-- libdir property -->
+		<input addproperty="libdir" defaultvalue="/fred/lib/${ant.project.name}" message="${ant.project.name} library directory, i.e where you keep your ${ant.project.name} jar file(s)" />
 
 		<for param="file">
-			<fileset dir="${gwt-voices.libdir}">
-				<include name="gwt-voices-*.*.*.jar" />
-				<exclude name="gwt-voices-*.*.*-*.jar" />
+			<fileset dir="${libdir}">
+				<include name="${ant.project.name}-*.*.*.jar" />
+				<exclude name="${ant.project.name}-*.*.*-*.jar" />
 			</fileset>
 			<sequential>
 				<echo message="@{file}" />
@@ -56,32 +61,33 @@
 	</target>
 
 	<target name="lib-locations" description="Determine library locations" depends="init">
-		<!-- gwt-voices.version property -->
-		<input addproperty="gwt-voices.version" defaultvalue="0.0.0" message="gwt-voices release version" />
+		<!-- libversion property -->
+		<input addproperty="libversion" defaultvalue="0.0.0" message="${ant.project.name} release version" />
 
-		<!-- gwt-voices.jar property -->
-		<property name="gwt-voices.jar" value="gwt-voices-${gwt-voices.version}.jar" />
+		<!-- libjar property -->
+		<property name="libjar" value="${ant.project.name}-${libversion}.jar" />
 
-		<!-- gwt-voices.javadoc-jar property -->
-		<property name="gwt-voices.javadoc-jar" value="gwt-voices-${gwt-voices.version}-javadoc.jar" />
+		<!-- javadocjar property -->
+		<property name="javadocjar" value="${ant.project.name}-${libversion}-javadoc.jar" />
+	</target>
 
+	<target name="unique-lib-locations" description="Determine library locations" depends="lib-locations">
 		<!-- Prevent overwriting existing libraries -->
-		<available file="${gwt-voices.libdir}/${gwt-voices.jar}" property="gwt-voices.jar-exists" />
-		<condition property="gwt-voices.fail-overwrite">
+		<available file="${libdir}/${libjar}" property="libjar-exists" />
+		<condition property="libfail-overwrite">
 			<and>
 				<not>
-					<equals arg1="${gwt-voices.version}" arg2="0.0.0" />
+					<equals arg1="${libversion}" arg2="0.0.0" />
 				</not>
-				<isset property="gwt-voices.jar-exists" />
+				<isset property="libjar-exists" />
 			</and>
 		</condition>
-		<fail if="gwt-voices.fail-overwrite" message="Cannot overwrite existing jar file ${gwt-voices.libdir}/${gwt-voices.jar}" />
-
+		<fail if="libfail-overwrite" message="Cannot overwrite existing jar file ${libdir}/${libjar}" />
 	</target>
 
 
-	<!-- Replace @GWT_VOICES_VERION@ with actual version of build -->
-	<target name="filter" description="Filters distro files for versioning" depends="lib-locations">
+	<!-- Replace @${filtertoken}@ with actual version of build -->
+	<target name="filter" description="Filters distro files for versioning" depends="unique-lib-locations">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 
@@ -95,7 +101,7 @@
 				<include name="NOTICE" />
 			</fileset>
 			<filterset>
-				<filter token="GWT_VOICES_VERSION" value="${gwt-voices.version}" />
+				<filter token="${filtertoken}" value="${libversion}" />
 			</filterset>
 		</copy>
 
@@ -108,13 +114,12 @@
 				<include name="NOTICE" />
 			</fileset>
 			<filterset>
-				<filter token="GWT_VOICES_VERSION" value="${gwt-voices.version}" />
+				<filter token="${filtertoken}" value="${libversion}" />
 			</filterset>
 		</copy>
-
 	</target>
 
-	<target name="build" depends="lib-locations, clean, javac, gwtc">
+	<target name="build" depends="unique-lib-locations, clean, javac, gwtc">
 	</target>
 
 	<target name="javac" description="Java compile" depends="filter">
@@ -172,7 +177,7 @@
 				<java maxmemory="1g" dir="build" classname="com.google.gwt.dev.Compiler" classpath="build/out:build/demo:${gwt-user.jar}:${gwt-dev.jar}" fork="yes" failonerror="true">
 					<arg value="-war" />
 					<arg path="build/war" />
-					<arg value="com.allen_sauer.gwt.voices.demo.VoicesDemo" />
+					<arg value="${packagename}" />
 					<arg value="-style" />
 					<arg value="OBF" />
 					<arg value="-localWorkers" />
@@ -190,7 +195,7 @@
 	</target>
 
 	<target name="javadoc" description="Generate Javadoc" depends="javac">
-		<javadoc access="protected" classpath="${gwt-user.jar}" destdir="build/javadoc" doctitle="gwt-voices - Sound support for your Google-Web-Toolkit Projects" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" />
+		<javadoc access="protected" classpath="${gwt-user.jar}" destdir="build/javadoc" doctitle="${ant.project.name} - ${projectdescription}" encoding="UTF-8" failonerror="true" source="1.5" sourcepath="build/demo" />
 	</target>
 
 	<target name="stat">
@@ -202,15 +207,15 @@
 	<target name="tag">
 		<exec executable="svn">
 			<arg value="ls" />
-			<arg value="http://gwt-voices.googlecode.com/svn/tags/" />
+			<arg value="http://${ant.project.name}.googlecode.com/svn/tags/" />
 		</exec>
 		<exec executable="svn">
 			<arg value="info" />
-			<arg value="http://gwt-voices.googlecode.com/svn/" />
+			<arg value="http://${ant.project.name}.googlecode.com/svn/" />
 		</exec>
 		<echo message="" />
 		<echo message="********************************************************************************************************************************************" />
-		<echo message="svn -m 'for prosterity' cp . https://gwt-voices.googlecode.com/svn/tags/gwt-voices-${gwt-voices.version}-r" />
+		<echo message="svn -m 'for prosterity' cp https://${ant.project.name}.googlecode.com/svn/trunk https://${ant.project.name}.googlecode.com/svn/tags/${ant.project.name}-${libversion}-r" />
 		<echo message="********************************************************************************************************************************************" />
 		<echo message="" />
 	</target>
@@ -218,13 +223,13 @@
 	<target name="dist" description="Create distribution jar" depends="build,javadoc">
 		<mkdir dir="build/dist" />
 
-		<jar destfile="build/dist/${gwt-voices.jar}">
+		<jar destfile="build/dist/${libjar}">
 			<fileset dir="build/out" />
 		</jar>
 
-		<jar basedir="build/javadoc" destfile="build/dist/${gwt-voices.javadoc-jar}" />
+		<jar basedir="build/javadoc" destfile="build/dist/${javadocjar}" />
 
-		<copy todir="${gwt-voices.libdir}">
+		<copy todir="${libdir}">
 			<fileset dir="build/dist" />
 		</copy>
 
@@ -246,22 +251,53 @@
 		<mkdir dir="war/test" />
 	</target>
 
-	<target name="sshls" description="SSH ls (test)">
+	<!-- Upload files to Google Code project hosting -->
+	<target name="upload" description="Upload file to Google Code" depends="lib-locations">
+		<condition property="libfail-upload">
+			<contains string="${libjar}" substring="0.0.0" />
+		</condition>
+		<fail if="libfail-upload" message="Cannot upload version 0.0.0" />
 
-		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+		<input addproperty="summary" message="Description summary" defaultvalue="Logging capabilities for Google-Web-Toolkit (GWT)" />
+		<input addproperty="labels" message="Description summary" defaultvalue="Type-Library, OpSys-All, GWT-GWT_2.0.0, Java-1.5, ReleaseCandidate" />
+		<input addproperty="username" message="Google Code username" defaultvalue="fredsa@gmail.com" />
+		<input addproperty="password" message="Google Code password" defaultvalue="" />
 
+		<condition property="password-missing">
+			<equals arg1="${password}" arg2="" />
+		</condition>
+		<fail if="password-missing" message="Password is required" />
+
+		<tempfile property="tempfile" />
+		<get src="http://${ant.project.name}.googlecode.com/files/${libjar}" dest="${tempfile}" ignoreerrors="true" />
+		<length file="${tempfile}" property="len" />
+		<delete file="${tempfile}" />
+
+		<condition property="file-exists">
+			<not>
+				<equals arg1="${len}" arg2="0" />
+			</not>
+		</condition>
+		<fail if="file-exists" message="${libjar} already exists" />
+
+		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="ant-googlecode-0.0.2.jar" name="gcupload" />
+		<gcupload username="${username}" password="${password}" projectname="${ant.project.name}" filename="${libdir}/${libjar}" targetfilename="${libjar}" summary="${summary}" labels="${labels}" />
 	</target>
 
+	<!-- Test SSH functionality -->
+	<target name="sshls" description="SSH ls (for testing 'sshexec' task)">
+		<sshexec command="ls" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+	</target>
+
+	<!-- Deploy demo to allen-sauer.com -->
 	<target name="deploy" description="Build and deploy to demo site" depends="clean, javac, gwtc">
+		<sshexec command="mkdir ${packagename}" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 
-		<sshexec command="mkdir com.allen_sauer.gwt.voices.demo.VoicesDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
-
-		<scp todir="sauer@allen-sauer.com:com.allen_sauer.gwt.voices.demo.VoicesDemo/" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" verbose="true">
+		<scp todir="sauer@allen-sauer.com:${packagename}/" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" verbose="true">
 			<fileset dir="build/war" />
 		</scp>
 
-		<sshexec command="./deploy.sh com.allen_sauer.gwt.voices.demo.VoicesDemo" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
-
+		<sshexec command="./deploy.sh ${packagename}" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
 	</target>
 
 </project>
