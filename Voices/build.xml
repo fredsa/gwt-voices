@@ -194,6 +194,12 @@
 				</copy>
 
 				<copydir dest="build/war/images" src="war/images" />
+
+				<copyfile dest="build/war/empty.au" src="war/empty.au" />
+
+				<copydir dest="build/war/wikipedia" src="war/wikipedia" />
+
+				<copydir dest="build/war/freesoundproject" src="war/freesoundproject" />
 			</sequential>
 		</outofdate>
 	</target>
