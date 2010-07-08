@@ -13,11 +13,17 @@
 		<!-- Global Properties -->
 		<property environment="env" />
 
-		<!-- gwt.location property -->
-		<condition property="gwt.location.default" value="${env.GWT_HOME}" else="">
-			<isset property="env.GWT_HOME" />
-		</condition>
-		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
+    <!-- gwt.location property -->
+    <condition property="mtascdir.default" value="${env.MTASC_DIR}" else="">
+      <isset property="env.MTASC_DIR" />
+    </condition>
+    <input addproperty="mtascdir" defaultvalue="${mtascdir.default}" message="MTASC compiler directory" />
+
+    <!-- gwt.location property -->
+    <condition property="gwt.location.default" value="${env.GWT_HOME}" else="">
+      <isset property="env.GWT_HOME" />
+    </condition>
+    <input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
 
 		<!-- gwt.tools property -->
 		<condition property="gwt.tools.default" value="${env.GWT_TOOLS}" else="">
@@ -98,7 +104,7 @@
 		<copy todir="build/src">
 			<fileset dir="src">
 				<exclude name="**/package.html" />
-				<exclude name="**/*.as" />
+				<exclude name="**/*.swf" />
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE" />
@@ -126,7 +132,24 @@
 	<target name="build" depends="unique-lib-locations, clean, javac, gwtc">
 	</target>
 
-	<target name="javac" description="Java compile" depends="filter">
+	<target name="mtasc" depends="filter">
+		<exec executable="${mtascdir}/mtasc" dir="build/src/com/allen_sauer/gwt/voices/public">
+			<arg value="-main" />
+			<arg value="-header" />
+			<arg value="20:20:1" />
+			<arg value="-version" />
+			<arg value="8" />
+			<arg value="-cp" />
+			<arg value="${mtascdir}/std" />
+			<arg value="-cp" />
+			<arg value="${mtascdir}/std8" />
+			<arg value="-swf" />
+			<arg value="gwt-voices.swf" />
+			<arg value="gwt-voices.as" />
+		</exec>
+	</target>
+
+	<target name="javac" description="Java compile" depends="mtasc">
 
 		<echo message="Compiling build/src ..." />
 
