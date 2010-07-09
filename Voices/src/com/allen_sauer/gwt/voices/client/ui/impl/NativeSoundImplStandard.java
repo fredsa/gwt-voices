@@ -20,8 +20,7 @@ import com.google.gwt.user.client.Element;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for standard
- * browsers.
+ * {@link NativeSoundImpl} implementation for standard browsers.
  */
 public abstract class NativeSoundImplStandard extends NativeSoundImpl {
   // CHECKSTYLE_JAVADOC_OFF

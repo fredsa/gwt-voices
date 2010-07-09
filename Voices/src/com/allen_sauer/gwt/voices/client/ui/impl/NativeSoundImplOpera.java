@@ -22,7 +22,7 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for Opera.
+ * {@link NativeSoundImpl} implementation for Opera.
  */
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
   // CHECKSTYLE_JAVADOC_OFF

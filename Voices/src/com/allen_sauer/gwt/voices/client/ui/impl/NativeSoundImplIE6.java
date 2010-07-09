@@ -25,7 +25,7 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 import java.util.HashMap;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} implementation for IE.
+ * {@link NativeSoundImpl} implementation for IE.
  */
 public class NativeSoundImplIE6 extends NativeSoundImpl {
   /**
