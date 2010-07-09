@@ -1,14 +1,16 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
  */
 package com.allen_sauer.gwt.voices.client;
@@ -66,13 +68,13 @@ public interface Sound extends FiresSoundEvents {
   }
 
   /**
-   * IANA assigned media type <code>audio/basic</code> for RFC 2045/2046. Typical filename
+   * IANA assigned media type <code>audio/basic</code>, from RFC 2045/2046. Typical filename
    * extensions include <code>.au</code> and <code>.snd</code>.
    */
   String MIME_TYPE_AUDIO_BASIC = "audio/basic";
 
   /**
-   * IANA assigned media type <code>audio/mpeg</code> for RFC 3003. Typical filename extensions
+   * IANA assigned media type <code>audio/mpeg</code>, from RFC 3003. Typical filename extensions
    * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
    */
   String MIME_TYPE_AUDIO_MPEG = "audio/mpeg";
@@ -95,6 +97,12 @@ public interface Sound extends FiresSoundEvents {
    * <code>audio/wav</code>. Typical filename extension is <code>.wav</code>.
    */
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
+
+  /**
+   * IANA assigned media type <code>audio/off</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg";
 
   /**
    * Determine the current {@link LoadState} of this sound.

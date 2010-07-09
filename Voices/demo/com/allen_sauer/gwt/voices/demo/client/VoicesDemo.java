@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -36,63 +36,70 @@ import java.util.HashMap;
 // CHECKSTYLE_JAVADOC_OFF
 public class VoicesDemo implements EntryPoint {
   private static ThirdPartySound[] freeSounds;
-  private static HashMap<String, ArrayList<ThirdPartySound>> mimeTypeSoundMap = new HashMap<String, ArrayList<ThirdPartySound>>();
+  private static HashMap<String, ArrayList<ThirdPartySound>> mimeTypeSoundMap = new HashMap<
+      String, ArrayList<ThirdPartySound>>();
+
+  public static String[] MIME_TYPES = {
+      Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_OGG_VORBIS,
+      Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   static {
     freeSounds = new ThirdPartySound[] {
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-        "freesoundproject/35631__reinsamba__crystal_glass.wav", "crystal_glass",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631", "reinsamba",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=18799"),
+            "freesoundproject/35631__reinsamba__crystal_glass.wav", "crystal_glass",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631", "reinsamba",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=18799"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-        "freesoundproject/38403__THE_bizniss__snap.wav", "snap",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=38403", "THE_bizniss",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=382028"),
+            "freesoundproject/38403__THE_bizniss__snap.wav", "snap",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=38403", "THE_bizniss",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=382028"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav", "37 Click Finger",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=22740", "FranciscoPadilla",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=132693"),
+            "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav", "37 Click Finger",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=22740", "FranciscoPadilla",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=132693"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_WAV,
-        "freesoundproject/9874__vixuxx__crow.wav", "crow",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
+            "freesoundproject/9874__vixuxx__crow.wav", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_AIFF,
-        "freesoundproject/9874__vixuxx__crow.aiff", "crow",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
+            "freesoundproject/9874__vixuxx__crow.aiff", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_BASIC,
-        "freesoundproject/9874__vixuxx__crow.au", "crow",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
+            "freesoundproject/9874__vixuxx__crow.au", "crow",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/28917__junggle__btn107.mp3", "btn107",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917", "junggle",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404"),
+            "freesoundproject/28917__junggle__btn107.mp3", "btn107",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917", "junggle",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/36846__EcoDTR__LaserRocket.mp3", "LaserRocket",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846", "EcoDTR",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367"),
+            "freesoundproject/36846__EcoDTR__LaserRocket.mp3", "LaserRocket",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846", "EcoDTR",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/35643__sandyrb__USAT_BOMB.mp3", "USAT BOMB",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643", "sandyrb",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771"),
+            "freesoundproject/35643__sandyrb__USAT_BOMB.mp3", "USAT BOMB",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643", "sandyrb",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/34961__grandpablaine2__grenade_reverse_reverb.mp3",
-        "grenade_reverse_reverb",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961", "grandpablaine2",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084"),
+            "freesoundproject/34961__grandpablaine2__grenade_reverse_reverb.mp3",
+            "grenade_reverse_reverb", "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961",
+            "grandpablaine2", "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG,
-        "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3", "CinematicBoomNorm",
-        "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
-        "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),
+            "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3", "CinematicBoomNorm",
+            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
+            "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),
+        new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS,
+            "freesoundproject/91960__billengholm_yahoo.com__opensurdo.ogg", "opensurdo",
+            "http://www.freesound.org/samplesViewSingle.php?id=91960", "billengholm@yahoo.com",
+            "http://www.freesound.org/usersViewSingle.php?id=1513331"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Bass_sample2.mid",
-        "Bass_sample2.mid",
-        "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
-        "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),
+            "Bass_sample2.mid",
+            "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Drum_sample.mid",
-        "Drum_sample.mid",
-        "http://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid",
-        "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
+            "Drum_sample.mid", "http://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid",
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
 
     for (ThirdPartySound element : freeSounds) {
       String mimeType = element.getMimeType();
@@ -150,15 +157,17 @@ public class VoicesDemo implements EntryPoint {
     RootPanel mainPanel = RootPanel.get(DemoClientBundle.INSTANCE.css().demoMainPanel());
     DOM.setInnerHTML(mainPanel.getElement(), "");
 
-    mainPanel.add(new DeferredContentDisclosurePanel("Sound Support Matrix",
-        new SupportedMimeTypeSummary()));
+    mainPanel.add(
+        new DeferredContentDisclosurePanel("Sound Support Matrix", new SupportedMimeTypeSummary()));
 
-    for (Object element : mimeTypeSoundMap.keySet()) {
-      String mimeType = (String) element;
-      ArrayList<ThirdPartySound> freesoundList = mimeTypeSoundMap.get(mimeType);
-      DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(mimeType,
-          new MimeTypeDemo(mimeType, freesoundList, demoSoundHandler));
-      mainPanel.add(disclosurePanel);
+    for (String mimeType : MIME_TYPES) {
+      ArrayList<ThirdPartySound> soundList = mimeTypeSoundMap.get(mimeType);
+      if (soundList != null) {
+        DeferredContentDisclosurePanel disclosurePanel = new DeferredContentDisclosurePanel(
+            mimeType, new MimeTypeDemo(mimeType, soundList, demoSoundHandler));
+        mainPanel.add(disclosurePanel);
+      }
     }
   }
+
 }
