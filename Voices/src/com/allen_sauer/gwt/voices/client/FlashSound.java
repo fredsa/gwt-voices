@@ -79,12 +79,16 @@ public class FlashSound extends AbstractSound {
   }
 
   public void setBalance(int balance) {
+    assert balance >= -100;
+    assert balance <= 100;
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
     }
   }
 
   public void setVolume(int volume) {
+    assert volume >= 0;
+    assert volume <= 100;
     this.volume = volume;
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setVolume(soundNumber, volume);

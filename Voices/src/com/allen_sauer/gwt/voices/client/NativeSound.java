@@ -92,10 +92,14 @@ public class NativeSound extends AbstractSound {
   }
 
   public void setBalance(int balance) {
+    assert balance >= -100;
+    assert balance <= 100;
     impl.setBalance(element, balance);
   }
 
   public void setVolume(int volume) {
+    assert volume >= 0;
+    assert volume <= 100;
     this.volume = volume;
     impl.setVolume(element, volume);
   }
