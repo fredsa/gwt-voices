@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -27,7 +27,9 @@ import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
+import com.allen_sauer.gwt.voices.demo.client.VoicesDemo;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends DeferredContentPanel {
@@ -54,16 +56,13 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
     flexTable.setWidget(0, 0, new HTML("MIME Type"));
     flexTable.setWidget(0, 1, new HTML("Flash based support"));
     flexTable.setWidget(0, 2, new HTML("Native browser <i>or</i> Plugin based support"));
+    flexTable.setWidget(0, 3, new HTML("HTML5 audio"));
     flexTable.getRowFormatter().addStyleName(0, DemoClientBundle.INSTANCE.css().header());
 
     SoundController soundController = new SoundController();
 
-    String[] mimeTypes = {
-        Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_AIFF,
-        Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
-
-    for (int i = 0; i < mimeTypes.length; i++) {
-      String mimeType = mimeTypes[i];
+    for (int i = 0; i < VoicesDemo.MIME_TYPES.length; i++) {
+      String mimeType = VoicesDemo.MIME_TYPES[i];
 
       // Native/Plugin based support
       MimeTypeSupport nativeMimeTypeSupport = NativeSound.getMimeTypeSupport(mimeType);
@@ -78,13 +77,17 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       MimeTypeSupport flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 
+      // HTML5 audio
+      MimeTypeSupport html5MimeTypeSupport = Html5SoundImpl.getMimeTypeSupport(mimeType);
+      String html5MimeTypeSupportText = mimeTypeSupportToString(html5MimeTypeSupport);
+
+      // Place results in the table
       flexTable.setWidget(i + 1, 0, new HTML("<code>" + mimeType + "</code>"));
       flexTable.setWidget(i + 1, 1, new HTML(flashMimeTypeSupportText));
       flexTable.setWidget(i + 1, 2, new HTML(nativeMimeTypeSupportText));
-      flexTable.getRowFormatter().addStyleName(
-          i + 1,
-          i % 2 == 0 ? DemoClientBundle.INSTANCE.css().odd()
-              : DemoClientBundle.INSTANCE.css().even());
+      flexTable.setWidget(i + 1, 3, new HTML(html5MimeTypeSupportText));
+      flexTable.getRowFormatter().addStyleName(i + 1, i % 2 == 0
+          ? DemoClientBundle.INSTANCE.css().odd() : DemoClientBundle.INSTANCE.css().even());
     }
     return containerPanel;
   }
