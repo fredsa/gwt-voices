@@ -31,13 +31,13 @@ import java.util.ArrayList;
 // CHECKSTYLE_JAVADOC_OFF
 public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
-  private final ArrayList<ThirdPartySound> freesoundList;
+  private final ArrayList<ThirdPartySound> soundList;
   private final String mimeType;
 
   public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList,
       DemoSoundHandler demoSoundHandler) {
     this.mimeType = mimeType;
-    this.freesoundList = freesoundList;
+    this.soundList = freesoundList;
     this.demoSoundHandler = demoSoundHandler;
   }
 
@@ -49,7 +49,7 @@ public class MimeTypeDemo extends DeferredContentPanel {
     HTML note = null;
     VerticalPanel soundsPanel = new VerticalPanel();
 
-    for (ThirdPartySound thirdPartySound : freesoundList) {
+    for (ThirdPartySound thirdPartySound : soundList) {
       Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL(), false);
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
