@@ -34,7 +34,7 @@ abstract class AbstractSound implements Sound {
     this.streaming = streaming;
   }
 
-  public void addEventHandler(SoundHandler handler) {
+  public final void addEventHandler(SoundHandler handler) {
     soundHandlerCollection.add(handler);
     if (loadState != INITIAL_LOAD_STATE) {
       handler.onSoundLoadStateChange(new SoundLoadStateChangeEvent(this));
@@ -45,21 +45,21 @@ abstract class AbstractSound implements Sound {
     return loadState;
   }
 
-  public String getMimeType() {
+  public final String getMimeType() {
     return mimeType;
   }
 
   public abstract String getSoundType();
 
-  public String getUrl() {
+  public final String getUrl() {
     return url;
   }
 
-  public boolean isStreaming() {
+  public final boolean isStreaming() {
     return streaming;
   }
 
-  public void removeEventHandler(SoundHandler handler) {
+  public final void removeEventHandler(SoundHandler handler) {
     soundHandlerCollection.remove(handler);
   }
 
@@ -73,7 +73,7 @@ abstract class AbstractSound implements Sound {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return getSoundType() + "(\"" + mimeType + "\", \"" + url + "\", "
         + (isStreaming() ? "streaming" : "not streaming") + ")";
   }
