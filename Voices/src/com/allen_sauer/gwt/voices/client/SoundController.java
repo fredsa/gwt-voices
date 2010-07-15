@@ -15,7 +15,12 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget;
@@ -27,7 +32,7 @@ import com.allen_sauer.gwt.voices.client.util.DOMUtil;
  * Main class with which client code interact in order to create {@link Sound} objects, which can be
  * played. In addition, each SoundController defines its own default volume and provides the ability
  * to prioritize Flash based sound.
- * 
+ *
  * <p>
  * For the time being do not create 16 or more SoundControllers as that would result in 16+ Flash
  * Players, which triggers an Adobe bug, mentioned <a
@@ -82,9 +87,9 @@ public class SoundController {
   /**
    * Our DOM sound container which is positioned off screen.
    */
-  protected final AbsolutePanel soundContainer = new AbsolutePanel();
+  protected final Element soundContainer = DOM.createDiv();
   private int defaultVolume = DEFAULT_VOLUME;
-  private VoicesMovieWidget voicesMovie;
+  private VoicesMovieWidget voicesWrapper;
 
   /**
    * Default constructor to be used by client code.
@@ -96,7 +101,7 @@ public class SoundController {
   /**
    * Create a new Sound object using the provided MIME type and URL. To enable streaming, use
    * {@link #createSound(String, String, boolean)}.
-   * 
+   *
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @return a new Sound object
@@ -107,7 +112,7 @@ public class SoundController {
 
   /**
    * Create a new Sound object using the provided MIME type and URL.
-   * 
+   *
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @param streaming whether or not to allow play back to start before sound has been fully
@@ -115,14 +120,14 @@ public class SoundController {
    * @return a new Sound object
    */
   public Sound createSound(String mimeType, String url, boolean streaming) {
-    Sound sound = implCreateSound(mimeType, url, streaming);
+    Sound sound = createSoundImpl(mimeType, url, streaming);
     sound.setVolume(defaultVolume);
     return sound;
   }
 
   /**
    * Set the default volume (range <code>0-100</code>) for new sound.
-   * 
+   *
    * @param defaultVolume the default volume (range <code>0-100</code>) to be used for new sounds
    */
   public void setDefaultVolume(int defaultVolume) {
@@ -131,18 +136,18 @@ public class SoundController {
 
   /**
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily triggered.
-   * 
+   *
    * @return the new movie widget
    */
   protected VoicesMovieWidget getVoicesMovie() {
-    if (voicesMovie == null) {
-      voicesMovie = new VoicesMovieWidget(DOMUtil.getUniqueId());
-      soundContainer.add(voicesMovie);
+    if (voicesWrapper == null) {
+      voicesWrapper = new VoicesMovieWidget(DOMUtil.getUniqueId());
+      DOM.appendChild(soundContainer, voicesWrapper.getElement());
     }
-    return voicesMovie;
+    return voicesWrapper;
   }
 
-  private Sound implCreateSound(String mimeType, String url, boolean streaming) {
+  private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
     if (Html5SoundImpl.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
       return new Html5Sound(mimeType, url, streaming);
     }
@@ -155,12 +160,18 @@ public class SoundController {
         return sound;
       }
     }
-    return new NativeSound(mimeType, url, streaming, soundContainer.getElement());
+    return new NativeSound(mimeType, url, streaming, soundContainer);
   }
 
   private void initSoundContainer() {
     // place off screen with fixed dimensions and overflow:hidden
-    RootPanel.get().add(soundContainer, -500, -500);
-    soundContainer.setPixelSize(0, 0);
+    RootPanel.getBodyElement().appendChild(soundContainer);
+    Style style = soundContainer.getStyle();
+    style.setPosition(Position.ABSOLUTE);
+    style.setOverflow(Overflow.HIDDEN);
+    style.setLeft(-500, Unit.PX);
+    style.setTop(-500, Unit.PX);
+    style.setWidth(0, Unit.PX);
+    style.setHeight(0, Unit.PX);
   }
 }

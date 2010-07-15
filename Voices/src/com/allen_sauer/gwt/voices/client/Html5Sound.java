@@ -20,14 +20,13 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 
 /**
- *
+ * Sound object representing sounds which can be played back via HTML5 audio.
  */
 public class Html5Sound extends AbstractSound {
   // CHECKSTYLE_JAVADOC_OFF

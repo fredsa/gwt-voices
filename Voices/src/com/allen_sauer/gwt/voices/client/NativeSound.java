@@ -21,11 +21,10 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Element;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl;
-import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 /**
  * Sound object representing sounds which can be played back natively by the browser, i.e. without
@@ -80,7 +79,7 @@ public class NativeSound extends AbstractSound {
 
   @Override
   public String getSoundType() {
-    return DOMUtil.getNodeName(element);
+    return element.getNodeName();
   }
 
   public int getVolume() {
