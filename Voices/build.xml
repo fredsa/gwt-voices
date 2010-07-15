@@ -14,8 +14,8 @@
 		<property environment="env" />
 
     <!-- gwt.location property -->
-    <condition property="mtascdir.default" value="${env.MTASC_DIR}" else="">
-      <isset property="env.MTASC_DIR" />
+    <condition property="mtascdir.default" value="${env.MTASC_HOME}" else="">
+      <isset property="env.MTASC_HOME" />
     </condition>
     <input addproperty="mtascdir" defaultvalue="${mtascdir.default}" message="MTASC compiler directory" />
 
