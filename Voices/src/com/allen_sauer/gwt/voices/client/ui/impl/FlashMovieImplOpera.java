@@ -14,7 +14,7 @@
 package com.allen_sauer.gwt.voices.client.ui.impl;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget} implementation for Opera.
+ * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovie} implementation for Opera.
  */
 public class FlashMovieImplOpera extends FlashMovieImplStandard {
 }

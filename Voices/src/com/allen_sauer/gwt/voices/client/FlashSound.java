@@ -15,7 +15,7 @@ package com.allen_sauer.gwt.voices.client;
 
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
 
-import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 
 import java.util.ArrayList;
 
@@ -41,10 +41,10 @@ public class FlashSound extends AbstractSound {
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private boolean soundRegistered = false;
-  private final VoicesMovieWidget voicesMovie;
+  private final VoicesMovie voicesMovie;
   private int volume = SoundController.DEFAULT_VOLUME;
 
-  public FlashSound(String mimeType, String url, boolean streaming, VoicesMovieWidget voicesMovie) {
+  public FlashSound(String mimeType, String url, boolean streaming, VoicesMovie voicesMovie) {
     super(mimeType, url, streaming);
     this.voicesMovie = voicesMovie;
     soundNumber = soundList.size();

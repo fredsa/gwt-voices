@@ -14,7 +14,7 @@
 package com.allen_sauer.gwt.voices.client.ui.impl;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget} implementation for Mozilla.
+ * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovie} implementation for Mozilla.
  */
 public class FlashMovieImplMozilla extends FlashMovieImplStandard {
 }

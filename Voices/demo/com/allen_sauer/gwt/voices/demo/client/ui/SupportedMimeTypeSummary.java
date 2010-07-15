@@ -26,7 +26,7 @@ import com.allen_sauer.gwt.voices.client.NativeSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
-import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.VoicesDemo;
@@ -73,7 +73,7 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       }
 
       // Flash based support
-      VoicesMovieWidget movieWidget = new VoicesMovieWidget("gwt-voices-dummy");
+      VoicesMovie movieWidget = new VoicesMovie("gwt-voices-dummy");
       MimeTypeSupport flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 

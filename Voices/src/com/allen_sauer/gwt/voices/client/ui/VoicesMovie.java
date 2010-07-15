@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 // CHECKSTYLE_JAVADOC_OFF
-public class VoicesMovieWidget extends FlashMovieWidget {
+public class VoicesMovie extends FlashMovie {
 
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_MPEG,};
   private static final String GWT_VOICES_SWF = GWT.getModuleBaseURL() + "gwt-voices.swf";
@@ -43,7 +43,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
   private MimeTypeSupport flashSupport = MIME_TYPE_SUPPORT_UNKNOWN;
   private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
-  public VoicesMovieWidget(String id) {
+  public VoicesMovie(String id) {
     super(id, GWT_VOICES_SWF);
     installFlashCallbackHooks(id);
 
@@ -118,44 +118,44 @@ public class VoicesMovieWidget extends FlashMovieWidget {
    */
   protected void deferFlashCallback(final JavaScriptObject func) {
     DeferredCommand.addCommand(new Command() {
-      public native void callFunc(JavaScriptObject func, VoicesMovieWidget thiz)
+      public native void callFunc(JavaScriptObject func, VoicesMovie thiz)
       /*-{
     func.apply(thiz);
   }-*/;
 
       public void execute() {
-        callFunc(func, VoicesMovieWidget.this);
+        callFunc(func, VoicesMovie.this);
       }
     });
   }
 
   private native void callCreateSound(int id, String soundURL, boolean streaming)
   /*-{
-    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::element;
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.createSound(id, soundURL, streaming);
   }-*/;
 
   private native void callPlaySound(int id)
   /*-{
-    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::element;
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.playSound(id);
   }-*/;
 
   private native void callSetBalance(int id, int balance)
   /*-{
-    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::element;
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.setBalance(id, balance);
   }-*/;
 
   private native void callSetVolume(int id, int volume)
   /*-{
-    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::element;
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.setVolume(id, volume);
   }-*/;
 
   private native void callStopSound(int id)
   /*-{
-    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget::element;
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.stopSound(id);
   }-*/;
 
@@ -173,8 +173,8 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
     $doc.VoicesMovie[id].ready = function() {
       try {
-        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
-          this.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::movieReady()();
+        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+          this.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::movieReady()();
         });
         return true;
       } catch(e) {
@@ -185,7 +185,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
     $doc.VoicesMovie[id].soundLoaded = function(id) {
       try {
-        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
           @com.allen_sauer.gwt.voices.client.FlashSound::soundLoaded(I)(id);
         });
         return true;
@@ -197,7 +197,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
 
     $doc.VoicesMovie[id].playbackCompleted = function(id) {
       try {
-        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
+        self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
           @com.allen_sauer.gwt.voices.client.FlashSound::playbackCompleted(I)(id);
         });
         return true;
@@ -208,7 +208,7 @@ public class VoicesMovieWidget extends FlashMovieWidget {
     }
 
     $doc.VoicesMovie[id].log = function(text) {
-      self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
+      self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
     }
   }-*/;
 

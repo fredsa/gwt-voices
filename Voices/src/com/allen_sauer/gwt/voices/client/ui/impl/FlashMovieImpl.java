@@ -16,7 +16,7 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 import com.google.gwt.user.client.Element;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget} default cross-browser
+ * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovie} default cross-browser
  * implementation.
  */
 public abstract class FlashMovieImpl {

@@ -23,8 +23,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import com.allen_sauer.gwt.voices.client.ui.FlashMovieWidget;
-import com.allen_sauer.gwt.voices.client.ui.VoicesMovieWidget;
+import com.allen_sauer.gwt.voices.client.ui.FlashMovie;
+import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
@@ -89,7 +89,7 @@ public class SoundController {
    */
   protected final Element soundContainer = DOM.createDiv();
   private int defaultVolume = DEFAULT_VOLUME;
-  private VoicesMovieWidget voicesWrapper;
+  private VoicesMovie voicesWrapper;
 
   /**
    * Default constructor to be used by client code.
@@ -139,9 +139,9 @@ public class SoundController {
    *
    * @return the new movie widget
    */
-  protected VoicesMovieWidget getVoicesMovie() {
+  protected VoicesMovie getVoicesMovie() {
     if (voicesWrapper == null) {
-      voicesWrapper = new VoicesMovieWidget(DOMUtil.getUniqueId());
+      voicesWrapper = new VoicesMovie(DOMUtil.getUniqueId());
       DOM.appendChild(soundContainer, voicesWrapper.getElement());
     }
     return voicesWrapper;
@@ -151,8 +151,8 @@ public class SoundController {
     if (Html5SoundImpl.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
       return new Html5Sound(mimeType, url, streaming);
     }
-    if (FlashMovieWidget.isExternalInterfaceSupported()) {
-      VoicesMovieWidget vm = getVoicesMovie();
+    if (FlashMovie.isExternalInterfaceSupported()) {
+      VoicesMovie vm = getVoicesMovie();
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
       if (mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_READY
           || mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY) {

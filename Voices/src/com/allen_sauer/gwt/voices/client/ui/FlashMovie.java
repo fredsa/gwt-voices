@@ -23,7 +23,7 @@ import com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl;
 /**
  * Flash movie.
  */
-public class FlashMovieWidget {
+public class FlashMovie {
   // CHECKSTYLE_JAVADOC_OFF
 
   /**
@@ -48,7 +48,7 @@ public class FlashMovieWidget {
 
   private Element element;
 
-  public FlashMovieWidget(String id, String url) {
+  public FlashMovie(String id, String url) {
     element = impl.createElementMaybeSetURL(id, url);
   }
 
