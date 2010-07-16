@@ -20,7 +20,7 @@ import com.google.gwt.dom.client.Element;
 import com.allen_sauer.gwt.voices.client.Sound;
 
 /**
- * {@link NativeSoundImpl} implementation for Webkit/Safari.
+ * {@link com.allen_sauer.gwt.voices.client.NativeSound} implementation for Webkit/Safari.
  */
 public class NativeSoundImplSafari extends NativeSoundImplStandard {
   // CHECKSTYLE_JAVADOC_OFF

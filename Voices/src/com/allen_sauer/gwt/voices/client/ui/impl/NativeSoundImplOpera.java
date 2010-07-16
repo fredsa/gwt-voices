@@ -24,7 +24,7 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.util.StringUtil;
 
 /**
- * {@link NativeSoundImpl} implementation for Opera.
+ * {@link com.allen_sauer.gwt.voices.client.NativeSound} implementation for Opera.
  */
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
   // CHECKSTYLE_JAVADOC_OFF

@@ -16,7 +16,7 @@
 package com.allen_sauer.gwt.voices.client.ui.impl;
 
 /**
- * {@link NativeSoundImpl} implementation for Mozilla.
+ * {@link com.allen_sauer.gwt.voices.client.NativeSound} implementation for Mozilla.
  */
 public class NativeSoundImplMozilla extends NativeSoundImplStandard {
 

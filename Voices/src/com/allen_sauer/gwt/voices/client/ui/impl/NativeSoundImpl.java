@@ -20,7 +20,7 @@ import com.google.gwt.dom.client.Element;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 
 /**
- * {@link com.allen_sauer.gwt.voices.client.ui.NativeSoundWidget} default cross-browser
+ * {@link com.allen_sauer.gwt.voices.client.NativeSound} default cross-browser
  * implementation.
  */
 public abstract class NativeSoundImpl {
