@@ -99,10 +99,10 @@ public interface Sound extends FiresSoundEvents {
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
 
   /**
-   * IANA assigned media type <code>audio/off</code>, from RFC 5334. Typical filename
+   * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
    * extensions include <code>.ogg</code>.
    */
-  String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg";
+  String MIME_TYPE_AUDIO_OGG = "audio/ogg";
 
   /**
    * Determine the current {@link LoadState} of this sound.

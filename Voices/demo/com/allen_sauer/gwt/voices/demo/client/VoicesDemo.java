@@ -40,7 +40,7 @@ public class VoicesDemo implements EntryPoint {
       String, ArrayList<ThirdPartySound>>();
 
   public static String[] MIME_TYPES = {
-      Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_OGG_VORBIS,
+      Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_OGG,
       Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   static {
@@ -89,11 +89,11 @@ public class VoicesDemo implements EntryPoint {
             "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3", "CinematicBoomNorm",
             "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
             "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090"),
-        new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS,
+        new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_OGG,
             "freesoundproject/91960__billengholm_yahoo.com__opensurdo.ogg", "opensurdo",
             "http://www.freesound.org/samplesViewSingle.php?id=91960", "billengholm@yahoo.com",
             "http://www.freesound.org/usersViewSingle.php?id=1513331"),
-        new WikipediaSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS, "wikipedia/En-us-squid.ogg",
+        new WikipediaSound(Sound.MIME_TYPE_AUDIO_OGG, "wikipedia/En-us-squid.ogg",
             "En-us-squid.ogg", "http://upload.wikimedia.org/wikipedia/commons/f/f1/En-us-squid.ogg",
             "http://en.wiktionary.org/wiki/squid"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Bass_sample2.mid",
