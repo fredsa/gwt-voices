@@ -17,9 +17,9 @@ package com.allen_sauer.gwt.voices.demo.client.ui;
 
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.NativeSound;
@@ -31,15 +31,49 @@ import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.VoicesDemo;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 // CHECKSTYLE_JAVADOC_OFF
-public class SupportedMimeTypeSummary extends DeferredContentPanel {
+public class SupportedMimeTypeSummary extends Composite {
+
+  // See http://www.browserscope.org/
+  private static final String BROWSER_SCOPE_TEST_KEY = "agt1YS1wcm9maWxlcnINCxIEVGVzdBjphfIBDA";
+  private static final String BROWSER_SCOPE_SANDBOX_ID = "";
+
   private static native String getUserAgent()
   /*-{
     return navigator.userAgent;
   }-*/;
 
-  @Override
-  public Panel initContent() {
+  HashMap<String, Integer> results = new HashMap<String, Integer>();
+
+  private native void eval(String t) /*-{
+    $wnd.eval(t);
+  }-*/;
+
+  private void submitBrowserScopeResults() {
+    String t = "";
+    for (Entry<String, Integer> entry : results.entrySet()) {
+      if (!t.isEmpty()) {
+        t += ",\n";
+      }
+      String key = entry.getKey().replaceAll("=", " ").replaceAll("audio/", "");
+      t += "'" + key + "': '" + entry.getValue() + "'";
+    }
+
+    t = "var _bTestResults = {\n" + t + "};\n\n" + "(function() {\n" + "var _bTestKey = '"
+        + BROWSER_SCOPE_TEST_KEY + "';\n" + "var _bScript = document.createElement('script');\n"
+        + "_bScript.src = 'http://www.browserscope.org/user/beacon/' + _bTestKey;\n"
+        + "_bScript.setAttribute('async', 'true');\n" + "_bScript.src += '?sandboxid="
+        + BROWSER_SCOPE_SANDBOX_ID + "';\n"
+        + "var scripts = document.getElementsByTagName('script');\n"
+        + "var lastScript = scripts[scripts.length - 1];\n"
+        + "lastScript.parentNode.insertBefore(_bScript, lastScript);\n" + "})();\n";
+    eval(t);
+  }
+
+  public SupportedMimeTypeSummary() {
     VerticalPanel containerPanel = new VerticalPanel();
     containerPanel.clear();
 
@@ -88,8 +122,29 @@ public class SupportedMimeTypeSummary extends DeferredContentPanel {
       flexTable.setWidget(i + 1, 3, new HTML(html5MimeTypeSupportText));
       flexTable.getRowFormatter().addStyleName(i + 1, i % 2 == 0
           ? DemoClientBundle.INSTANCE.css().odd() : DemoClientBundle.INSTANCE.css().even());
+
+      results.put(mimeType, mapCanPlayToBrowserScope(mimeType));
     }
-    return containerPanel;
+    submitBrowserScopeResults();
+
+    initWidget(containerPanel);
+  }
+
+  private int mapCanPlayToBrowserScope(String mimeType) {
+    String canPlayType = Html5SoundImpl.canPlayType(mimeType);
+    if (canPlayType == null || canPlayType.length() == 0) {
+      return 0;
+    }
+    if (canPlayType.equals("maybe")) {
+      return 1;
+    }
+    if (canPlayType.equals("probably")) {
+      return 2;
+    }
+    if (canPlayType.equals("no")) {
+      return 4;
+    }
+    return 3;
   }
 
   private String mimeTypeSupportToString(MimeTypeSupport mimeTypeSupport) {
