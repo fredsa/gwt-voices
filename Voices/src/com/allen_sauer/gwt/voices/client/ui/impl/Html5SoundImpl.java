@@ -32,24 +32,29 @@ public class Html5SoundImpl {
   @SuppressWarnings("unused")
   private static JavaScriptObject audio;
 
-  public static native MimeTypeSupport getMimeTypeSupport(String mimeType) /*-{
+  public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
+    String support = canPlayType(mimeType);
+    if (support == null || support.length() == 0 || support.equals("no")) {
+      return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+    }
+
+    if (support.equals("probably")) {
+      return MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
+    }
+    if (support.equals("maybe")) {
+      return MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
+    }
+    return MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
+  }
+
+  public static native String canPlayType(String mimeType) /*-{
     if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio) {
-      @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio = document.createElement('audio');
+    @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio = document.createElement('audio');
     }
     if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType) {
-      return @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_NOT_SUPPORTED;
+    return "";
     }
-    var support = @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType(mimeType).replace(/no/, '');
-    if (support == 'probably') {
-      return @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_READY;
-    }
-    if (support == 'maybe') {
-      return @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_READY;
-    }
-    if (support == '') {
-      return @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_NOT_SUPPORTED;
-    }
-    return @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_UNKNOWN;
+    return @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType(mimeType);
   }-*/;
 
   public static Element createElement(String url) {
