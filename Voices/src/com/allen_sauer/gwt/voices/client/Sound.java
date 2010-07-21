@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Fred Sauer
+ * Copyright 2010 Fred Sauer
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -103,6 +103,23 @@ public interface Sound extends FiresSoundEvents {
    * extensions include <code>.ogg</code>.
    */
   String MIME_TYPE_AUDIO_OGG = "audio/ogg";
+
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=vorbis</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg; codecs=vorbis";
+
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=flac</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_FLAC = "audio/ogg; codecs=flac";
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=speex</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_SPEEX = "audio/ogg; codecs=speex";
 
   /**
    * Determine the current {@link LoadState} of this sound.
