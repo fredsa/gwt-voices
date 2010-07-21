@@ -88,9 +88,9 @@ public class SupportedMimeTypeSummary extends Composite {
     flexTable.addStyleName(DemoClientBundle.INSTANCE.css().demoSupportedMimeTypeSummaryTable());
     containerPanel.add(flexTable);
     flexTable.setWidget(0, 0, new HTML("MIME Type"));
-    flexTable.setWidget(0, 1, new HTML("Flash based support"));
+    flexTable.setWidget(0, 1, new HTML("HTML5 audio"));
     flexTable.setWidget(0, 2, new HTML("Native browser <i>or</i> Plugin based support"));
-    flexTable.setWidget(0, 3, new HTML("HTML5 audio"));
+    flexTable.setWidget(0, 3, new HTML("Flash based support"));
     flexTable.getRowFormatter().addStyleName(0, DemoClientBundle.INSTANCE.css().header());
 
     SoundController soundController = new SoundController();
@@ -117,9 +117,9 @@ public class SupportedMimeTypeSummary extends Composite {
 
       // Place results in the table
       flexTable.setWidget(i + 1, 0, new HTML("<code>" + mimeType + "</code>"));
-      flexTable.setWidget(i + 1, 1, new HTML(flashMimeTypeSupportText));
+      flexTable.setWidget(i + 1, 1, new HTML(html5MimeTypeSupportText));
       flexTable.setWidget(i + 1, 2, new HTML(nativeMimeTypeSupportText));
-      flexTable.setWidget(i + 1, 3, new HTML(html5MimeTypeSupportText));
+      flexTable.setWidget(i + 1, 3, new HTML(flashMimeTypeSupportText));
       flexTable.getRowFormatter().addStyleName(i + 1, i % 2 == 0
           ? DemoClientBundle.INSTANCE.css().odd() : DemoClientBundle.INSTANCE.css().even());
 
