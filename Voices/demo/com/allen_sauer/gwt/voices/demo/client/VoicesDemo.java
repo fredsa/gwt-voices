@@ -196,17 +196,20 @@ public class VoicesDemo implements EntryPoint {
             "freesoundproject/91960__billengholm_yahoo.com__opensurdo.ogg", "opensurdo",
             "http://www.freesound.org/samplesViewSingle.php?id=91960", "billengholm@yahoo.com",
             "http://www.freesound.org/usersViewSingle.php?id=1513331",
-            "Ogg data, Vorbis audio, stereo, 44100 Hz, ~128000 bps, created by: Xiph.Org libVorbis I (1.0.1)"),
+            "Ogg data, Vorbis audio, stereo, 44100 Hz, ~128000 bps"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_OGG, "wikipedia/En-us-squid.ogg",
             "En-us-squid.ogg", "http://upload.wikimedia.org/wikipedia/commons/f/f1/En-us-squid.ogg",
-            "http://en.wiktionary.org/wiki/squid"),
+            "http://en.wiktionary.org/wiki/squid",
+            "Ogg data, Vorbis audio, mono, 44100 Hz, ~96001 bps"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Bass_sample2.mid",
             "Bass_sample2.mid",
             "http://upload.wikimedia.org/wikipedia/commons/b/b0/Bass_sample2.mid",
-            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface",
+            "Standard MIDI data (format 1) using 2 tracks at 1/240"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_X_MIDI, "wikipedia/Drum_sample.mid",
             "Drum_sample.mid", "http://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid",
-            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"),};
+            "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface",
+            "Standard MIDI data (format 1) using 2 tracks at 1/240"),};
 
     for (ThirdPartySound element : freeSounds) {
       String mimeType = element.getMimeType();

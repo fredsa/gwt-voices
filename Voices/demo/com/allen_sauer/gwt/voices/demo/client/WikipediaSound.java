@@ -1,12 +1,12 @@
 /*
- * Copyright 2009 Fred Sauer
- * 
+ * Copyright 2010 Fred Sauer
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,14 +21,16 @@ public class WikipediaSound extends ThirdPartySound {
   private final String originalWikipediaFilename;
   private final String wikipediaFileURL;
   private final String wikipediaPageURL;
+  private final String audioFormatDescription;
 
   public WikipediaSound(String mimeType, String actualURL, String originalWikipediaFilename,
-      String wikipediaFileURL, String wikipediaPageURL) {
+      String wikipediaFileURL, String wikipediaPageURL, String audioFormatDescription) {
     super(mimeType);
     this.originalWikipediaFilename = originalWikipediaFilename;
     this.actualURL = actualURL;
     this.wikipediaFileURL = wikipediaFileURL;
     this.wikipediaPageURL = wikipediaPageURL;
+    this.audioFormatDescription = audioFormatDescription;
   }
 
   @Override
@@ -47,7 +49,8 @@ public class WikipediaSound extends ThirdPartySound {
   @Override
   public String toHTMLString() {
     return "<a href='" + getFreesoundFileURL() + "'>" + originalWikipediaFilename
-        + "</a> from <a href='" + getWikipediaPageURL() + "'>" + getWikipediaPageURL() + "</a>";
+        + "</a> from <a href='" + getWikipediaPageURL() + "'>" + getWikipediaPageURL() + "</a>; "
+        + audioFormatDescription;
   }
 
   @Override
