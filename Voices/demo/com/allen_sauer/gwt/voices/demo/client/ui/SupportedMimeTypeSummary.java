@@ -43,7 +43,7 @@ public class SupportedMimeTypeSummary extends Composite {
 
   static {
     // See http://www.browserscope.org/user/settings
-    if (Window.Location.getHostName().equals("http://allen-sauer.com")) {
+    if (Window.Location.getHostName().equals("allen-sauer.com")) {
       // Online demo
       BROWSER_SCOPE_TEST_KEY = "agt1YS1wcm9maWxlcnINCxIEVGVzdBiA6vABDA";
       BROWSER_SCOPE_SANDBOX_ID = "";
