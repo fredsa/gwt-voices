@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -29,6 +29,7 @@ public final class DemoSoundHandler implements SoundHandler {
   private static final String BLUE = "blue";
   private static final String GREEN = "green";
   private final HTML eventTextArea;
+  private int count;
 
   public DemoSoundHandler(HTML soundHandlerHTML) {
     eventTextArea = soundHandlerHTML;
@@ -43,7 +44,9 @@ public final class DemoSoundHandler implements SoundHandler {
   }
 
   private void log(String text, String color) {
-    eventTextArea.setHTML("<span style='color: " + color + "'>" + text + "</span>"
-        + (eventTextArea.getHTML().length() == 0 ? "" : "<br>") + eventTextArea.getHTML());
+    String html = eventTextArea.getHTML();
+    eventTextArea.setHTML(
+        "<span style='color: " + color + "'>Event " + ++count + ": " + text + "</span>"
+            + (html.length() == 0 ? "" : "<br>") + html);
   }
 }
