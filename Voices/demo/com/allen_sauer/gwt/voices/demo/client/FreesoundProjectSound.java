@@ -22,16 +22,19 @@ public class FreesoundProjectSound extends ThirdPartySound {
   private final String freesoundProjectFileURL;
   private final String freesoundProjectSoundAuthor;
   private final String originalFreesoundProjectFilename;
+  private final String audioFormatDescription;
 
   public FreesoundProjectSound(String mimeType, String actualURL,
       String originalFreesoundProjectFilename, String freesoundProjectFileURL,
-      String freesoundProjectSoundAuthor, String freesoundProjectAuthorURL) {
+      String freesoundProjectSoundAuthor, String freesoundProjectAuthorURL,
+      String audioFormatDescription) {
     super(mimeType);
     this.originalFreesoundProjectFilename = originalFreesoundProjectFilename;
     this.actualURL = actualURL;
     this.freesoundProjectFileURL = freesoundProjectFileURL;
     this.freesoundProjectSoundAuthor = freesoundProjectSoundAuthor;
     this.freesoundProjectAuthorURL = freesoundProjectAuthorURL;
+    this.audioFormatDescription = audioFormatDescription;
   }
 
   @Override
@@ -54,7 +57,8 @@ public class FreesoundProjectSound extends ThirdPartySound {
   @Override
   public String toHTMLString() {
     return "<a href='" + getFreesoundFileURL() + "'>" + originalFreesoundProjectFilename
-        + "</a> by <a href='" + getFreesoundAuthorURL() + "'>" + getFreeSoundAuthor() + "</a>";
+        + "</a> by <a href='" + getFreesoundAuthorURL() + "'>" + getFreeSoundAuthor() + "</a>; "
+        + audioFormatDescription;
   }
 
   @Override
