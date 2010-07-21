@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.demo.client.ui;
 
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -37,9 +38,21 @@ import java.util.Map.Entry;
 // CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends Composite {
 
-  // See http://www.browserscope.org/
-  private static final String BROWSER_SCOPE_TEST_KEY = "agt1YS1wcm9maWxlcnINCxIEVGVzdBjphfIBDA";
-  private static final String BROWSER_SCOPE_SANDBOX_ID = "";
+  private static String BROWSER_SCOPE_TEST_KEY;
+  private static String BROWSER_SCOPE_SANDBOX_ID;
+
+  static {
+    // See http://www.browserscope.org/user/settings
+    if (Window.Location.getHostName().equals("http://allen-sauer.com")) {
+      // Online demo
+      BROWSER_SCOPE_TEST_KEY = "agt1YS1wcm9maWxlcnINCxIEVGVzdBiA6vABDA";
+      BROWSER_SCOPE_SANDBOX_ID = "";
+    } else {
+      // During development
+      BROWSER_SCOPE_TEST_KEY = "agt1YS1wcm9maWxlcnINCxIEVGVzdBiFvPIBDA";
+      BROWSER_SCOPE_SANDBOX_ID = "00f76a85c477851";
+    }
+  }
 
   private static native String getUserAgent()
   /*-{
