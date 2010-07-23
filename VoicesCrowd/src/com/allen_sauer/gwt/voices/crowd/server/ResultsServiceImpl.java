@@ -18,6 +18,7 @@ package com.allen_sauer.gwt.voices.crowd.server;
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -43,38 +44,47 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
           SystemProperty.environment.value() == SystemProperty.Environment.Value.Production ? 4
               * 3600 : 5;
 
-  public boolean storeResults(TestResults testResults) {
+  public boolean storeResults(UserAgent userAgent, TestResults testResults) {
     try {
-      return storeResultsImpl(testResults);
+      return storeResultsImpl(userAgent, testResults);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
       return false;
     }
   }
 
-  private boolean storeResultsImpl(TestResults testResults) {
+  private boolean storeResultsImpl(UserAgent userAgent, TestResults testResults) {
     MemcacheService ms = MemcacheServiceFactory.getMemcacheService();
 
     HttpServletRequest request = getThreadLocalRequest();
     String addr = request.getRemoteAddr();
-    String userAgent = request.getHeader("User-Agent");
-    String memcacheThrottleKey = addr + userAgent;
+    String memcacheThrottleKey = addr + "/" + userAgent;
     if (ms.contains(memcacheThrottleKey)) {
       return false;
     }
-    ms.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(PER_IP_USER_AGENT_THROTTLE_TIME));
+    ms.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
     incrementTestResultCount(userAgent, testResults);
     return true;
   }
 
-  private void incrementTestResultCount(String userAgent, TestResults testResults) {
+  private int getExpiration() {
+    if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
+      // 5 seconds
+      return 5;
+    } else {
+      // 5 minutes
+      return 300;
+    }
+  }
+
+  private void incrementTestResultCount(UserAgent userAgent, TestResults testResults) {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       Query query = pm.newQuery(TestResultSummary.class);
       query.setFilter("userAgent == userAgentParam && results == resultsParam");
       query.declareParameters("String userAgentParam, String resultsParam");
       List<TestResultSummary> summaryList =
-          (List<TestResultSummary>) query.execute(userAgent, testResults.toString());
+          (List<TestResultSummary>) query.execute(userAgent.toString(), testResults.toString());
       TestResultSummary summary;
 
       if (summaryList.isEmpty()) {

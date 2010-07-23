@@ -27,7 +27,7 @@ import java.util.List;
 
 @RemoteServiceRelativePath("results")
 public interface ResultsService extends RemoteService {
-  boolean storeResults(TestResults testResults);
+  boolean storeResults(UserAgent userAgent, TestResults testResults);
 
   HashMap<UserAgent, TestResults> getResults();
 

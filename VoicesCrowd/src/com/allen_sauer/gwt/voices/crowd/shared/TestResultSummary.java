@@ -45,8 +45,8 @@ public class TestResultSummary implements Serializable {
     this.results = results;
   }
 
-  public TestResultSummary(String userAgent, TestResults testResults) {
-    this.userAgent = userAgent;
+  public TestResultSummary(UserAgent userAgent, TestResults testResults) {
+    this.userAgent = userAgent.toString();
     this.results = testResults.toString();
   }
 

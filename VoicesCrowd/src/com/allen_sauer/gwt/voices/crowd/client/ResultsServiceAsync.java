@@ -26,7 +26,7 @@ import java.util.List;
 
 public interface ResultsServiceAsync {
 
-  void storeResults(TestResults testResults, AsyncCallback<Boolean> callback);
+  void storeResults(UserAgent userAgent, TestResults testResults, AsyncCallback<Boolean> callback);
 
   void getResults(AsyncCallback<HashMap<UserAgent, TestResults>> callback);
 

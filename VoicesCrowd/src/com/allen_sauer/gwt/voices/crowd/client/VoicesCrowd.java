@@ -42,6 +42,7 @@ public class VoicesCrowd implements EntryPoint {
   private final ResultsServiceAsync service = GWT.create(ResultsService.class);
 
   public void onModuleLoad() {
+    myUserAgent = new UserAgent(Window.Navigator.getUserAgent());
     log("<br><b>Test results...</b>");
     String[] results = new String[TestResults.MIME_TYPES.length];
     for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
@@ -52,6 +53,8 @@ public class VoicesCrowd implements EntryPoint {
     }
     storeResults(new TestResults(results));
   }
+
+  private UserAgent myUserAgent;
 
   private void log(String text) {
     // RootPanel.get().add(new HTML(text));
@@ -75,7 +78,7 @@ public class VoicesCrowd implements EntryPoint {
   private void renderSummary(List<TestResultSummary> list) {
     // Build HTML table
     StringBuffer html = new StringBuffer();
-    html.append(Window.Navigator.getUserAgent());
+    html.append(myUserAgent.toString());
     html.append("<table>");
 
     // Header row
@@ -93,15 +96,15 @@ public class VoicesCrowd implements EntryPoint {
     html.append("</tr>");
 
     for (TestResultSummary summary : list) {
-      UserAgent userAgent = new UserAgent(summary.getUserAgent());
+      UserAgent ua = new UserAgent(summary.getUserAgent());
       String[] results = summary.getTestResults().getResults();
       html.append("<tr>");
       html
           .append("<td style='padding: 0.2em 0.2em; background-color: ")
           .append(
-              (userAgent.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
+              (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
           .append(";'>")
-          .append(userAgent.toString())
+          .append(ua.toString())
           .append("</td>");
       for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
         String mimeType = TestResults.MIME_TYPES[i].toString();
@@ -136,7 +139,7 @@ public class VoicesCrowd implements EntryPoint {
 
   private void storeResults(TestResults results) {
     log("<br><b>Storing our test results...</b>");
-    service.storeResults(results, new AsyncCallback<Boolean>() {
+    service.storeResults(myUserAgent, results, new AsyncCallback<Boolean>() {
       public void onFailure(Throwable caught) {
         log("<b style='color:red;'>Failed to send our test results.</b>");
         getAndDisplaySummaryResults();
