@@ -84,8 +84,15 @@ public class VoicesCrowd implements EntryPoint {
 
     // Build HTML table
     StringBuffer html = new StringBuffer();
+
     if (!embed) {
-      html.append("<h3>Your user agent</h3>");
+    html
+        .append("<div style='font-weight: bold; font-size: 1.2em;'>")
+        .append("<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>")
+        .append(" - Sound for your Google Web Toolkit projects.</div>")
+        .append("<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
+
+    html.append("<h3>Your user agent</h3>");
       html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append(
           "</div>");
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
