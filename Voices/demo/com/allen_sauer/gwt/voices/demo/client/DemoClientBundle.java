@@ -5,23 +5,15 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 
+//CHECKSTYLE_JAVADOC_OFF
 public interface DemoClientBundle extends ClientBundle {
 
   interface DemoCssResource extends CssResource {
 
-    /**
-     * 
-     */
     String content();
 
     @ClassName("demo-content")
     String demoContent();
-
-    @ClassName("demo-event-text-area")
-    String demoEventTextArea();
-
-    @ClassName("demo-main-panel")
-    String demoMainPanel();
 
     @ClassName("demo-note")
     String demoNote();

@@ -3,6 +3,40 @@
 <head>
 <title>gwt-voices demo</title>
 <script language="javascript" src="demo/demo.nocache.js"></script>
+<style type="text/css">
+.demo-loading {
+  font-weight: bold;
+  padding: 1em;
+  color: #444;
+}
+
+.demo-loading IMG {
+  margin-left: 1em;
+  margin-right: 0.3em;
+  vertical-align: middle;
+}
+
+.demo-main-panel {
+  margin: 0.5em;
+}
+
+.demo-event-text-area {
+  border: 1px solid #AAAAAA;
+  width: 90%;
+  height: 8em;
+  overflow: auto;
+}
+
+.demo-event-text-area-header {
+  color: #333333;
+  margin-top: 2em;
+}
+
+.demo-footer {
+  margin-top: 1em;
+  font-style: italic;
+}
+</style>
 </head>
 
 <body>
@@ -15,10 +49,10 @@ your Google Web Toolkit projects.</div>
 <div style="font-style: italic; margin-bottom: 1em;">by Fred Sauer
 </div>
 
-<div id="demo-main-panel" class="demo-main-panel">
-<div class="demo-loading"><img
+<div id="demo-loading" class="demo-loading"><img
 	src="images/preview61_cycle_eight_16-black-on-white.gif"> Loading
 gwt-voices demo, please wait...</div>
+<div id="demo-main-panel" class="demo-main-panel">
 </div>
 
 <div class="demo-event-text-area-header">Events received by
