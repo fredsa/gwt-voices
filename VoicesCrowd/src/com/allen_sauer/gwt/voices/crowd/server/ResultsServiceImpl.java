@@ -44,16 +44,17 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
           SystemProperty.environment.value() == SystemProperty.Environment.Value.Production ? 4
               * 3600 : 5;
 
-  public boolean storeResults(UserAgent userAgent, TestResults testResults) {
+  public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
     try {
-      return storeResultsImpl(userAgent, testResults);
+      return storeResultsImpl(userAgent,gwtUserAgent, results);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
       return false;
     }
   }
 
-  private boolean storeResultsImpl(UserAgent userAgent, TestResults testResults) {
+  private boolean storeResultsImpl(
+      UserAgent userAgent, String gwtUserAgent, TestResults testResults) {
     MemcacheService ms = MemcacheServiceFactory.getMemcacheService();
 
     HttpServletRequest request = getThreadLocalRequest();
@@ -63,7 +64,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
       return false;
     }
     ms.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
-    incrementTestResultCount(userAgent, testResults);
+    incrementTestResultCount(userAgent, gwtUserAgent, testResults);
     return true;
   }
 
@@ -77,18 +78,22 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  private void incrementTestResultCount(UserAgent userAgent, TestResults testResults) {
+  private void incrementTestResultCount(
+      UserAgent userAgent, String gwtUserAgent, TestResults testResults) {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       Query query = pm.newQuery(TestResultSummary.class);
-      query.setFilter("userAgent == userAgentParam && results == resultsParam");
-      query.declareParameters("String userAgentParam, String resultsParam");
-      List<TestResultSummary> summaryList =
-          (List<TestResultSummary>) query.execute(userAgent.toString(), testResults.toString());
+      query
+          .setFilter(
+              "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
+      query.declareParameters(
+          "String userAgentParam, String gwtUserAgentParam, String resultsParam");
+      List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
+          userAgent.toString(), gwtUserAgent, testResults.toString());
       TestResultSummary summary;
 
       if (summaryList.isEmpty()) {
-        summary = new TestResultSummary(userAgent, testResults);
+        summary = new TestResultSummary(userAgent, gwtUserAgent, testResults);
       } else {
         summary = summaryList.get(0);
 

@@ -15,22 +15,9 @@
  */
 package com.allen_sauer.gwt.voices.crowd.client;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
-import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
-import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
-import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
-
-import java.util.HashMap;
-import java.util.List;
-
-@RemoteServiceRelativePath("results")
-public interface ResultsService extends RemoteService {
-
-  HashMap<UserAgent, TestResults> getResults();
-
-  List<TestResultSummary> getSummary();
-
-  boolean storeResults(UserAgent myUserAgent, String gwtUserAgent, TestResults results);
+/**
+ * Interface for deferred binding generator.
+ */
+public interface GwtUserAgentProvider {
+  String getGwtUserAgent();
 }

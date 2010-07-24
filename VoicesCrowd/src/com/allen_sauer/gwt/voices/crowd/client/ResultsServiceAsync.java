@@ -26,7 +26,8 @@ import java.util.List;
 
 public interface ResultsServiceAsync {
 
-  void storeResults(UserAgent userAgent, TestResults testResults, AsyncCallback<Boolean> callback);
+  void storeResults(UserAgent myUserAgent, String gwtUserAgent, TestResults results,
+      AsyncCallback<Boolean> asyncCallback);
 
   void getResults(AsyncCallback<HashMap<UserAgent, TestResults>> callback);
 

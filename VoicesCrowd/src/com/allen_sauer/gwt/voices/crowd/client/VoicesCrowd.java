@@ -41,6 +41,9 @@ public class VoicesCrowd implements EntryPoint {
 
   private final ResultsServiceAsync service = GWT.create(ResultsService.class);
 
+  private boolean embed = Window.Location.getParameter("embed") != null;
+  private boolean debug = Window.Location.getParameter("debug") != null;
+
   public void onModuleLoad() {
     myUserAgent = new UserAgent(Window.Navigator.getUserAgent());
     log("<br><b>Test results...</b>");
@@ -57,7 +60,9 @@ public class VoicesCrowd implements EntryPoint {
   private UserAgent myUserAgent;
 
   private void log(String text) {
-    // RootPanel.get().add(new HTML(text));
+    if (debug) {
+      RootPanel.get().add(new HTML(text));
+    }
   }
 
   private void getAndDisplaySummaryResults() {
@@ -76,7 +81,6 @@ public class VoicesCrowd implements EntryPoint {
   }
 
   private void renderSummary(List<TestResultSummary> list) {
-    boolean embed = Window.Location.getParameter("embed") != null;
 
     // Build HTML table
     StringBuffer html = new StringBuffer();
@@ -87,10 +91,15 @@ public class VoicesCrowd implements EntryPoint {
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
     }
     html.append("<table>");
-    
+
     // Header row
     html.append("<tr>");
-    html.append("<td/>");
+    html
+        .append(
+            "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>User-Agent</td>");
+    html
+        .append(
+            "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
     for (MimeType mimeType : TestResults.MIME_TYPES) {
       html
           .append(
@@ -98,7 +107,8 @@ public class VoicesCrowd implements EntryPoint {
       html.append(mimeType.toString());
       html.append("</td>");
     }
-    html.append("<td>Count</td>");
+    html.append(
+        "<td style='font-weight: bold; text-align: center; background-color: #ccc;'>Count</td>");
 
     html.append("</tr>");
 
@@ -108,10 +118,14 @@ public class VoicesCrowd implements EntryPoint {
       html.append("<tr>");
       html
           .append("<td style='padding: 0.2em 0.2em; background-color: ")
-          .append(
-              (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
+          .append((ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
           .append(";'>")
           .append(ua.toString())
+          .append("</td>")
+          .append("<td style='padding: 0.2em 0.2em; text-align: center; background-color: ")
+          .append((ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
+          .append(";'>")
+          .append(summary.getGwtUserAgent())
           .append("</td>");
       for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
         String mimeType = TestResults.MIME_TYPES[i].toString();
@@ -125,7 +139,8 @@ public class VoicesCrowd implements EntryPoint {
         html.append(canPlayType == null ? "(null)" : "'" + canPlayType + "'");
         html.append("</td>");
       }
-      html.append("<td>").append(summary.getCount()).append("</td>");
+      html.append("<td style='text-align: center; background-color: #ccc;'>").append(
+          summary.getCount()).append("</td>");
 
       html.append("</tr>");
     }
@@ -146,21 +161,23 @@ public class VoicesCrowd implements EntryPoint {
 
   private void storeResults(TestResults results) {
     log("<br><b>Storing our test results...</b>");
-    service.storeResults(myUserAgent, results, new AsyncCallback<Boolean>() {
-      public void onFailure(Throwable caught) {
-        log("<b style='color:red;'>Failed to send our test results.</b>");
-        getAndDisplaySummaryResults();
-      }
+    GwtUserAgentProvider gwtUserAgentProvider = GWT.create(GwtUserAgentProvider.class);
+    service.storeResults(
+        myUserAgent, gwtUserAgentProvider.getGwtUserAgent(), results, new AsyncCallback<Boolean>() {
+          public void onFailure(Throwable caught) {
+            log("<b style='color:red;'>Failed to send our test results.</b>");
+            getAndDisplaySummaryResults();
+          }
 
-      public void onSuccess(Boolean result) {
-        if (result.booleanValue()) {
-          log("<b style='color:green;'>Results sent and accepted.</b>");
-        } else {
-          log("<b style='color:black;'>Results sent and ignored.</b>");
-        }
-        getAndDisplaySummaryResults();
-      }
-    });
+          public void onSuccess(Boolean result) {
+            if (result.booleanValue()) {
+              log("<b style='color:green;'>Results sent and accepted.</b>");
+            } else {
+              log("<b style='color:black;'>Results sent and ignored.</b>");
+            }
+            getAndDisplaySummaryResults();
+          }
+        });
   }
 
 }

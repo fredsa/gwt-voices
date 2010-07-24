@@ -40,12 +40,17 @@ public class TestResultSummary implements Serializable {
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   private Long key;
 
-  public TestResultSummary(String userAgent, String results) {
+  @Persistent
+  private String gwtUserAgent;
+
+  public TestResultSummary(String userAgent, String gwtUserAgent, String results) {
     this.userAgent = userAgent;
+    this.gwtUserAgent = gwtUserAgent;
     this.results = results;
   }
 
-  public TestResultSummary(UserAgent userAgent, TestResults testResults) {
+  public TestResultSummary(UserAgent userAgent, String gwtUserAgent, TestResults testResults) {
+    this.gwtUserAgent = gwtUserAgent;
     this.userAgent = userAgent.toString();
     this.results = testResults.toString();
   }
@@ -64,6 +69,10 @@ public class TestResultSummary implements Serializable {
 
   public TestResults getTestResults() {
     return new TestResults(results);
+  }
+
+  public String getGwtUserAgent() {
+    return gwtUserAgent;
   }
 
 }
