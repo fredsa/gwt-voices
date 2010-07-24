@@ -17,12 +17,14 @@ package com.allen_sauer.gwt.voices.demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -256,20 +258,27 @@ public class VoicesDemo implements EntryPoint {
   }
 
   public void onModuleLoad2() {
+    RootPanel mainPanel = RootPanel.get("demo-main-panel");
     StyleInjector.injectAtStart(DemoClientBundle.INSTANCE.css().getText());
-
+    
     // text area to log sound events as they are triggered
     final HTML eventTextArea = new HTML();
-    RootPanel.get(DemoClientBundle.INSTANCE.css().demoEventTextArea()).add(eventTextArea);
+    RootPanel.get("demo-event-text-area").add(eventTextArea);
 
     DemoSoundHandler demoSoundHandler = new DemoSoundHandler(eventTextArea);
 
-    RootPanel mainPanel = RootPanel.get(DemoClientBundle.INSTANCE.css().demoMainPanel());
-    DOM.setInnerHTML(mainPanel.getElement(), "");
-
-    DisclosurePanel soundSupportMatrix = new DisclosurePanel("Sound Support Matrix");
+    DisclosurePanel soundSupportMatrix = new DisclosurePanel(
+        "Sound Support Matrix for this browser");
     soundSupportMatrix.setContent(new SupportedMimeTypeSummary());
     mainPanel.add(soundSupportMatrix);
+
+    DisclosurePanel crowdSourceSupportMatrix = new DisclosurePanel(
+        "HTML5 MIME Type support in popular browsers");
+    Frame crowdSourceFrame = new Frame("http://gwt-voices.appspot.com/?embed=true");
+    crowdSourceFrame.setPixelSize(3000, 600);
+    crowdSourceFrame.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
+    crowdSourceSupportMatrix.setContent(crowdSourceFrame);
+    mainPanel.add(crowdSourceSupportMatrix);
 
     for (String mimeType : MIME_TYPES) {
       ArrayList<ThirdPartySound> soundList = mimeTypeSoundMap.get(mimeType);
@@ -279,6 +288,7 @@ public class VoicesDemo implements EntryPoint {
         mainPanel.add(disclosurePanel);
       }
     }
+    DOM.getElementById("demo-loading").removeFromParent();
   }
 
 }
