@@ -17,6 +17,8 @@ package com.allen_sauer.gwt.voices.crowd.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -43,8 +45,10 @@ public class VoicesCrowd implements EntryPoint {
 
   private boolean embed = Window.Location.getParameter("embed") != null;
   private boolean debug = Window.Location.getParameter("debug") != null;
+  private RootPanel rootPanel;
 
   public void onModuleLoad() {
+    rootPanel = RootPanel.get("demo-main-panel");
     myUserAgent = new UserAgent(Window.Navigator.getUserAgent());
     log("<br><b>Test results...</b>");
     String[] results = new String[TestResults.MIME_TYPES.length];
@@ -61,7 +65,7 @@ public class VoicesCrowd implements EntryPoint {
 
   private void log(String text) {
     if (debug) {
-      RootPanel.get().add(new HTML(text));
+      rootPanel.add(new HTML(text));
     }
   }
 
@@ -71,28 +75,34 @@ public class VoicesCrowd implements EntryPoint {
 
       public void onFailure(Throwable caught) {
         log("<b style='color:red;'>Failed to retrieve results.</b>");
+        removeLoadingMessage();
       }
 
       public void onSuccess(List<TestResultSummary> list) {
         log("<b style='color:green;'>Results received.</b>");
         renderSummary(list);
+        removeLoadingMessage();
       }
+
     });
   }
 
-  private void renderSummary(List<TestResultSummary> list) {
+  private void removeLoadingMessage() {
+    DOM.getElementById("demo-loading").removeFromParent();
+  }
 
+  private void renderSummary(List<TestResultSummary> list) {
     // Build HTML table
     StringBuffer html = new StringBuffer();
 
     if (!embed) {
-    html
-        .append("<div style='font-weight: bold; font-size: 1.2em;'>")
-        .append("<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>")
-        .append(" - Sound for your Google Web Toolkit projects.</div>")
-        .append("<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
+      html
+          .append("<div style='font-weight: bold; font-size: 1.2em;'>")
+          .append("<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>")
+          .append(" - Sound for your Google Web Toolkit projects.</div>")
+          .append("<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
 
-    html.append("<h3>Your user agent</h3>");
+      html.append("<h3>Your user agent</h3>");
       html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append(
           "</div>");
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
@@ -153,7 +163,7 @@ public class VoicesCrowd implements EntryPoint {
     }
 
     html.append("</table>");
-    RootPanel.get().add(new HTML(html.toString()));
+    rootPanel.add(new HTML(html.toString()));
   }
 
   private String toColor(String canPlayType) {
