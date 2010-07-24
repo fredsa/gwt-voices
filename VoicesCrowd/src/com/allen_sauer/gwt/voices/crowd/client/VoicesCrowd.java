@@ -76,11 +76,18 @@ public class VoicesCrowd implements EntryPoint {
   }
 
   private void renderSummary(List<TestResultSummary> list) {
+    boolean embed = Window.Location.getParameter("embed") != null;
+
     // Build HTML table
     StringBuffer html = new StringBuffer();
-    html.append(myUserAgent.toString());
+    if (!embed) {
+      html.append("<h3>Your user agent</h3>");
+      html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append(
+          "</div>");
+      html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
+    }
     html.append("<table>");
-
+    
     // Header row
     html.append("<tr>");
     html.append("<td/>");
