@@ -17,7 +17,6 @@ package com.allen_sauer.gwt.voices.crowd.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -96,11 +95,10 @@ public class VoicesCrowd implements EntryPoint {
     StringBuffer html = new StringBuffer();
 
     if (!embed) {
-      html
-          .append("<div style='font-weight: bold; font-size: 1.2em;'>")
-          .append("<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>")
-          .append(" - Sound for your Google Web Toolkit projects.</div>")
-          .append("<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
+      html.append("<div style='font-weight: bold; font-size: 1.2em;'>").append(
+          "<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>").append(
+          " - Sound for your Google Web Toolkit projects.</div>").append(
+          "<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
 
       html.append("<h3>Your user agent</h3>");
       html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append(
@@ -111,16 +109,13 @@ public class VoicesCrowd implements EntryPoint {
 
     // Header row
     html.append("<tr>");
-    html
-        .append(
-            "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>User-Agent</td>");
-    html
-        .append(
-            "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
+    html.append(
+        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>User-Agent</td>");
+    html.append(
+        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
     for (MimeType mimeType : TestResults.MIME_TYPES) {
-      html
-          .append(
-              "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>");
+      html.append(
+          "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>");
       html.append(mimeType.toString());
       html.append("</td>");
     }
@@ -133,24 +128,18 @@ public class VoicesCrowd implements EntryPoint {
       UserAgent ua = new UserAgent(summary.getUserAgent());
       String[] results = summary.getTestResults().getResults();
       html.append("<tr>");
-      html
-          .append("<td style='padding: 0.2em 0.2em; background-color: ")
-          .append((ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
-          .append(";'>")
-          .append(ua.toString())
-          .append("</td>")
-          .append("<td style='padding: 0.2em 0.2em; text-align: center; background-color: ")
-          .append((ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc"))
-          .append(";'>")
-          .append(summary.getGwtUserAgent())
-          .append("</td>");
+      html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(
+          (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
+          ";'>").append(ua.toString()).append("</td>").append(
+          "<td style='padding: 0.2em 0.2em; text-align: center; background-color: ").append(
+          (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
+          ";'>").append(summary.getGwtUserAgent()).append("</td>");
       for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
         String mimeType = TestResults.MIME_TYPES[i].toString();
         String canPlayType = results[i];
         String color = toColor(canPlayType);
-        html
-            .append(
-                "<td style='text-align: center; font-family: monospace; padding: 0.2em 0.2em; background-color: ");
+        html.append(
+            "<td style='text-align: center; font-family: monospace; padding: 0.2em 0.2em; background-color: ");
         html.append(color);
         html.append(";'>");
         html.append(canPlayType == null ? "(null)" : "'" + canPlayType + "'");
@@ -178,9 +167,14 @@ public class VoicesCrowd implements EntryPoint {
 
   private void storeResults(TestResults results) {
     log("<br><b>Storing our test results...</b>");
-    GwtUserAgentProvider gwtUserAgentProvider = GWT.create(GwtUserAgentProvider.class);
+    // TODO Use GwtUserAgentProvider instead, once GWT issue 5158 is fixed
+    // See http://code.google.com/p/google-web-toolkit/issues/detail?id=5158
+    // GwtUserAgentProvider gwtUserAgentProvider =
+    // GWT.create(GwtUserAgentProvider.class);
+    UserAgentProvider userAgent = GWT.create(UserAgentProvider.class);
+
     service.storeResults(
-        myUserAgent, gwtUserAgentProvider.getGwtUserAgent(), results, new AsyncCallback<Boolean>() {
+        myUserAgent, userAgent.getUserAgent(), results, new AsyncCallback<Boolean>() {
           public void onFailure(Throwable caught) {
             log("<b style='color:red;'>Failed to send our test results.</b>");
             getAndDisplaySummaryResults();

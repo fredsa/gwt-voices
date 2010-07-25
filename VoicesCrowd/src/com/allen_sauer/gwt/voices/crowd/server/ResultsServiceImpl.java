@@ -18,7 +18,6 @@ package com.allen_sauer.gwt.voices.crowd.server;
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -42,7 +41,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
 
   public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
     try {
-      return storeResultsImpl(userAgent,gwtUserAgent, results);
+      return storeResultsImpl(userAgent, gwtUserAgent, results);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
       return false;
@@ -79,9 +78,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       Query query = pm.newQuery(TestResultSummary.class);
-      query
-          .setFilter(
-              "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
+      query.setFilter(
+          "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
       query.declareParameters(
           "String userAgentParam, String gwtUserAgentParam, String resultsParam");
       List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
@@ -122,8 +120,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
-      List<TestResultSummary> summaryList =
-          (List<TestResultSummary>) pm.newQuery(TestResultSummary.class).execute();
+      List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
+          TestResultSummary.class).execute();
       for (TestResultSummary summary : summaryList) {
         TestResults testResults = summary.getTestResults();
         map.put(new UserAgent(summary.getUserAgent()), testResults);
@@ -137,8 +135,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   public List<TestResultSummary> getSummary() {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      List<TestResultSummary> results =
-          (List<TestResultSummary>) pm.newQuery(TestResultSummary.class).execute();
+      List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
+          TestResultSummary.class).execute();
       return new ArrayList<TestResultSummary>(results);
     } finally {
       pm.close();

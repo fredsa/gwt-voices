@@ -72,11 +72,13 @@ public class GwtUserAgentProviderGenerator extends Generator {
       SourceWriter sw = composerFactory.createSourceWriter(context, pw);
 
       PropertyOracle propertyOracle = context.getPropertyOracle();
-      String gwtUserAgent;
+      String userAgent;
       try {
         SelectionProperty userAgentProperty =
             propertyOracle.getSelectionProperty(logger, PROPERTY_USER_AGENT);
-        gwtUserAgent = userAgentProperty.getCurrentValue();
+        
+        // ALWAYS RETURNS 'gecko'
+        userAgent = userAgentProperty.getCurrentValue();
       } catch (BadPropertyValueException e) {
         logger.log(TreeLogger.ERROR, "Unable to find value for '" + PROPERTY_USER_AGENT + "'", e);
         throw new UnableToCompleteException();
@@ -86,10 +88,10 @@ public class GwtUserAgentProviderGenerator extends Generator {
       sw.println("public String getGwtUserAgent() {");
       sw.indent();
 
-      if (gwtUserAgent == null) {
+      if (userAgent == null) {
         sw.println("return null;");
       } else {
-        sw.println("return \"" + gwtUserAgent.trim() + "\";");
+        sw.println("return \"" + userAgent + "\";");
       }
 
       sw.outdent();

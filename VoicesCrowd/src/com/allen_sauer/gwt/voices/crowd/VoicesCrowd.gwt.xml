@@ -26,4 +26,34 @@
       class="com.allen_sauer.gwt.voices.crowd.client.GwtUserAgentProvider" />
   </generate-with>
 
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderIe6">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="ie6" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderIe8">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="ie8" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderGecko">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="gecko" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderGecko1_8">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="gecko1_8" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderSafari">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="safari" />
+  </replace-with>
+
+  <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderOpera">
+    <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
+    <when-property-is name="user.agent" value="opera" />
+  </replace-with>
+
 </module>

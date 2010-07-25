@@ -38,7 +38,6 @@ public class MimeType implements Serializable, Comparable<MimeType> {
     return mimeTypeString.hashCode();
   }
 
-  @Override
   public int compareTo(MimeType o) {
     return mimeTypeString.compareTo(o.mimeTypeString);
   }
