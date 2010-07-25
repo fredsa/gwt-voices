@@ -40,10 +40,6 @@ import javax.servlet.http.HttpServletRequest;
 @SuppressWarnings("serial")
 public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsService {
 
-  private static final int PER_IP_USER_AGENT_THROTTLE_TIME =
-          SystemProperty.environment.value() == SystemProperty.Environment.Value.Production ? 4
-              * 3600 : 5;
-
   public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
     try {
       return storeResultsImpl(userAgent,gwtUserAgent, results);
@@ -138,7 +134,6 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  @Override
   public List<TestResultSummary> getSummary() {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
