@@ -110,7 +110,7 @@ public class VoicesCrowd implements EntryPoint {
     // Header row
     html.append("<tr>");
     html.append(
-        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>User-Agent</td>");
+        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>$wnd.navigator.userAgent</td>");
     html.append(
         "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
     for (MimeType mimeType : TestResults.MIME_TYPES) {
