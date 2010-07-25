@@ -35,7 +35,7 @@ public class VoicesCrowd implements EntryPoint {
   public static native String canPlayType(String mimeType) /*-{
     var audio = document.createElement('audio');
     if (!audio.canPlayType) {
-    return "";
+      return "";
     }
     return audio.canPlayType(mimeType);
   }-*/;
@@ -169,8 +169,7 @@ public class VoicesCrowd implements EntryPoint {
     log("<br><b>Storing our test results...</b>");
     // TODO Use GwtUserAgentProvider instead, once GWT issue 5158 is fixed
     // See http://code.google.com/p/google-web-toolkit/issues/detail?id=5158
-    // GwtUserAgentProvider gwtUserAgentProvider =
-    // GWT.create(GwtUserAgentProvider.class);
+    // GwtUserAgentProvider gwtUserAgentProvider = GWT.create(GwtUserAgentProvider.class);
     UserAgentProvider userAgent = GWT.create(UserAgentProvider.class);
 
     service.storeResults(

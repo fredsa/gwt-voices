@@ -59,8 +59,8 @@ public class GwtUserAgentProviderGenerator extends Generator {
     }
 
     if (remoteService.isInterface() == null) {
-      logger.log(TreeLogger.ERROR, remoteService.getQualifiedSourceName() + " is not an interface",
-          null);
+      logger.log(
+          TreeLogger.ERROR, remoteService.getQualifiedSourceName() + " is not an interface", null);
       throw new UnableToCompleteException();
     }
     ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(
@@ -74,9 +74,9 @@ public class GwtUserAgentProviderGenerator extends Generator {
       PropertyOracle propertyOracle = context.getPropertyOracle();
       String userAgent;
       try {
-        SelectionProperty userAgentProperty =
-            propertyOracle.getSelectionProperty(logger, PROPERTY_USER_AGENT);
-        
+        SelectionProperty userAgentProperty = propertyOracle.getSelectionProperty(
+            logger, PROPERTY_USER_AGENT);
+
         // ALWAYS RETURNS 'gecko'
         userAgent = userAgentProperty.getCurrentValue();
       } catch (BadPropertyValueException e) {
