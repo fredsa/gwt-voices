@@ -17,7 +17,7 @@ package com.allen_sauer.gwt.voices.crowd.shared;
 
 import java.io.Serializable;
 
-public class TestResults implements Serializable {
+public class TestResults implements Serializable, Comparable<TestResults> {
   private static String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
   private static String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";
   private static String MIME_TYPE_AUDIO_WAV = "audio/wav";
@@ -94,4 +94,17 @@ public class TestResults implements Serializable {
     return results;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof TestResults && toString().equals(obj.toString());
+  }
+
+  @Override
+  public int hashCode() {
+    return toString().hashCode();
+  }
+
+  public int compareTo(TestResults o) {
+    return toString().compareTo(o.toString());
+  }
 }
