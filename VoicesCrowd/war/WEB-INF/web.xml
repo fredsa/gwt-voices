@@ -4,18 +4,55 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+
+  <!-- GWT RPC -->
   
   <servlet>
     <servlet-name>results-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.ResultsServiceImpl</servlet-class>
   </servlet>
-  
+
   <servlet-mapping>
     <servlet-name>results-servlet</servlet-name>
     <url-pattern>/voicescrowd/results</url-pattern>
   </servlet-mapping>
-  
+
+  <!-- CSV servlet -->
+
+  <servlet>
+    <servlet-name>/csv-servlet</servlet-name>
+    <servlet-class>com.allen_sauer.gwt.voices.crowd.server.CsvResultsServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>/csv-servlet</servlet-name>
+    <url-pattern>/csv</url-pattern>
+  </servlet-mapping>
+
+  <!-- remote_api -->
+
+  <servlet>
+    <servlet-name>remote_api</servlet-name>
+    <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>remote_api</servlet-name>
+    <url-pattern>/remote_api</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/remote_api</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+
   <!-- Default page to serve -->
+  
   <welcome-file-list>
     <welcome-file>VoicesCrowd.html</welcome-file>
   </welcome-file-list>

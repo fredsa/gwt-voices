@@ -41,33 +41,27 @@ public class TestResults implements Serializable, Comparable<TestResults> {
   private static String MIME_TYPE_AUDIO_OGG_FLAC = "audio/ogg; codecs=flac";
   private static String MIME_TYPE_AUDIO_OGG_SPEEX = "audio/ogg; codecs=speex";
 
-  public static MimeType[] MIME_TYPES = {new MimeType(MIME_TYPE_AUDIO_BASIC),
-      new MimeType(MIME_TYPE_AUDIO_MPEG),
-      new MimeType(MIME_TYPE_AUDIO_MP4),
-      new MimeType(MIME_TYPE_AUDIO_MP4_MP4A_40_2),
-      new MimeType(MIME_TYPE_AUDIO_X_AIFF),
-      new MimeType(MIME_TYPE_AUDIO_X_MIDI),
-      new MimeType(MIME_TYPE_AUDIO_WAV),
-      new MimeType(MIME_TYPE_AUDIO_X_WAV),
-      new MimeType(MIME_TYPE_AUDIO_VND_WAV),
-      new MimeType(MIME_TYPE_AUDIO_WAV_UNKNOWN),
-      new MimeType(MIME_TYPE_AUDIO_X_WAV_UNKNOWN),
-      new MimeType(MIME_TYPE_AUDIO_VND_WAVE_UNKNOWN),
-      new MimeType(MIME_TYPE_AUDIO_WAV_PCM),
-      new MimeType(MIME_TYPE_AUDIO_X_WAV_PCM),
-      new MimeType(MIME_TYPE_AUDIO_VND_WAVE_PCM),
-      new MimeType(MIME_TYPE_AUDIO_WAV_ADPCM),
-      new MimeType(MIME_TYPE_AUDIO_X_WAV_ADPCM),
-      new MimeType(MIME_TYPE_AUDIO_VND_WAVE_ADPCM),
-      new MimeType(MIME_TYPE_AUDIO_OGG),
-      new MimeType(MIME_TYPE_AUDIO_OGG_FLAC),
-      new MimeType(MIME_TYPE_AUDIO_OGG_SPEEX),
-      new MimeType(MIME_TYPE_AUDIO_OGG_VORBIS),};
+  public static MimeType[] MIME_TYPES = {
+      new MimeType(MIME_TYPE_AUDIO_BASIC), new MimeType(MIME_TYPE_AUDIO_MPEG),
+      new MimeType(MIME_TYPE_AUDIO_MP4), new MimeType(MIME_TYPE_AUDIO_MP4_MP4A_40_2),
+      new MimeType(MIME_TYPE_AUDIO_X_AIFF), new MimeType(MIME_TYPE_AUDIO_X_MIDI),
+      new MimeType(MIME_TYPE_AUDIO_WAV), new MimeType(MIME_TYPE_AUDIO_X_WAV),
+      new MimeType(MIME_TYPE_AUDIO_VND_WAV), new MimeType(MIME_TYPE_AUDIO_WAV_UNKNOWN),
+      new MimeType(MIME_TYPE_AUDIO_X_WAV_UNKNOWN), new MimeType(MIME_TYPE_AUDIO_VND_WAVE_UNKNOWN),
+      new MimeType(MIME_TYPE_AUDIO_WAV_PCM), new MimeType(MIME_TYPE_AUDIO_X_WAV_PCM),
+      new MimeType(MIME_TYPE_AUDIO_VND_WAVE_PCM), new MimeType(MIME_TYPE_AUDIO_WAV_ADPCM),
+      new MimeType(MIME_TYPE_AUDIO_X_WAV_ADPCM), new MimeType(MIME_TYPE_AUDIO_VND_WAVE_ADPCM),
+      new MimeType(MIME_TYPE_AUDIO_OGG), new MimeType(MIME_TYPE_AUDIO_OGG_FLAC),
+      new MimeType(MIME_TYPE_AUDIO_OGG_SPEEX), new MimeType(MIME_TYPE_AUDIO_OGG_VORBIS),};
 
   private String[] results;
 
   public TestResults(String testResultsString) {
-    this.results = testResultsString.split("\\|");
+    // prevent all trailing '|' from being removed
+    String[] split = (testResultsString + "|bogus").split("\\|");
+    assert split.length >= MIME_TYPES.length;
+    results = new String[MIME_TYPES.length];
+    System.arraycopy(split, 0, results, 0, results.length);
   }
 
   public TestResults(String[] results) {

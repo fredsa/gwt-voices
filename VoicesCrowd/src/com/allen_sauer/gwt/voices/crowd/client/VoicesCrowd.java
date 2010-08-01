@@ -113,6 +113,31 @@ public class VoicesCrowd implements EntryPoint {
     }
     html.append("<table>");
 
+    makeHeaderRow(html);
+    for (TestResults testResults : testResultsSet) {
+      int matches = getMatchingCount(testResults, list);
+
+      // user agents
+      int count = 0;
+      for (TestResultSummary summary : list) {
+        if (summary.getTestResults().equals(testResults)) {
+          count++;
+          html.append("<tr>");
+          makeUserAgentCells(html, summary);
+
+          if (count == 1) {
+            makeResultCells(html, testResults, matches);
+          }
+          html.append("</tr>");
+        }
+      }
+    }
+
+    html.append("</table>");
+    rootPanel.add(new HTML(html.toString()));
+  }
+
+  private void makeHeaderRow(StringBuffer html) {
     // Header row
     html.append("<tr>");
 
@@ -133,62 +158,43 @@ public class VoicesCrowd implements EntryPoint {
     }
 
     html.append("</tr>");
-
-    for (TestResults testResults : testResultsSet) {
-      // single row with multiple user agents and one set of results
-      html.append("<tr style='padding: 0px; background-color: #red;'>");
-
-      int matches = getMatchingCount(testResults, list);
-
-      // user agent table
-      int count = 0;
-      for (TestResultSummary summary : list) {
-        if (!summary.getTestResults().equals(testResults)) {
-          continue;
-        }
-        UserAgent ua = new UserAgent(summary.getUserAgent());
-
-        html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc;'>").append(
-            summary.getCount()).append("</td>");
-
-        html.append(
-            "<td style='padding: 0.2em 0.2em; text-align: center; background-color: ").append(
-            (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
-            ";'>").append(summary.getGwtUserAgent()).append("</td>");
-
-        html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(
-            (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
-            ";'>").append(ua.toString()).append("</td>");
-
-        if (++count == 1) {
-          // result table cells
-          String[] results = testResults.getResults();
-          for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
-            String mimeType = TestResults.MIME_TYPES[i].toString();
-            String canPlayType = results[i];
-            String color = toColor(canPlayType);
-            html.append(
-                "<td style='text-align: center; font-family: monospace; padding: 0.2em 0.2em; background-color: ");
-            html.append(color);
-            html.append(";' rowspan='" + matches + "'>");
-            html.append(canPlayType == null ? "(null)" : "'" + canPlayType + "'");
-            html.append("</td>");
-          }
-
-          html.append("</tr>");
-        }
-      }
-    }
-
-    html.append("</table>");
-    rootPanel.add(new HTML(html.toString()));
   }
 
-  private int getMatchingCount(TestResults tr, List<TestResultSummary> list) {
+  private void makeUserAgentCells(StringBuffer html, TestResultSummary summary) {
+    UserAgent ua = new UserAgent(summary.getUserAgent());
+
+    html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc;'>").append(
+        summary.getCount()).append("</td>");
+
+    html.append("<td style='padding: 0.2em 0.2em; text-align: center; background-color: ").append(
+        (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
+        ";'>").append(summary.getGwtUserAgent()).append("</td>");
+
+    html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(
+        (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
+        ";'>").append(ua.toString()).append("</td>");
+  }
+
+  private void makeResultCells(StringBuffer html, TestResults testResults, int rowspan) {
+    // result table cells
+    String[] results = testResults.getResults();
+    for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
+      String mimeType = TestResults.MIME_TYPES[i].toString();
+      String canPlayType = results[i];
+      String color = toColor(canPlayType);
+      html.append(
+          "<td style='text-align: center; font-family: monospace; padding: 0.2em 0.2em; background-color: ");
+      html.append(color);
+      html.append(";' rowspan='" + rowspan + "'>");
+      html.append(canPlayType == null ? "(null)" : "'" + canPlayType + "'");
+      html.append("</td>");
+    }
+  }
+
+  private int getMatchingCount(TestResults testResults, List<TestResultSummary> list) {
     int count = 0;
     for (TestResultSummary summary : list) {
-      TestResults testResults = summary.getTestResults();
-      if (testResults.equals(tr)) {
+      if (summary.getTestResults().equals(testResults)) {
         count++;
       }
     }
