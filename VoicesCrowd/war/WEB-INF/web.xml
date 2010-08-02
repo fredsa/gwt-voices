@@ -22,6 +22,10 @@
   <servlet>
     <servlet-name>appstats</servlet-name>
     <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+    <init-param>
+      <param-name>requireAdminAuthentication</param-name>
+      <param-value>false</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>appstats</servlet-name>
