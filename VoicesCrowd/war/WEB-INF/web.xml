@@ -5,8 +5,40 @@
 
 <web-app>
 
+  <!-- Appstats -->
+  <filter>
+    <filter-name>appstats</filter-name>
+    <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+    <init-param>
+      <param-name>logMessage</param-name>
+      <param-value>Appstats available: /appstats/details?time={ID}</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>appstats</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>appstats</servlet-name>
+    <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appstats</servlet-name>
+    <url-pattern>/appstats/*</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/appstats/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
   <!-- GWT RPC -->
-  
+
   <servlet>
     <servlet-name>results-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.ResultsServiceImpl</servlet-class>
@@ -27,6 +59,18 @@
   <servlet-mapping>
     <servlet-name>/csv-servlet</servlet-name>
     <url-pattern>/csv</url-pattern>
+  </servlet-mapping>
+
+  <!-- Admin servlet -->
+
+  <servlet>
+    <servlet-name>/admin-servlet</servlet-name>
+    <servlet-class>com.allen_sauer.gwt.voices.crowd.server.AdminServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>/admin-servlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
   </servlet-mapping>
 
   <!-- remote_api -->
@@ -52,7 +96,7 @@
 
 
   <!-- Default page to serve -->
-  
+
   <welcome-file-list>
     <welcome-file>VoicesCrowd.html</welcome-file>
   </welcome-file-list>
