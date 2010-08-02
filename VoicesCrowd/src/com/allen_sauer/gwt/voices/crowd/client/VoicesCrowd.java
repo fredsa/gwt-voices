@@ -113,8 +113,8 @@ public class VoicesCrowd implements EntryPoint {
     }
     html.append("<table>");
 
-    makeHeaderRow(html);
     for (TestResults testResults : testResultsSet) {
+      makeHeaderRow(html);
       int matches = getMatchingCount(testResults, list);
 
       // user agents
@@ -147,7 +147,7 @@ public class VoicesCrowd implements EntryPoint {
     html.append(
         "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
     html.append(
-        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>$wnd.navigator.userAgent</td>");
+        "<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;' colspan='2'>$wnd.navigator.userAgent</td>");
 
     // MIME type headings
     for (MimeType mimeType : TestResults.MIME_TYPES) {
@@ -162,17 +162,24 @@ public class VoicesCrowd implements EntryPoint {
 
   private void makeUserAgentCells(StringBuffer html, TestResultSummary summary) {
     UserAgent ua = new UserAgent(summary.getUserAgent());
+    String color = ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc";
 
+    // count
     html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc;'>").append(
         summary.getCount()).append("</td>");
 
+    // gwt 'user.agent'
     html.append("<td style='padding: 0.2em 0.2em; text-align: center; background-color: ").append(
-        (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
-        ";'>").append(summary.getGwtUserAgent()).append("</td>");
+        color).append(";'>").append(summary.getGwtUserAgent()).append("</td>");
 
-    html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(
-        (ua.toString().equals(Window.Navigator.getUserAgent()) ? "yellow" : "#ccc")).append(
+    // User-Agent string
+    html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(color).append(
         ";'>").append(ua.toString()).append("</td>");
+
+    // Pretty User-Agent
+    String prettyUserAgent = summary.getPrettyUserAgent();
+    html.append("<td style='padding: 0.2em 0.2em; white-space: nowrap; background-color: ").append(
+        color).append(";'>").append(prettyUserAgent != null ? prettyUserAgent : "").append("</td>");
   }
 
   private void makeResultCells(StringBuffer html, TestResults testResults, int rowspan) {

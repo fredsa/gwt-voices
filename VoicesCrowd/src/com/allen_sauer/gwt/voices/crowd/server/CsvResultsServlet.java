@@ -34,41 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CsvResultsServlet extends HttpServlet {
-  private void incrementTestResultCount(String ua, String gwtUserAgent, String tr) {
-    UserAgent userAgent = new UserAgent(ua);
-    TestResults testResults = new TestResults(tr);
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      Query query = pm.newQuery(TestResultSummary.class);
-      query.setFilter(
-          "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
-      query.declareParameters(
-          "String userAgentParam, String gwtUserAgentParam, String resultsParam");
-      List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
-          userAgent.toString(), gwtUserAgent, testResults.toString());
-      TestResultSummary summary;
-
-      if (summaryList.isEmpty()) {
-        summary = new TestResultSummary(userAgent, gwtUserAgent, testResults);
-      } else {
-        summary = summaryList.get(0);
-
-        if (summaryList.size() > 1) {
-          // merge rows in case race condition caused > 1 row to be inserted
-          TestResultSummary anotherSummary = summaryList.get(1);
-          summary.incrementCount(anotherSummary.getCount());
-          pm.deletePersistent(anotherSummary);
-        }
-
-        // count the current test results
-        summary.incrementCount(1);
-      }
-      pm.makePersistent(summary);
-    } finally {
-      pm.close();
-    }
-  }
-
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -114,7 +79,7 @@ public class CsvResultsServlet extends HttpServlet {
     }
   }
 
-  private void loadTestData() {
+  private void loadTestData() throws IOException {
     incrementTestResultCount(
         "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.38 Safari/532.0", "safari", "||maybe|probably|||||||||||||||maybe|maybe|maybe|probably");
     incrementTestResultCount(
@@ -344,6 +309,12 @@ public class CsvResultsServlet extends HttpServlet {
         "Mozilla/5.0 (Windows; U; Windows NT 6.0; de; rv:1.9.1.11) Gecko/20100701 Firefox/3.5.11 ( .NET CLR 3.5.30729)", "gecko1_8", "||||||maybe|maybe||maybe|maybe||probably|probably|||||maybe|||probably");
     incrementTestResultCount(
         "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8 (.NET CLR 3.5.30729)", "gecko1_8", "||||||maybe|maybe|||||probably|probably|||||maybe|||probably");
+  }
+
+  private void incrementTestResultCount(
+      String userAgentString, String gwtUserAgent, String resultsString) throws IOException {
+    Util.incrementTestResultCount(
+        new UserAgent(userAgentString), gwtUserAgent, new TestResults(resultsString));
   }
 
 }

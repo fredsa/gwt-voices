@@ -26,6 +26,7 @@ import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
 import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +34,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("serial")
 public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsService {
+
+  public HashMap<UserAgent, TestResults> getResults() {
+    try {
+      return getResultsImpl();
+    } catch (Exception ex) {
+      Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving results", ex);
+      return null;
+    }
+  }
+
+  public List<TestResultSummary> getSummary() {
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+    try {
+      List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
+          TestResultSummary.class).execute();
+      return new ArrayList<TestResultSummary>(results);
+    } finally {
+      pm.close();
+    }
+  }
 
   public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
     try {
@@ -48,21 +68,6 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  private boolean storeResultsImpl(
-      UserAgent userAgent, String gwtUserAgent, TestResults testResults) {
-    MemcacheService ms = MemcacheServiceFactory.getMemcacheService();
-
-    HttpServletRequest request = getThreadLocalRequest();
-    String addr = request.getRemoteAddr();
-    String memcacheThrottleKey = addr + "/" + userAgent;
-    if (ms.contains(memcacheThrottleKey)) {
-      return false;
-    }
-    ms.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
-    incrementTestResultCount(userAgent, gwtUserAgent, testResults);
-    return true;
-  }
-
   private int getExpiration() {
     if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Development) {
       // 5 seconds
@@ -70,49 +75,6 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     } else {
       // 5 minutes
       return 300;
-    }
-  }
-
-  private void incrementTestResultCount(
-      UserAgent userAgent, String gwtUserAgent, TestResults testResults) {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      Query query = pm.newQuery(TestResultSummary.class);
-      query.setFilter(
-          "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
-      query.declareParameters(
-          "String userAgentParam, String gwtUserAgentParam, String resultsParam");
-      List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
-          userAgent.toString(), gwtUserAgent, testResults.toString());
-      TestResultSummary summary;
-
-      if (summaryList.isEmpty()) {
-        summary = new TestResultSummary(userAgent, gwtUserAgent, testResults);
-      } else {
-        summary = summaryList.get(0);
-
-        if (summaryList.size() > 1) {
-          // merge rows in case race condition caused > 1 row to be inserted
-          TestResultSummary anotherSummary = summaryList.get(1);
-          summary.incrementCount(anotherSummary.getCount());
-          pm.deletePersistent(anotherSummary);
-        }
-
-        // count the current test results
-        summary.incrementCount(1);
-      }
-      pm.makePersistent(summary);
-    } finally {
-      pm.close();
-    }
-  }
-
-  public HashMap<UserAgent, TestResults> getResults() {
-    try {
-      return getResultsImpl();
-    } catch (Exception ex) {
-      Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving results", ex);
-      return null;
     }
   }
 
@@ -132,15 +94,19 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  public List<TestResultSummary> getSummary() {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
-          TestResultSummary.class).execute();
-      return new ArrayList<TestResultSummary>(results);
-    } finally {
-      pm.close();
+  private boolean storeResultsImpl(
+      UserAgent userAgent, String gwtUserAgent, TestResults testResults) throws IOException {
+    MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
+
+    HttpServletRequest request = getThreadLocalRequest();
+    String addr = request.getRemoteAddr();
+    String memcacheThrottleKey = addr + "/" + userAgent;
+    if (mc.contains(memcacheThrottleKey)) {
+      return false;
     }
+    mc.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
+    Util.incrementTestResultCount(userAgent, gwtUserAgent, testResults);
+    return true;
   }
 
 }

@@ -23,59 +23,24 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class TestResultSummary implements Serializable {
-  protected TestResultSummary() {
-  }
-
+public class UserAgentSummary implements Serializable {
   @Persistent
-  private String userAgent;
-
-  @Persistent
-  private String results;
-
-  @Persistent
-  private int count = 1;
+  private String gwtUserAgent;
 
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  private Long key;
-
-  @Persistent
-  private String gwtUserAgent;
+  private String userAgentString;
 
   @Persistent
   private String prettyUserAgent;
 
-  public TestResultSummary(
-      String userAgent, String prettyUserAgent, String gwtUserAgent, String results) {
-    this.userAgent = userAgent;
-    this.setPrettyUserAgent(prettyUserAgent);
+  protected UserAgentSummary() {
+  }
+
+  public UserAgentSummary(String userAgentString, String prettyUserAgent, String gwtUserAgent) {
+    this.userAgentString = userAgentString;
+    this.prettyUserAgent = prettyUserAgent;
     this.gwtUserAgent = gwtUserAgent;
-    this.results = results;
-  }
-
-  public TestResultSummary(
-      UserAgent userAgent, String prettyUserAgent, String gwtUserAgent, TestResults testResults) {
-    this.setPrettyUserAgent(prettyUserAgent);
-    this.gwtUserAgent = gwtUserAgent;
-    this.userAgent = userAgent.toString();
-    this.results = testResults.toString();
-  }
-
-  public int getCount() {
-    return count;
-  }
-
-  public void incrementCount(int increment) {
-    count += increment;
-  }
-
-  public String getUserAgent() {
-    return userAgent;
-  }
-
-  public TestResults getTestResults() {
-    return new TestResults(results);
   }
 
   public String getGwtUserAgent() {
@@ -86,8 +51,8 @@ public class TestResultSummary implements Serializable {
     return prettyUserAgent;
   }
 
-  public void setPrettyUserAgent(String prettyUserAgent) {
-    this.prettyUserAgent = prettyUserAgent;
+  public String getUserAgentString() {
+    return userAgentString;
   }
 
 }
