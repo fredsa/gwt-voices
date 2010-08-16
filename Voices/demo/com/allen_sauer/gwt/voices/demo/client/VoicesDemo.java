@@ -43,27 +43,17 @@ public class VoicesDemo implements EntryPoint {
       String, ArrayList<ThirdPartySound>>();
 
   /**
-   * IANA assigned media type <code>audio/mp4</code>, from RFC 4337. Typical filename extensions
-   * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
-   */
-  private static String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
-
-  /**
-   * IANA assigned media type <code>aaudio/mp4; codecs=mp4a.40.2</code>, from RFC 4337. Typical filename extensions
-   * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
-   */
-  private static String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";
-
-  /**
    * Using <code>audio/wav</code> instead of the more popular, but unregistered,
    * <code>audio/wav</code>. Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_WAV = "audio/wav";
 
   /**
    * Using <code>audio/x-wav</code> instead of the more popular, but unregistered,
    * <code>audio/wav</code>. Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_VND_WAV = "audio/vnd.wave";
 
   /**
@@ -71,6 +61,7 @@ public class VoicesDemo implements EntryPoint {
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_VND_WAVE_UNKNOWN = "audio/vnd.wave; codecs=0";
 
   /**
@@ -78,20 +69,15 @@ public class VoicesDemo implements EntryPoint {
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_X_WAV_UNKNOWN = "audio/x-wav; codecs=0";
-
-  /**
-   * MIME Type <code>audio/wav; codecs=0</code> for WAVE audio in unknown format.
-   * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
-   */
-  private static String MIME_TYPE_AUDIO_WAV_UNKNOWN = "audio/wav; codecs=0";
 
   /**
    * MIME Type <code>audio/vnd.wave; codecs=1</code> for WAVE audio in Microsoft PCM format.
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_VND_WAVE_PCM = "audio/vnd.wave; codecs=1";
 
   /**
@@ -99,19 +85,15 @@ public class VoicesDemo implements EntryPoint {
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_X_WAV_PCM = "audio/x-wav; codecs=1";
-  /**
-   * MIME Type <code>audio/wav; codecs=1</code> for WAVE audio in Microsoft PCM format.
-   * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
-   */
-  private static String MIME_TYPE_AUDIO_WAV_PCM = "audio/wav; codecs=1";
 
   /**
    * MIME Type <code>audio/vnd.wave; codecs=2</code> for WAVE audio in Microsoft ADPCM format.
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_VND_WAVE_ADPCM = "audio/vnd-wave; codecs=2";
 
   /**
@@ -119,24 +101,19 @@ public class VoicesDemo implements EntryPoint {
    * See RFC 2361 (WAVE and AVI Codec Registries).
    * Typical filename extension is <code>.wav</code>.
    */
+  @Deprecated
   private static String MIME_TYPE_AUDIO_X_WAV_ADPCM = "audio/x-wav; codecs=2";
 
-  /**
-   * MIME Type <code>audio/wav; codecs=2</code> for WAVE audio in Microsoft ADPCM format.
-   * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
-   */
-  private static String MIME_TYPE_AUDIO_WAV_ADPCM = "audio/wav; codecs=2";
-
+  @SuppressWarnings("deprecation")
   public static String[] MIME_TYPES = {
-      Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, MIME_TYPE_AUDIO_MP4,
-      MIME_TYPE_AUDIO_MP4_MP4A_40_2, Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,
-      MIME_TYPE_AUDIO_WAV, Sound.MIME_TYPE_AUDIO_X_WAV, MIME_TYPE_AUDIO_VND_WAV,
-      MIME_TYPE_AUDIO_WAV_UNKNOWN, MIME_TYPE_AUDIO_X_WAV_UNKNOWN, MIME_TYPE_AUDIO_VND_WAVE_UNKNOWN,
-      MIME_TYPE_AUDIO_WAV_PCM, MIME_TYPE_AUDIO_X_WAV_PCM, MIME_TYPE_AUDIO_VND_WAVE_PCM,
-      MIME_TYPE_AUDIO_WAV_ADPCM, MIME_TYPE_AUDIO_X_WAV_ADPCM, MIME_TYPE_AUDIO_VND_WAVE_ADPCM,
-      Sound.MIME_TYPE_AUDIO_OGG, Sound.MIME_TYPE_AUDIO_OGG_FLAC, Sound.MIME_TYPE_AUDIO_OGG_SPEEX,
-      Sound.MIME_TYPE_AUDIO_OGG_VORBIS,};
+      Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MP4,
+      Sound.MIME_TYPE_AUDIO_MP4_MP4A_40_2, Sound.MIME_TYPE_AUDIO_X_AIFF,
+      Sound.MIME_TYPE_AUDIO_X_MIDI, MIME_TYPE_AUDIO_WAV, Sound.MIME_TYPE_AUDIO_X_WAV,
+      MIME_TYPE_AUDIO_VND_WAV, Sound.MIME_TYPE_AUDIO_WAV_UNKNOWN, MIME_TYPE_AUDIO_X_WAV_UNKNOWN,
+      MIME_TYPE_AUDIO_VND_WAVE_UNKNOWN, Sound.MIME_TYPE_AUDIO_WAV_PCM, MIME_TYPE_AUDIO_X_WAV_PCM,
+      MIME_TYPE_AUDIO_VND_WAVE_PCM, Sound.MIME_TYPE_AUDIO_WAV_ADPCM, MIME_TYPE_AUDIO_X_WAV_ADPCM,
+      MIME_TYPE_AUDIO_VND_WAVE_ADPCM, Sound.MIME_TYPE_AUDIO_OGG, Sound.MIME_TYPE_AUDIO_OGG_FLAC,
+      Sound.MIME_TYPE_AUDIO_OGG_SPEEX, Sound.MIME_TYPE_AUDIO_OGG_VORBIS,};
 
   static {
     freeSounds = new ThirdPartySound[] {
@@ -260,7 +237,7 @@ public class VoicesDemo implements EntryPoint {
   public void onModuleLoad2() {
     RootPanel mainPanel = RootPanel.get("demo-main-panel");
     StyleInjector.injectAtStart(DemoClientBundle.INSTANCE.css().getText());
-    
+
     // text area to log sound events as they are triggered
     final HTML eventTextArea = new HTML();
     RootPanel.get("demo-event-text-area").add(eventTextArea);

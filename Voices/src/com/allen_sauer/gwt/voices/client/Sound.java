@@ -74,10 +74,77 @@ public interface Sound extends FiresSoundEvents {
   String MIME_TYPE_AUDIO_BASIC = "audio/basic";
 
   /**
+   * IANA assigned media type <code>audio/mp4</code>, from RFC 4337. Typical filename extension
+   * <code>.mp4</code>.
+   * 
+   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
+   */
+  @Deprecated
+  String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
+
+  /**
+   * MIME Type <code>audio/mp4; codecs=mp4a.40.2</code>, for AAC low complexity MP4 as described in
+   * RFC 4281. Typical filename extension <code>.mp4</code>.
+   */
+  String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";
+
+
+  /**
    * IANA assigned media type <code>audio/mpeg</code>, from RFC 3003. Typical filename extensions
    * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
+   * 
+   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
    */
+  @Deprecated
   String MIME_TYPE_AUDIO_MPEG = "audio/mpeg";
+
+  /**
+   * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   * 
+   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
+   */
+  @Deprecated
+  String MIME_TYPE_AUDIO_OGG = "audio/ogg";
+
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=flac</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_FLAC = "audio/ogg; codecs=flac";
+
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=speex</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_SPEEX = "audio/ogg; codecs=speex";
+
+  /**
+   * IANA assigned media type <code>audio/ogg; codecs=vorbis</code>, from RFC 5334. Typical filename
+   * extensions include <code>.ogg</code>.
+   */
+  String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg; codecs=vorbis";
+
+  /**
+   * MIME Type <code>audio/wav; codecs=2</code> for WAVE audio in Microsoft ADPCM format.
+   * See RFC 2361 (WAVE and AVI Codec Registries).
+   * Typical filename extension is <code>.wav</code>.
+   */
+  String MIME_TYPE_AUDIO_WAV_ADPCM = "audio/wav; codecs=2";
+
+  /**
+   * MIME Type <code>audio/wav; codecs=1</code> for WAVE audio in Microsoft PCM format.
+   * See RFC 2361 (WAVE and AVI Codec Registries).
+   * Typical filename extension is <code>.wav</code>.
+   */
+  String MIME_TYPE_AUDIO_WAV_PCM = "audio/wav; codecs=1";
+
+  /**
+   * MIME Type <code>audio/wav; codecs=0</code> for WAVE audio in unknown format.
+   * See RFC 2361 (WAVE and AVI Codec Registries).
+   * Typical filename extension is <code>.wav</code>.
+   */
+  String MIME_TYPE_AUDIO_WAV_UNKNOWN = "audio/wav; codecs=0";
 
   /**
    * Using <code>audio/x-aiff</code> instead of the more popular, but unregistered,
@@ -93,33 +160,17 @@ public interface Sound extends FiresSoundEvents {
   String MIME_TYPE_AUDIO_X_MIDI = "audio/x-midi";
 
   /**
-   * Using <code>audio/x-wav</code> instead of the more popular, but unregistered,
-   * <code>audio/wav</code>. Typical filename extension is <code>.wav</code>.
+   * Using <code>audio/x-wav</code> instead of the more popular, but
+   * unregistered, <code>audio/wav</code>. Typical filename extension is
+   * <code>.wav</code>.
+   *
+   * @deprecated Prefer <code>audio/wav</code> over <code>audio/x-wav</code> due
+   *             to better MAC Safari support. Also use a more specific MIME
+   *             Type which includes an appropriate <code>codecs</code>
+   *             parameter
    */
+  @Deprecated
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
-
-  /**
-   * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
-   */
-  String MIME_TYPE_AUDIO_OGG = "audio/ogg";
-
-  /**
-   * IANA assigned media type <code>audio/ogg; codecs=vorbis</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
-   */
-  String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg; codecs=vorbis";
-
-  /**
-   * IANA assigned media type <code>audio/ogg; codecs=flac</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
-   */
-  String MIME_TYPE_AUDIO_OGG_FLAC = "audio/ogg; codecs=flac";
-  /**
-   * IANA assigned media type <code>audio/ogg; codecs=speex</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
-   */
-  String MIME_TYPE_AUDIO_OGG_SPEEX = "audio/ogg; codecs=speex";
 
   /**
    * Determine the current {@link LoadState} of this sound.
