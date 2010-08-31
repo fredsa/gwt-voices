@@ -88,7 +88,6 @@ public interface Sound extends FiresSoundEvents {
    */
   String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";
 
-
   /**
    * IANA assigned media type <code>audio/mpeg</code>, from RFC 3003. Typical filename extensions
    * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
@@ -97,6 +96,12 @@ public interface Sound extends FiresSoundEvents {
    */
   @Deprecated
   String MIME_TYPE_AUDIO_MPEG = "audio/mpeg";
+
+  /**
+   * Non-standard MIME type <code>audio/mpeg; codecs=MP3</code> for MP3 audio.
+   * Typical filename extension <code>.mp3</code>.
+   */
+  String MIME_TYPE_AUDIO_MPEG_MP3 = "audio/mpeg; codecs=MP3";
 
   /**
    * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
