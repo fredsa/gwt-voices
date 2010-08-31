@@ -108,8 +108,9 @@ public class SupportedMimeTypeSummary extends Composite {
 
     SoundController soundController = new SoundController();
 
-    for (int i = 0; i < VoicesDemo.MIME_TYPES.length; i++) {
-      String mimeType = VoicesDemo.MIME_TYPES[i];
+    int i = 0;
+    for (String mimeType : VoicesDemo.MIME_TYPES) {
+      i++;
 
       // Native/Plugin based support
       MimeTypeSupport nativeMimeTypeSupport = NativeSound.getMimeTypeSupport(mimeType);

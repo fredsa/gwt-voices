@@ -19,6 +19,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.DataResource.MimeType;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -36,8 +39,8 @@ import com.allen_sauer.gwt.voices.demo.client.ui.SupportedMimeTypeSummary;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 // CHECKSTYLE_JAVADOC_OFF
 public class VoicesDemo implements EntryPoint {
@@ -121,11 +124,18 @@ public class VoicesDemo implements EntryPoint {
             "Standard MIDI data (format 1) using 2 tracks at 1/240"),};
   }
 
-  public static String[] MIME_TYPES = {
-      Sound.MIME_TYPE_AUDIO_OGG_VORBIS, Sound.MIME_TYPE_AUDIO_MPEG_MP3,
-      Sound.MIME_TYPE_AUDIO_WAV_PCM, Sound.MIME_TYPE_AUDIO_WAV_ADPCM, Sound.MIME_TYPE_AUDIO_BASIC,
-      Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_X_MIDI,};
-  
+  @SuppressWarnings("deprecation")
+  public static SortedSet<String> MIME_TYPES = new TreeSet<String>(
+      Arrays.asList(
+          new String[] {
+              Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_MPEG_MP3,
+              Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MP4,
+              Sound.MIME_TYPE_AUDIO_MP4_MP4A_40_2, Sound.MIME_TYPE_AUDIO_X_AIFF,
+              Sound.MIME_TYPE_AUDIO_X_MIDI, Sound.MIME_TYPE_AUDIO_WAV_UNKNOWN,
+              Sound.MIME_TYPE_AUDIO_WAV_PCM, Sound.MIME_TYPE_AUDIO_WAV_ADPCM,
+              Sound.MIME_TYPE_AUDIO_OGG, Sound.MIME_TYPE_AUDIO_OGG_FLAC,
+              Sound.MIME_TYPE_AUDIO_OGG_SPEEX, Sound.MIME_TYPE_AUDIO_OGG_VORBIS,}));
+
   public void onModuleLoad() {
     // set uncaught exception handler
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
@@ -183,10 +193,9 @@ public class VoicesDemo implements EntryPoint {
     mainPanel.add(crowdSourceSupportMatrix);
 
     // initialize mimeTypeSoundMap
-    Set<String> mimeTypeSet = new HashSet<String>(Arrays.asList(MIME_TYPES));
     for (ThirdPartySound thirdPartySound : thirdPartySounds) {
       String mimeType = thirdPartySound.getMimeType();
-      assert (mimeTypeSet.contains(mimeType)) : "MIME_TYPES must contain '" + mimeType + "'";
+      assert (MIME_TYPES.contains(mimeType)) : "MIME_TYPES must contain '" + mimeType + "'";
       ArrayList<ThirdPartySound> freesoundList = mimeTypeSoundMap.get(mimeType);
       if (freesoundList == null) {
         freesoundList = new ArrayList<ThirdPartySound>();
@@ -195,7 +204,7 @@ public class VoicesDemo implements EntryPoint {
       freesoundList.add(thirdPartySound);
     }
 
-    // display one panel for each unique mime type, using the order supplied by MIME_TYPES
+    // display one panel for each unique MIME type, using the order supplied by MIME_TYPES
     for (String mimeType : MIME_TYPES) {
       ArrayList<ThirdPartySound> soundList = mimeTypeSoundMap.get(mimeType);
       if (soundList != null) {
