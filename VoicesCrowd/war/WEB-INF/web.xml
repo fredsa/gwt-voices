@@ -2,7 +2,6 @@
 <!DOCTYPE web-app
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
-
 <web-app>
 
   <!-- Appstats -->
@@ -14,11 +13,14 @@
       <param-value>Appstats available: /appstats/details?time={ID}</param-value>
     </init-param>
   </filter>
+
   <filter-mapping>
     <filter-name>appstats</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <!-- Appstats -->
+  
   <servlet>
     <servlet-name>appstats</servlet-name>
     <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
@@ -27,19 +29,6 @@
       <param-value>false</param-value>
     </init-param>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>appstats</servlet-name>
-    <url-pattern>/appstats/*</url-pattern>
-  </servlet-mapping>
-
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/appstats/*</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
 
   <!-- GWT RPC -->
 
@@ -48,11 +37,6 @@
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.ResultsServiceImpl</servlet-class>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>results-servlet</servlet-name>
-    <url-pattern>/voicescrowd/results</url-pattern>
-  </servlet-mapping>
-
   <!-- CSV servlet -->
 
   <servlet>
@@ -60,22 +44,12 @@
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.CsvResultsServlet</servlet-class>
   </servlet>
 
-  <servlet-mapping>
-    <servlet-name>/csv-servlet</servlet-name>
-    <url-pattern>/csv</url-pattern>
-  </servlet-mapping>
-
   <!-- Admin servlet -->
 
   <servlet>
     <servlet-name>/admin-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.AdminServlet</servlet-class>
   </servlet>
-
-  <servlet-mapping>
-    <servlet-name>/admin-servlet</servlet-name>
-    <url-pattern>/admin</url-pattern>
-  </servlet-mapping>
 
   <!-- remote_api -->
 
@@ -85,24 +59,54 @@
   </servlet>
 
   <servlet-mapping>
+    <servlet-name>appstats</servlet-name>
+    <url-pattern>/appstats/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>results-servlet</servlet-name>
+    <url-pattern>/voicescrowd/results</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>/csv-servlet</servlet-name>
+    <url-pattern>/csv</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>/admin-servlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
     <servlet-name>remote_api</servlet-name>
     <url-pattern>/remote_api</url-pattern>
   </servlet-mapping>
-
-  <security-constraint>
-    <web-resource-collection>
-      <url-pattern>/remote_api</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-
 
   <!-- Default page to serve -->
 
   <welcome-file-list>
     <welcome-file>VoicesCrowd.html</welcome-file>
   </welcome-file-list>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>appstats</web-resource-name>
+      <url-pattern>/appstats/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>remote_api</web-resource-name>
+      <url-pattern>/remote_api</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
 
 </web-app>
