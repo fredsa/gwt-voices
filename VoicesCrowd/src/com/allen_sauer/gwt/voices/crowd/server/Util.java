@@ -42,48 +42,44 @@ public class Util {
   private static final int BUFFER_SIZE = 4096;
 
   public static void incrementTestResultCount(
-      UserAgent userAgent, String gwtUserAgent, TestResults testResults) throws IOException {
-    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(userAgent.toString(), gwtUserAgent);
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      Query query = pm.newQuery(TestResultSummary.class);
-      query.setFilter(
-          "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
-      query.declareParameters(
-          "String userAgentParam, String gwtUserAgentParam, String resultsParam");
-      List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
-          userAgent.toString(), gwtUserAgent, testResults.toString());
-      TestResultSummary summary;
+      PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
+      throws IOException {
+    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(
+        pm, userAgent.toString(), gwtUserAgent);
+    Query query = pm.newQuery(TestResultSummary.class);
+    query.setFilter(
+        "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
+    query.declareParameters("String userAgentParam, String gwtUserAgentParam, String resultsParam");
+    List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
+        userAgent.toString(), gwtUserAgent, testResults.toString());
+    TestResultSummary summary;
 
-      if (summaryList.isEmpty()) {
-        summary = new TestResultSummary(
-            userAgent, userAgentSummary.getPrettyUserAgent(), gwtUserAgent, testResults);
-      } else {
-        summary = summaryList.get(0);
+    if (summaryList.isEmpty()) {
+      summary = new TestResultSummary(
+          userAgent, userAgentSummary.getPrettyUserAgent(), gwtUserAgent, testResults);
+    } else {
+      summary = summaryList.get(0);
 
-        if (summaryList.size() > 1) {
-          // merge rows in case race condition caused > 1 row to be inserted
-          TestResultSummary anotherSummary = summaryList.get(1);
-          summary.incrementCount(anotherSummary.getCount());
-          pm.deletePersistent(anotherSummary);
-        }
-
-        // count the current test results
-        summary.incrementCount(1);
-
-        if (summary.getPrettyUserAgent() == null) {
-          summary.setPrettyUserAgent(
-              lookupPrettyUserAgent(userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
-        }
+      if (summaryList.size() > 1) {
+        // merge rows in case race condition caused > 1 row to be inserted
+        TestResultSummary anotherSummary = summaryList.get(1);
+        summary.incrementCount(anotherSummary.getCount());
+        pm.deletePersistent(anotherSummary);
       }
-      pm.makePersistent(summary);
-    } finally {
-      pm.close();
+
+      // count the current test results
+      summary.incrementCount(1);
+
+      if (summary.getPrettyUserAgent() == null) {
+        summary.setPrettyUserAgent(
+            lookupPrettyUserAgent(pm, userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
+      }
     }
+    pm.makePersistent(summary);
   }
 
-  public static UserAgentSummary lookupPrettyUserAgent(String userAgentString, String gwtUserAgent)
-      throws IOException {
+  public static UserAgentSummary lookupPrettyUserAgent(
+      PersistenceManager pm, String userAgentString, String gwtUserAgent) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     // Get info out of memcache
@@ -93,7 +89,7 @@ public class Util {
     } else {
 
       // Next, try the datastore
-      userAgentSummary = lookupUserAgentInDatastore(userAgentString, userAgentSummary);
+      userAgentSummary = lookupUserAgentInDatastore(pm, userAgentString, userAgentSummary);
 
       // Next, browserscope it
       if (userAgentSummary == null) {
@@ -102,25 +98,15 @@ public class Util {
 
       // Store result in memcache
       if (userAgentSummary != null) {
-        persistUserAgentSummary(userAgentSummary);
+        pm.makePersistent(userAgentSummary);
         mc.put(userAgentString, userAgentSummary);
       }
     }
     return userAgentSummary;
   }
 
-  private static void persistUserAgentSummary(UserAgentSummary userAgentSummary) {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      pm.makePersistent(userAgentSummary);
-    } finally {
-      pm.close();
-    }
-  }
-
   public static UserAgentSummary lookupUserAgentInDatastore(
-      String userAgentString, UserAgentSummary userAgentSummary) {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
+      PersistenceManager pm, String userAgentString, UserAgentSummary userAgentSummary) {
     Query query = pm.newQuery(UserAgentSummary.class, "userAgentString == userAgentStringParam");
     query.declareParameters("String userAgentStringParam");
     List<UserAgentSummary> uaList = (List<UserAgentSummary>) query.execute(userAgentString);

@@ -15,19 +15,14 @@
  */
 package com.allen_sauer.gwt.voices.crowd.server;
 
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
-import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

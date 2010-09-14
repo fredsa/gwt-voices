@@ -236,7 +236,7 @@ public class VoicesCrowd implements EntryPoint {
             if (result.booleanValue()) {
               log("<b style='color:green;'>Results sent and accepted.</b>");
             } else {
-              log("<b style='color:black;'>Results sent and ignored.</b>");
+              log("<b style='color:orange;'>Results sent and ignored.</b>");
             }
             getAndDisplaySummaryResults();
           }

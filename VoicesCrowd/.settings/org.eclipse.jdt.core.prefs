@@ -1,4 +1,4 @@
-#Sun Jul 25 13:01:26 PDT 2010
+#Mon Aug 16 08:59:01 PDT 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
@@ -68,11 +68,11 @@ org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_block_comment=false
 org.eclipse.jdt.core.formatter.comment.clear_blank_lines_in_javadoc_comment=false
 org.eclipse.jdt.core.formatter.comment.format_block_comments=false
 org.eclipse.jdt.core.formatter.comment.format_header=true
-org.eclipse.jdt.core.formatter.comment.format_html=true
+org.eclipse.jdt.core.formatter.comment.format_html=false
 org.eclipse.jdt.core.formatter.comment.format_javadoc_comments=false
 org.eclipse.jdt.core.formatter.comment.format_line_comments=false
-org.eclipse.jdt.core.formatter.comment.format_source_code=false
-org.eclipse.jdt.core.formatter.comment.indent_parameter_description=true
+org.eclipse.jdt.core.formatter.comment.format_source_code=true
+org.eclipse.jdt.core.formatter.comment.indent_parameter_description=false
 org.eclipse.jdt.core.formatter.comment.indent_root_tags=true
 org.eclipse.jdt.core.formatter.comment.insert_new_line_before_root_tags=insert
 org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter=do not insert
@@ -262,7 +262,7 @@ org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_constructor_
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_enum_constant=do not insert
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_declaration=do not insert
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_invocation=do not insert
-org.eclipse.jdt.core.formatter.join_lines_in_comments=true
+org.eclipse.jdt.core.formatter.join_lines_in_comments=false
 org.eclipse.jdt.core.formatter.join_wrapped_lines=true
 org.eclipse.jdt.core.formatter.keep_else_statement_on_same_line=false
 org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line=false

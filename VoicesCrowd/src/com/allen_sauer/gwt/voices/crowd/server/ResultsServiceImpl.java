@@ -40,11 +40,14 @@ import javax.servlet.http.HttpServletRequest;
 public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsService {
 
   public HashMap<UserAgent, TestResults> getResults() {
+    PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      return getResultsImpl();
+      return getResultsImpl(pm);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving results", ex);
       return null;
+    } finally {
+      pm.close();
     }
   }
 
@@ -60,11 +63,14 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   }
 
   public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
+    PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      return storeResultsImpl(userAgent, gwtUserAgent, results);
+      return storeResultsImpl(pm, userAgent, gwtUserAgent, results);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
       return false;
+    } finally {
+      pm.close();
     }
   }
 
@@ -78,24 +84,20 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  private HashMap<UserAgent, TestResults> getResultsImpl() {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
-      List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
-          TestResultSummary.class).execute();
-      for (TestResultSummary summary : summaryList) {
-        TestResults testResults = summary.getTestResults();
-        map.put(new UserAgent(summary.getUserAgent()), testResults);
-      }
-      return map;
-    } finally {
-      pm.close();
+  private HashMap<UserAgent, TestResults> getResultsImpl(PersistenceManager pm) {
+    HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
+    List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
+        TestResultSummary.class).execute();
+    for (TestResultSummary summary : summaryList) {
+      TestResults testResults = summary.getTestResults();
+      map.put(new UserAgent(summary.getUserAgent()), testResults);
     }
+    return map;
   }
 
   private boolean storeResultsImpl(
-      UserAgent userAgent, String gwtUserAgent, TestResults testResults) throws IOException {
+      PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
+      throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     HttpServletRequest request = getThreadLocalRequest();
@@ -105,7 +107,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
       return false;
     }
     mc.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
-    Util.incrementTestResultCount(userAgent, gwtUserAgent, testResults);
+    Util.incrementTestResultCount(pm, userAgent, gwtUserAgent, testResults);
     return true;
   }
 
