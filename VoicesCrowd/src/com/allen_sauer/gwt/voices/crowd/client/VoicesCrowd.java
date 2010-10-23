@@ -178,8 +178,8 @@ public class VoicesCrowd implements EntryPoint {
     String color = highlightRow ? "yellow" : "#ccc";
 
     for (String elem : tuple.getElements()) {
-      html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc; white-space: nowrap;'>").append(
-          elem).append("</td>");
+      html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(color).append(
+          "; white-space: nowrap;'>").append(elem).append("</td>");
     }
   }
 
@@ -200,7 +200,13 @@ public class VoicesCrowd implements EntryPoint {
           "<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
 
       html.append("<h3>Your user agent</h3>");
-      html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append("</div>");
+      html.append("<div style='margin-left: 1.5em;'>").append(myUserAgent.toString()).append(
+          "</div>");
+
+      html.append("<h3>Your browser</h3>");
+      html.append("<div style='margin-left: 1.5em;'>").append(
+          myTestResultSummary.getPrettyUserAgent()).append("</div>");
+
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
     }
     UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
