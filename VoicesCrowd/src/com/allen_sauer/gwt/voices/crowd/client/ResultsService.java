@@ -32,5 +32,5 @@ public interface ResultsService extends RemoteService {
 
   List<TestResultSummary> getSummary();
 
-  boolean storeResults(UserAgent myUserAgent, String gwtUserAgent, TestResults results);
+  TestResultSummary storeResults(UserAgent myUserAgent, String gwtUserAgent, TestResults results);
 }

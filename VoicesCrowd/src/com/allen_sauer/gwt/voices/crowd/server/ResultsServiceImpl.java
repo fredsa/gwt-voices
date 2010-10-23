@@ -62,13 +62,14 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  public boolean storeResults(UserAgent userAgent, String gwtUserAgent, TestResults results) {
+  public TestResultSummary storeResults(
+      UserAgent userAgent, String gwtUserAgent, TestResults results) {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       return storeResultsImpl(pm, userAgent, gwtUserAgent, results);
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
-      return false;
+      return null;
     } finally {
       pm.close();
     }
@@ -95,7 +96,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     return map;
   }
 
-  private boolean storeResultsImpl(
+  private TestResultSummary storeResultsImpl(
       PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
       throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
@@ -103,12 +104,14 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     HttpServletRequest request = getThreadLocalRequest();
     String addr = request.getRemoteAddr();
     String memcacheThrottleKey = addr + "/" + userAgent;
-    if (mc.contains(memcacheThrottleKey)) {
-      return false;
+    TestResultSummary s = (TestResultSummary) mc.get(memcacheThrottleKey);
+    if (s != null) {
+      return s;
     }
-    mc.put(memcacheThrottleKey, null, Expiration.byDeltaSeconds(getExpiration()));
-    Util.incrementTestResultCount(pm, userAgent, gwtUserAgent, testResults);
-    return true;
+    TestResultSummary testResultSummary = Util.incrementTestResultCount(
+        pm, userAgent, gwtUserAgent, testResults);
+    mc.put(memcacheThrottleKey, testResultSummary, Expiration.byDeltaSeconds(getExpiration()));
+    return testResultSummary;
   }
 
 }

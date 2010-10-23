@@ -41,7 +41,7 @@ public class Util {
 
   private static final int BUFFER_SIZE = 4096;
 
-  public static void incrementTestResultCount(
+  public static TestResultSummary incrementTestResultCount(
       PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
       throws IOException {
     UserAgentSummary userAgentSummary = lookupPrettyUserAgent(
@@ -76,6 +76,7 @@ public class Util {
       }
     }
     pm.makePersistent(summary);
+    return summary;
   }
 
   public static UserAgentSummary lookupPrettyUserAgent(
