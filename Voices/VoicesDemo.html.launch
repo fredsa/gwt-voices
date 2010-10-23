@@ -22,5 +22,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-port auto -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesDemo.html -logLevel INFO -war /fred/workspace/Voices/war com.allen_sauer.gwt.voices.demo.VoicesDemo -bindAddress 0.0.0.0 com.allen_sauer.gwt.voices.demo.VoicesDemo com.allen_sauer.gwt.voices.test.VoicesTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Voices"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XstartOnFirstThread -d32 -Xmx1024m"/>
 </launchConfiguration>
