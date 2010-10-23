@@ -22,6 +22,7 @@ import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -42,8 +43,9 @@ public class VoicesCrowd implements EntryPoint {
   }-*/;
 
   private boolean debug = Window.Location.getParameter("debug") != null;
-
+  private boolean detail = Window.Location.getParameter("detail") != null;
   private boolean embed = Window.Location.getParameter("embed") != null;
+
   private TestResultSummary myTestResultSummary;
   private UserAgent myUserAgent;
   private RootPanel rootPanel;
@@ -75,7 +77,8 @@ public class VoicesCrowd implements EntryPoint {
 
       public void onSuccess(List<TestResultSummary> list) {
         log("<b style='color:green;'>Results received.</b>");
-        renderSummary(list, !embed);
+        boolean includeUserAgentDetail;
+        renderSummary(list, detail);
         removeLoadingMessage();
       }
 
@@ -132,9 +135,6 @@ public class VoicesCrowd implements EntryPoint {
       html.append("<td style='text-align: center; background-color: #ccc; font-weight: bold;'>"
           + tuple.getElements()[i] + "</td>");
     }
-    //    html.append("<td style='font-weight: bold; text-align: center; background-color: #ccc;'>#</td>");
-    //    html.append("<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;'>GWT user.agent</td>");
-    //    html.append("<td style='text-align: center; padding: 0.2em 0.2em; font-family: monospace; font-weight: bold; background-color: #ccc;' colspan='2'>$wnd.navigator.userAgent</td>");
 
     // MIME type headings
     for (MimeType mimeType : TestResults.MIME_TYPES) {
@@ -179,28 +179,8 @@ public class VoicesCrowd implements EntryPoint {
 
     for (String elem : tuple.getElements()) {
       html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc; white-space: nowrap;'>").append(
-          elem).append(
-          "</td>");
+          elem).append("</td>");
     }
-
-    //    // count
-    //    html.append("<td style='padding: 0.2em 0.2em; background-color: #ccc;'>").append(
-    //        tuple.getCount()).append("</td>");
-    //
-    //    // gwt 'user.agent'
-    //    html.append("<td style='padding: 0.2em 0.2em; text-align: center; background-color: ").append(
-    //        color).append(";'>").append(tuple.getGwtUserAgent()).append("</td>");
-    //
-    //    // User-Agent string
-    //    if (includeUserAgentDetail) {
-    //      html.append("<td style='padding: 0.2em 0.2em; background-color: ").append(color).append(
-    //          ";'>").append(ua.toString()).append("</td>");
-    //    }
-    //
-    //    // Pretty User-Agent
-    //    String prettyUserAgent = tuple.getPrettyUserAgent();
-    //    html.append("<td style='padding: 0.2em 0.2em; white-space: nowrap; background-color: ").append(
-    //        color).append(";'>").append(prettyUserAgent != null ? prettyUserAgent : "").append("</td>");
   }
 
   private void removeLoadingMessage() {
@@ -223,6 +203,12 @@ public class VoicesCrowd implements EntryPoint {
       html.append("<div style='margin-left: 1em;'>").append(myUserAgent.toString()).append("</div>");
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
     }
+    UrlBuilder urlBuilder = Window.Location.createUrlBuilder();
+    urlBuilder = detail ? urlBuilder.removeParameter("detail") : urlBuilder.setParameter("detail",
+        "1");
+    String text = (detail ? "Hide" : "Show full") + " user agent values";
+    html.append("<a href='" + urlBuilder.buildString() + "'>" + text + "</a>");
+
     html.append("<table>");
 
     for (TestResults testResults : testResultsSet) {
