@@ -16,13 +16,57 @@
 package com.allen_sauer.gwt.voices.crowd.client;
 
 public class Tuple<E> {
+  private static boolean bothNullOrEquals(Object a, Object b) {
+    if (a == null) {
+      return b == null;
+    } else {
+      return a.equals(b);
+    }
+  }
+
   private final E[] elements;
 
   Tuple(E... elements) {
     this.elements = elements;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (obj instanceof Tuple) {
+      Tuple o = (Tuple) obj;
+      for (int i = 0; i < elements.length; i++) {
+        if (!bothNullOrEquals(elements[i], o.elements[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
   public E[] getElements() {
     return elements;
+  }
+
+  @Override
+  public int hashCode() {
+    return toString().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    StringBuffer t = new StringBuffer();
+    for (E e : elements) {
+      if (t.length() != 0) {
+        t.append(",");
+      }
+      t.append(e);
+    }
+    t.insert(0, "(");
+    t.append(")");
+    return t.toString();
   }
 }
