@@ -29,6 +29,7 @@ import com.allen_sauer.gwt.voices.client.util.StringUtil;
 public class NativeSoundImplOpera extends NativeSoundImplStandard {
   // CHECKSTYLE_JAVADOC_OFF
 
+  @SuppressWarnings("deprecation")
   private static final String[] SUPPORTED_WITHOUT_PLUGINS_MIME_TYPES = {Sound.MIME_TYPE_AUDIO_X_WAV,};
 
   @Override
@@ -40,13 +41,11 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
   }
 
   @Override
-  public native void preload(Element soundControllerElement, String mimeType, String url)
-  /*-{
+  public native void preload(Element soundControllerElement, String mimeType, String url) /*-{
     new Audio(url);
   }-*/;
 
-  private native MimeTypeSupport operaGetMimeTypeSupport(String mimeType)
-  /*-{
+  private native MimeTypeSupport operaGetMimeTypeSupport(String mimeType) /*-{
     var m = navigator.mimeTypes[mimeType];
     // Note, m != null occurs in many browsers for well known MIME types
     // even though the MIME type is not supported without a plug-in

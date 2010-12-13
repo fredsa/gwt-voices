@@ -34,6 +34,7 @@ public class NativeSoundImplIE6 extends NativeSoundImpl {
    * List based on <a href='http://support.microsoft.com/kb/297477'>How to apply a background sound
    * to a Web page in FrontPage</a> knowledge base article.
    */
+  @SuppressWarnings("deprecation")
   private static final String[] BGSOUND_SUPPORTED_MIME_TYPES = {
       Sound.MIME_TYPE_AUDIO_X_AIFF, Sound.MIME_TYPE_AUDIO_BASIC, Sound.MIME_TYPE_AUDIO_X_MIDI,
       Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV,};

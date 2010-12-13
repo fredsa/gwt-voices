@@ -23,8 +23,8 @@ import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Sound;
@@ -37,6 +37,7 @@ import java.util.Iterator;
 // CHECKSTYLE_JAVADOC_OFF
 public class VoicesMovie extends FlashMovie {
 
+  @SuppressWarnings("deprecation")
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {
       Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MPEG_MP3};
   private static final String GWT_VOICES_SWF = GWT.getModuleBaseURL() + "gwt-voices.swf";
@@ -53,7 +54,7 @@ public class VoicesMovie extends FlashMovie {
       flashSupport = MIME_TYPE_SUPPORT_NOT_READY;
     } else {
       flashSupport = MIME_TYPE_NOT_SUPPORTED;
-      DeferredCommand.addCommand(new Command() {
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         public void execute() {
           movieUnsupported();
         }
@@ -118,11 +119,10 @@ public class VoicesMovie extends FlashMovie {
    * @param func the JavaScript function to call
    */
   protected void deferFlashCallback(final JavaScriptObject func) {
-    DeferredCommand.addCommand(new Command() {
-      public native void callFunc(JavaScriptObject func, VoicesMovie thiz)
-      /*-{
-    func.apply(thiz);
-  }-*/;
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      public native void callFunc(JavaScriptObject func, VoicesMovie thiz) /*-{
+        func.apply(thiz);
+      }-*/;
 
       public void execute() {
         callFunc(func, VoicesMovie.this);
@@ -130,32 +130,27 @@ public class VoicesMovie extends FlashMovie {
     });
   }
 
-  private native void callCreateSound(int id, String soundURL, boolean streaming)
-  /*-{
+  private native void callCreateSound(int id, String soundURL, boolean streaming) /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.createSound(id, soundURL, streaming);
   }-*/;
 
-  private native void callPlaySound(int id)
-  /*-{
+  private native void callPlaySound(int id) /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.playSound(id);
   }-*/;
 
-  private native void callSetBalance(int id, int balance)
-  /*-{
+  private native void callSetBalance(int id, int balance) /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.setBalance(id, balance);
   }-*/;
 
-  private native void callSetVolume(int id, int volume)
-  /*-{
+  private native void callSetVolume(int id, int volume) /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.setVolume(id, volume);
   }-*/;
 
-  private native void callStopSound(int id)
-  /*-{
+  private native void callStopSound(int id) /*-{
     var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
     elem.stopSound(id);
   }-*/;
@@ -164,8 +159,7 @@ public class VoicesMovie extends FlashMovie {
     callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl(), flashSound.isStreaming());
   }
 
-  private native void installFlashCallbackHooks(String id)
-  /*-{
+  private native void installFlashCallbackHooks(String id) /*-{
     if ($doc.VoicesMovie === undefined) {
       $doc.VoicesMovie = {};
     }
