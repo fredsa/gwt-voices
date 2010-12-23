@@ -90,4 +90,10 @@ public class TestResultSummary implements Serializable {
     this.prettyUserAgent = prettyUserAgent;
   }
 
+  @Override
+  public String toString() {
+    return "TestResultSummary(count=" + count + "; prettyUserAgent=" + prettyUserAgent
+        + "; gwtUserAgent=" + gwtUserAgent + "; userAgent=" + userAgent + "; results=" + results
+        + ")";
+  }
 }
