@@ -71,7 +71,8 @@ public class VoicesCrowd implements EntryPoint {
     service.getSummary(new AsyncCallback<List<TestResultSummary>>() {
 
       public void onFailure(Throwable caught) {
-        log("<b style='color:red;'>Failed to retrieve results.</b>");
+        logAlways(
+            "<b style='color:red;'>Failed to retrieve results. Check server logs for details.</b>");
         removeLoadingMessage();
       }
 
@@ -113,8 +114,12 @@ public class VoicesCrowd implements EntryPoint {
 
   private void log(String text) {
     if (debug) {
-      rootPanel.add(new HTML(text));
+      logAlways(text);
     }
+  }
+
+  private void logAlways(String text) {
+    rootPanel.add(new HTML(text));
   }
 
   @SuppressWarnings("unchecked")
