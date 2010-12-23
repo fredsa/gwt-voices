@@ -15,6 +15,9 @@
  */
 package com.allen_sauer.gwt.voices.crowd.server;
 
+import com.google.appengine.api.mail.MailService;
+import com.google.appengine.api.mail.MailService.Message;
+import com.google.appengine.api.mail.MailServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
@@ -31,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +43,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 public class Util {
+
+  private static final Logger logger = Logger.getLogger(Util.class.getName());
 
   private static final int BUFFER_SIZE = 4096;
 
@@ -57,6 +64,9 @@ public class Util {
     if (summaryList.isEmpty()) {
       summary = new TestResultSummary(
           userAgent, userAgentSummary.getPrettyUserAgent(), gwtUserAgent, testResults);
+      String subject = "new user-agent";
+      String msg = "TestResultSummary=" + summary;
+      sendEmail(subject, msg);
     } else {
       summary = summaryList.get(0);
 
@@ -77,6 +87,19 @@ public class Util {
     }
     pm.makePersistent(summary);
     return summary;
+  }
+
+  public static void sendEmail(String subject, String messageText) {
+    try {
+      MailService ms = MailServiceFactory.getMailService();
+      Message message = new Message();
+      message.setSender("Fred Sauer <fredsa@gmail.com>");
+      message.setSubject("{gwt-voices} " + subject);
+      message.setTextBody(messageText);
+      ms.sendToAdmins(message);
+    } catch (Exception e) {
+      logger.log(Level.SEVERE, "failed to send email", e);
+    }
   }
 
   public static UserAgentSummary lookupPrettyUserAgent(
