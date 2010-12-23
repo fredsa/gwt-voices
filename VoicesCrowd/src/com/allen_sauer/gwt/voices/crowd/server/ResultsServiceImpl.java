@@ -57,6 +57,11 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
       List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
           TestResultSummary.class).execute();
       return new ArrayList<TestResultSummary>(results);
+    } catch (Throwable ex) {
+      Logger.getAnonymousLogger().log(
+          Level.SEVERE, "Unexpected exception retrieving summary data", ex);
+      Util.sendEmail("getSummary() threw an exception", ex.toString());
+      throw new RuntimeException(ex);
     } finally {
       pm.close();
     }
@@ -67,9 +72,10 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       return storeResultsImpl(pm, userAgent, gwtUserAgent, results);
-    } catch (Exception ex) {
+    } catch (Throwable ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
-      return null;
+      Util.sendEmail("storeResults() threw an exception", ex.toString());
+      throw new RuntimeException(ex);
     } finally {
       pm.close();
     }
