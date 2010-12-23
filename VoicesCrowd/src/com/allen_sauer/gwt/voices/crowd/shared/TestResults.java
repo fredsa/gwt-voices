@@ -16,6 +16,8 @@
 package com.allen_sauer.gwt.voices.crowd.shared;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestResults implements Serializable, Comparable<TestResults> {
   private static String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
@@ -56,12 +58,18 @@ public class TestResults implements Serializable, Comparable<TestResults> {
 
   private String[] results;
 
+  private static final Logger logger = Logger.getLogger(TestResults.class.getName());
+
   public TestResults(String testResultsString) {
     // prevent all trailing '|' from being removed
     String[] split = (testResultsString + "|bogus").split("\\|");
     assert split.length >= MIME_TYPES.length;
     results = new String[MIME_TYPES.length];
-    System.arraycopy(split, 0, results, 0, results.length);
+    try {
+      System.arraycopy(split, 0, results, 0, results.length);
+    } catch (Exception e) {
+      logger.log(Level.SEVERE, "testResultsString=" + testResultsString, e);
+    }
   }
 
   public TestResults(String[] results) {
