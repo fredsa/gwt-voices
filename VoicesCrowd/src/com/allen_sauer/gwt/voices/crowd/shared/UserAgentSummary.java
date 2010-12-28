@@ -27,20 +27,20 @@ public class UserAgentSummary implements Serializable {
   @Persistent
   private String gwtUserAgent;
 
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  private String userAgentString;
-
   @Persistent
   private String prettyUserAgent;
 
-  protected UserAgentSummary() {
-  }
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  private String userAgentString;
 
   public UserAgentSummary(String userAgentString, String prettyUserAgent, String gwtUserAgent) {
     this.userAgentString = userAgentString;
     this.prettyUserAgent = prettyUserAgent;
     this.gwtUserAgent = gwtUserAgent;
+  }
+
+  protected UserAgentSummary() {
   }
 
   public String getGwtUserAgent() {
