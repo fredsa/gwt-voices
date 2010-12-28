@@ -117,12 +117,20 @@ public class Util {
 
       // Next, browserscope it
       if (userAgentSummary == null) {
-        userAgentSummary = lookupUserAgentInBrowserScope(userAgentString, gwtUserAgent);
+        try {
+          userAgentSummary = lookupUserAgentInBrowserScope(userAgentString, gwtUserAgent);
+        } catch (Exception e) {
+          logger.log(Level.SEVERE,
+              "Unable to lookup new user agent in BrowserScope: " + userAgentString, e);
+          userAgentSummary = new UserAgentSummary(userAgentString, null, gwtUserAgent);
+        }
       }
 
       // Store result in memcache
       if (userAgentSummary != null) {
-        pm.makePersistent(userAgentSummary);
+        if (userAgentSummary.getPrettyUserAgent() != null) {
+          pm.makePersistent(userAgentSummary);
+        }
         mc.put(userAgentString, userAgentSummary);
       }
     }
