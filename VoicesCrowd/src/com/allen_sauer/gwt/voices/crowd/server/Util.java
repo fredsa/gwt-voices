@@ -51,16 +51,20 @@ public class Util {
   public static TestResultSummary incrementTestResultCount(
       PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
       throws IOException {
+    logger.log(Level.INFO,
+        "incrementTestResultCount(pm," + userAgent + "," + gwtUserAgent + "," + testResults + ")");
     UserAgentSummary userAgentSummary = lookupPrettyUserAgent(
         pm, userAgent.toString(), gwtUserAgent);
+    logger.log(Level.INFO, "userAgentSummary=" + userAgentSummary);
     Query query = pm.newQuery(TestResultSummary.class);
     query.setFilter(
         "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
     query.declareParameters("String userAgentParam, String gwtUserAgentParam, String resultsParam");
     List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
         userAgent.toString(), gwtUserAgent, testResults.toString());
-    TestResultSummary summary;
+    logger.log(Level.INFO, "summaryList.size()=" + summaryList.size());
 
+    TestResultSummary summary;
     if (summaryList.isEmpty()) {
       summary = new TestResultSummary(
           userAgent, userAgentSummary.getPrettyUserAgent(), gwtUserAgent, testResults);
