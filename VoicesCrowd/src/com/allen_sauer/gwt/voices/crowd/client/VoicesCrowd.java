@@ -66,6 +66,10 @@ public class VoicesCrowd implements EntryPoint {
     storeResults(new TestResults(results));
   }
 
+  private String formatPrettyUserAgentOrNull(String prettyUserAgent) {
+    return prettyUserAgent != null ? prettyUserAgent : "&lt;unknown&gt;";
+  }
+
   private void getAndDisplaySummaryResults() {
     log("<br><b>Retrieving summary results...</b>");
     service.getSummary(new AsyncCallback<List<TestResultSummary>>() {
@@ -168,7 +172,7 @@ public class VoicesCrowd implements EntryPoint {
 
   private Tuple<String> makeTuple(TestResultSummary summary, boolean includeUserAgentDetail) {
     Tuple<String> tuple;
-    String prettyUA = summary.getPrettyUserAgent();
+    String prettyUA = formatPrettyUserAgentOrNull(summary.getPrettyUserAgent());
     String gwtUA = summary.getGwtUserAgent();
     if (includeUserAgentDetail) {
       String originalUA = summary.getUserAgent().toString();
@@ -209,8 +213,9 @@ public class VoicesCrowd implements EntryPoint {
           "</div>");
 
       html.append("<h3>Your browser</h3>");
+      String prettyUserAgent = myTestResultSummary.getPrettyUserAgent();
       html.append("<div style='margin-left: 1.5em;'>").append(
-          myTestResultSummary.getPrettyUserAgent()).append("</div>");
+          formatPrettyUserAgentOrNull(prettyUserAgent)).append("</div>");
 
       html.append("<h3 style='margin-top: 3em;'>HTML5 MIME Type support by User-Agent</h3>");
     }
