@@ -55,4 +55,9 @@ public class UserAgentSummary implements Serializable {
     return userAgentString;
   }
 
+  @Override
+  public String toString() {
+    return "UserAgentSummary(prettyUserAgent=" + prettyUserAgent + ", gwtUserAgent=" + gwtUserAgent
+        + ", userAgentString=" + userAgentString + ")";
+  }
 }
