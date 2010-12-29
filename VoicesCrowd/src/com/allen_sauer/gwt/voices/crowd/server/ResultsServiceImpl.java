@@ -39,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 @SuppressWarnings("serial")
 public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsService {
 
+  private static final Logger logger = Logger.getLogger(ResultsServiceImpl.class.getName());
+
   public HashMap<UserAgent, TestResults> getResults() {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
@@ -110,7 +112,13 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     HttpServletRequest request = getThreadLocalRequest();
     String addr = request.getRemoteAddr();
     String memcacheThrottleKey = addr + "/" + userAgent;
-    TestResultSummary s = (TestResultSummary) mc.get(memcacheThrottleKey);
+    TestResultSummary s = null;
+    try {
+      s = (TestResultSummary) mc.get(memcacheThrottleKey);
+    } catch (RuntimeException e) {
+      logger.log(Level.WARNING,
+          "Exception getting value from memcache; possible serialVersionUID issue", e);
+    }
     if (s != null) {
       return s;
     }
@@ -119,5 +127,4 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     mc.put(memcacheThrottleKey, testResultSummary, Expiration.byDeltaSeconds(getExpiration()));
     return testResultSummary;
   }
-
 }

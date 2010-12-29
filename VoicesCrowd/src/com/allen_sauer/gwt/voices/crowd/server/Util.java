@@ -111,8 +111,15 @@ public class Util {
       PersistenceManager pm, String userAgentString, String gwtUserAgent) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
+    UserAgentSummary userAgentSummary = null;
     // Get info out of memcache
-    UserAgentSummary userAgentSummary = (UserAgentSummary) mc.get(userAgentString);
+    try {
+      userAgentSummary = (UserAgentSummary) mc.get(userAgentString);
+    } catch (RuntimeException e) {
+      logger.log(Level.WARNING,
+          "Exception getting value from memcache; possible serialVersionUID issue", e);
+    }
+
     if (userAgentSummary != null) {
       return userAgentSummary;
     } else {
