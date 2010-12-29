@@ -52,7 +52,8 @@ public class Util {
       PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
       throws IOException {
     logger.log(Level.INFO,
-        "incrementTestResultCount(pm," + userAgent + "," + gwtUserAgent + "," + testResults + ")");
+        "incrementTestResultCount(pm, " + userAgent + ", " + gwtUserAgent + ", " + testResults
+            + ")");
     UserAgentSummary userAgentSummary = lookupPrettyUserAgent(
         pm, userAgent.toString(), gwtUserAgent);
     logger.log(Level.INFO, "userAgentSummary=" + userAgentSummary);
