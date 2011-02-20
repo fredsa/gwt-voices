@@ -28,6 +28,10 @@ public abstract class NativeSoundImpl {
 
   public abstract Element createElement(String url);
 
+  public boolean getLooping(Element element) {
+    return element.hasAttribute("loop");
+  }
+
   public abstract MimeTypeSupport getMimeTypeSupport(String mimeType);
 
   public native void play(Element soundControllerElement, Element elem, String mimeType)
@@ -44,6 +48,10 @@ public abstract class NativeSoundImpl {
   }
 
   public abstract void setBalance(Element elem, int balancePercentage);
+
+  public void setLooping(Element element, boolean looping) {
+    element.setAttribute("loop", "infinite");
+  }
 
   public abstract void setVolume(Element elem, int volume);
 
