@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -32,6 +32,23 @@ public class Html5SoundImpl {
   @SuppressWarnings("unused")
   private static JavaScriptObject audio;
 
+  public static native String canPlayType(String mimeType) /*-{
+                                                           if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio) {
+                                                           @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio = document.createElement('audio');
+                                                           }
+                                                           if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType) {
+                                                           return "";
+                                                           }
+                                                           return @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType(mimeType);
+                                                           }-*/;
+
+  public static Element createElement(String url) {
+    Element e = DOM.createElement("audio");
+    e.setAttribute("src", url);
+    e.setAttribute("preload", "true");
+    return e;
+  }
+
   public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
     String support = canPlayType(mimeType);
     if (support == null || support.length() == 0 || support.equals("no")) {
@@ -47,35 +64,27 @@ public class Html5SoundImpl {
     return MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
   }
 
-  public static native String canPlayType(String mimeType) /*-{
-    if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio) {
-    @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio = document.createElement('audio');
-    }
-    if (!@com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType) {
-    return "";
-    }
-    return @com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl::audio.canPlayType(mimeType);
-  }-*/;
-
-  public static Element createElement(String url) {
-    Element e = DOM.createElement("audio");
-    e.setAttribute("src", url);
-    e.setAttribute("preload", "true");
-    return e;
-  }
-
   public static int getVolume(Element e) {
     // volume attribute in the range 0.0 (silent) to 1.0 (loudest)
     return DOM.getElementPropertyInt(e, "volume") * 100;
   }
 
+  public static native void pause(Element e) /*-{
+                                             e.pause();
+                                             }-*/;
+
   public static native void play(Element e) /*-{
-    e.play();
-  }-*/;
+                                            e.play();
+                                            }-*/;
 
   public static native void setBalance(Element e, int balance) /*-{
-    // not yet supported
-  }-*/;
+                                                               // not yet supported
+                                                               }-*/;
+
+  public static void setCurrentTime(Element e, int currentTime) {
+    assert currentTime >= 0;
+    DOM.setElementProperty(e, "currentTime", Integer.toString(currentTime));
+  }
 
   public static void setVolume(Element e, int volume) {
     // volume attribute in the range 0.0 (silent) to 1.0 (loudest)
@@ -84,13 +93,4 @@ public class Html5SoundImpl {
     assert v <= 1.0F;
     DOM.setElementProperty(e, "volume", Float.toString(v));
   }
-
-  public static void setCurrentTime(Element e, int currentTime) {
-    assert currentTime >= 0;
-    DOM.setElementProperty(e, "currentTime", Integer.toString(currentTime));
-  }
-
-  public static native void pause(Element e) /*-{
-    e.pause();
-  }-*/;
 }

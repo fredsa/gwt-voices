@@ -43,6 +43,10 @@ abstract class AbstractSound implements Sound {
 
   public final LoadState getLoadState() {
     return loadState;
+  };
+
+  public boolean getLooping() {
+    return false;
   }
 
   public final String getMimeType() {
@@ -70,6 +74,9 @@ abstract class AbstractSound implements Sound {
         soundHandlerCollection.fireOnSoundLoadStateChange(this);
       }
     }
+  }
+
+  public void setLooping(boolean looping) {
   }
 
   @Override

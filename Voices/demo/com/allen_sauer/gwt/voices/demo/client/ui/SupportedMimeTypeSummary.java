@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -38,8 +38,8 @@ import java.util.Map.Entry;
 // CHECKSTYLE_JAVADOC_OFF
 public class SupportedMimeTypeSummary extends Composite {
 
-  private static String BROWSER_SCOPE_TEST_KEY;
   private static String BROWSER_SCOPE_SANDBOX_ID;
+  private static String BROWSER_SCOPE_TEST_KEY;
 
   static {
     // See http://www.browserscope.org/user/settings
@@ -60,31 +60,6 @@ public class SupportedMimeTypeSummary extends Composite {
   }-*/;
 
   HashMap<String, Integer> results = new HashMap<String, Integer>();
-
-  private native void eval(String t) /*-{
-    $wnd.eval(t);
-  }-*/;
-
-  private void submitBrowserScopeResults() {
-    String t = "";
-    for (Entry<String, Integer> entry : results.entrySet()) {
-      if (!t.isEmpty()) {
-        t += ",\n";
-      }
-      String key = entry.getKey().replaceAll("=", " ").replaceAll("audio/", "");
-      t += "'" + key + "': '" + entry.getValue() + "'";
-    }
-
-    t = "var _bTestResults = {\n" + t + "};\n\n" + "(function() {\n" + "var _bTestKey = '"
-        + BROWSER_SCOPE_TEST_KEY + "';\n" + "var _bScript = document.createElement('script');\n"
-        + "_bScript.src = 'http://www.browserscope.org/user/beacon/' + _bTestKey;\n"
-        + "_bScript.setAttribute('async', 'true');\n" + "_bScript.src += '?sandboxid="
-        + BROWSER_SCOPE_SANDBOX_ID + "';\n"
-        + "var scripts = document.getElementsByTagName('script');\n"
-        + "var lastScript = scripts[scripts.length - 1];\n"
-        + "lastScript.parentNode.insertBefore(_bScript, lastScript);\n" + "})();\n";
-    eval(t);
-  }
 
   public SupportedMimeTypeSummary() {
     VerticalPanel containerPanel = new VerticalPanel();
@@ -134,8 +109,10 @@ public class SupportedMimeTypeSummary extends Composite {
       flexTable.setWidget(i + 1, 1, new HTML(html5MimeTypeSupportText));
       flexTable.setWidget(i + 1, 2, new HTML(nativeMimeTypeSupportText));
       flexTable.setWidget(i + 1, 3, new HTML(flashMimeTypeSupportText));
-      flexTable.getRowFormatter().addStyleName(i + 1, i % 2 == 0
-          ? DemoClientBundle.INSTANCE.css().odd() : DemoClientBundle.INSTANCE.css().even());
+      flexTable.getRowFormatter().addStyleName(
+          i + 1,
+          i % 2 == 0 ? DemoClientBundle.INSTANCE.css().odd()
+              : DemoClientBundle.INSTANCE.css().even());
 
       results.put(mimeType, mapCanPlayToBrowserScope(mimeType));
     }
@@ -143,6 +120,10 @@ public class SupportedMimeTypeSummary extends Composite {
 
     initWidget(containerPanel);
   }
+
+  private native void eval(String t) /*-{
+                                     $wnd.eval(t);
+                                     }-*/;
 
   private int mapCanPlayToBrowserScope(String mimeType) {
     String canPlayType = Html5SoundImpl.canPlayType(mimeType);
@@ -185,5 +166,26 @@ public class SupportedMimeTypeSummary extends Composite {
         throw new IllegalArgumentException("unknown MIME type support " + mimeTypeSupport);
     }
     return "<span style='color: " + color + ";'>" + text + "</span>";
+  }
+
+  private void submitBrowserScopeResults() {
+    String t = "";
+    for (Entry<String, Integer> entry : results.entrySet()) {
+      if (!t.isEmpty()) {
+        t += ",\n";
+      }
+      String key = entry.getKey().replaceAll("=", " ").replaceAll("audio/", "");
+      t += "'" + key + "': '" + entry.getValue() + "'";
+    }
+
+    t = "var _bTestResults = {\n" + t + "};\n\n" + "(function() {\n" + "var _bTestKey = '"
+        + BROWSER_SCOPE_TEST_KEY + "';\n" + "var _bScript = document.createElement('script');\n"
+        + "_bScript.src = 'http://www.browserscope.org/user/beacon/' + _bTestKey;\n"
+        + "_bScript.setAttribute('async', 'true');\n" + "_bScript.src += '?sandboxid="
+        + BROWSER_SCOPE_SANDBOX_ID + "';\n"
+        + "var scripts = document.getElementsByTagName('script');\n"
+        + "var lastScript = scripts[scripts.length - 1];\n"
+        + "lastScript.parentNode.insertBefore(_bScript, lastScript);\n" + "})();\n";
+    eval(t);
   }
 }

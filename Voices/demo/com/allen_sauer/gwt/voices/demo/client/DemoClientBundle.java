@@ -5,7 +5,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 
-//CHECKSTYLE_JAVADOC_OFF
+// CHECKSTYLE_JAVADOC_OFF
 public interface DemoClientBundle extends ClientBundle {
 
   interface DemoCssResource extends CssResource {

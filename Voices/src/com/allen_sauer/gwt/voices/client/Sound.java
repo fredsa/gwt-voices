@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -76,7 +76,7 @@ public interface Sound extends FiresSoundEvents {
   /**
    * IANA assigned media type <code>audio/mp4</code>, from RFC 4337. Typical filename extension
    * <code>.mp4</code>.
-   * 
+   *
    * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
    */
   @Deprecated
@@ -91,7 +91,7 @@ public interface Sound extends FiresSoundEvents {
   /**
    * IANA assigned media type <code>audio/mpeg</code>, from RFC 3003. Typical filename extensions
    * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
-   * 
+   *
    * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
    */
   @Deprecated
@@ -106,7 +106,7 @@ public interface Sound extends FiresSoundEvents {
   /**
    * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
    * extensions include <code>.ogg</code>.
-   * 
+   *
    * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
    */
   @Deprecated
@@ -179,14 +179,21 @@ public interface Sound extends FiresSoundEvents {
 
   /**
    * Determine the current {@link LoadState} of this sound.
-   * 
+   *
    * @return current {@link LoadState}
    */
   LoadState getLoadState();
 
   /**
+   * Determine whether this sound is to be played in a loop.
+   *
+   * @return true if this sounds is to be played in a loop
+   */
+  boolean getLooping();
+
+  /**
    * Determine this sound's MIME type.
-   * 
+   *
    * @return this sound's MIME type
    */
   String getMimeType();
@@ -195,21 +202,21 @@ public interface Sound extends FiresSoundEvents {
    * Get a brief, human readable, description of the sound type, which is an indication of the
    * mechanism used for play back. The returned value is subject to change and is not intended to be
    * machine parseable.
-   * 
+   *
    * @return brief text describing type of sound
    */
   String getSoundType();
 
   /**
    * Determine the URL for this sound.
-   * 
+   *
    * @return this sound's URL
    */
   String getUrl();
 
   /**
    * Determine the current volume (range <code>0..100</code>).
-   * 
+   *
    * @return this sound's current play back volume (range <code>0..100</code>)
    */
   int getVolume();
@@ -221,14 +228,21 @@ public interface Sound extends FiresSoundEvents {
 
   /**
    * Set the left/right speaker balance (range <code>-100..100</code>).
-   * 
+   *
    * @param balance new balance (range <code>-100..100</code>)
    */
   void setBalance(int balance);
 
   /**
+   * Set whether this sound should be played in a loop.
+   *
+   * @param loop true if the sound is to be looped
+   */
+  void setLooping(boolean looping);
+
+  /**
    * Set this sound's volume (range <code>0..100</code>).
-   * 
+   *
    * @param volume new volume (range <code>0..100</code>)
    */
   void setVolume(int volume);

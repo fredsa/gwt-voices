@@ -42,15 +42,15 @@ public class NativeSoundImplOpera extends NativeSoundImplStandard {
 
   @Override
   public native void preload(Element soundControllerElement, String mimeType, String url) /*-{
-    new Audio(url);
-  }-*/;
+                                                                                          new Audio(url);
+                                                                                          }-*/;
 
   private native MimeTypeSupport operaGetMimeTypeSupport(String mimeType) /*-{
-    var m = navigator.mimeTypes[mimeType];
-    // Note, m != null occurs in many browsers for well known MIME types
-    // even though the MIME type is not supported without a plug-in
-    return (m != null && m.description && m.description.length > 0)
-        ? @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_READY
-        : @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_NOT_SUPPORTED;
-  }-*/;
+                                                                          var m = navigator.mimeTypes[mimeType];
+                                                                          // Note, m != null occurs in many browsers for well known MIME types
+                                                                          // even though the MIME type is not supported without a plug-in
+                                                                          return (m != null && m.description && m.description.length > 0)
+                                                                          ? @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_SUPPORT_READY
+                                                                          : @com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport::MIME_TYPE_NOT_SUPPORTED;
+                                                                          }-*/;
 }
