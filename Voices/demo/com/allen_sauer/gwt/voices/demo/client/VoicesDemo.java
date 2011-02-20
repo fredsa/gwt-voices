@@ -133,7 +133,21 @@ public class VoicesDemo implements EntryPoint {
             "Drum_sample.mid",
             "http://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid",
             "http://en.wikipedia.org/wiki/Musical_Instrument_Digital_Interface",
-            "Standard MIDI data (format 1) using 2 tracks at 1/240"),};
+            "Standard MIDI data (format 1) using 2 tracks at 1/240"),
+
+        new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_WAV_PCM,
+            "freesoundproject/12742__Leady__reverse_fill_effect.wav", "reverse fill effect",
+            "http://www.freesound.org/samplesViewSingle.php?id=12742", "Leady",
+            "http://www.freesound.org/usersViewSingle.php?id=34346",
+            "RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, stereo 44100 Hz"),
+
+        new WikipediaSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS, "wikipedia/Rondo_Alla_Turka.ogg",
+            "Rondo_Alla_Turka.ogg",
+            "http://upload.wikimedia.org/wikipedia/commons/b/bd/Rondo_Alla_Turka.ogg",
+            "http://en.wikipedia.org/wiki/File:Rondo_Alla_Turka.ogg",
+            "Ogg data, Vorbis audio, stereo, 44100 Hz, ~80001 bps, created by: Xiph.Org libVorbis I (1.0)"),
+
+            };
   }
 
   public void onModuleLoad() {
