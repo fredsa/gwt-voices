@@ -17,18 +17,20 @@ package com.allen_sauer.gwt.voices.demo.client.ui;
 
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
+import com.google.gwt.dom.client.AudioElement;
+import com.google.gwt.media.client.Audio;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import com.allen_sauer.gwt.voices.client.Html5Sound;
 import com.allen_sauer.gwt.voices.client.NativeSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
-import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.VoicesDemo;
 
@@ -101,7 +103,7 @@ public class SupportedMimeTypeSummary extends Composite {
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 
       // HTML5 audio
-      MimeTypeSupport html5MimeTypeSupport = Html5SoundImpl.getMimeTypeSupport(mimeType);
+      MimeTypeSupport html5MimeTypeSupport = Html5Sound.getMimeTypeSupport(mimeType);
       String html5MimeTypeSupportText = mimeTypeSupportToString(html5MimeTypeSupport);
 
       // Place results in the table
@@ -126,14 +128,18 @@ public class SupportedMimeTypeSummary extends Composite {
                                      }-*/;
 
   private int mapCanPlayToBrowserScope(String mimeType) {
-    String canPlayType = Html5SoundImpl.canPlayType(mimeType);
-    if (canPlayType == null || canPlayType.length() == 0) {
+    assert Audio.isSupported();
+    Audio audio = Audio.createIfSupported();
+    assert audio != null;
+    String canPlayType = audio.getAudioElement().canPlayType(mimeType);
+    assert canPlayType != null;
+    if (canPlayType.equals(AudioElement.CANNOT_PLAY)) {
       return 0;
     }
-    if (canPlayType.equals("maybe")) {
+    if (canPlayType.equals(AudioElement.CAN_PLAY_MAYBE)) {
       return 1;
     }
-    if (canPlayType.equals("probably")) {
+    if (canPlayType.equals(AudioElement.CAN_PLAY_PROBABLY)) {
       return 2;
     }
     if (canPlayType.equals("no")) {

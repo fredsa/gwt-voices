@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.ui.FlashMovie;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
-import com.allen_sauer.gwt.voices.client.ui.impl.Html5SoundImpl;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 /**
@@ -148,7 +147,7 @@ public class SoundController {
   }
 
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
-    if (Html5SoundImpl.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+    if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
       return new Html5Sound(mimeType, url, streaming);
     }
     if (FlashMovie.isExternalInterfaceSupported()) {
