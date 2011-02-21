@@ -21,6 +21,7 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.media.client.Audio;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
@@ -95,8 +96,13 @@ public class Html5Sound extends AbstractSound {
 
   public void play() {
     e.pause();
+    try {
+      double initialTime = e.getInitialTime();
+      e.setCurrentTime(initialTime);
+    } catch (Exception ignore) {
+    }
+
     e.removeFromParent();
-    e.setCurrentTime(e.getInitialTime());
     // TODO append to sound controller element instead
     RootPanel.getBodyElement().appendChild(e);
     e.play();
