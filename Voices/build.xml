@@ -133,7 +133,7 @@
 	</target>
 
 	<target name="mtasc" depends="filter">
-		<exec executable="${mtascdir}/mtasc" dir="build/src/com/allen_sauer/gwt/voices/public">
+		<exec failonerror="true" executable="${mtascdir}/mtasc" dir="build/src/com/allen_sauer/gwt/voices/public">
 			<arg value="-main" />
 			<arg value="-header" />
 			<arg value="20:20:1" />
