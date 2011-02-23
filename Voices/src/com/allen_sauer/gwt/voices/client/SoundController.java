@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -80,7 +80,7 @@ public class SoundController {
 
   private static native void setVersion()
   /*-{
-    $wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
+		$wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
   }-*/;
 
   /**
@@ -147,9 +147,6 @@ public class SoundController {
   }
 
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
-    if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
-      return new Html5Sound(mimeType, url, streaming);
-    }
     if (FlashMovie.isExternalInterfaceSupported()) {
       VoicesMovie vm = getVoicesMovie();
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
@@ -157,6 +154,9 @@ public class SoundController {
           || mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY) {
         FlashSound sound = new FlashSound(mimeType, url, streaming, vm);
         return sound;
+      }
+      if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+        return new Html5Sound(mimeType, url, streaming);
       }
     }
     return new NativeSound(mimeType, url, streaming, soundContainer);
