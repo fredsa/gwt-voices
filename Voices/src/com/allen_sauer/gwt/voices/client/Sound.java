@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -68,110 +68,110 @@ public interface Sound extends FiresSoundEvents {
   }
 
   /**
-   * IANA assigned media type <code>audio/basic</code>, from RFC 2045/2046. Typical filename
-   * extensions include <code>.au</code> and <code>.snd</code>.
+   * IANA assigned media type {@value}, from RFC 2045/2046. Typical filename
+   * extensions include {@literal .au} and {@literal .snd}.
    */
   String MIME_TYPE_AUDIO_BASIC = "audio/basic";
 
   /**
-   * IANA assigned media type <code>audio/mp4</code>, from RFC 4337. Typical filename extension
-   * <code>.mp4</code>.
+   * IANA assigned media type {@value}, from RFC 4337. Typical filename extension
+   * {@literal .mp4}.
    *
-   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
+   * @deprecated Use a more specific MIME Type which includes an appropriate {@literal codecs} parameter
    */
   @Deprecated
   String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
 
   /**
-   * MIME Type <code>audio/mp4; codecs=mp4a.40.2</code>, for AAC low complexity MP4 as described in
-   * RFC 4281. Typical filename extension <code>.mp4</code>.
+   * MIME Type {@value}, for AAC low complexity MP4 as described in
+   * RFC 4281. Typical filename extension {@literal .mp4}.
    */
   String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";
 
   /**
-   * IANA assigned media type <code>audio/mpeg</code>, from RFC 3003. Typical filename extensions
-   * include <code>.mp1</code>, <code>.mp2</code> and <code>.mp3</code>.
+   * IANA assigned media type {@value}, from RFC 3003. Typical filename extensions
+   * include {@literal .mp1}, {@literal .mp2} and {@literal .mp3}.
    *
-   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
+   * @deprecated Use a more specific MIME Type which includes an appropriate {@literal codecs} parameter
    */
   @Deprecated
   String MIME_TYPE_AUDIO_MPEG = "audio/mpeg";
 
   /**
-   * Non-standard MIME type <code>audio/mpeg; codecs=MP3</code> for MP3 audio.
-   * Typical filename extension <code>.mp3</code>.
+   * Non-standard MIME type {@value} for MP3 audio.
+   * Typical filename extension {@literal .mp3}.
    */
   String MIME_TYPE_AUDIO_MPEG_MP3 = "audio/mpeg; codecs=MP3";
 
   /**
-   * IANA assigned media type <code>audio/ogg</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
+   * IANA assigned media type {@value}, from RFC 5334. Typical filename
+   * extensions include {@literal .ogg}.
    *
-   * @deprecated Use a more specific MIME Type which includes an appropriate <code>codecs</code> parameter
+   * @deprecated Use a more specific MIME Type which includes an appropriate {@literal codecs} parameter
    */
   @Deprecated
   String MIME_TYPE_AUDIO_OGG = "audio/ogg";
 
   /**
-   * IANA assigned media type <code>audio/ogg; codecs=flac</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
+   * IANA assigned media type {@value}, from RFC 5334. Typical filename
+   * extensions include {@literal .ogg}.
    */
   String MIME_TYPE_AUDIO_OGG_FLAC = "audio/ogg; codecs=flac";
 
   /**
-   * IANA assigned media type <code>audio/ogg; codecs=speex</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
+   * IANA assigned media type {@value}, from RFC 5334. Typical filename
+   * extensions include {@literal .ogg}.
    */
   String MIME_TYPE_AUDIO_OGG_SPEEX = "audio/ogg; codecs=speex";
 
   /**
-   * IANA assigned media type <code>audio/ogg; codecs=vorbis</code>, from RFC 5334. Typical filename
-   * extensions include <code>.ogg</code>.
+   * IANA assigned media type {@value}, from RFC 5334. Typical filename
+   * extensions include {@literal .ogg}.
    */
   String MIME_TYPE_AUDIO_OGG_VORBIS = "audio/ogg; codecs=vorbis";
 
   /**
-   * MIME Type <code>audio/wav; codecs=2</code> for WAVE audio in Microsoft ADPCM format.
+   * MIME Type {@value} for WAVE audio in Microsoft ADPCM format.
    * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
+   * Typical filename extension is {@literal .wav}.
    */
   String MIME_TYPE_AUDIO_WAV_ADPCM = "audio/wav; codecs=2";
 
   /**
-   * MIME Type <code>audio/wav; codecs=1</code> for WAVE audio in Microsoft PCM format.
+   * MIME Type {@value} for WAVE audio in Microsoft PCM format.
    * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
+   * Typical filename extension is {@literal .wav}.
    */
   String MIME_TYPE_AUDIO_WAV_PCM = "audio/wav; codecs=1";
 
   /**
-   * MIME Type <code>audio/wav; codecs=0</code> for WAVE audio in unknown format.
+   * MIME Type {@value} for WAVE audio in unknown format.
    * See RFC 2361 (WAVE and AVI Codec Registries).
-   * Typical filename extension is <code>.wav</code>.
+   * Typical filename extension is {@literal .wav}.
    */
   String MIME_TYPE_AUDIO_WAV_UNKNOWN = "audio/wav; codecs=0";
 
   /**
-   * Using <code>audio/x-aiff</code> instead of the more popular, but unregistered,
-   * <code>audio/aiff</code>. Typical filename extension is <code>.aif</code>.
+   * Using {@value} instead of the more popular, but unregistered,
+   * {@literal audio/aiff}. Typical filename extension is {@literal .aif}.
    */
   String MIME_TYPE_AUDIO_X_AIFF = "audio/x-aiff";
 
   /**
-   * Using <code>audio/x-midi</code> instead of the more popular, but unregistered,
-   * <code>audio/midi</code>. Typical filename extensions include <code>.mid</code> and
-   * <code>.midi</code>.
+   * Using {@value} instead of the more popular, but unregistered,
+   * {@literal audio/midi}. Typical filename extensions include {@literal .mid}. and
+   * {@literal .midi}.
    */
   String MIME_TYPE_AUDIO_X_MIDI = "audio/x-midi";
 
   /**
-   * Using <code>audio/x-wav</code> instead of the more popular, but
-   * unregistered, <code>audio/wav</code>. Typical filename extension is
-   * <code>.wav</code>.
+   * Using {@value} instead of the more popular, but
+   * unregistered, {@literal audio/wav}. Typical filename extension is
+   * {@literal .wav}.
    *
-   * @deprecated Prefer <code>audio/wav</code> over <code>audio/x-wav</code> due
+   * @deprecated Prefer {@literal audio/wav} over {@literal audio/x-wav}, due
    *             to better MAC Safari support. Also use a more specific MIME
-   *             Type which includes an appropriate <code>codecs</code>
+   *             Type which includes an appropriate {@literal codecs}
    *             parameter
    */
   @Deprecated
@@ -215,9 +215,9 @@ public interface Sound extends FiresSoundEvents {
   String getUrl();
 
   /**
-   * Determine the current volume (range <code>0..100</code>).
+   * Determine the current volume (range {@literal 0}..{@literal 100}).
    *
-   * @return this sound's current play back volume (range <code>0..100</code>)
+   * @return this sound's current play back volume (range {@literal 0}..{@literal 100})
    */
   int getVolume();
 
@@ -227,9 +227,9 @@ public interface Sound extends FiresSoundEvents {
   void play();
 
   /**
-   * Set the left/right speaker balance (range <code>-100..100</code>).
+   * Set the left/right speaker balance (range {@literal -100}..{@literal 100}).
    *
-   * @param balance new balance (range <code>-100..100</code>)
+   * @param balance new balance (range {@literal -100}..{@literal 100})
    */
   void setBalance(int balance);
 
@@ -241,9 +241,9 @@ public interface Sound extends FiresSoundEvents {
   void setLooping(boolean looping);
 
   /**
-   * Set this sound's volume (range <code>0..100</code>).
+   * Set this sound's volume (range {@literal 0}..{@literal 100}).
    *
-   * @param volume new volume (range <code>0..100</code>)
+   * @param volume new volume (range <{@literal 0}..{@literal 100})
    */
   void setVolume(int volume);
 
