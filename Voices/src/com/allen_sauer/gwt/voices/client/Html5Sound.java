@@ -21,7 +21,6 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.media.client.Audio;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
