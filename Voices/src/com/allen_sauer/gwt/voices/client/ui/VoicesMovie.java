@@ -110,6 +110,9 @@ public class VoicesMovie extends FlashMovie {
 
   protected void debug(String text) {
     System.out.println(text);
+    if (!GWT.isProdMode()) {
+      consoleDebug(text);
+    }
   }
 
   /**
@@ -153,6 +156,10 @@ public class VoicesMovie extends FlashMovie {
   private native void callStopSound(int id) /*-{
 		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
 		elem.stopSound(id);
+  }-*/;
+
+  private native void consoleDebug(String text) /*-{
+		console.debug(text);
   }-*/;
 
   private void doCreateSound(FlashSound flashSound) {
