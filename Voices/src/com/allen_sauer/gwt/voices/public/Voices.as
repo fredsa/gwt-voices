@@ -24,12 +24,13 @@
   import flash.events.IOErrorEvent;
   import flash.media.SoundChannel;
   import flash.net.URLRequest;
+  import flash.media.SoundTransform;
   
   public class Voices extends Sprite
   {
     private var sounds:Array = [];
     private var volume:Array = [];
-    private var pan:Array = [];
+    private var panning:Array = [];
     private var channel:Array = [];
     private var loop:Array = [];
     private var domId:String;
@@ -61,8 +62,8 @@
       ExternalInterface.addCallback("setVolume", setVolume);
       log("addCallback(setVolume) -> done");
   
-      ExternalInterface.addCallback("setPan", setPan);
-      log("addCallback(setPan) -> done");
+      ExternalInterface.addCallback("setPanning", setPanning);
+      log("addCallback(setPanning) -> done");
   
       log("Voices created.");
   
@@ -79,6 +80,8 @@
       loop[id] = 0;
       
       sounds[id] = new Sound();
+      volume[id] = 1;
+      panning[id] = 0;
       sounds[id].addEventListener(Event.COMPLETE, function(event:Event):void {
         var func:String = "Event.COMPLETE (=Sound Loaded) id=" + id;
         logStart(func);
@@ -107,7 +110,8 @@
       if (channel[id] != null) {
         channel[id].stop();
       }
-      channel[id] = sounds[id].play(0, loop[id]);
+      var transform:SoundTransform = new SoundTransform(volume[id], panning[id]);
+      channel[id] = sounds[id].play(0, loop[id], transform);
       channel[id].addEventListener(Event.SOUND_COMPLETE, function(event:Event):void {
         var func:String = "Event.SOUND_COMPLETE (=Playback Completed) id=" + id;
         logStart(func);
@@ -120,17 +124,11 @@
         }
         logEnd(func);
       });
-      if (volume[id] != null) {
-        channel[id].soundTransform.volume = volume[id];
-      }
-      if (pan[id] != null) {
-        channel[id].soundTransform.pan = pan[id];
-      }
       logEnd(func);
     }
     
     private function stopSound(id:Number):void {
-      var func:String = "stopSound(id=" + id + "!!!!)";
+      var func:String = "stopSound(id=" + id + ")";
       logStart(func);
       channel[id].stop();
       logEnd(func);
@@ -150,10 +148,10 @@
       logEnd(func);
     }
     
-    private function setPan(id:Number, pan:Number):void {
-      var func:String = "setPan(id=" + id + ", pan=" + pan + ")";
+    private function setPanning(id:Number, panning:Number):void {
+      var func:String = "setPanning(id=" + id + ", panning=" + panning + ")";
       logStart(func);
-      this.pan[id] = pan;
+      this.panning[id] = panning;
       logEnd(func);
     }
 

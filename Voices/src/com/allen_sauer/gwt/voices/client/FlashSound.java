@@ -140,7 +140,11 @@ public class FlashSound extends AbstractSound {
     setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
+    }
+    if (balance != SoundController.DEFAULT_BALANCE) {
       voicesMovie.setBalance(soundNumber, balance);
+    }
+    if (looping != SoundController.DEFAULT_LOOPING) {
       voicesMovie.setLooping(soundNumber, looping);
     }
     if (playSoundWhenLoaded) {

@@ -93,7 +93,7 @@ public class VoicesMovie extends FlashMovie {
     assert balance >= -100;
     assert balance <= 100;
     if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callSetPan(id, balance / 100f);
+      callSetPanning(id, balance / 100f);
     }
   }
 
@@ -139,9 +139,9 @@ public class VoicesMovie extends FlashMovie {
 		elem.setLooping(id, looping);
   }-*/;
 
-  private native void callSetPan(int id, float pan) /*-{
+  private native void callSetPanning(int id, float panning) /*-{
 		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.setPan(id, pan);
+		elem.setPanning(id, panning);
   }-*/;
 
   private native void callSetVolume(int id, float volume) /*-{
