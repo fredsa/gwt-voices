@@ -1,11 +1,11 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -14,6 +14,9 @@
 package com.allen_sauer.gwt.voices.client;
 
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_AND_READY;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 
@@ -29,15 +32,25 @@ public class FlashSound extends AbstractSound {
   private static ArrayList<FlashSound> soundList = new ArrayList<FlashSound>();
 
   @SuppressWarnings("unused")
-  private static void playbackCompleted(int index) {
-    soundList.get(index).playbackCompleted();
+  private static void playbackCompleted(final int index) {
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      public void execute() {
+        soundList.get(index).playbackCompleted();
+      }
+    });
   }
 
   @SuppressWarnings("unused")
   private static void soundLoaded(final int index) {
-    soundList.get(index).soundLoaded();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      public void execute() {
+        soundList.get(index).soundLoaded();
+      }
+    });
   }
 
+  private int balance = SoundController.DEFAULT_BALANCE;
+  private boolean looping = SoundController.DEFAULT_LOOPING;
   private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private boolean soundRegistered = false;
@@ -54,6 +67,14 @@ public class FlashSound extends AbstractSound {
     } else {
       registerSound();
     }
+  }
+
+  public int getBalance() {
+    return balance;
+  }
+
+  public boolean getLooping() {
+    return looping;
   }
 
   public int getSoundNumber() {
@@ -81,8 +102,16 @@ public class FlashSound extends AbstractSound {
   public void setBalance(int balance) {
     assert balance >= -100;
     assert balance <= 100;
+    this.balance = balance;
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.setBalance(soundNumber, balance);
+    }
+  }
+
+  public void setLooping(boolean looping) {
+    this.looping = looping;
+    if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
+      voicesMovie.setLooping(soundNumber, looping);
     }
   }
 
@@ -111,6 +140,8 @@ public class FlashSound extends AbstractSound {
     setLoadState(LOAD_STATE_SUPPORTED_AND_READY);
     if (volume != SoundController.DEFAULT_VOLUME) {
       voicesMovie.setVolume(soundNumber, volume);
+      voicesMovie.setBalance(soundNumber, balance);
+      voicesMovie.setLooping(soundNumber, looping);
     }
     if (playSoundWhenLoaded) {
       play();

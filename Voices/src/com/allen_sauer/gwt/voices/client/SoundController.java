@@ -72,6 +72,8 @@ public class SoundController {
     MIME_TYPE_SUPPORT_UNKNOWN,
   }
 
+  static final int DEFAULT_BALANCE = 0;
+  static final boolean DEFAULT_LOOPING = false;
   static final int DEFAULT_VOLUME = 100;
 
   static {

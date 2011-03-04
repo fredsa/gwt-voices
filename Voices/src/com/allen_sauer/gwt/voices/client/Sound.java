@@ -178,6 +178,13 @@ public interface Sound extends FiresSoundEvents {
   String MIME_TYPE_AUDIO_X_WAV = "audio/x-wav";
 
   /**
+   * Determine this sound's play back balance (range {@literal 1--}..{@literal 100}).
+   *
+   * @return this sound's current play back balance (range {@literal -100}..{@literal 100})
+   */
+  int getBalance();
+
+  /**
    * Determine the current {@link LoadState} of this sound.
    *
    * @return current {@link LoadState}
@@ -215,7 +222,7 @@ public interface Sound extends FiresSoundEvents {
   String getUrl();
 
   /**
-   * Determine the current volume (range {@literal 0}..{@literal 100}).
+   * Determine this soound's play back volume (range {@literal 0}..{@literal 100}).
    *
    * @return this sound's current play back volume (range {@literal 0}..{@literal 100})
    */

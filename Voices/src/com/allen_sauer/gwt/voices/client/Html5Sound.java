@@ -79,7 +79,11 @@ public class Html5Sound extends AbstractSound {
     }
   }
 
-  @Override
+  public int getBalance() {
+    // not implemented
+    return SoundController.DEFAULT_BALANCE;
+  }
+
   public boolean getLooping() {
     return e.isLoop();
   }
@@ -111,7 +115,6 @@ public class Html5Sound extends AbstractSound {
     // not implemented
   }
 
-  @Override
   public void setLooping(boolean looping) {
     e.setLoop(looping);
   }

@@ -42,13 +42,15 @@ public class NativeSound extends AbstractSound {
     return impl.getMimeTypeSupport(mimeType);
   }
 
+  private int balance = SoundController.DEFAULT_BALANCE;
+
   private Element element;
 
   private final String mimeType;
 
   private final Element soundControllerElement;
 
-  private int volume;
+  private int volume = SoundController.DEFAULT_VOLUME;
 
   public NativeSound(String mimeType, String url, boolean streaming, Element soundControllerElement) {
     super(mimeType, url, streaming);
@@ -77,7 +79,10 @@ public class NativeSound extends AbstractSound {
     }
   }
 
-  @Override
+  public int getBalance() {
+    return balance;
+  }
+
   public boolean getLooping() {
     return impl.getLooping(element);
   }
@@ -98,10 +103,10 @@ public class NativeSound extends AbstractSound {
   public void setBalance(int balance) {
     assert balance >= -100;
     assert balance <= 100;
+    this.balance = balance;
     impl.setBalance(element, balance);
   }
 
-  @Override
   public void setLooping(boolean looping) {
     impl.setLooping(element, looping);
   };
