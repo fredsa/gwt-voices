@@ -14,10 +14,10 @@
 		<property environment="env" />
 
     <!-- gwt.location property -->
-    <condition property="mtascdir.default" value="${env.MTASC_HOME}" else="">
-      <isset property="env.MTASC_HOME" />
+    <condition property="mxmlc.default" value="${env.MXMLC}" else="">
+      <isset property="env.MXMLC" />
     </condition>
-    <input addproperty="mtascdir" defaultvalue="${mtascdir.default}" message="MTASC compiler directory" />
+    <input addproperty="mxmlc" defaultvalue="${mxmlc.default}" message="mxmlc executable" />
 
     <!-- gwt.location property -->
     <condition property="gwt.location.default" value="${env.GWT_HOME}" else="">
@@ -132,24 +132,16 @@
 	<target name="build" depends="unique-lib-locations, clean, javac, gwtc">
 	</target>
 
-	<target name="mtasc" depends="filter">
-		<exec failonerror="true" executable="${mtascdir}/mtasc" dir="build/src/com/allen_sauer/gwt/voices/public">
-			<arg value="-main" />
-			<arg value="-header" />
-			<arg value="20:20:1" />
-			<arg value="-version" />
-			<arg value="8" />
-			<arg value="-cp" />
-			<arg value="${mtascdir}/std" />
-			<arg value="-cp" />
-			<arg value="${mtascdir}/std8" />
-			<arg value="-swf" />
-			<arg value="gwt-voices.swf" />
-			<arg value="gwt-voices.as" />
+	<target name="mxmlc" depends="filter">
+	  <exec failonerror="true" executable="${mxmlc}" dir="build/src/com/allen_sauer/gwt/voices/public">
+      <arg value="-static-link-runtime-shared-libraries=true" />
+      <arg value="-output" />
+      <arg value="gwt-voices.swf" />
+      <arg value="Voices.as" />
 		</exec>
 	</target>
-
-	<target name="javac" description="Java compile" depends="mtasc">
+			
+	<target name="javac" description="Java compile" depends="mxmlc">
 
 		<echo message="Compiling build/src ..." />
 

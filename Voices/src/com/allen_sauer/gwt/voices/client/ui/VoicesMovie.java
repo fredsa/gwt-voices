@@ -39,7 +39,7 @@ public class VoicesMovie extends FlashMovie {
 
   @SuppressWarnings("deprecation")
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {
-      Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MPEG_MP3};
+      Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MPEG_MP3,};
   private static final String GWT_VOICES_SWF = GWT.getModuleBaseURL() + "gwt-voices.swf";
 
   private MimeTypeSupport flashSupport = MIME_TYPE_SUPPORT_UNKNOWN;
@@ -117,7 +117,7 @@ public class VoicesMovie extends FlashMovie {
 
   /**
    * Defer the actual work of a flash callback so that any exceptions can be caught by the browser
-   * or the uncaught exception handler, rather than being swallow by flash.
+   * or the uncaught exception handler, rather than being swallowed by flash.
    *
    * @param func the JavaScript function to call
    */
@@ -133,9 +133,9 @@ public class VoicesMovie extends FlashMovie {
     });
   }
 
-  private native void callCreateSound(int id, String soundURL, boolean streaming) /*-{
+  private native void callCreateSound(int id, String soundURL) /*-{
 		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.createSound(id, soundURL, streaming);
+		elem.createSound(id, soundURL);
   }-*/;
 
   private native void callPlaySound(int id) /*-{
@@ -163,7 +163,7 @@ public class VoicesMovie extends FlashMovie {
   }-*/;
 
   private void doCreateSound(FlashSound flashSound) {
-    callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl(), flashSound.isStreaming());
+    callCreateSound(flashSound.getSoundNumber(), flashSound.getUrl());
   }
 
   private native void installFlashCallbackHooks(String id) /*-{
@@ -172,7 +172,7 @@ public class VoicesMovie extends FlashMovie {
     }
     var self = this;
     $doc.VoicesMovie[id] = {};
-    
+
     $doc.VoicesMovie[id].ready = function() {
       try {
         self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::deferFlashCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(function() {
@@ -214,7 +214,6 @@ public class VoicesMovie extends FlashMovie {
     }
   }-*/;
 
-  @SuppressWarnings("unused")
   private void movieReady() {
     flashSupport = MIME_TYPE_SUPPORT_READY;
     for (Iterator<FlashSound> iterator = unitializedSoundList.iterator(); iterator.hasNext();) {
