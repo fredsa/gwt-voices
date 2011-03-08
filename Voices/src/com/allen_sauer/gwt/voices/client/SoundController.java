@@ -157,9 +157,9 @@ public class SoundController {
         FlashSound sound = new FlashSound(mimeType, url, streaming, vm);
         return sound;
       }
-      if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
-        return new Html5Sound(mimeType, url, streaming);
-      }
+    }
+    if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+      return new Html5Sound(mimeType, url, streaming);
     }
     return new NativeSound(mimeType, url, streaming, soundContainer);
   }
