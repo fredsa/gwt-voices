@@ -90,6 +90,7 @@ public class SoundController {
    */
   protected final Element soundContainer = DOM.createDiv();
   private int defaultVolume = DEFAULT_VOLUME;
+  private Class<?> preferredSoundClass;
   private VoicesMovie voicesWrapper;
 
   /**
@@ -136,6 +137,22 @@ public class SoundController {
   }
 
   /**
+   * Set preferred {@link Sound} class: {@link Html5Sound}, {@link FlashSound},
+   * {@link NativeSound}.
+   *
+   * @param <S> the preferred Sound class
+   * @param clazz the Class object representing the desired type
+   *
+   * @deprecated this method is a temporary stop-gap, may be retired at any time, and may be made to
+   *             do nothing at all without warning
+   */
+  @Deprecated
+  public <S extends Sound> void setPreferredSoundType(Class<S> clazz) {
+    assert clazz == Html5Sound.class || clazz == FlashSound.class;
+    preferredSoundClass = clazz;
+  }
+
+  /**
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily triggered.
    *
    * @return the new movie widget
@@ -148,7 +165,37 @@ public class SoundController {
     return voicesWrapper;
   }
 
+  private Sound createSoundImpHtml5(String mimeType, String url, boolean streaming) {
+    if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+      return new Html5Sound(mimeType, url, streaming);
+    }
+    return null;
+  }
+
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
+    Sound sound = null;
+    if (preferredSoundClass == FlashSound.class) {
+      if (sound == null) {
+        sound = createSoundImplFlash(mimeType, url, streaming);
+      }
+      if (sound == null) {
+        sound = createSoundImpHtml5(mimeType, url, streaming);
+      }
+    } else if (preferredSoundClass == Html5Sound.class) {
+      if (sound == null) {
+        sound = createSoundImpHtml5(mimeType, url, streaming);
+      }
+      if (sound == null) {
+        sound = createSoundImplFlash(mimeType, url, streaming);
+      }
+    }
+    if (sound == null) {
+      sound = new NativeSound(mimeType, url, streaming, soundContainer);
+    }
+    return sound;
+  }
+
+  private FlashSound createSoundImplFlash(String mimeType, String url, boolean streaming) {
     if (FlashMovie.isExternalInterfaceSupported()) {
       VoicesMovie vm = getVoicesMovie();
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
@@ -158,10 +205,7 @@ public class SoundController {
         return sound;
       }
     }
-    if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
-      return new Html5Sound(mimeType, url, streaming);
-    }
-    return new NativeSound(mimeType, url, streaming, soundContainer);
+    return null;
   }
 
   private void initSoundContainer() {
