@@ -17,6 +17,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import com.allen_sauer.gwt.voices.client.FlashSound;
+import com.allen_sauer.gwt.voices.client.Html5Sound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
@@ -39,16 +41,28 @@ public class MimeTypeDemo extends DeferredContentPanel {
     this.demoSoundHandler = demoSoundHandler;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
 
+    soundController.setPreferredSoundType(FlashSound.class);
+    addPanel(containerPanel, soundController);
+
+    soundController.setPreferredSoundType(Html5Sound.class);
+    addPanel(containerPanel, soundController);
+
+    return containerPanel;
+  }
+
+  private void addPanel(VerticalPanel containerPanel, SoundController soundController) {
     HTML note = null;
     VerticalPanel soundsPanel = new VerticalPanel();
 
     for (ThirdPartySound thirdPartySound : soundList) {
       Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL(), false);
+      //      sound.setLooping(true);
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
       if (note == null) {
@@ -67,6 +81,5 @@ public class MimeTypeDemo extends DeferredContentPanel {
       soundsPanel.add(new DemoSoundPanel(thirdPartySound));
     }
     containerPanel.add(soundsPanel);
-    return containerPanel;
   }
 }
