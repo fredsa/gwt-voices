@@ -82,7 +82,7 @@ public class SoundController {
 
   private static native void setVersion()
   /*-{
-		$wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
+    $wnd.$GWT_VOICES_VERSION = "@GWT_VOICES_VERSION@";
   }-*/;
 
   /**
@@ -196,6 +196,9 @@ public class SoundController {
   }
 
   private FlashSound createSoundImplFlash(String mimeType, String url, boolean streaming) {
+    if (url.startsWith("data:")) {
+      return null;
+    }
     if (FlashMovie.isExternalInterfaceSupported()) {
       VoicesMovie vm = getVoicesMovie();
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
