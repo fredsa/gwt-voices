@@ -57,7 +57,7 @@ public class VoicesTest implements EntryPoint {
 
   private static native String getCompatMode()
   /*-{
-		return $doc.compatMode;
+    return $doc.compatMode;
   }-*/;
 
   /**
