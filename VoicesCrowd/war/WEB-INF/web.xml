@@ -80,7 +80,7 @@
 
   <servlet-mapping>
     <servlet-name>remote_api</servlet-name>
-    <url-pattern>/remote_api</url-pattern>
+    <url-pattern>/_ah/remote_api</url-pattern>
   </servlet-mapping>
 
   <!-- Default page to serve -->
@@ -102,7 +102,7 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>remote_api</web-resource-name>
-      <url-pattern>/remote_api</url-pattern>
+      <url-pattern>/_ah/remote_api</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>
