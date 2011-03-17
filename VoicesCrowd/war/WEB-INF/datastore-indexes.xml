@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastore-indexes autoGenerate="true">
+
+  <!-- Support bulk downloader parallelization -->
+  <datastore-index kind="UserAgentSummary" ancestor="false">
+    <property name="__key__" direction="desc" />
+  </datastore-index>
+
+  <!-- Support bulk downloader parallelization -->
+  <datastore-index kind="TestResultSummary" ancestor="false">
+    <property name="__key__" direction="desc" />
+  </datastore-index>
+
+</datastore-indexes>
