@@ -31,7 +31,8 @@ public abstract class NativeSoundImplStandard extends NativeSoundImpl {
     var elem = $doc.createElement("object");
     elem.setAttribute("data", url);
     elem.setAttribute("autostart", "true");
-    elem.setAttribute("hidden", "true");
+    // setting hidden property prevents MIDI playback
+    // elem.setAttribute("hidden", "true");
     return elem;
   }-*/;
 
