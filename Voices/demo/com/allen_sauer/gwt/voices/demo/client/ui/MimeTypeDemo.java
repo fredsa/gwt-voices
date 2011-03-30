@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import com.allen_sauer.gwt.voices.client.FlashSound;
 import com.allen_sauer.gwt.voices.client.Html5Sound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
@@ -46,10 +45,6 @@ public class MimeTypeDemo extends DeferredContentPanel {
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
-
-    soundController.setPreferredSoundType(FlashSound.class);
-    addPanel(containerPanel, soundController);
-
     soundController.setPreferredSoundType(Html5Sound.class);
     addPanel(containerPanel, soundController);
 
