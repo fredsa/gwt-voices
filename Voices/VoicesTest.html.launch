@@ -26,7 +26,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-codeServerPort 9997 -port auto -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesTest.html -logLevel INFO -war /fred/workspace/Voices/war -bindAddress 0.0.0.0 -port 8888 com.allen_sauer.gwt.voices.test.VoicesTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port auto -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesTest.html -logLevel INFO -war /fred/workspace/Voices/war -bindAddress 0.0.0.0 -port 8888 com.allen_sauer.gwt.voices.test.VoicesTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Voices"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XstartOnFirstThread -d32 -Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/Applications/eclipse3.6/plugins/com.google.appengine.eclipse.sdkbundle.1.4.2_1.4.2.v201102111811/appengine-java-sdk-1.4.2/lib/agent/appengine-agent.jar -XstartOnFirstThread -d32 -Xmx1024m"/>
 </launchConfiguration>
