@@ -2,6 +2,10 @@
 <launchConfiguration type="com.google.gdt.eclipse.suite.webapp">
 <stringAttribute key="com.google.gdt.eclipse.suiteMainTypeProcessor.PREVIOUSLY_SET_MAIN_TYPE_NAME" value="com.google.gwt.dev.DevMode"/>
 <booleanAttribute key="com.google.gdt.eclipse.suiteWarArgumentProcessor.IS_WAR_FROM_PROJECT_PROPERTIES" value="true"/>
+<listAttribute key="com.google.gwt.eclipse.core.ENTRY_POINT_MODULES">
+<listEntry value="com.allen_sauer.gwt.voices.test.VoicesTest"/>
+<listEntry value="com.allen_sauer.gwt.voices.demo.VoicesDemo"/>
+</listAttribute>
 <stringAttribute key="com.google.gwt.eclipse.core.URL" value="VoicesDemo.html"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/Voices"/>
@@ -15,7 +19,7 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port 8888 -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesDemo.html -logLevel INFO -war /fred/workspace/Voices/war com.allen_sauer.gwt.voices.demo.VoicesDemo -bindAddress 0.0.0.0 com.allen_sauer.gwt.voices.demo.VoicesDemo com.allen_sauer.gwt.voices.test.VoicesTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port 8888 -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesDemo.html -logLevel INFO -war /usr/local/google/users/fredsa/workspace/Voices/war com.allen_sauer.gwt.voices.demo.VoicesDemo -bindAddress 0.0.0.0 com.allen_sauer.gwt.voices.demo.VoicesDemo com.allen_sauer.gwt.voices.test.VoicesTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Voices"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/Applications/eclipse3.6/plugins/com.google.appengine.eclipse.sdkbundle.1.4.2_1.4.2.v201102111811/appengine-java-sdk-1.4.2/lib/agent/appengine-agent.jar -XstartOnFirstThread -d32 -Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/usr/local/google/users/fredsa/eclipse36/stable/plugins/com.google.appengine.eclipse.sdkbundle_1.4.3.m1_r36v201103292116/appengine-java-sdk-1.4.3/lib/agent/appengine-agent.jar -d32 -Xmx1024m"/>
 </launchConfiguration>
