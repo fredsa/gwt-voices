@@ -21,7 +21,6 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 
 import com.google.gwt.dom.client.AudioElement;
 import com.google.gwt.media.client.Audio;
-import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 
@@ -48,6 +47,7 @@ public class Html5Sound extends AbstractSound {
   }
 
   private AudioElement e;
+  private final String url;
 
   /**
    * @param mimeType the requested MIME type and optional codec according to RFC 4281
@@ -56,6 +56,7 @@ public class Html5Sound extends AbstractSound {
    */
   public Html5Sound(String mimeType, String url, boolean streaming) {
     super(mimeType, url, streaming);
+    this.url = url;
 
     assert Audio.isSupported();
     e = Audio.createIfSupported().getAudioElement();
@@ -99,15 +100,16 @@ public class Html5Sound extends AbstractSound {
 
   public void play() {
     e.pause();
-    try {
-      double initialTime = e.getInitialTime();
-      e.setCurrentTime(initialTime);
-    } catch (Exception ignore) {
+    e.setCurrentTime(0);
+    if (e.getCurrentTime() != 0) {
+      /*
+       * Workaround Chrome's inability to play the same audio twice:
+       * http://code.google.com/p/chromium/issues/detail?id=71323
+       * http://code.google.com/p/chromium/issues/detail?id=75725
+       */
+      e = Audio.createIfSupported().getAudioElement();
+      e.setSrc(url);
     }
-
-    e.removeFromParent();
-    // TODO append to sound controller element instead
-    RootPanel.getBodyElement().appendChild(e);
     e.play();
   }
 
