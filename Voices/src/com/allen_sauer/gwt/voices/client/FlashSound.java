@@ -90,13 +90,16 @@ public class FlashSound extends AbstractSound {
     return volume;
   }
 
-  public void play() {
+  public boolean play() {
     registerSound();
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
-      voicesMovie.playSound(soundNumber);
+      // true indicates the sound was played
+      return voicesMovie.playSound(soundNumber);
     } else if (!isStreaming()) {
       playSoundWhenLoaded = true;
     }
+    // sound was not played, return false
+    return false;
   }
 
   public void setBalance(int balance) {

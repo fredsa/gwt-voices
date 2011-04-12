@@ -96,8 +96,8 @@ public class NativeSound extends AbstractSound {
     return volume;
   }
 
-  public void play() {
-    impl.play(soundControllerElement, element, mimeType);
+  public boolean play() {
+    return impl.play(soundControllerElement, element, mimeType);
   }
 
   public void setBalance(int balance) {

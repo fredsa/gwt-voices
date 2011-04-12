@@ -98,7 +98,7 @@ public class Html5Sound extends AbstractSound {
     return (int) (e.getVolume() * 100d);
   }
 
-  public void play() {
+  public boolean play() {
     e.pause();
     e.setCurrentTime(0);
     if (e.getCurrentTime() != 0) {
@@ -111,6 +111,8 @@ public class Html5Sound extends AbstractSound {
       e.setSrc(url);
     }
     e.play();
+    // best guess is that the sound played, so return true
+    return true;
   }
 
   public void setBalance(int balance) {

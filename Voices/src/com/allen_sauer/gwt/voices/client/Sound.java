@@ -229,9 +229,14 @@ public interface Sound extends FiresSoundEvents {
   int getVolume();
 
   /**
-   * Play (or restart) this sound.
+   * Play (or restart) this sound. This methods returns {@literal false} when the sound could not be
+   * played. This could happen because the sound system has not yet been initialized, there are no
+   * available sound channels, or any number of other reasons. A return value of {@literal true}
+   * indicates that the sound probably played. However, this cannot be known with certainty.
+   *
+   * @return {@literal false} if the sound could not be played, {@literal true} otherwise
    */
-  void play();
+  boolean play();
 
   /**
    * Set the left/right speaker balance (range {@literal -100}..{@literal 100}).
@@ -243,7 +248,7 @@ public interface Sound extends FiresSoundEvents {
   /**
    * Set whether this sound should be played in a loop.
    *
-   * @param loop true if the sound is to be looped
+   * @param looping true if the sound is to be looped
    */
   void setLooping(boolean looping);
 

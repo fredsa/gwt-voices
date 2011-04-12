@@ -75,10 +75,12 @@ public class VoicesMovie extends FlashMovie {
     }
   }
 
-  public void playSound(int id) {
+  public boolean playSound(int id) {
     if (flashSupport == MIME_TYPE_SUPPORT_READY) {
-      callPlaySound(id);
+      return callPlaySound(id);
     }
+    // the sound was not played, return false
+    return false;
   }
 
   public void registerSound(FlashSound flashSound) {
@@ -125,37 +127,37 @@ public class VoicesMovie extends FlashMovie {
   }
 
   private native void callCreateSound(int id, String soundURL) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.createSound(id, soundURL);
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    elem.createSound(id, soundURL);
   }-*/;
 
-  private native void callPlaySound(int id) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.playSound(id);
+  private native boolean callPlaySound(int id) /*-{
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    return elem.playSound(id);
   }-*/;
 
   private native void callSetLooping(int id, int looping) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.setLooping(id, looping);
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    elem.setLooping(id, looping);
   }-*/;
 
   private native void callSetPanning(int id, float panning) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.setPanning(id, panning);
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    elem.setPanning(id, panning);
   }-*/;
 
   private native void callSetVolume(int id, float volume) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.setVolume(id, volume);
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    elem.setVolume(id, volume);
   }-*/;
 
   private native void callStopSound(int id) /*-{
-		var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
-		elem.stopSound(id);
+    var elem = this.@com.allen_sauer.gwt.voices.client.ui.FlashMovie::element;
+    elem.stopSound(id);
   }-*/;
 
   private native void consoleDebug(String text) /*-{
-		console.debug(text);
+    console.debug(text);
   }-*/;
 
   private void doCreateSound(FlashSound flashSound) {
@@ -163,28 +165,28 @@ public class VoicesMovie extends FlashMovie {
   }
 
   private native void installFlashCallbackHooks(String id) /*-{
-		if ($doc.VoicesMovie === undefined) {
-			$doc.VoicesMovie = {};
-		}
-		var self = this;
-		$doc.VoicesMovie[id] = {};
+    if ($doc.VoicesMovie === undefined) {
+      $doc.VoicesMovie = {};
+    }
+    var self = this;
+    $doc.VoicesMovie[id] = {};
 
-		$doc.VoicesMovie[id].ready = function() {
-			self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::movieReady()();
-		}
+    $doc.VoicesMovie[id].ready = function() {
+      self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::movieReady()();
+    }
 
-		$doc.VoicesMovie[id].soundLoaded = function(id) {
-			@com.allen_sauer.gwt.voices.client.FlashSound::soundLoaded(I)(id);
-			return true;
-		}
+    $doc.VoicesMovie[id].soundLoaded = function(id) {
+      @com.allen_sauer.gwt.voices.client.FlashSound::soundLoaded(I)(id);
+      return true;
+    }
 
-		$doc.VoicesMovie[id].playbackCompleted = function(id) {
-			@com.allen_sauer.gwt.voices.client.FlashSound::playbackCompleted(I)(id);
-		}
+    $doc.VoicesMovie[id].playbackCompleted = function(id) {
+      @com.allen_sauer.gwt.voices.client.FlashSound::playbackCompleted(I)(id);
+    }
 
-		$doc.VoicesMovie[id].log = function(text) {
-			self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
-		}
+    $doc.VoicesMovie[id].log = function(text) {
+      self.@com.allen_sauer.gwt.voices.client.ui.VoicesMovie::debug(Ljava/lang/String;)("FLASH[" + id + "]: " + text);
+    }
   }-*/;
 
   private void movieReady() {

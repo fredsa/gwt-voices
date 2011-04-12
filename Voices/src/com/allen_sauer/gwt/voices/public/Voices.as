@@ -103,28 +103,39 @@
       logEnd(func);
     }
     
-    private function playSound(id:Number):void {
+    private function playSound(id:Number):Boolean {
       var func:String = "playSound(id=" + id + ")";
       logStart(func);
+      var success:Boolean;
       
       if (channel[id] != null) {
         channel[id].stop();
       }
       var transform:SoundTransform = new SoundTransform(volume[id], panning[id]);
+      /*
+       * Sound#play() returns null if there is no sound card, or if the maximum number of sound channels (32) has been reached.
+       * See http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/media/Sound.html#play()
+       */
       channel[id] = sounds[id].play(0, loop[id], transform);
-      channel[id].addEventListener(Event.SOUND_COMPLETE, function(event:Event):void {
-        var func:String = "Event.SOUND_COMPLETE (=Playback Completed) id=" + id;
-        logStart(func);
-        var method:String = "document.VoicesMovie['" + domId + "'].playbackCompleted";
-        try {
-          var result:Object = ExternalInterface.call(method, id);
-          logResult(method, result);
-        } catch(e:Error) {
-          logError(method, e)
-        }
-        logEnd(func);
-      });
+      if (channel[id] == null) {
+        log("No (more) channel(s) available to play sound id " + id);
+        success = false;
+      } else {
+        channel[id].addEventListener(Event.SOUND_COMPLETE, function(event:Event):void {
+          var func:String = "Event.SOUND_COMPLETE (=Playback Completed) id=" + id;
+          logStart(func);
+          var method:String = "document.VoicesMovie['" + domId + "'].playbackCompleted";
+          try {
+            var result:Object = ExternalInterface.call(method, id);
+            logResult(method, result);
+          } catch(e:Error) {
+            logError(method, e)
+          }
+        });
+        success = true;
+      }
       logEnd(func);
+      return success;
     }
     
     private function stopSound(id:Number):void {
