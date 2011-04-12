@@ -80,7 +80,7 @@ public class VoicesTest implements EntryPoint {
             text += "Caused by: ";
           }
         }
-        DialogBox dialogBox = new DialogBox(true);
+        DialogBox dialogBox = new DialogBox(true, false);
         DOM.setStyleAttribute(dialogBox.getElement(), "backgroundColor", "#ABCDEF");
         text = text.replaceAll(" ", "&nbsp;");
         dialogBox.setHTML("<pre>" + text + "</pre>");
