@@ -100,7 +100,11 @@ public class Html5Sound extends AbstractSound {
 
   public boolean play() {
     e.pause();
-    e.setCurrentTime(0);
+    try {
+      // IE9 has been seen to throw an exception here
+      e.setCurrentTime(0);
+    } catch (Exception ignore) {
+    }
     if (e.getCurrentTime() != 0) {
       /*
        * Workaround Chrome's inability to play the same audio twice:
