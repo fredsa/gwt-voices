@@ -51,9 +51,6 @@ public abstract class FlashMovieImpl {
         : rawVersionString.replaceAll("\\D*(\\d+)", "$1,").replaceFirst(",$", "");
   }
 
-  public void maybeSetURL(Element elem, String url) {
-  }
-
   /**
    * Returns a browser specific version string such as <code>WIN&nbsp;9,0,47,0</code> or
    * <code>Shockwave&nbsp;Flash&nbsp;9.0&nbsp;&nbsp;r47</code>, starting with Flash Player version
