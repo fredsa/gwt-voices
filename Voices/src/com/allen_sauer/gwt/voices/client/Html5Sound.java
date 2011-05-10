@@ -35,6 +35,9 @@ public class Html5Sound extends AbstractSound {
    * @return the level of support for the provided MIME type
    */
   public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
+    if (!Audio.isSupported()) {
+      return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+    }
     String support = Audio.createIfSupported().getAudioElement().canPlayType(mimeType);
     assert support != null;
     if (AudioElement.CAN_PLAY_PROBABLY.equals(support)) {
