@@ -69,7 +69,8 @@ public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
                 + " or <a href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>"
                 + " in order to hear sound.</li>\n"
                 + "<li>Based on your current browser/platform/plugin configuration, gwt-voices is using (or trying to use)"
-                + " <b>" + sound.getSoundType() + "</b> to play <code>" + mimeType
+                + " <b style='background-color: yellow'>" + sound.getSoundType()
+                + "</b> to play <code>" + mimeType
                 + "</code> sounds.</li></ul>");
         note.addStyleName(DemoClientBundle.INSTANCE.css().demoNote());
         containerPanel.add(note);
