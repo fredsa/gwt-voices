@@ -1,11 +1,11 @@
 /*
  * Copyright 2009 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import com.allen_sauer.gwt.voices.client.Html5Sound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
@@ -28,16 +27,18 @@ import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
 import java.util.ArrayList;
 
 // CHECKSTYLE_JAVADOC_OFF
-public class MimeTypeDemo extends DeferredContentPanel {
+public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final String mimeType;
+  private final Class<S> preferredSoundClass;
   private final ArrayList<ThirdPartySound> soundList;
 
   public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList,
-      DemoSoundHandler demoSoundHandler) {
+      DemoSoundHandler demoSoundHandler, Class<S> preferredSoundClass) {
     this.mimeType = mimeType;
     soundList = freesoundList;
     this.demoSoundHandler = demoSoundHandler;
+    this.preferredSoundClass = preferredSoundClass;
   }
 
   @SuppressWarnings("deprecation")
@@ -45,7 +46,7 @@ public class MimeTypeDemo extends DeferredContentPanel {
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
-    soundController.setPreferredSoundType(Html5Sound.class);
+    soundController.setPreferredSoundType(preferredSoundClass);
     addPanel(containerPanel, soundController);
 
     return containerPanel;
