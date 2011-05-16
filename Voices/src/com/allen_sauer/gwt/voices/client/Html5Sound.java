@@ -20,7 +20,11 @@ import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPO
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
 import com.google.gwt.dom.client.AudioElement;
+import com.google.gwt.event.dom.client.EndedEvent;
+import com.google.gwt.event.dom.client.EndedHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.media.client.Audio;
+import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
 
@@ -49,7 +53,16 @@ public class Html5Sound extends AbstractSound {
     return MimeTypeSupport.MIME_TYPE_SUPPORT_UNKNOWN;
   }
 
-  private AudioElement e;
+  private Audio audio;
+  
+  private EndedHandler endedHandler = new EndedHandler() {
+    public void onEnded(EndedEvent event) {
+      soundHandlerCollection.fireOnPlaybackComplete(Html5Sound.this);
+    }
+  };
+  
+  private HandlerRegistration endedRegistration;
+
   private final String url;
 
   /**
@@ -61,11 +74,7 @@ public class Html5Sound extends AbstractSound {
     super(mimeType, url, streaming);
     this.url = url;
 
-    assert Audio.isSupported();
-    e = Audio.createIfSupported().getAudioElement();
-    assert e != null;
-
-    e.setSrc(url);
+    createAudioElement();
 
     MimeTypeSupport mimeTypeSupport = getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
@@ -89,7 +98,7 @@ public class Html5Sound extends AbstractSound {
   }
 
   public boolean getLooping() {
-    return e.isLoop();
+    return audio.getAudioElement().isLoop();
   }
 
   @Override
@@ -98,26 +107,26 @@ public class Html5Sound extends AbstractSound {
   }
 
   public int getVolume() {
-    return (int) (e.getVolume() * 100d);
+    return (int) (audio.getAudioElement().getVolume() * 100d);
   }
 
   public boolean play() {
-    e.pause();
+    AudioElement elem = audio.getAudioElement();
+    elem.pause();
     try {
       // IE9 has been seen to throw an exception here
-      e.setCurrentTime(0);
+      elem.setCurrentTime(0);
     } catch (Exception ignore) {
     }
-    if (e.getCurrentTime() != 0) {
+    if (elem.getCurrentTime() != 0) {
       /*
        * Workaround Chrome's inability to play the same audio twice:
        * http://code.google.com/p/chromium/issues/detail?id=71323
        * http://code.google.com/p/chromium/issues/detail?id=75725
        */
-      e = Audio.createIfSupported().getAudioElement();
-      e.setSrc(url);
+      createAudioElement();
     }
-    e.play();
+    elem.play();
     // best guess is that the sound played, so return true
     return true;
   }
@@ -127,17 +136,39 @@ public class Html5Sound extends AbstractSound {
   }
 
   public void setLooping(boolean looping) {
-    e.setLoop(looping);
+    audio.getAudioElement().setLoop(looping);
   }
 
   public void setVolume(int volume) {
     assert volume >= 0;
     assert volume <= 100;
-    e.setVolume(volume / 100d);
+    audio.getAudioElement().setVolume(volume / 100d);
   }
 
   public void stop() {
-    e.pause();
+    audio.getAudioElement().pause();
+  }
+
+  private void createAudioElement() {
+    if (endedRegistration != null) {
+      endedRegistration.removeHandler();
+    }
+    if (audio != null) {
+      // TODO: remove, once DOM attachment no longer required to sink (bitless) events
+      audio.removeFromParent();
+    }
+    assert Audio.isSupported();
+    audio = Audio.createIfSupported();
+    assert audio != null;
+    AudioElement elem = audio.getAudioElement();
+    assert elem != null;
+
+    endedRegistration = audio.addEndedHandler(endedHandler);
+
+    // TODO: remove, once DOM attachment no longer required to sink (bitless) events
+    RootPanel.get().add(audio);
+
+    elem.setSrc(url);
   }
 
 }
