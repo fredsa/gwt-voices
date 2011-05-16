@@ -157,7 +157,7 @@ public class VoicesMovie extends FlashMovie {
   }-*/;
 
   private native void consoleDebug(String text) /*-{
-    console.debug(text);
+    console.log(text);
   }-*/;
 
   private void doCreateSound(FlashSound flashSound) {
