@@ -21,6 +21,7 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.ui.FlashMovie;
@@ -174,6 +175,7 @@ public class SoundController {
 
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
     Sound sound = null;
+    assert preferredSoundClass != null;
     if (preferredSoundClass == FlashSound.class) {
       if (sound == null) {
         sound = createSoundImplFlash(mimeType, url, streaming);
@@ -212,6 +214,18 @@ public class SoundController {
   }
 
   private void initSoundContainer() {
+    // default for now, until HTML5 audio improves
+    setPreferredSoundType(FlashSound.class);
+
+    String gwtVoices = Window.Location.getParameter("gwt-voices");
+    if (gwtVoices != null) {
+      if ("flash".equals(gwtVoices)) {
+        setPreferredSoundType(FlashSound.class);
+      } else if ("html5".equals(gwtVoices)) {
+        setPreferredSoundType(Html5Sound.class);
+      }
+    }
+
     // place off screen with fixed dimensions and overflow:hidden
     RootPanel.getBodyElement().appendChild(soundContainer);
     Style style = soundContainer.getStyle();
