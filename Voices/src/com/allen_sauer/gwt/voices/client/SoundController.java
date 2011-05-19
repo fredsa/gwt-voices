@@ -129,6 +129,18 @@ public class SoundController {
   }
 
   /**
+   * Determine the current default sound type for new sounds.
+   *
+   * @return the current default sound type
+   *
+   * @deprecated this method is a temporary stop-gap, may be retired at any time
+   */
+  @Deprecated
+  public Class<?> getPreferredSoundType() {
+    return preferredSoundClass;
+  }
+
+  /**
    * Set the default volume (range <code>0-100</code>) for new sound.
    *
    * @param defaultVolume the default volume (range <code>0-100</code>) to be used for new sounds
@@ -211,18 +223,6 @@ public class SoundController {
       }
     }
     return null;
-  }
-
-  /**
-   * Determine the current default sound type for new sounds.
-   *
-   * @return the current default sound type
-   *
-   * @deprecated this method is a temporary stop-gap, may be retired at any time
-   */
-  @Deprecated
-  private Class<?> getPreferredSoundType() {
-    return preferredSoundClass;
   }
 
   private void initSoundContainer() {
