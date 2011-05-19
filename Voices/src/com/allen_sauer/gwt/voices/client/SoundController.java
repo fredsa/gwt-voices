@@ -213,17 +213,27 @@ public class SoundController {
     return null;
   }
 
+  /**
+   * Determine the current default sound type for new sounds.
+   *
+   * @return the current default sound type
+   *
+   * @deprecated this method is a temporary stop-gap, may be retired at any time
+   */
+  @Deprecated
+  private Class<?> getPreferredSoundType() {
+    return preferredSoundClass;
+  }
+
   private void initSoundContainer() {
     // default for now, until HTML5 audio improves
     setPreferredSoundType(FlashSound.class);
 
     String gwtVoices = Window.Location.getParameter("gwt-voices");
-    if (gwtVoices != null) {
-      if ("flash".equals(gwtVoices)) {
-        setPreferredSoundType(FlashSound.class);
-      } else if ("html5".equals(gwtVoices)) {
-        setPreferredSoundType(Html5Sound.class);
-      }
+    if ("flash".equals(gwtVoices)) {
+      setPreferredSoundType(FlashSound.class);
+    } else if ("html5".equals(gwtVoices)) {
+      setPreferredSoundType(Html5Sound.class);
     }
 
     // place off screen with fixed dimensions and overflow:hidden
