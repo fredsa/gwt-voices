@@ -25,11 +25,9 @@ import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 import com.google.gwt.resources.client.DataResource.MimeType;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.allen_sauer.gwt.voices.client.FlashSound;
@@ -54,16 +52,16 @@ public class VoicesTest implements EntryPoint {
     @Source("28917__junggle__btn107.mp3")
     DataResource junggleNoEmbed();
 
-    @DoNotEmbed
-    @MimeType("audio/mpeg")
-    @Source("the-quick-brown-fox-jumps-over-the-lazy-dog.mp3")
-    DataResource theQuickBrownFoxJumpsOverTheLazyDog();
-
     @Source("36846__EcoDTR__LaserRocket.mp3")
     DataResource laserRocket();
 
     @Source("En-us-squid.ogg")
     DataResource squid();
+
+    @DoNotEmbed
+    @MimeType("audio/mpeg")
+    @Source("the-quick-brown-fox-jumps-over-the-lazy-dog.mp3")
+    DataResource theQuickBrownFoxJumpsOverTheLazyDog();
   }
 
   private static final int CHANNELS = 40;
@@ -134,7 +132,7 @@ public class VoicesTest implements EntryPoint {
         System.out.println(event);
       }
     });
-    Button button = new Button(url);
+    Button button = new Button(sound.getClass().getName() + " " + url);
     button.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         sound.play();
@@ -174,6 +172,28 @@ public class VoicesTest implements EntryPoint {
     });
   }
 
+  @SuppressWarnings("deprecation")
+  private void addPlaybackTests() {
+    final String[] urls = new String[] {
+        "freesoundproject/36846__EcoDTR__LaserRocket.mp3",
+        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
+        "http://media3.7digital.com/clips/34/2934485.clip.mp3",};
+    String[] mimeTypes = new String[] {
+        Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
+    SoundController sc = new SoundController();
+    sc.setPreferredSoundType(FlashSound.class);
+    sc.setPreferredSoundType(Html5Sound.class);
+
+    for (int i = 0; i < urls.length; i++) {
+      String mimeType = mimeTypes[i];
+      String url = urls[i];
+      addButton(sc, mimeType, url);
+    }
+    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.laserRocket().getUrl());
+    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggle().getUrl());
+    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggleNoEmbed().getUrl());
+  }
+
   private void startChannelTest() {
     SoundController sc = new SoundController();
     sc.setPreferredSoundType(Html5Sound.class);
@@ -206,31 +226,9 @@ public class VoicesTest implements EntryPoint {
       public boolean execute() {
         boolean played = sounds[i].play();
         //        status[i].setHTML("Channel " + i + ": " + (played ? "played" : "!played"));
-        return (++i < sounds.length);
+        return ++i < sounds.length;
       }
     }, 10);
-  }
-
-  @SuppressWarnings("deprecation")
-  private void addPlaybackTests() {
-    final String[] urls = new String[] {
-        "freesoundproject/36846__EcoDTR__LaserRocket.mp3",
-        "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav",
-        "http://media3.7digital.com/clips/34/2934485.clip.mp3",};
-    String[] mimeTypes = new String[] {
-        Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
-    SoundController sc = new SoundController();
-    sc.setPreferredSoundType(FlashSound.class);
-    sc.setPreferredSoundType(Html5Sound.class);
-
-    for (int i = 0; i < urls.length; i++) {
-      String mimeType = mimeTypes[i];
-      String url = urls[i];
-      addButton(sc, mimeType, url);
-    }
-    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.laserRocket().getUrl());
-    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggle().getUrl());
-    addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggleNoEmbed().getUrl());
   }
 
 }
