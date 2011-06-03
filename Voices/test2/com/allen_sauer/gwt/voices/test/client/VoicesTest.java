@@ -161,7 +161,6 @@ public class VoicesTest implements EntryPoint {
       }
     });
     Button button = new Button(urls[i]);
-    final int index = i;
     button.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -238,7 +237,7 @@ public class VoicesTest implements EntryPoint {
 
       @Override
       public boolean execute() {
-        boolean played = sounds[i].play();
+        //        boolean played = sounds[i].play();
         //        status[i].setHTML("Channel " + i + ": " + (played ? "played" : "!played"));
         return ++i < sounds.length;
       }
