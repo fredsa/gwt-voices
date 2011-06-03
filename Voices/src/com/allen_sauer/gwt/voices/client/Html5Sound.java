@@ -54,13 +54,14 @@ public class Html5Sound extends AbstractSound {
   }
 
   private Audio audio;
-  
+
   private EndedHandler endedHandler = new EndedHandler() {
+    @Override
     public void onEnded(EndedEvent event) {
       soundHandlerCollection.fireOnPlaybackComplete(Html5Sound.this);
     }
   };
-  
+
   private HandlerRegistration endedRegistration;
 
   private final String url;
@@ -106,10 +107,12 @@ public class Html5Sound extends AbstractSound {
     return "HTML5";
   }
 
+  @Override
   public int getVolume() {
     return (int) (audio.getAudioElement().getVolume() * 100d);
   }
 
+  @Override
   public boolean play() {
     AudioElement elem = audio.getAudioElement();
     elem.pause();
@@ -131,20 +134,24 @@ public class Html5Sound extends AbstractSound {
     return true;
   }
 
+  @Override
   public void setBalance(int balance) {
     // not implemented
   }
 
+  @Override
   public void setLooping(boolean looping) {
     audio.getAudioElement().setLoop(looping);
   }
 
+  @Override
   public void setVolume(int volume) {
     assert volume >= 0;
     assert volume <= 100;
     audio.getAudioElement().setVolume(volume / 100d);
   }
 
+  @Override
   public void stop() {
     audio.getAudioElement().pause();
   }

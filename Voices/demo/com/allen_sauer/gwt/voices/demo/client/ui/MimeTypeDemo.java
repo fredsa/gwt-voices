@@ -31,12 +31,12 @@ public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final String mimeType;
   private final Class<S> preferredSoundClass;
-  private final ArrayList<ThirdPartySound> soundList;
+  private final ArrayList<ThirdPartySound> thirdPartySoundList;
 
-  public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> freesoundList,
+  public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> thirdPartySoundList,
       DemoSoundHandler demoSoundHandler, Class<S> preferredSoundClass) {
     this.mimeType = mimeType;
-    soundList = freesoundList;
+    this.thirdPartySoundList = thirdPartySoundList;
     this.demoSoundHandler = demoSoundHandler;
     this.preferredSoundClass = preferredSoundClass;
   }
@@ -56,9 +56,8 @@ public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
     HTML note = null;
     VerticalPanel soundsPanel = new VerticalPanel();
 
-    for (ThirdPartySound thirdPartySound : soundList) {
+    for (ThirdPartySound thirdPartySound : thirdPartySoundList) {
       Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL(), false);
-      //      sound.setLooping(true);
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
       if (note == null) {

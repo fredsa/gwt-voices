@@ -152,9 +152,11 @@ public class VoicesDemo implements EntryPoint {
     };
   }
 
+  @Override
   public void onModuleLoad() {
     // set uncaught exception handler
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+      @Override
       public void onUncaughtException(Throwable throwable) {
         String text = "Uncaught exception: ";
         while (throwable != null) {
@@ -179,6 +181,7 @@ public class VoicesDemo implements EntryPoint {
 
     // use deferred command to catch initialization exceptions
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         onModuleLoad2();
       }
@@ -227,8 +230,13 @@ public class VoicesDemo implements EntryPoint {
         mainPanel.add(new DeferredContentDisclosurePanel(mimeType, new MimeTypeDemo<Html5Sound>(
             mimeType, soundList, demoSoundHandler, Html5Sound.class)));
         if (mimeType.startsWith("audio/mpeg")) {
+          ArrayList<ThirdPartySound> soundListFlash = new ArrayList<ThirdPartySound>();
+          for (ThirdPartySound s : soundList) {
+            soundListFlash.add(s.copyOf());
+          }
           mainPanel.add(new DeferredContentDisclosurePanel(mimeType + " (Flash)",
-              new MimeTypeDemo<FlashSound>(mimeType, soundList, demoSoundHandler, FlashSound.class)));
+              new MimeTypeDemo<FlashSound>(mimeType, soundListFlash, demoSoundHandler,
+                  FlashSound.class)));
         }
       }
     }
