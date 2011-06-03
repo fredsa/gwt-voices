@@ -75,9 +75,11 @@ public class VoicesTest implements EntryPoint {
    * Use DeferredCommand to ensure an UncaughtExceptionHandler is installed before any of our real
    * code executes.
    */
+  @Override
   public void onModuleLoad() {
     // set uncaught exception handler
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+      @Override
       public void onUncaughtException(Throwable throwable) {
         String text = "Uncaught exception: ";
         while (throwable != null) {
@@ -101,6 +103,7 @@ public class VoicesTest implements EntryPoint {
 
     // use deferred command to catch initialization exceptions
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         onModuleLoad2();
       }
@@ -124,16 +127,19 @@ public class VoicesTest implements EntryPoint {
   private void addButton(SoundController sc, String mimeType, String url) {
     final Sound sound = sc.createSound(mimeType, url, false);
     sound.addEventHandler(new SoundHandler() {
+      @Override
       public void onPlaybackComplete(PlaybackCompleteEvent event) {
         System.out.println(event);
       }
 
+      @Override
       public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
         System.out.println(event);
       }
     });
     Button button = new Button(sound.getClass().getName() + " " + url);
     button.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         sound.play();
       }
@@ -144,10 +150,12 @@ public class VoicesTest implements EntryPoint {
   private void addButton(final String[] urls, String[] mimeTypes, SoundController sc, int i) {
     final Sound sound = sc.createSound(mimeTypes[i], urls[i], false);
     sound.addEventHandler(new SoundHandler() {
+      @Override
       public void onPlaybackComplete(PlaybackCompleteEvent event) {
         System.out.println(event);
       }
 
+      @Override
       public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
         System.out.println(event);
       }
@@ -155,6 +163,7 @@ public class VoicesTest implements EntryPoint {
     Button button = new Button(urls[i]);
     final int index = i;
     button.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         sound.play();
       }
@@ -166,6 +175,7 @@ public class VoicesTest implements EntryPoint {
     final Button button = new Button("channel test");
     RootPanel.get().add(button);
     button.addClickHandler(new ClickHandler() {
+      @Override
       public void onClick(ClickEvent event) {
         startChannelTest();
       }
@@ -210,10 +220,12 @@ public class VoicesTest implements EntryPoint {
           Bundle.RESOURCES.theQuickBrownFoxJumpsOverTheLazyDog().getUrl());
 
       sounds[i].addEventHandler(new SoundHandler() {
+        @Override
         public void onPlaybackComplete(PlaybackCompleteEvent event) {
           status[ii].setHTML("Channel " + ii + ": " + event.toString());
         }
 
+        @Override
         public void onSoundLoadStateChange(SoundLoadStateChangeEvent event) {
           status[ii].setHTML("Channel " + ii + ": " + event.toString());
         }
@@ -223,6 +235,7 @@ public class VoicesTest implements EntryPoint {
     Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
       int i = 0;
 
+      @Override
       public boolean execute() {
         boolean played = sounds[i].play();
         //        status[i].setHTML("Channel " + i + ": " + (played ? "played" : "!played"));

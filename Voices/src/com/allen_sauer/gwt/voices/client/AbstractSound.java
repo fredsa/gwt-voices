@@ -34,6 +34,7 @@ abstract class AbstractSound implements Sound {
     this.streaming = streaming;
   }
 
+  @Override
   public final void addEventHandler(SoundHandler handler) {
     soundHandlerCollection.add(handler);
     if (loadState != INITIAL_LOAD_STATE) {
@@ -41,16 +42,20 @@ abstract class AbstractSound implements Sound {
     }
   }
 
+  @Override
   public final LoadState getLoadState() {
     return loadState;
   };
 
+  @Override
   public final String getMimeType() {
     return mimeType;
   }
 
+  @Override
   public abstract String getSoundType();
 
+  @Override
   public final String getUrl() {
     return url;
   }
@@ -59,6 +64,7 @@ abstract class AbstractSound implements Sound {
     return streaming;
   }
 
+  @Override
   public final void removeEventHandler(SoundHandler handler) {
     soundHandlerCollection.remove(handler);
   }

@@ -34,6 +34,7 @@ public class FlashSound extends AbstractSound {
   @SuppressWarnings("unused")
   private static void playbackCompleted(final int index) {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         soundList.get(index).playbackCompleted();
       }
@@ -43,6 +44,7 @@ public class FlashSound extends AbstractSound {
   @SuppressWarnings("unused")
   private static void soundLoaded(final int index) {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
       public void execute() {
         soundList.get(index).soundLoaded();
       }
@@ -69,10 +71,12 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  @Override
   public int getBalance() {
     return balance;
   }
 
+  @Override
   public boolean getLooping() {
     return looping;
   }
@@ -86,10 +90,12 @@ public class FlashSound extends AbstractSound {
     return "Flash";
   }
 
+  @Override
   public int getVolume() {
     return volume;
   }
 
+  @Override
   public boolean play() {
     registerSound();
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
@@ -102,6 +108,7 @@ public class FlashSound extends AbstractSound {
     return false;
   }
 
+  @Override
   public void setBalance(int balance) {
     assert balance >= -100;
     assert balance <= 100;
@@ -111,6 +118,7 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  @Override
   public void setLooping(boolean looping) {
     this.looping = looping;
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
@@ -118,6 +126,7 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  @Override
   public void setVolume(int volume) {
     assert volume >= 0;
     assert volume <= 100;
@@ -127,6 +136,7 @@ public class FlashSound extends AbstractSound {
     }
   }
 
+  @Override
   public void stop() {
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.stopSound(soundNumber);

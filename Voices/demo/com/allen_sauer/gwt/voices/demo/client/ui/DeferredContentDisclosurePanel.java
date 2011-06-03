@@ -33,6 +33,7 @@ public class DeferredContentDisclosurePanel extends Composite {
     realDisclosurePanel.setContent(deferredContentPanel);
 
     openHandlerRegistration = realDisclosurePanel.addOpenHandler(new OpenHandler<DisclosurePanel>() {
+      @Override
       public void onOpen(OpenEvent<DisclosurePanel> event) {
         Panel panel = deferredContentPanel.initContent();
         panel.addStyleName(DemoClientBundle.INSTANCE.css().demoContent());

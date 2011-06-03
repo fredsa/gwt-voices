@@ -54,6 +54,7 @@ public class VoicesMovie extends FlashMovie {
     } else {
       flashSupport = MIME_TYPE_NOT_SUPPORTED;
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
         public void execute() {
           movieUnsupported();
         }

@@ -79,10 +79,12 @@ public class NativeSound extends AbstractSound {
     }
   }
 
+  @Override
   public int getBalance() {
     return balance;
   }
 
+  @Override
   public boolean getLooping() {
     return impl.getLooping(element);
   }
@@ -92,14 +94,17 @@ public class NativeSound extends AbstractSound {
     return element.getNodeName();
   }
 
+  @Override
   public int getVolume() {
     return volume;
   }
 
+  @Override
   public boolean play() {
     return impl.play(soundControllerElement, element, mimeType);
   }
 
+  @Override
   public void setBalance(int balance) {
     assert balance >= -100;
     assert balance <= 100;
@@ -107,10 +112,12 @@ public class NativeSound extends AbstractSound {
     impl.setBalance(element, balance);
   }
 
+  @Override
   public void setLooping(boolean looping) {
     impl.setLooping(element, looping);
   };
 
+  @Override
   public void setVolume(int volume) {
     assert volume >= 0;
     assert volume <= 100;
@@ -118,6 +125,7 @@ public class NativeSound extends AbstractSound {
     impl.setVolume(element, volume);
   }
 
+  @Override
   public void stop() {
     impl.stop(element);
   }
