@@ -115,7 +115,7 @@ public class NativeSound extends AbstractSound {
   @Override
   public void setLooping(boolean looping) {
     impl.setLooping(element, looping);
-  };
+  }
 
   @Override
   public void setVolume(int volume) {

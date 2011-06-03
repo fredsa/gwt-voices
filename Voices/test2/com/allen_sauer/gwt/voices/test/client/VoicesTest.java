@@ -204,6 +204,7 @@ public class VoicesTest implements EntryPoint {
     addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggleNoEmbed().getUrl());
   }
 
+  @SuppressWarnings("deprecation")
   private void startChannelTest() {
     SoundController sc = new SoundController();
     sc.setPreferredSoundType(Html5Sound.class);
