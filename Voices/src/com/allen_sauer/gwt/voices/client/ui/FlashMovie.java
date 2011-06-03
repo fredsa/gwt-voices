@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -31,12 +31,13 @@ public class FlashMovie {
    */
   public static final String MIME_TYPE_APPLICATION_X_SHOCKWAVE_FLASH = "application/x-shockwave-flash";
 
-  /**
-   * Minimum Flash version ({@value}), which supports <code>ExternalInterface</code>.
-   */
-  private static final int EXTERNAL_INTERFACE_MINIMUM_MAJOR_VERSION = 8;
-
   private static FlashMovieImpl impl;
+
+  /**
+   * We require at least Flash version ({@value}), since it provides 32 audio channels. We
+   * previously required Flash version 8, which provides support for <code>ExternalInterface</code>.
+   */
+  private static final int MINIMUM_MAJOR_VERSION = 9;
 
   static {
     impl = (FlashMovieImpl) GWT.create(FlashMovieImpl.class);
@@ -47,7 +48,7 @@ public class FlashMovie {
   }
 
   public static boolean isExternalInterfaceSupported() {
-    return getMajorVersion() >= EXTERNAL_INTERFACE_MINIMUM_MAJOR_VERSION;
+    return getMajorVersion() >= MINIMUM_MAJOR_VERSION;
   }
 
   private Element element;
