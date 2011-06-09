@@ -21,5 +21,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-server com.google.appengine.tools.development.gwt.AppEngineLauncher -codeServerPort 9997 -port 8888 -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl VoicesDemo.html -logLevel INFO -war /usr/local/google/users/fredsa/workspace/Voices/war com.allen_sauer.gwt.voices.demo.VoicesDemo -bindAddress 0.0.0.0 com.allen_sauer.gwt.voices.demo.VoicesDemo com.allen_sauer.gwt.voices.test.VoicesTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Voices"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/usr/local/google/users/fredsa/eclipse36/stable/plugins/com.google.appengine.eclipse.sdkbundle_1.4.3.m1_r36v201103292116/appengine-java-sdk-1.4.3/lib/agent/appengine-agent.jar -d32 -Xmx1024m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/usr/local/google/users/fredsa/eclipse36/stable/plugins/com.google.appengine.eclipse.sdkbundle_1.5.0.r36v201106011816/appengine-java-sdk-1.5.0.1/lib/agent/appengine-agent.jar -d32 -Xmx1024m"/>
 </launchConfiguration>
