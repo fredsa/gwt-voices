@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.demo.client.ui;
 
 import static com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -73,7 +74,7 @@ public class SupportedMimeTypeSummary extends Composite {
       }
 
       // Flash based support
-      VoicesMovie movieWidget = new VoicesMovie("gwt-voices-dummy");
+      VoicesMovie movieWidget = new VoicesMovie("gwt-voices-dummy", GWT.getModuleBaseURL());
       MimeTypeSupport flashMimeTypeSupport = movieWidget.getMimeTypeSupport(mimeType);
       String flashMimeTypeSupportText = mimeTypeSupportToString(flashMimeTypeSupport);
 
