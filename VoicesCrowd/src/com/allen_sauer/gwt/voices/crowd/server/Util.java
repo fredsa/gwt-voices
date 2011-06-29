@@ -61,6 +61,7 @@ public class Util {
     query.setFilter(
         "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
     query.declareParameters("String userAgentParam, String gwtUserAgentParam, String resultsParam");
+    @SuppressWarnings("unchecked")
     List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
         userAgent.toString(), gwtUserAgent, testResults.toString());
     logger.log(Level.INFO, "summaryList.size()=" + summaryList.size());
@@ -107,6 +108,15 @@ public class Util {
     }
   }
 
+  /**
+   * Lookup a human readable user agent.
+   * 
+   * @param pm persistence manager
+   * @param userAgentString raw user agent string
+   * @param gwtUserAgent GWT {code user.agent} property value
+   * @return human readable user agent
+   * @throws IOException maybe
+   */
   public static UserAgentSummary lookupPrettyUserAgent(
       PersistenceManager pm, String userAgentString, String gwtUserAgent) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
@@ -125,7 +135,7 @@ public class Util {
     } else {
 
       // Next, try the datastore
-      userAgentSummary = lookupUserAgentInDatastore(pm, userAgentString, userAgentSummary);
+      userAgentSummary = lookupUserAgentInDatastore(pm, userAgentString);
 
       // Next, browserscope it
       if (userAgentSummary == null) {
@@ -149,17 +159,35 @@ public class Util {
     return userAgentSummary;
   }
 
-  public static UserAgentSummary lookupUserAgentInDatastore(
-      PersistenceManager pm, String userAgentString, UserAgentSummary userAgentSummary) {
+  /**
+   * Lookup a human readable user agent in the datastore.
+   * 
+   * @param pm persistence manager
+   * @param userAgentString raw user agent string
+   * @return human readable user agent or {@code null}
+   */
+public static UserAgentSummary lookupUserAgentInDatastore(
+      PersistenceManager pm, String userAgentString) {
     Query query = pm.newQuery(UserAgentSummary.class, "userAgentString == userAgentStringParam");
     query.declareParameters("String userAgentStringParam");
+    @SuppressWarnings("unchecked")
     List<UserAgentSummary> uaList = (List<UserAgentSummary>) query.execute(userAgentString);
     if (!uaList.isEmpty()) {
-      userAgentSummary = uaList.get(0);
+      return uaList.get(0);
     }
-    return userAgentSummary;
+    return null;
   }
 
+  /**
+   * Lookup a human readable user agent via browserscope.
+   * 
+   * @param userAgentString raw user agent string
+   * @param gwtUserAgent GWT {code user.agent} property value
+   * @return human readable user agent
+   * @throws MalformedURLException maybe
+   * @throws IOException maybe
+   * @throws UnsupportedEncodingException maybe
+   */
   public static UserAgentSummary lookupUserAgentInBrowserScope(
       String userAgentString, String gwtUserAgent)
       throws MalformedURLException, IOException, UnsupportedEncodingException {

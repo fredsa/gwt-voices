@@ -36,6 +36,7 @@ public class TestResultSummary implements Serializable {
   @Persistent
   private int count = 1;
 
+  @SuppressWarnings("unused")
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   private Long key;

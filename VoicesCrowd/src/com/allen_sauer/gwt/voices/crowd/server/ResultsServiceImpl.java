@@ -56,6 +56,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   public List<TestResultSummary> getSummary() {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
+      @SuppressWarnings("unchecked")
       List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
           TestResultSummary.class).execute();
       return new ArrayList<TestResultSummary>(results);
@@ -95,6 +96,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
 
   private HashMap<UserAgent, TestResults> getResultsImpl(PersistenceManager pm) {
     HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
+    @SuppressWarnings("unchecked")
     List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
         TestResultSummary.class).execute();
     for (TestResultSummary summary : summaryList) {

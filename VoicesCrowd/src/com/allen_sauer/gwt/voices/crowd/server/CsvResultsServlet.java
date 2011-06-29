@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CsvResultsServlet extends HttpServlet {
+  @SuppressWarnings("unused")
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -37,6 +38,7 @@ public class CsvResultsServlet extends HttpServlet {
     resp.setHeader("Content-Type", "text/plain");
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
+      @SuppressWarnings("unchecked")
       List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
           TestResultSummary.class).execute();
       for (TestResultSummary summary : summaryList) {
