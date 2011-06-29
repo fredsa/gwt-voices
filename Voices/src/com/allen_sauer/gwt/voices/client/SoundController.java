@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,6 +15,7 @@
  */
 package com.allen_sauer.gwt.voices.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
@@ -93,6 +94,7 @@ public class SoundController {
   private int defaultVolume = DEFAULT_VOLUME;
   private Class<?> preferredSoundClass;
   private VoicesMovie voicesWrapper;
+  private String gwtVoicesSwfBaseUrl = GWT.getModuleBaseURL();
 
   /**
    * Default constructor to be used by client code.
@@ -166,13 +168,24 @@ public class SoundController {
   }
 
   /**
+   * Provides a way to set the base URL for the {@literal gwt-voices.swf} file.
+   * The provided base URL must ends with a trailing {@literal /}.
+   * 
+   * @param gwtVoicesSwfBaseUrl base URL relative to which {@literal gwt-voices.swf} can be found
+   */
+  public void setGwtVoicesSwfLocation(String gwtVoicesSwfBaseUrl) {
+    assert (gwtVoicesSwfBaseUrl.endsWith("/"));
+    this.gwtVoicesSwfBaseUrl = gwtVoicesSwfBaseUrl;
+  }
+
+  /**
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily triggered.
    *
    * @return the new movie widget
    */
   protected VoicesMovie getVoicesMovie() {
     if (voicesWrapper == null) {
-      voicesWrapper = new VoicesMovie(DOMUtil.getUniqueId());
+      voicesWrapper = new VoicesMovie(DOMUtil.getUniqueId(), gwtVoicesSwfBaseUrl);
       DOM.appendChild(soundContainer, voicesWrapper.getElement());
     }
     return voicesWrapper;

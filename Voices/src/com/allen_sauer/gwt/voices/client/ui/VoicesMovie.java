@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -39,13 +39,14 @@ public class VoicesMovie extends FlashMovie {
   @SuppressWarnings("deprecation")
   private static final String[] FLASH_SUPPORTED_MIME_TYPES = {
       Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_MPEG_MP3,};
-  private static final String GWT_VOICES_SWF = GWT.getModuleBaseURL() + "gwt-voices.swf";
+  private static final String GWT_VOICES_SWF = "gwt-voices.swf";
+
 
   private MimeTypeSupport flashSupport = MIME_TYPE_SUPPORT_UNKNOWN;
   private final ArrayList<FlashSound> unitializedSoundList = new ArrayList<FlashSound>();
 
-  public VoicesMovie(String id) {
-    super(id, GWT_VOICES_SWF);
+  public VoicesMovie(String id, String gwtVoicesSwfBaseUrl) {
+    super(id, gwtVoicesSwfBaseUrl + GWT_VOICES_SWF);
     installFlashCallbackHooks(id);
 
     // Flash Player version check for ExternalInterface support
