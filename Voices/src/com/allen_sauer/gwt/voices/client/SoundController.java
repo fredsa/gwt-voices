@@ -94,7 +94,14 @@ public class SoundController {
   private int defaultVolume = DEFAULT_VOLUME;
   private Class<?> preferredSoundClass;
   private VoicesMovie voicesWrapper;
-  private String gwtVoicesSwfBaseUrl = GWT.getModuleBaseURL();
+
+  /**
+   * We avoid using the usual, module relative {@link GWT#getModuleBaseURL()} to
+   * force {@literal gwt-voices.swf"} to be loaded from the same domain as the
+   * host page. This avoid cross domain issues when the page contains a
+   * {@code <base href="http://...">} tag.
+   */
+  private String gwtVoicesSwfBaseUrl = GWT.getHostPageBaseURL() + "/" + GWT.getModuleName() + "/";
 
   /**
    * Default constructor to be used by client code.
