@@ -229,6 +229,8 @@ public class VoicesDemo implements EntryPoint {
       if (soundList != null) {
         mainPanel.add(new DeferredContentDisclosurePanel(mimeType, new MimeTypeDemo<Html5Sound>(
             mimeType, soundList, demoSoundHandler, Html5Sound.class)));
+
+        // Repeat panel with Flash as the preference
         if (mimeType.startsWith("audio/mpeg")) {
           ArrayList<ThirdPartySound> soundListFlash = new ArrayList<ThirdPartySound>();
           for (ThirdPartySound s : soundList) {
