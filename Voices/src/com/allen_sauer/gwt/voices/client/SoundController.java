@@ -198,7 +198,7 @@ public class SoundController {
     return voicesWrapper;
   }
 
-  private Sound createSoundImpHtml5(String mimeType, String url, boolean streaming) {
+  private Sound createSoundImplHtml5(String mimeType, String url, boolean streaming) {
     if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
       return new Html5Sound(mimeType, url, streaming);
     }
@@ -213,11 +213,11 @@ public class SoundController {
         sound = createSoundImplFlash(mimeType, url, streaming);
       }
       if (sound == null) {
-        sound = createSoundImpHtml5(mimeType, url, streaming);
+        sound = createSoundImplHtml5(mimeType, url, streaming);
       }
     } else if (preferredSoundClass == Html5Sound.class) {
       if (sound == null) {
-        sound = createSoundImpHtml5(mimeType, url, streaming);
+        sound = createSoundImplHtml5(mimeType, url, streaming);
       }
       if (sound == null) {
         sound = createSoundImplFlash(mimeType, url, streaming);
