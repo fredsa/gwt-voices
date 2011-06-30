@@ -30,13 +30,13 @@ import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 import com.allen_sauer.gwt.voices.client.util.DOMUtil;
 
 /**
- * Main class with which client code interact in order to create {@link Sound} objects, which can be
- * played. In addition, each SoundController defines its own default volume and provides the ability
- * to prioritize Flash based sound.
- *
+ * Main class with which client code interact in order to create {@link Sound}
+ * objects, which can be played. In addition, each SoundController defines its
+ * own default volume and provides the ability to prioritize Flash based sound.
+ * 
  * <p>
- * For the time being do not create 16 or more SoundControllers as that would result in 16+ Flash
- * Players, which triggers an Adobe bug, mentioned <a
+ * For the time being do not create 16 or more SoundControllers as that would
+ * result in 16+ Flash Players, which triggers an Adobe bug, mentioned <a
  * href="http://bugzilla.mozilla.org/show_bug.cgi?id=289873#c41">here</a>.
  */
 public class SoundController {
@@ -45,31 +45,37 @@ public class SoundController {
    */
   public enum MimeTypeSupport {
     /**
-     * Play back of the MIME type is known to NOT be supported in this browser, based on known
-     * capabilities of browsers with the same user agent and installed plugins.
+     * Play back of the MIME type is known to NOT be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins.
      */
     MIME_TYPE_NOT_SUPPORTED,
 
     /**
-     * Play back of the MIME type is known to be supported in this browser, based on known
-     * capabilities of browsers with the same user agent and installed plugins, but this capability
-     * has not yet been initialized. Usually this is due to a browser plugin, such as <a
-     * href='http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a>, <a
-     * href='http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a> or <a
-     * href='http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Player</a>.
+     * Play back of the MIME type is known to be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins, but this capability has not yet been initialized.
+     * Usually this is due to a browser plugin, such as <a href=
+     * 'http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player
+     * < / a > , <a href=
+     * 'http://www.apple.com/quicktime/download/'>Apple&nbsp;QuickTime</a> or <a
+     * href=
+     * 'http://www.microsoft.com/windows/windowsmedia/'>Windows&nbsp;Media&nbsp;Playe
+     * r < / a > .
      */
     MIME_TYPE_SUPPORT_NOT_READY,
 
     /**
-     * Play back of the MIME type is known to be supported in this browser, based on known
-     * capabilities of browsers with the same user agent and installed plugins.
+     * Play back of the MIME type is known to be supported in this browser,
+     * based on known capabilities of browsers with the same user agent and
+     * installed plugins.
      */
     MIME_TYPE_SUPPORT_READY,
 
     /**
-     * It is unknown (cannot be determined) whether play back of the MIME type is supported in this
-     * browser, based on known capabilities of browsers with the same user agent and installed
-     * plugins.
+     * It is unknown (cannot be determined) whether play back of the MIME type
+     * is supported in this browser, based on known capabilities of browsers
+     * with the same user agent and installed plugins.
      */
     MIME_TYPE_SUPPORT_UNKNOWN,
   }
@@ -111,9 +117,9 @@ public class SoundController {
   }
 
   /**
-   * Create a new Sound object using the provided MIME type and URL. To enable streaming, use
-   * {@link #createSound(String, String, boolean)}.
-   *
+   * Create a new Sound object using the provided MIME type and URL. To enable
+   * streaming, use {@link #createSound(String, String, boolean)}.
+   * 
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @return a new Sound object
@@ -124,11 +130,11 @@ public class SoundController {
 
   /**
    * Create a new Sound object using the provided MIME type and URL.
-   *
+   * 
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
-   * @param streaming whether or not to allow play back to start before sound has been fully
-   *          downloaded
+   * @param streaming whether or not to allow play back to start before sound
+   *          has been fully downloaded
    * @return a new Sound object
    */
   public Sound createSound(String mimeType, String url, boolean streaming) {
@@ -139,9 +145,9 @@ public class SoundController {
 
   /**
    * Determine the current default sound type for new sounds.
-   *
+   * 
    * @return the current default sound type
-   *
+   * 
    * @deprecated this method is a temporary stop-gap, may be retired at any time
    */
   @Deprecated
@@ -151,8 +157,9 @@ public class SoundController {
 
   /**
    * Set the default volume (range <code>0-100</code>) for new sound.
-   *
-   * @param defaultVolume the default volume (range <code>0-100</code>) to be used for new sounds
+   * 
+   * @param defaultVolume the default volume (range <code>0-100</code>) to be
+   *          used for new sounds
    */
   public void setDefaultVolume(int defaultVolume) {
     this.defaultVolume = defaultVolume;
@@ -161,12 +168,12 @@ public class SoundController {
   /**
    * Set preferred {@link Sound} class: {@link Html5Sound}, {@link FlashSound},
    * {@link NativeSound}.
-   *
+   * 
    * @param <S> the preferred Sound class
    * @param clazz the Class object representing the desired type
-   *
-   * @deprecated this method is a temporary stop-gap, may be retired at any time, and may be made to
-   *             do nothing at all without warning
+   * 
+   * @deprecated this method is a temporary stop-gap, may be retired at any
+   *             time, and may be made to do nothing at all without warning
    */
   @Deprecated
   public <S extends Sound> void setPreferredSoundType(Class<S> clazz) {
@@ -178,7 +185,8 @@ public class SoundController {
    * Provides a way to set the base URL for the {@literal gwt-voices.swf} file.
    * The provided base URL must ends with a trailing {@literal /}.
    * 
-   * @param gwtVoicesSwfBaseUrl base URL relative to which {@literal gwt-voices.swf} can be found
+   * @param gwtVoicesSwfBaseUrl base URL relative to which
+   *          {@literal gwt-voices.swf} can be found
    */
   public void setGwtVoicesSwfLocation(String gwtVoicesSwfBaseUrl) {
     assert (gwtVoicesSwfBaseUrl.endsWith("/"));
@@ -186,8 +194,9 @@ public class SoundController {
   }
 
   /**
-   * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily triggered.
-   *
+   * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily
+   * triggered.
+   * 
    * @return the new movie widget
    */
   protected VoicesMovie getVoicesMovie() {
@@ -208,24 +217,35 @@ public class SoundController {
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
     Sound sound = null;
     assert preferredSoundClass != null;
+    
+    // Prefer Flash over HTML5 Audio
     if (preferredSoundClass == FlashSound.class) {
-      if (sound == null) {
-        sound = createSoundImplFlash(mimeType, url, streaming);
+      sound = createSoundImplFlash(mimeType, url, streaming);
+      if (sound != null) {
+        return sound;
       }
-      if (sound == null) {
-        sound = createSoundImplHtml5(mimeType, url, streaming);
-      }
-    } else if (preferredSoundClass == Html5Sound.class) {
-      if (sound == null) {
-        sound = createSoundImplHtml5(mimeType, url, streaming);
-      }
-      if (sound == null) {
-        sound = createSoundImplFlash(mimeType, url, streaming);
+
+      sound = createSoundImplHtml5(mimeType, url, streaming);
+      if (sound != null) {
+        return sound;
       }
     }
-    if (sound == null) {
-      sound = new NativeSound(mimeType, url, streaming, soundContainer);
+    
+    // Prefer HTML5 Audio over Flash
+    if (preferredSoundClass == Html5Sound.class) {
+      sound = createSoundImplHtml5(mimeType, url, streaming);
+      if (sound != null) {
+        return sound;
+      }
+
+      sound = createSoundImplFlash(mimeType, url, streaming);
+      if (sound != null) {
+        return sound;
+      }
     }
+
+    // Fallback to native browser audio
+    sound = new NativeSound(mimeType, url, streaming, soundContainer);
     return sound;
   }
 
