@@ -218,6 +218,12 @@ public class SoundController {
     Sound sound = null;
     assert preferredSoundClass != null;
     
+    // Web Audio rocks
+    sound = createSoundImplWebAudio(mimeType, url, streaming);
+    if (sound != null) {
+      return sound;
+    }
+
     // Prefer Flash over HTML5 Audio
     if (preferredSoundClass == FlashSound.class) {
       sound = createSoundImplFlash(mimeType, url, streaming);
@@ -247,6 +253,13 @@ public class SoundController {
     // Fallback to native browser audio
     sound = new NativeSound(mimeType, url, streaming, soundContainer);
     return sound;
+  }
+
+  private Sound createSoundImplWebAudio(String mimeType, String url, boolean streaming) {
+    if (WebAudioSound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
+      return new WebAudioSound(mimeType, url, streaming);
+    }
+    return null;
   }
 
   private FlashSound createSoundImplFlash(String mimeType, String url, boolean streaming) {
