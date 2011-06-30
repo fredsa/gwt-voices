@@ -227,6 +227,8 @@ public class VoicesDemo implements EntryPoint {
     for (String mimeType : MIME_TYPES) {
       ArrayList<ThirdPartySound> soundList = mimeTypeSoundMap.get(mimeType);
       if (soundList != null) {
+        
+        // Prefer HTML5 Audio
         mainPanel.add(new DeferredContentDisclosurePanel(mimeType, new MimeTypeDemo<Html5Sound>(
             mimeType, soundList, demoSoundHandler, Html5Sound.class)));
 
