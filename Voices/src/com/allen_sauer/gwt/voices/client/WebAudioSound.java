@@ -35,6 +35,7 @@ public class WebAudioSound extends AbstractSound {
   private static Element audioContext;
   private JavaScriptObject buffer;
   private int volume;
+  private boolean looping;
 
   public static MimeTypeSupport getMimeTypeSupport(String mimeType) {
     return audioContext != null ? Html5Sound.getMimeTypeSupport(mimeType)
@@ -108,8 +109,7 @@ public class WebAudioSound extends AbstractSound {
 
   @Override
   public boolean getLooping() {
-    // TODO(fredsa): Auto-generated method stub
-    return false;
+    return looping;
   }
 
   @Override
@@ -125,8 +125,19 @@ public class WebAudioSound extends AbstractSound {
     var voice = context.createBufferSource();
     this.@com.allen_sauer.gwt.voices.client.WebAudioSound::voice = voice;
 
-    var node = voice;
+    if (this.@com.allen_sauer.gwt.voices.client.WebAudioSound::looping) {
+      // TODO: Need to clarify 'loop' vs. 'looping'
+      // See http://code.google.com/p/chromium/issues/detail?id=88119
+      if ('looping' in voice) {
+        voice.looping = true;
+      }
+      if ('loop' in voice) {
+        voice.loop = true;
+      }
+    }
     
+    var node = voice;
+
     var volume = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::volume;
     if (volume != @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME) {
       var gainNode = context.createGainNode();
@@ -150,7 +161,7 @@ public class WebAudioSound extends AbstractSound {
 
   @Override
   public void setLooping(boolean looping) {
-    // TODO(fredsa): Auto-generated method stub
+    this.looping = looping;
   }
 
   @Override
