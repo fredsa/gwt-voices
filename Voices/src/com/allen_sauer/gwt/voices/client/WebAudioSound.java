@@ -1,11 +1,11 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -39,6 +39,8 @@ public class WebAudioSound extends AbstractSound {
     if (audioContext == null) {
       return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
     }
+    // TODO: Update once http://code.google.com/p/chromium/issues/detail?id=88122
+    // and http://code.google.com/p/chromium/issues/detail?id=88131 are addressed
     if (mimeType.equals(MIME_TYPE_AUDIO_OGG_VORBIS) || mimeType.equals(MIME_TYPE_AUDIO_WAV_PCM)) {
       return MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
     }
@@ -98,7 +100,8 @@ public class WebAudioSound extends AbstractSound {
 
     var self = this;
     request.onload = function() {
-      self.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer = context.createBuffer(request.response, false);
+      self.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer = context
+          .createBuffer(request.response, false);
     }
 
     request.send();
@@ -144,7 +147,8 @@ public class WebAudioSound extends AbstractSound {
     var volume = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::volume;
     if (volume != @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME) {
       var gainNode = context.createGainNode();
-      gainNode.gain.value = volume / @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME;
+      gainNode.gain.value = volume
+          / @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME;
       node.connect(gainNode);
       node = gainNode;
     }
