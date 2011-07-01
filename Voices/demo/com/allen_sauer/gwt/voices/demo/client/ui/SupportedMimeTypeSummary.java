@@ -68,7 +68,7 @@ public class SupportedMimeTypeSummary extends Composite {
       // Native/Plugin based support
       MimeTypeSupport nativeMimeTypeSupport = NativeSound.getMimeTypeSupport(mimeType);
       String nativeMimeTypeSupportText = mimeTypeSupportToString(nativeMimeTypeSupport);
-      Sound dummySound = soundController.createSound(Sound.MIME_TYPE_AUDIO_BASIC, "empty.au");
+      Sound dummySound = soundController.createSound(Sound.MIME_TYPE_AUDIO_BASIC, "/empty.au");
       if (nativeMimeTypeSupport == MIME_TYPE_SUPPORT_READY) {
         nativeMimeTypeSupportText += " via <code>" + dummySound.getSoundType() + "</code>";
       }
