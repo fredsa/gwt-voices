@@ -28,6 +28,7 @@ import com.allen_sauer.gwt.voices.client.NativeSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
 import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
+import com.allen_sauer.gwt.voices.client.WebAudioSound;
 import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.VoicesDemo;
@@ -54,9 +55,10 @@ public class SupportedMimeTypeSummary extends Composite {
     flexTable.addStyleName(DemoClientBundle.INSTANCE.css().demoSupportedMimeTypeSummaryTable());
     containerPanel.add(flexTable);
     flexTable.setWidget(0, 0, new HTML("MIME Type"));
-    flexTable.setWidget(0, 1, new HTML("HTML5 audio"));
-    flexTable.setWidget(0, 2, new HTML("Native browser <i>or</i> Plugin based support"));
-    flexTable.setWidget(0, 3, new HTML("Flash based support"));
+    flexTable.setWidget(0, 1, new HTML("Web Audio API"));
+    flexTable.setWidget(0, 2, new HTML("HTML5 audio"));
+    flexTable.setWidget(0, 3, new HTML("Native browser <i>or</i> Plugin based support"));
+    flexTable.setWidget(0, 4, new HTML("Flash based support"));
     flexTable.getRowFormatter().addStyleName(0, DemoClientBundle.INSTANCE.css().header());
 
     SoundController soundController = new SoundController();
@@ -82,11 +84,16 @@ public class SupportedMimeTypeSummary extends Composite {
       MimeTypeSupport html5MimeTypeSupport = Html5Sound.getMimeTypeSupport(mimeType);
       String html5MimeTypeSupportText = mimeTypeSupportToString(html5MimeTypeSupport);
 
+      // Web Audio API
+      MimeTypeSupport webAudioMimeTypeSupport = WebAudioSound.getMimeTypeSupport(mimeType);
+      String webAudioMimeTypeSupportText = mimeTypeSupportToString(webAudioMimeTypeSupport);
+
       // Place results in the table
       flexTable.setWidget(i + 1, 0, new HTML("<code>" + mimeType + "</code>"));
-      flexTable.setWidget(i + 1, 1, new HTML(html5MimeTypeSupportText));
-      flexTable.setWidget(i + 1, 2, new HTML(nativeMimeTypeSupportText));
-      flexTable.setWidget(i + 1, 3, new HTML(flashMimeTypeSupportText));
+      flexTable.setWidget(i + 1, 1, new HTML(webAudioMimeTypeSupportText));
+      flexTable.setWidget(i + 1, 2, new HTML(html5MimeTypeSupportText));
+      flexTable.setWidget(i + 1, 3, new HTML(nativeMimeTypeSupportText));
+      flexTable.setWidget(i + 1, 4, new HTML(flashMimeTypeSupportText));
       flexTable.getRowFormatter().addStyleName(
           i + 1,
           i % 2 == 0 ? DemoClientBundle.INSTANCE.css().odd()
