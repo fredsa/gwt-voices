@@ -105,9 +105,10 @@ public class SoundController {
    * We avoid using the usual, module relative {@link GWT#getModuleBaseURL()} to
    * force {@literal gwt-voices.swf"} to be loaded from the same domain as the
    * host page. This avoids cross origin issues when the page contains a
-   * {@code <base href="http://...">} tag.
+   * {@code <base href="http://...">} tag. To override the base URL in your
+   * code, use {@link SoundController#setGwtVoicesSwfLocation(String)}.
    */
-  private String gwtVoicesSwfBaseUrl = GWT.getHostPageBaseURL() + "/" + GWT.getModuleName() + "/";
+  private String gwtVoicesSwfBaseUrl = GWT.getHostPageBaseURL() + GWT.getModuleName() + "/";
 
   /**
    * Default constructor to be used by client code.
