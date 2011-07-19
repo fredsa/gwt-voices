@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -33,7 +33,7 @@ import com.allen_sauer.gwt.voices.client.util.DOMUtil;
  * Main class with which client code interact in order to create {@link Sound}
  * objects, which can be played. In addition, each SoundController defines its
  * own default volume and provides the ability to prioritize Flash based sound.
- * 
+ *
  * <p>
  * For the time being do not create 16 or more SoundControllers as that would
  * result in 16+ Flash Players, which triggers an Adobe bug, mentioned <a
@@ -103,7 +103,7 @@ public class SoundController {
 
   /**
    * We avoid using the usual, module relative {@link GWT#getModuleBaseURL()} to
-   * force {@literal gwt-voices.swf"} to be loaded from the same domain as the
+   * force {@literal gwt-voices.swf} to be loaded from the same domain as the
    * host page. This avoids cross origin issues when the page contains a
    * {@code <base href="http://...">} tag. To override the base URL in your
    * code, use {@link SoundController#setGwtVoicesSwfLocation(String)}.
@@ -120,7 +120,7 @@ public class SoundController {
   /**
    * Create a new Sound object using the provided MIME type and URL. To enable
    * streaming, use {@link #createSound(String, String, boolean)}.
-   * 
+   *
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @return a new Sound object
@@ -131,7 +131,7 @@ public class SoundController {
 
   /**
    * Create a new Sound object using the provided MIME type and URL.
-   * 
+   *
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @param streaming whether or not to allow play back to start before sound
@@ -146,9 +146,9 @@ public class SoundController {
 
   /**
    * Determine the current default sound type for new sounds.
-   * 
+   *
    * @return the current default sound type
-   * 
+   *
    * @deprecated this method is a temporary stop-gap, may be retired at any time
    */
   @Deprecated
@@ -158,7 +158,7 @@ public class SoundController {
 
   /**
    * Set the default volume (range <code>0-100</code>) for new sound.
-   * 
+   *
    * @param defaultVolume the default volume (range <code>0-100</code>) to be
    *          used for new sounds
    */
@@ -169,10 +169,10 @@ public class SoundController {
   /**
    * Set preferred {@link Sound} class: {@link Html5Sound}, {@link FlashSound},
    * {@link NativeSound}.
-   * 
+   *
    * @param <S> the preferred Sound class
    * @param clazz the Class object representing the desired type
-   * 
+   *
    * @deprecated this method is a temporary stop-gap, may be retired at any
    *             time, and may be made to do nothing at all without warning
    */
@@ -185,19 +185,19 @@ public class SoundController {
   /**
    * Provides a way to set the base URL for the {@literal gwt-voices.swf} file.
    * The provided base URL must ends with a trailing {@literal /}.
-   * 
+   *
    * @param gwtVoicesSwfBaseUrl base URL relative to which
    *          {@literal gwt-voices.swf} can be found
    */
   public void setGwtVoicesSwfLocation(String gwtVoicesSwfBaseUrl) {
-    assert (gwtVoicesSwfBaseUrl.endsWith("/"));
+    assert gwtVoicesSwfBaseUrl.endsWith("/");
     this.gwtVoicesSwfBaseUrl = gwtVoicesSwfBaseUrl;
   }
 
   /**
    * Lazily instantiate Flash Movie so browser plug-in is not unnecessarily
    * triggered.
-   * 
+   *
    * @return the new movie widget
    */
   protected VoicesMovie getVoicesMovie() {
@@ -218,7 +218,7 @@ public class SoundController {
   private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
     Sound sound = null;
     assert preferredSoundClass != null;
-    
+
     // Web Audio rocks
     sound = createSoundImplWebAudio(mimeType, url, streaming);
     if (sound != null) {
@@ -237,7 +237,7 @@ public class SoundController {
         return sound;
       }
     }
-    
+
     // Prefer HTML5 Audio over Flash
     if (preferredSoundClass == Html5Sound.class) {
       sound = createSoundImplHtml5(mimeType, url, streaming);
