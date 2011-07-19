@@ -94,7 +94,7 @@ public class WebAudioSound extends AbstractSound {
   private native void createVoice(String url) /*-{
     var context = @com.allen_sauer.gwt.voices.client.WebAudioSound::audioContext;
 
-    var request = new XMLHttpRequest();
+    var request = new $wnd.XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = "arraybuffer";
 
