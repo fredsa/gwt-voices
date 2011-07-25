@@ -27,6 +27,7 @@ import com.allen_sauer.gwt.voices.client.SoundController.MimeTypeSupport;
  * Sound object using the Web Audio API.
  */
 public class WebAudioSound extends AbstractSound {
+  // CHECKSTYLE_JAVADOC_OFF
 
   private String mimeType;
   private Element voice;
@@ -39,12 +40,7 @@ public class WebAudioSound extends AbstractSound {
     if (audioContext == null) {
       return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
     }
-    // TODO: Update once http://code.google.com/p/chromium/issues/detail?id=88122
-    // and http://code.google.com/p/chromium/issues/detail?id=88131 are addressed
-    if (mimeType.equals(MIME_TYPE_AUDIO_OGG_VORBIS) || mimeType.equals(MIME_TYPE_AUDIO_WAV_PCM)) {
-      return MimeTypeSupport.MIME_TYPE_SUPPORT_READY;
-    }
-    return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
+    return Html5Sound.getMimeTypeSupport(mimeType);
   }
 
   public WebAudioSound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
@@ -77,7 +73,7 @@ public class WebAudioSound extends AbstractSound {
     audioContext = createAudioContext();
   }
 
-  private native static Element createAudioContext() /*-{
+  private static native Element createAudioContext() /*-{
     try {
       return new AudioContext();
     } catch (ignore) {
