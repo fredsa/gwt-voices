@@ -27,14 +27,14 @@ import com.allen_sauer.gwt.voices.demo.client.ThirdPartySound;
 import java.util.ArrayList;
 
 // CHECKSTYLE_JAVADOC_OFF
-public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
+public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final String mimeType;
-  private final Class<S> preferredSoundClass;
+  private final Class<? extends Sound> preferredSoundClass;
   private final ArrayList<ThirdPartySound> thirdPartySoundList;
 
   public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> thirdPartySoundList,
-      DemoSoundHandler demoSoundHandler, Class<S> preferredSoundClass) {
+      DemoSoundHandler demoSoundHandler, Class<? extends Sound> preferredSoundClass) {
     this.mimeType = mimeType;
     this.thirdPartySoundList = thirdPartySoundList;
     this.demoSoundHandler = demoSoundHandler;
