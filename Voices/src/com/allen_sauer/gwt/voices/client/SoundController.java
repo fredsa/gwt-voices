@@ -119,14 +119,14 @@ public class SoundController {
 
   /**
    * Create a new Sound object using the provided MIME type and URL. To enable
-   * streaming, use {@link #createSound(String, String, boolean)}.
+   * streaming, or for cross origin content, use {@link #createSound(String, String, boolean, boolean)}.
    *
    * @param mimeType MIME type of the new Sound object
    * @param url location of the new Sound object
    * @return a new Sound object
    */
   public Sound createSound(String mimeType, String url) {
-    return createSound(mimeType, url, false);
+    return createSound(mimeType, url, false, false);
   }
 
   /**
@@ -138,8 +138,8 @@ public class SoundController {
    *          has been fully downloaded
    * @return a new Sound object
    */
-  public Sound createSound(String mimeType, String url, boolean streaming) {
-    Sound sound = createSoundImpl(mimeType, url, streaming);
+  public Sound createSound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
+    Sound sound = createSoundImpl(mimeType, url, streaming, crossOrigin);
     sound.setVolume(defaultVolume);
     return sound;
   }
@@ -208,31 +208,32 @@ public class SoundController {
     return voicesWrapper;
   }
 
-  private Sound createSoundImplHtml5(String mimeType, String url, boolean streaming) {
+  private Sound createSoundImplHtml5(String mimeType, String url, boolean streaming,
+      boolean crossOrigin) {
     if (Html5Sound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
-      return new Html5Sound(mimeType, url, streaming);
+      return new Html5Sound(mimeType, url, streaming, crossOrigin);
     }
     return null;
   }
 
-  private Sound createSoundImpl(String mimeType, String url, boolean streaming) {
+  private Sound createSoundImpl(String mimeType, String url, boolean streaming, boolean crossOrigin) {
     Sound sound = null;
     assert preferredSoundClass != null;
 
     // Web Audio rocks
-    sound = createSoundImplWebAudio(mimeType, url, streaming);
+    sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
     if (sound != null) {
       return sound;
     }
 
     // Prefer Flash over HTML5 Audio
     if (preferredSoundClass == FlashSound.class) {
-      sound = createSoundImplFlash(mimeType, url, streaming);
+      sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
       if (sound != null) {
         return sound;
       }
 
-      sound = createSoundImplHtml5(mimeType, url, streaming);
+      sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
       if (sound != null) {
         return sound;
       }
@@ -240,30 +241,32 @@ public class SoundController {
 
     // Prefer HTML5 Audio over Flash
     if (preferredSoundClass == Html5Sound.class) {
-      sound = createSoundImplHtml5(mimeType, url, streaming);
+      sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
       if (sound != null) {
         return sound;
       }
 
-      sound = createSoundImplFlash(mimeType, url, streaming);
+      sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
       if (sound != null) {
         return sound;
       }
     }
 
     // Fallback to native browser audio
-    sound = new NativeSound(mimeType, url, streaming, soundContainer);
+    sound = new NativeSound(mimeType, url, streaming, crossOrigin, soundContainer);
     return sound;
   }
 
-  private Sound createSoundImplWebAudio(String mimeType, String url, boolean streaming) {
+  private Sound createSoundImplWebAudio(String mimeType, String url, boolean streaming,
+      boolean crossOrigin) {
     if (WebAudioSound.getMimeTypeSupport(mimeType) == MimeTypeSupport.MIME_TYPE_SUPPORT_READY) {
-      return new WebAudioSound(mimeType, url, streaming);
+      return new WebAudioSound(mimeType, url, streaming, crossOrigin);
     }
     return null;
   }
 
-  private FlashSound createSoundImplFlash(String mimeType, String url, boolean streaming) {
+  private FlashSound createSoundImplFlash(String mimeType, String url, boolean streaming,
+      boolean crossOrigin) {
     if (url.startsWith("data:")) {
       return null;
     }
@@ -272,7 +275,7 @@ public class SoundController {
       MimeTypeSupport mimeTypeSupport = vm.getMimeTypeSupport(mimeType);
       if (mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_READY
           || mimeTypeSupport == MimeTypeSupport.MIME_TYPE_SUPPORT_NOT_READY) {
-        FlashSound sound = new FlashSound(mimeType, url, streaming, vm);
+        FlashSound sound = new FlashSound(mimeType, url, streaming, crossOrigin, vm);
         return sound;
       }
     }

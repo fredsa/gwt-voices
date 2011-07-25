@@ -125,7 +125,7 @@ public class VoicesTest implements EntryPoint {
   }
 
   private void addButton(SoundController sc, String mimeType, String url) {
-    final Sound sound = sc.createSound(mimeType, url, false);
+    final Sound sound = sc.createSound(mimeType, url, false, false);
     sound.addEventHandler(new SoundHandler() {
       @Override
       public void onPlaybackComplete(PlaybackCompleteEvent event) {
@@ -148,7 +148,7 @@ public class VoicesTest implements EntryPoint {
   }
 
   private void addButton(final String[] urls, String[] mimeTypes, SoundController sc, int i) {
-    final Sound sound = sc.createSound(mimeTypes[i], urls[i], false);
+    final Sound sound = sc.createSound(mimeTypes[i], urls[i], false, false);
     sound.addEventHandler(new SoundHandler() {
       @Override
       public void onPlaybackComplete(PlaybackCompleteEvent event) {

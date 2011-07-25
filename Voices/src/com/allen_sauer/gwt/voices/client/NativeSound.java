@@ -52,11 +52,13 @@ public class NativeSound extends AbstractSound {
 
   private int volume = SoundController.DEFAULT_VOLUME;
 
-  public NativeSound(String mimeType, String url, boolean streaming, Element soundControllerElement) {
-    super(mimeType, url, streaming);
+  public NativeSound(String mimeType, String url, boolean streaming, boolean crossOrigin,
+      Element soundControllerElement) {
+    super(mimeType, url, streaming, crossOrigin);
 
     this.soundControllerElement = soundControllerElement;
     this.mimeType = mimeType;
+    // TODO: determine whether requests can be cross origin
     impl.preload(soundControllerElement, mimeType, url);
     element = impl.createElement(url);
 

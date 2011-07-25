@@ -189,6 +189,7 @@ public class VoicesDemo implements EntryPoint {
     });
   }
 
+  @SuppressWarnings("deprecation")
   public void onModuleLoad2() {
     RootPanel mainPanel = RootPanel.get("demo-main-panel");
     StyleInjector.injectAtStart(DemoClientBundle.INSTANCE.css().getText());

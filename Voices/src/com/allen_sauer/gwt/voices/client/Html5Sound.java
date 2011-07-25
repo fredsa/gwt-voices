@@ -64,16 +64,14 @@ public class Html5Sound extends AbstractSound {
 
   private HandlerRegistration endedRegistration;
 
-  private final String url;
-
   /**
    * @param mimeType the requested MIME type and optional codec according to RFC 4281
    * @param url the URL of the audio resource
    * @param streaming whether or not to stream the content, although currently ignored
+   * @param crossOrigin whether or not the content is to be accessed from a different origin
    */
-  public Html5Sound(String mimeType, String url, boolean streaming) {
-    super(mimeType, url, streaming);
-    this.url = url;
+  public Html5Sound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
+    super(mimeType, url, streaming, crossOrigin);
 
     createAudioElement();
 
@@ -177,7 +175,10 @@ public class Html5Sound extends AbstractSound {
     // TODO: remove, once DOM attachment no longer required to sink (bitless) events
     RootPanel.get().add(audio);
 
-    elem.setSrc(url);
+    if (isCrossOrigin()) {
+      elem.setAttribute("crossOrigin", "anonymous");
+    }
+    elem.setSrc(getUrl());
   }
 
 }

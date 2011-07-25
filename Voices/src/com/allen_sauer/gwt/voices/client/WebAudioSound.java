@@ -47,12 +47,12 @@ public class WebAudioSound extends AbstractSound {
     return MimeTypeSupport.MIME_TYPE_NOT_SUPPORTED;
   }
 
-  public WebAudioSound(String mimeType, String url, boolean streaming) {
-    super(mimeType, url, streaming);
+  public WebAudioSound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
+    super(mimeType, url, streaming, crossOrigin);
 
     this.mimeType = mimeType;
 
-    createVoice(url);
+    createVoice(url, crossOrigin);
 
     MimeTypeSupport mimeTypeSupport = getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
@@ -91,9 +91,10 @@ public class WebAudioSound extends AbstractSound {
     return null;
   }-*/;
 
-  private native void createVoice(String url) /*-{
+  private native void createVoice(String url, boolean crossOrigin) /*-{
     var context = @com.allen_sauer.gwt.voices.client.WebAudioSound::audioContext;
 
+    // TODO: Implement XDomainRequest for IE
     var request = new $wnd.XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = "arraybuffer";

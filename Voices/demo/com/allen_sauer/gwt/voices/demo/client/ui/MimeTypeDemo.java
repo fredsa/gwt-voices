@@ -57,7 +57,8 @@ public class MimeTypeDemo<S extends Sound> extends DeferredContentPanel {
     VerticalPanel soundsPanel = new VerticalPanel();
 
     for (ThirdPartySound thirdPartySound : thirdPartySoundList) {
-      Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL(), false);
+      Sound sound = soundController.createSound(mimeType, thirdPartySound.getActualURL(), false,
+          false);
       sound.addEventHandler(demoSoundHandler);
       thirdPartySound.setSound(sound);
       if (note == null) {

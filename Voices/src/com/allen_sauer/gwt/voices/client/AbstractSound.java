@@ -23,15 +23,17 @@ abstract class AbstractSound implements Sound {
   private static final LoadState INITIAL_LOAD_STATE = LoadState.LOAD_STATE_UNINITIALIZED;
   protected final SoundHandlerCollection soundHandlerCollection = new SoundHandlerCollection();
 
+  private final boolean crossOrigin;
   private LoadState loadState = INITIAL_LOAD_STATE;
   private final String mimeType;
   private final boolean streaming;
   private final String url;
 
-  public AbstractSound(String mimeType, String url, boolean streaming) {
+  public AbstractSound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
     this.mimeType = mimeType;
     this.url = url;
     this.streaming = streaming;
+    this.crossOrigin = crossOrigin;
   }
 
   @Override
@@ -60,6 +62,10 @@ abstract class AbstractSound implements Sound {
     return url;
   }
 
+  public boolean isCrossOrigin() {
+    return crossOrigin;
+  }
+
   public final boolean isStreaming() {
     return streaming;
   }
@@ -81,6 +87,7 @@ abstract class AbstractSound implements Sound {
   @Override
   public final String toString() {
     return getSoundType() + "(\"" + mimeType + "\", \"" + url + "\", "
-        + (isStreaming() ? "streaming" : "not streaming") + ")";
+        + (isStreaming() ? "streaming" : "not streaming") + ","
+        + (isCrossOrigin() ? "cross origin" : "same origin") + ")";
   }
 }

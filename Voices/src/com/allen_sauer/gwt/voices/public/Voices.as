@@ -23,6 +23,7 @@
   import flash.events.Event;
   import flash.events.IOErrorEvent;
   import flash.media.SoundChannel;
+  import flash.media.SoundLoaderContext;
   import flash.net.URLRequest;
   import flash.media.SoundTransform;
   
@@ -72,13 +73,16 @@
       log("document.VoicesMovie['" + domId + "'].ready() -> " + result);
     }
 
-    private function createSound(id:Number, url:String):void {
+    private function createSound(id:Number, url:String, checkPolicyFile:Boolean):void {
       var func:String = "createSound(id=" + id + ", url='" + url + "')";
       logStart(func);
 
       // default to false
       loop[id] = 0;
-      
+
+      var bufferTime:Number = 1000; // default
+      var context:SoundLoaderContext = new SoundLoaderContext(bufferTime, checkPolicyFile);
+
       sounds[id] = new Sound();
       volume[id] = 1;
       panning[id] = 0;
@@ -99,7 +103,7 @@
 //        var result:Object = ExternalInterface.call("document.VoicesMovie['" + domId + "'].soundLoaded", id);
 //        log("document.VoicesMovie['" + domId + "'].soundLoaded(" + id + ") -> " + result);
 //      });
-      sounds[id].load(new URLRequest(url));
+      sounds[id].load(new URLRequest(url), context);
       logEnd(func);
     }
     

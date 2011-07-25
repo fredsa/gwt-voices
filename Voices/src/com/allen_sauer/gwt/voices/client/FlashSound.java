@@ -59,8 +59,9 @@ public class FlashSound extends AbstractSound {
   private final VoicesMovie voicesMovie;
   private int volume = SoundController.DEFAULT_VOLUME;
 
-  public FlashSound(String mimeType, String url, boolean streaming, VoicesMovie voicesMovie) {
-    super(mimeType, url, streaming);
+  public FlashSound(String mimeType, String url, boolean streaming, boolean crossOrigin,
+      VoicesMovie voicesMovie) {
+    super(mimeType, url, streaming, crossOrigin);
     this.voicesMovie = voicesMovie;
     soundNumber = soundList.size();
     soundList.add(this);
