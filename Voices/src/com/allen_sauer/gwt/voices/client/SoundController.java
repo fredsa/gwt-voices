@@ -227,26 +227,26 @@ public class SoundController {
         if (sound != null) {
           return sound;
         }
-
-        if (c == Html5Sound.class) {
-          sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
-          if (sound != null) {
-            return sound;
-          }
+      }
+      
+      if (c == Html5Sound.class) {
+        sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
+        if (sound != null) {
+          return sound;
         }
-
-        if (c == WebAudioSound.class) {
-          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
-          if (sound != null) {
-            return sound;
-          }
+      }
+      
+      if (c == WebAudioSound.class) {
+        sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+        if (sound != null) {
+          return sound;
         }
-
-        if (c == NativeSound.class) {
-          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
-          if (sound != null) {
-            return sound;
-          }
+      }
+      
+      if (c == NativeSound.class) {
+        sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+        if (sound != null) {
+          return sound;
         }
       }
     }
