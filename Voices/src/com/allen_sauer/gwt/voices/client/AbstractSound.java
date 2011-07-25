@@ -87,7 +87,7 @@ abstract class AbstractSound implements Sound {
   @Override
   public final String toString() {
     return getSoundType() + "(\"" + mimeType + "\", \"" + url + "\", "
-        + (isStreaming() ? "streaming" : "not streaming") + ","
+        + (isStreaming() ? "streaming" : "not streaming") + ", "
         + (isCrossOrigin() ? "cross origin" : "same origin") + ")";
   }
 }
