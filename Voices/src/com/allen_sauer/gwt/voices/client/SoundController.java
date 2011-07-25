@@ -98,7 +98,7 @@ public class SoundController {
    */
   protected final Element soundContainer = DOM.createDiv();
   private int defaultVolume = DEFAULT_VOLUME;
-  private Class<?> preferredSoundClass;
+  private Class<? extends Sound>[] preferredSoundClass;
   private VoicesMovie voicesWrapper;
 
   /**
@@ -136,6 +136,7 @@ public class SoundController {
    * @param url location of the new Sound object
    * @param streaming whether or not to allow play back to start before sound
    *          has been fully downloaded
+   * @param crossOrigin true of the resource is cross origin, false for same origin
    * @return a new Sound object
    */
   public Sound createSound(String mimeType, String url, boolean streaming, boolean crossOrigin) {
@@ -152,7 +153,7 @@ public class SoundController {
    * @deprecated this method is a temporary stop-gap, may be retired at any time
    */
   @Deprecated
-  public Class<?> getPreferredSoundType() {
+  public Class<? extends Sound>[] getPreferredSoundType() {
     return preferredSoundClass;
   }
 
@@ -177,8 +178,10 @@ public class SoundController {
    *             time, and may be made to do nothing at all without warning
    */
   @Deprecated
-  public <S extends Sound> void setPreferredSoundType(Class<S> clazz) {
-    assert clazz == Html5Sound.class || clazz == FlashSound.class;
+  public <S extends Sound> void setPreferredSoundType(Class<S>... clazz) {
+    for (Class<S> c : clazz) {
+      assert c != null;
+    }
     preferredSoundClass = clazz;
   }
 
@@ -218,7 +221,35 @@ public class SoundController {
 
   private Sound createSoundImpl(String mimeType, String url, boolean streaming, boolean crossOrigin) {
     Sound sound = null;
-    assert preferredSoundClass != null;
+    for (Class<? extends Sound> c : preferredSoundClass) {
+      if (c == FlashSound.class) {
+        sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
+        if (sound != null) {
+          return sound;
+        }
+
+        if (c == Html5Sound.class) {
+          sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
+          if (sound != null) {
+            return sound;
+          }
+        }
+
+        if (c == WebAudioSound.class) {
+          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+          if (sound != null) {
+            return sound;
+          }
+        }
+
+        if (c == NativeSound.class) {
+          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+          if (sound != null) {
+            return sound;
+          }
+        }
+      }
+    }
 
     // Web Audio rocks
     sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
@@ -226,30 +257,14 @@ public class SoundController {
       return sound;
     }
 
-    // Prefer Flash over HTML5 Audio
-    if (preferredSoundClass == FlashSound.class) {
-      sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
-      if (sound != null) {
-        return sound;
-      }
-
-      sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
-      if (sound != null) {
-        return sound;
-      }
+    sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
+    if (sound != null) {
+      return sound;
     }
 
-    // Prefer HTML5 Audio over Flash
-    if (preferredSoundClass == Html5Sound.class) {
-      sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
-      if (sound != null) {
-        return sound;
-      }
-
-      sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
-      if (sound != null) {
-        return sound;
-      }
+    sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
+    if (sound != null) {
+      return sound;
     }
 
     // Fallback to native browser audio
@@ -282,15 +297,20 @@ public class SoundController {
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   private void initSoundContainer() {
-    // default for now, until HTML5 audio improves
-    setPreferredSoundType(FlashSound.class);
-
     String gwtVoices = Window.Location.getParameter("gwt-voices");
     if ("flash".equals(gwtVoices)) {
       setPreferredSoundType(FlashSound.class);
     } else if ("html5".equals(gwtVoices)) {
       setPreferredSoundType(Html5Sound.class);
+    } else if ("webaudio".equals(gwtVoices)) {
+      setPreferredSoundType(WebAudioSound.class);
+    } else if ("native".equals(gwtVoices)) {
+      setPreferredSoundType(NativeSound.class);
+    } else {
+      // For now, prefer Flash over HTML5
+      setPreferredSoundType(new Class[] {WebAudioSound.class, FlashSound.class, Html5Sound.class});
     }
 
     // place off screen with fixed dimensions and overflow:hidden
