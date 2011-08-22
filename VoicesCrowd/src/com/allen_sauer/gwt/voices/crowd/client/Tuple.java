@@ -36,7 +36,7 @@ public class Tuple<E> {
       return false;
     }
     if (obj instanceof Tuple) {
-      Tuple o = (Tuple) obj;
+      Tuple<?> o = (Tuple<?>) obj;
       for (int i = 0; i < elements.length; i++) {
         if (!bothNullOrEquals(elements[i], o.elements[i])) {
           return false;
