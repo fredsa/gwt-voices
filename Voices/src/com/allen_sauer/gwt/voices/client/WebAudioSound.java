@@ -129,14 +129,7 @@ public class WebAudioSound extends AbstractSound {
     this.@com.allen_sauer.gwt.voices.client.WebAudioSound::voice = voice;
 
     if (this.@com.allen_sauer.gwt.voices.client.WebAudioSound::looping) {
-      // TODO: Need to clarify 'loop' vs. 'looping'
-      // See http://code.google.com/p/chromium/issues/detail?id=88119
-      if ('looping' in voice) {
-        voice.looping = true;
-      }
-      if ('loop' in voice) {
-        voice.loop = true;
-      }
+      voice.loop = true;
     }
 
     var node = voice;
