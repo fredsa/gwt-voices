@@ -1,4 +1,4 @@
-<project name="gwt-voices" default="dist">
+<project name="gwt-voices" default="dist" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
 	<target name="init" description="Initialization of ant properties">
 		<!-- Project Properties -->
@@ -6,24 +6,34 @@
 		<property name="projectdescription" value="Sound support for your Google-Web-Toolkit Projects" />
 		<property name="googlecode-libsummary" value="Sound Library for Google-Web-Toolkit (GWT)" />
 		<property name="googlecode-javadocsummary" value="Javadoc for ${ant.project.name} source and demos (examples)" />
+		<property name="googlecode-sourcessummary" value="Sources for ${ant.project.name}" />
 		<property name="googlecode-liblabels" value="Type-Library, OpSys-All, GWT-GWT_2.4.0, Java-1.6, ReleaseCandidate" />
 		<property name="googlecode-javadoclabels" value="Type-Docs, OpSys-All, GWT-GWT_2.4.0, Java-1.6, ReleaseCandidate" />
+		<property name="googlecode-sourceslabels" value="Type-Sources, OpSys-All, GWT-GWT_2.4.0, Java-1.6, Deprecated" />
 		<property name="filtertoken" value="GWT_VOICES_VERSION" />
+
+		<!-- define Maven coordinates -->
+		<property name="groupId" value="com.allen-sauer.gwt.dnd" />
+		<property name="artifactId" value="gwt-dnd" />
+
+		<!-- define Maven staging repository id and url -->
+		<property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
+		<property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
 
 		<!-- Global Properties -->
 		<property environment="env" />
 
-    <!-- gwt.location property -->
-    <condition property="mxmlc.default" value="${env.MXMLC}" else="">
-      <isset property="env.MXMLC" />
-    </condition>
-    <input addproperty="mxmlc" defaultvalue="${mxmlc.default}" message="mxmlc executable" />
+		<!-- mxmlc property -->
+		<condition property="mxmlc.default" value="${env.MXMLC}" else="">
+			<isset property="env.MXMLC" />
+		</condition>
+		<input addproperty="mxmlc" defaultvalue="${mxmlc.default}" message="mxmlc executable" />
 
-    <!-- gwt.location property -->
-    <condition property="gwt.location.default" value="${env.GWT_HOME}" else="">
-      <isset property="env.GWT_HOME" />
-    </condition>
-    <input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
+		<!-- gwt.location property -->
+		<condition property="gwt.location.default" value="${env.GWT_HOME}" else="">
+			<isset property="env.GWT_HOME" />
+		</condition>
+		<input addproperty="gwt.location" defaultvalue="${gwt.location.default}" message="GWT installation, i.e. directory where gwt-user.jar / gwt-servlet.jar / gwt-dev.jar can be found" />
 
 		<!-- gwt.tools property -->
 		<condition property="gwt.tools.default" value="${env.GWT_TOOLS}" else="">
@@ -47,8 +57,8 @@
 		<!-- gwt jars -->
 		<property name="gwt-user.jar" location="${gwt.location}/gwt-user.jar" />
 		<property name="gwt-dev.jar" location="${gwt.location}/gwt-dev.jar" />
-    <property name="validation-api-1.0.0.GA.jar" location="${gwt.location}/validation-api-1.0.0.GA.jar" />
-    <property name="validation-api-1.0.0.GA-sources.jar" location="${gwt.location}/validation-api-1.0.0.GA-sources.jar" />
+		<property name="validation-api-1.0.0.GA.jar" location="${gwt.location}/validation-api-1.0.0.GA.jar" />
+		<property name="validation-api-1.0.0.GA-sources.jar" location="${gwt.location}/validation-api-1.0.0.GA-sources.jar" />
 
 		<!-- Pulls in tasks defined in ant-contrib, i.e. foreach -->
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -59,6 +69,16 @@
 
 		<!-- libdir property -->
 		<input addproperty="libdir" defaultvalue="/fred/lib/${ant.project.name}" message="${ant.project.name} library directory, i.e where you keep your ${ant.project.name} jar file(s)" />
+
+		<for param="file">
+			<fileset dir="${libdir}">
+				<include name="${ant.project.name}-r*.jar" />
+				<exclude name="${ant.project.name}-r*-*.jar" />
+			</fileset>
+			<sequential>
+				<echo message="@{file}" />
+			</sequential>
+		</for>
 
 		<for param="file">
 			<fileset dir="${libdir}">
@@ -81,6 +101,12 @@
 
 		<!-- javadocjar property -->
 		<property name="javadocjar" value="${ant.project.name}-${libversion}-javadoc.jar" />
+
+		<!-- sourcesjar property -->
+		<property name="sourcesjar" value="${ant.project.name}-${libversion}-sources.jar" />
+
+		<!-- pomfile property -->
+		<property name="pomfile" value="${ant.project.name}-${libversion}.pom" />
 	</target>
 
 	<target name="unique-lib-locations" description="Determine library locations" depends="lib-locations">
@@ -108,10 +134,6 @@
 				<exclude name="**/package.html" />
 				<exclude name="**/*.swf" />
 			</fileset>
-			<fileset dir=".">
-				<include name="LICENSE" />
-				<include name="NOTICE" />
-			</fileset>
 			<filterset>
 				<filter token="${filtertoken}" value="${libversion}" />
 			</filterset>
@@ -129,20 +151,26 @@
 				<filter token="${filtertoken}" value="${libversion}" />
 			</filterset>
 		</copy>
+
+		<copy todir="build" file="pom.xml">
+			<filterset>
+				<filter token="${filtertoken}" value="${libversion}" />
+			</filterset>
+		</copy>
 	</target>
 
 	<target name="build" depends="unique-lib-locations, clean, javac, gwtc">
 	</target>
 
 	<target name="mxmlc" depends="filter">
-	  <exec failonerror="true" executable="${mxmlc}" dir="build/src/com/allen_sauer/gwt/voices/public">
-      <arg value="-static-link-runtime-shared-libraries=true" />
-      <arg value="-output" />
-      <arg value="gwt-voices.swf" />
-      <arg value="Voices.as" />
+		<exec failonerror="true" executable="${mxmlc}" dir="build/src/com/allen_sauer/gwt/voices/public">
+			<arg value="-static-link-runtime-shared-libraries=true" />
+			<arg value="-output" />
+			<arg value="gwt-voices.swf" />
+			<arg value="Voices.as" />
 		</exec>
 	</target>
-			
+
 	<target name="javac" description="Java compile" depends="mxmlc">
 
 		<echo message="Compiling build/src ..." />
@@ -153,19 +181,19 @@
 			<classpath location="${gwt-dev.jar}" />
 		</javac>
 
-		<echo message="Copying src files build/out ..." />
-
-		<copy todir="build/out">
-			<fileset dir="build/src">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-
 		<!-- build demo files as a sanity check -->
 
 		<echo message="Copying src files (for reference purposes) and NOTICE/LICENSE files to build/demo ..." />
 
 		<copy todir="build/demo">
+			<fileset dir="build/src">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<echo message="Copying src files build/out ..." />
+
+		<copy todir="build/out">
 			<fileset dir="build/src">
 				<include name="**/*" />
 			</fileset>
@@ -188,8 +216,8 @@
 				<fileset dir="build/demo" />
 				<fileset file="${gwt-user.jar}" />
 				<fileset file="${gwt-dev.jar}" />
-        <fileset file="${validation-api-1.0.0.GA.jar}" />
-        <fileset file="${validation-api-1.0.0.GA-sources.jar}" />
+				<fileset file="${validation-api-1.0.0.GA.jar}" />
+				<fileset file="${validation-api-1.0.0.GA-sources.jar}" />
 			</sourcefiles>
 
 			<targetfiles path="build/war/demo/demo.nocache.js" />
@@ -212,13 +240,21 @@
 					<fileset file="war/VoicesDemo.css" />
 				</copy>
 
-				<copydir dest="build/war/images" src="war/images" />
+				<copy todir="build/war/images">
+					<fileset dir="war/images" />
+				</copy>
 
-				<copyfile dest="build/war/empty.au" src="war/empty.au" />
+				<copy todir="build/war/empty.au">
+					<fileset file="war/empty.au" />
+				</copy>
 
-				<copydir dest="build/war/wikipedia" src="war/wikipedia" />
+				<copy todir="build/war/wikipedia">
+					<fileset dir="war/wikipedia" />
+				</copy>
 
-				<copydir dest="build/war/freesoundproject" src="war/freesoundproject" />
+				<copy todir="build/war/freesoundproject">
+					<fileset file="war/freesoundproject" />
+				</copy>
 			</sequential>
 		</outofdate>
 	</target>
@@ -252,11 +288,29 @@
 	<target name="dist" description="Create distribution jar" depends="build,javadoc">
 		<mkdir dir="build/dist" />
 
+		<!-- build the artifact -->
 		<jar destfile="build/dist/${libjar}">
 			<fileset dir="build/out" />
+			<fileset file="LICENSE" />
+			<fileset file="NOTICE" />
 		</jar>
 
-		<jar basedir="build/javadoc" destfile="build/dist/${javadocjar}" />
+		<!-- build the javadoc artifact -->
+		<jar destfile="build/dist/${javadocjar}">
+			<fileset dir="build/javadoc" />
+			<fileset file="LICENSE" />
+			<fileset file="NOTICE" />
+		</jar>
+
+		<!-- build the sources artifact -->
+		<jar destfile="build/dist/${sourcesjar}">
+			<fileset dir="build/src" />
+			<fileset file="LICENSE" />
+			<fileset file="NOTICE" />
+		</jar>
+
+		<!-- copy the pom file -->
+		<copy tofile="build/dist/${pomfile}" file="build/pom.xml" />
 
 		<copy todir="${libdir}">
 			<fileset dir="build/dist" />
@@ -285,19 +339,15 @@
 		<mkdir dir="war/test" />
 	</target>
 
-	<!-- Upload files to Google Code project hosting -->
-	<target name="upload" description="Upload file to Google Code" depends="lib-locations">
+	<target name="prepare-to-upload" depends="lib-locations">
 		<condition property="libfail-upload">
 			<contains string="${libjar}" substring="0.0.0" />
 		</condition>
 		<fail if="libfail-upload" message="Cannot upload version 0.0.0" />
+	</target>
 
-		<input addproperty="libsummary" message="Library summary" defaultvalue="${googlecode-libsummary}" />
-		<input addproperty="liblabels" message="Library labels" defaultvalue="${googlecode-liblabels}" />
-
-		<input addproperty="javadocsummary" message="Javadoc summary" defaultvalue="${googlecode-javadocsummary}" />
-		<input addproperty="javadoclabels" message="Javadoc labels" defaultvalue="${googlecode-javadoclabels}" />
-
+	<!-- Upload files to Google Code project hosting -->
+	<target name="upload" description="Upload file to Google Code" depends="prepare-to-upload">
 		<input addproperty="username" message="Google Code username" defaultvalue="fredsa@google.com" />
 		<input addproperty="password" message="Google Code password" defaultvalue="" />
 
@@ -305,6 +355,15 @@
 			<equals arg1="${password}" arg2="" />
 		</condition>
 		<fail if="password-missing" message="Password is required" />
+
+		<input addproperty="libsummary" message="Library summary" defaultvalue="${googlecode-libsummary}" />
+		<input addproperty="liblabels" message="Library labels" defaultvalue="${googlecode-liblabels}" />
+
+		<input addproperty="javadocsummary" message="Javadoc summary" defaultvalue="${googlecode-javadocsummary}" />
+		<input addproperty="javadoclabels" message="Javadoc labels" defaultvalue="${googlecode-javadoclabels}" />
+
+		<input addproperty="sourcessummary" message="Sources summary" defaultvalue="${googlecode-sourcessummary}" />
+		<input addproperty="sourceslabels" message="Sources labels" defaultvalue="${googlecode-sourceslabels}" />
 
 		<tempfile property="tempfile" />
 		<get src="http://${ant.project.name}.googlecode.com/files/${libjar}" dest="${tempfile}" ignoreerrors="true" />
@@ -321,6 +380,52 @@
 		<taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="ant-googlecode-0.0.2.jar" name="gcupload" />
 		<gcupload username="${username}" password="${password}" projectname="${ant.project.name}" filename="${libdir}/${libjar}" targetfilename="${libjar}" summary="${libsummary}" labels="${liblabels}" />
 		<gcupload username="${username}" password="${password}" projectname="${ant.project.name}" filename="${libdir}/${javadocjar}" targetfilename="${javadocjar}" summary="${javadocsummary}" labels="${javadoclabels}" />
+		<gcupload username="${username}" password="${password}" projectname="${ant.project.name}" filename="${libdir}/${sourcesjar}" targetfilename="${sourcesjar}" summary="${sourcessummary}" labels="${sourceslabels}" />
+	</target>
+
+	<!-- Upload files to Google Code project hosting -->
+	<target name="upload-mvn" description="Upload file to Sonatype OSS Maven repository" depends="prepare-to-upload">
+		<input addproperty="passphrase" message="GPG Passphrase" defaultvalue="" />
+
+		<!-- See http://maven.apache.org/plugins/maven-gpg-plugin/sign-and-deploy-file-mojo.html -->
+
+		<!-- sign and deploy the main artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${libdir}/${pomfile}" />
+			<arg value="-Dfile=${libdir}/${libjar}" />
+			<arg value="-Pgpg" />
+			<arg value="-Dgpg.passphrase=${passphrase}" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${libdir}/${pomfile}" />
+			<arg value="-Dfile=${libdir}/${javadocjar}" />
+			<arg value="-Dclassifier=javadoc" />
+			<arg value="-Pgpg" />
+			<arg value="-Dgpg.passphrase=${passphrase}" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=${libdir}/${pomfile}" />
+			<arg value="-Dfile=${libdir}/${sourcesjar}" />
+			<arg value="-Dclassifier=sources" />
+			<arg value="-Pgpg" />
+			<arg value="-Dgpg.passphrase=${passphrase}" />
+		</artifact:mvn>
+
+		<echo />
+		<echo message="Complete the process here: https://oss.sonatype.org/index.html#stagingRepositories" />
 	</target>
 
 	<!-- Test SSH functionality -->
@@ -337,6 +442,24 @@
 		</scp>
 
 		<sshexec command="./deploy.sh ${packagename}" username="sauer" host="allen-sauer.com" knownhosts="/fred/.ssh/known_hosts" keyfile="/fred/.ssh/id_dsa" passphrase="" />
+	</target>
+
+	<!-- Deploy demo to gwt-voices.appspot.com -->
+
+	<target name="gae-appcfg" description="Detemrine appcfg.sh location" depends="unique-lib-locations">
+		<!-- gae.appcfg property -->
+		<condition property="gae.appcfg.default" value="${env.APPCFG}" else="">
+			<isset property="env.APPCFG" />
+		</condition>
+		<input addproperty="gae.appcfg" defaultvalue="${gae.appcfg.default}" message="App Engine SDK appcfg.sh location" />
+	</target>
+
+	<target name="gae" description="Build and deploy to gwt-dnd.appspot.com" depends="gae-appcfg, clean, javac, gwtc">
+		<exec executable="${gae.appcfg}">
+			<arg value="update" />
+			<arg value="build/war" />
+		</exec>
+		<echo message="" />
 	</target>
 
 </project>
