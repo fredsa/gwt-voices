@@ -41,7 +41,7 @@ public class MimeTypeDemo extends DeferredContentPanel {
     this.preferredSoundClass = preferredSoundClass;
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "unchecked"})
   @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();

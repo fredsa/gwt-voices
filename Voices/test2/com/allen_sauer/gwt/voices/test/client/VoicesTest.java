@@ -181,7 +181,7 @@ public class VoicesTest implements EntryPoint {
     });
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "unchecked"})
   private void addPlaybackTests() {
     final String[] urls = new String[] {
         "freesoundproject/36846__EcoDTR__LaserRocket.mp3",
@@ -203,7 +203,7 @@ public class VoicesTest implements EntryPoint {
     addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggleNoEmbed().getUrl());
   }
 
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings({"deprecation", "unchecked"})
   private void startChannelTest() {
     SoundController sc = new SoundController();
     sc.setPreferredSoundType(Html5Sound.class);
