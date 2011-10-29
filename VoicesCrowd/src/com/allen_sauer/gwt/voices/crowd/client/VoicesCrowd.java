@@ -82,7 +82,6 @@ public class VoicesCrowd implements EntryPoint {
 
       public void onSuccess(List<TestResultSummary> list) {
         log("<b style='color:green;'>Results received.</b>");
-        boolean includeUserAgentDetail;
         renderSummary(list, detail);
         removeLoadingMessage();
       }
@@ -126,7 +125,6 @@ public class VoicesCrowd implements EntryPoint {
     rootPanel.add(new HTML(text));
   }
 
-  @SuppressWarnings("unchecked")
   private void makeHeaderRow(StringBuffer html, boolean includeUserAgentDetail) {
     // Header row
     html.append("<tr>");
@@ -137,8 +135,8 @@ public class VoicesCrowd implements EntryPoint {
     String originalUAText = "$wnd.navigator.userAgent";
     String prettyUserAgentText = "Browser";
 
-    Tuple tuple = includeUserAgentDetail ? new Tuple(countText, gwtUserAgentText, originalUAText,
-        prettyUserAgentText) : new Tuple(prettyUserAgentText);
+    Tuple<String> tuple = includeUserAgentDetail ? new Tuple<String>(countText, gwtUserAgentText, originalUAText,
+        prettyUserAgentText) : new Tuple<String>(prettyUserAgentText);
 
     for (int i = 0; i < tuple.getElements().length; i++) {
       html.append("<td style='text-align: center; background-color: #ccc; font-weight: bold;'>"
@@ -159,7 +157,6 @@ public class VoicesCrowd implements EntryPoint {
     // result table cells
     String[] results = testResults.getResults();
     for (int i = 0; i < TestResults.MIME_TYPES.length; i++) {
-      String mimeType = TestResults.MIME_TYPES[i].toString();
       String canPlayType = results[i];
       String color = toColor(canPlayType);
       html.append("<td style='text-align: center; font-family: monospace; padding: 0.2em 0.2em; background-color: ");

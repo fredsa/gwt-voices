@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Administrative servlet.
  */
+@SuppressWarnings("serial")
 public class AdminServlet extends HttpServlet {
 
   private static void incrementTestResultCount(
@@ -42,7 +43,6 @@ public class AdminServlet extends HttpServlet {
         pm, new UserAgent(userAgentString), gwtUserAgent, new TestResults(resultsString));
   }
 
-  @SuppressWarnings("unused")
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {

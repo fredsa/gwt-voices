@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings("serial")
 public class TestResults implements Serializable, Comparable<TestResults> {
   private static String MIME_TYPE_AUDIO_MP4 = "audio/mp4";
   private static String MIME_TYPE_AUDIO_MP4_MP4A_40_2 = "audio/mp4; codecs=mp4a.40.2";

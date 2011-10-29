@@ -17,6 +17,7 @@ package com.allen_sauer.gwt.voices.crowd.shared;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MimeType implements Serializable, Comparable<MimeType> {
 
   private String mimeTypeString;
