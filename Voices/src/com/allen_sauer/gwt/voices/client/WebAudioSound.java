@@ -148,9 +148,20 @@ public class WebAudioSound extends AbstractSound {
     voice.buffer = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer;
 
     voice.noteOn(context.currentTime);
+
+    var self = this;
+    setTimeout(
+        function() {
+          self.@com.allen_sauer.gwt.voices.client.WebAudioSound::plackbackCompleted()();
+        }, voice.buffer.duration * 1000);
+
     return true;
   }-*/;
 
+  private void plackbackCompleted() {
+    soundHandlerCollection.fireOnPlaybackComplete(this);
+  }
+  
   @Override
   public void setBalance(int balance) {
     // TODO(fredsa): Auto-generated method stub
