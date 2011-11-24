@@ -12,10 +12,6 @@
 		<property name="googlecode-sourceslabels" value="Type-Sources, OpSys-All, GWT-GWT_2.4.0, Java-1.6, Deprecated" />
 		<property name="filtertoken" value="GWT_VOICES_VERSION" />
 
-		<!-- define Maven coordinates -->
-		<property name="groupId" value="com.allen-sauer.gwt.dnd" />
-		<property name="artifactId" value="gwt-dnd" />
-
 		<!-- define Maven staging repository id and url -->
 		<property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
 		<property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2" />
@@ -79,6 +75,7 @@
 				<echo message="@{file}" />
 			</sequential>
 		</for>
+		<antcall target="tag" />
 
 		<for param="file">
 			<fileset dir="${libdir}">
@@ -89,6 +86,9 @@
 				<echo message="@{file}" />
 			</sequential>
 		</for>
+
+		<antcall target="stat" />
+		<antcall target="heads" />
 
 	</target>
 
@@ -264,25 +264,24 @@
 	</target>
 
 	<target name="stat">
-		<exec executable="svn">
-			<arg value="stat" />
+		<exec executable="git">
+			<arg value="status" />
+		</exec>
+	</target>
+
+	<target name="heads">
+		<exec executable="git">
+			<arg value="show-ref" />
+			<arg value="--heads" />
 		</exec>
 	</target>
 
 	<target name="tag">
-		<exec executable="svn">
-			<arg value="ls" />
-			<arg value="http://${ant.project.name}.googlecode.com/svn/tags/" />
+		<exec executable="git">
+			<arg value="tag" />
+			<arg value="-l" />
+			<arg value="gwt-voices-2*" />
 		</exec>
-		<exec executable="svn">
-			<arg value="info" />
-			<arg value="http://${ant.project.name}.googlecode.com/svn/" />
-		</exec>
-		<echo message="" />
-		<echo message="********************************************************************************************************************************************" />
-		<echo message="svn -m 'for prosterity' cp https://${ant.project.name}.googlecode.com/svn/trunk https://${ant.project.name}.googlecode.com/svn/tags/${ant.project.name}-${libversion}-r" />
-		<echo message="********************************************************************************************************************************************" />
-		<echo message="" />
 	</target>
 
 	<target name="dist" description="Create distribution jar" depends="build,javadoc">
@@ -316,8 +315,15 @@
 			<fileset dir="build/dist" />
 		</copy>
 
-		<antcall target="tag" />
 		<antcall target="stat" />
+		<antcall target="heads" />
+		<exec executable="git">
+			<arg value="tag" />
+			<arg value="-a" />
+			<arg value="-m" />
+			<arg value="for prosterity" />
+			<arg value="${ant.project.name}-${libversion}" />
+		</exec>
 		<antcall target="showlib" />
 
 	</target>
@@ -454,7 +460,7 @@
 		<input addproperty="gae.appcfg" defaultvalue="${gae.appcfg.default}" message="App Engine SDK appcfg.sh location" />
 	</target>
 
-	<target name="gae" description="Build and deploy to gwt-dnd.appspot.com" depends="gae-appcfg, clean, javac, gwtc">
+	<target name="gae" description="Build and deploy to gwt-voices.appspot.com" depends="gae-appcfg, clean, javac, gwtc">
 		<exec executable="${gae.appcfg}">
 			<arg value="update" />
 			<arg value="build/war" />
