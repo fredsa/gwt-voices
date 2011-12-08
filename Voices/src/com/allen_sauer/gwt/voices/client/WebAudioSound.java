@@ -49,9 +49,8 @@ public class WebAudioSound extends AbstractSound {
 
     try {
       createVoice(url, crossOrigin);
-    } catch (Exception e) {
+    } catch (Throwable e) {
       setLoadState(LOAD_STATE_NOT_SUPPORTED);
-      throw e;
     }
 
     MimeTypeSupport mimeTypeSupport = getMimeTypeSupport(mimeType);
@@ -138,7 +137,7 @@ public class WebAudioSound extends AbstractSound {
   }
 
   @Override
-  public boolean play() /*-{
+  public native boolean play() /*-{
     var buffer = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer;
 
     if (buffer == null) {
