@@ -14,7 +14,6 @@
 package com.allen_sauer.gwt.voices.client;
 
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_NOT_SUPPORTED;
-import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_MAYBE_READY;
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORTED_NOT_READY;
 import static com.allen_sauer.gwt.voices.client.Sound.LoadState.LOAD_STATE_SUPPORT_NOT_KNOWN;
 
@@ -48,12 +47,17 @@ public class WebAudioSound extends AbstractSound {
 
     this.mimeType = mimeType;
 
-    createVoice(url, crossOrigin);
+    try {
+      createVoice(url, crossOrigin);
+    } catch (Exception e) {
+      setLoadState(LOAD_STATE_NOT_SUPPORTED);
+      throw e;
+    }
 
     MimeTypeSupport mimeTypeSupport = getMimeTypeSupport(mimeType);
     switch (mimeTypeSupport) {
       case MIME_TYPE_SUPPORT_READY:
-        setLoadState(LOAD_STATE_SUPPORTED_MAYBE_READY);
+        setLoadState(LOAD_STATE_SUPPORTED_NOT_READY);
         break;
       case MIME_TYPE_NOT_SUPPORTED:
         setLoadState(LOAD_STATE_NOT_SUPPORTED);
@@ -97,13 +101,26 @@ public class WebAudioSound extends AbstractSound {
 
     var self = this;
     request.onload = function() {
+      try {
       self.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer = context
           .createBuffer(request.response, false);
+          self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoaded()();
+      } catch(e) {
+          self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoadFailed()();
+      }
     }
 
     request.send();
   }-*/;
 
+  private void soundLoadFailed() {
+    setLoadState(LoadState.LOAD_STATE_NOT_SUPPORTED);
+  }
+
+  private void soundLoaded() {
+    setLoadState(LoadState.LOAD_STATE_SUPPORTED_AND_READY);
+  }
+  
   @Override
   public int getBalance() {
     // TODO(fredsa): Auto-generated method stub
@@ -121,7 +138,13 @@ public class WebAudioSound extends AbstractSound {
   }
 
   @Override
-  public native boolean play() /*-{
+  public boolean play() /*-{
+    var buffer = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer;
+
+    if (buffer == null) {
+      // XHR has not yet returned
+      return false;
+    }
     this.@com.allen_sauer.gwt.voices.client.WebAudioSound::stop()();
     var context = @com.allen_sauer.gwt.voices.client.WebAudioSound::audioContext;
 
@@ -145,7 +168,7 @@ public class WebAudioSound extends AbstractSound {
 
     node.connect(context.destination);
 
-    voice.buffer = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer;
+    voice.buffer = buffer;
 
     voice.noteOn(context.currentTime);
 
