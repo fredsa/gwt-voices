@@ -77,7 +77,7 @@ public class DemoSoundPanel extends Composite {
                 stopButton.setText("stop");
                 break;
               case LOAD_STATE_NOT_SUPPORTED:
-                playButton.setText("(plugin unavailable)");
+                playButton.setText("(sound or plugin unavailable)");
                 break;
               case LOAD_STATE_SUPPORT_NOT_KNOWN:
                 playButton.setEnabled(true);
