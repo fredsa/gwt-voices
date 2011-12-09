@@ -317,6 +317,7 @@
 
 		<antcall target="stat" />
 		<antcall target="heads" />
+
 		<exec executable="git">
 			<arg value="tag" />
 			<arg value="-a" />
@@ -324,6 +325,11 @@
 			<arg value="for prosterity" />
 			<arg value="${ant.project.name}-${libversion}" />
 		</exec>
+		<exec executable="git">
+			<arg value="push" />
+			<arg value="--tags" />
+		</exec>
+
 		<antcall target="showlib" />
 
 	</target>
