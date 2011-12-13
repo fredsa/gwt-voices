@@ -20,42 +20,6 @@
 /Voices/war/WEB-INF/deploy
 /Voices/war/WEB-INF/appengine-generated
 
-# /Voices/war/WEB-INF/lib/
-/Voices/war/WEB-INF/lib/gwt-servlet.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.3.7.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.3.7.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.3.7.jar
-/Voices/war/WEB-INF/lib/datanucleus-appengine-1.0.7.final.jar
-/Voices/war/WEB-INF/lib/datanucleus-core-1.1.5.jar
-/Voices/war/WEB-INF/lib/datanucleus-jpa-1.1.5.jar
-/Voices/war/WEB-INF/lib/geronimo-jpa_3.0_spec-1.1.1.jar
-/Voices/war/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar
-/Voices/war/WEB-INF/lib/jdo2-api-2.3-eb.jar
-/Voices/war/WEB-INF/lib/jsr107cache-1.1.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.4.0.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.4.0.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.4.0.jar
-/Voices/war/WEB-INF/lib/datanucleus-appengine-1.0.8.final.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.4.2.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.4.2.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.4.2.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.4.3.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.4.3.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.4.3.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.0.1.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.5.0.1.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.5.0.1.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.1.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.5.1.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.5.1.jar
-/Voices/war/WEB-INF/lib/datanucleus-appengine-1.0.9.final.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.2.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.5.2.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.5.2.jar
-/Voices/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.5.jar
-/Voices/war/WEB-INF/lib/appengine-api-labs-1.5.5.jar
-/Voices/war/WEB-INF/lib/appengine-jsr107cache-1.5.5.jar
-
 # /VoicesCrowd/war/WEB-INF/
 /VoicesCrowd/war/WEB-INF/deploy
 /VoicesCrowd/war/WEB-INF/classes
@@ -63,26 +27,3 @@
 # /VoicesCrowd/war/WEB-INF/appengine-generated/
 /VoicesCrowd/war/WEB-INF/appengine-generated/datastore-indexes-auto.xml
 /VoicesCrowd/war/WEB-INF/appengine-generated/local_db.bin
-
-# /VoicesCrowd/war/WEB-INF/lib/
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-1.0-sdk-1.4.0.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-labs-1.4.0.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-jsr107cache-1.4.0.jar
-/VoicesCrowd/war/WEB-INF/lib/datanucleus-appengine-1.0.8.final.jar
-/VoicesCrowd/war/WEB-INF/lib/datanucleus-core-1.1.5.jar
-/VoicesCrowd/war/WEB-INF/lib/datanucleus-jpa-1.1.5.jar
-/VoicesCrowd/war/WEB-INF/lib/geronimo-jpa_3.0_spec-1.1.1.jar
-/VoicesCrowd/war/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar
-/VoicesCrowd/war/WEB-INF/lib/jdo2-api-2.3-eb.jar
-/VoicesCrowd/war/WEB-INF/lib/jsr107cache-1.1.jar
-/VoicesCrowd/war/WEB-INF/lib/gwt-servlet.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-1.0-sdk-1.4.2.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-labs-1.4.2.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-jsr107cache-1.4.2.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.1.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-labs-1.5.1.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-jsr107cache-1.5.1.jar
-/VoicesCrowd/war/WEB-INF/lib/datanucleus-appengine-1.0.9.final.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-1.0-sdk-1.5.5.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-api-labs-1.5.5.jar
-/VoicesCrowd/war/WEB-INF/lib/appengine-jsr107cache-1.5.5.jar
