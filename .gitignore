@@ -26,6 +26,8 @@ gwt-unitCache/
 /VoicesCrowd/war/WEB-INF/deploy
 /VoicesCrowd/war/WEB-INF/classes
 
+/VoicesCrowd/war/voicescrowd/
+
 # /VoicesCrowd/war/WEB-INF/appengine-generated/
 /VoicesCrowd/war/WEB-INF/appengine-generated/datastore-indexes-auto.xml
 /VoicesCrowd/war/WEB-INF/appengine-generated/local_db.bin
