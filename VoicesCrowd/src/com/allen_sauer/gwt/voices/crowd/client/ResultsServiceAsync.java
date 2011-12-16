@@ -15,11 +15,11 @@
  */
 package com.allen_sauer.gwt.voices.crowd.client;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
 import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.HashMap;
 import java.util.List;
