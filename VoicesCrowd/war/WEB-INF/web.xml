@@ -14,10 +14,17 @@
   
   <filter>
     <filter-name>appstats</filter-name>
+    <!--
     <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+    -->
+    <filter-class>com.allen_sauer.gwt.voices.crowd.server.VoicesAppstatsFilter</filter-class>
     <init-param>
       <param-name>logMessage</param-name>
       <param-value>Appstats available: /appstats/details?time={ID}</param-value>
+    </init-param>
+    <init-param>
+      <param-name>basePath</param-name>
+      <param-value>/appstats/</param-value>
     </init-param>
   </filter>
 
