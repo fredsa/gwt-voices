@@ -18,11 +18,13 @@ package com.allen_sauer.gwt.voices.crowd.server;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
 
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,33 +33,29 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 public class CsvResultsServlet extends HttpServlet {
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+      IOException {
 
     // Print CSV results
     resp.setHeader("Content-Type", "text/plain");
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try {
-      @SuppressWarnings("unchecked")
-      List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
-          TestResultSummary.class).execute();
-      for (TestResultSummary summary : summaryList) {
-        TestResults testResults = summary.getTestResults();
-        PrintWriter writer = resp.getWriter();
-        StringBuffer buffer = new StringBuffer();
+    @SuppressWarnings("unchecked")
+    Objectify ofy = ObjectifyService.begin();
+    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(1000).list();
 
-        buffer.append('"').append(summary.getPrettyUserAgent()).append('"');
-        buffer.append(',');
-        buffer.append('"').append(summary.getGwtUserAgent()).append('"');
-        buffer.append(',');
-        buffer.append('"').append(summary.getUserAgent()).append('"');
-        buffer.append(',');
-        buffer.append('"').append(testResults.toString()).append('"');
+    for (TestResultSummary summary : summaryList) {
+      TestResults testResults = summary.getTestResults();
+      PrintWriter writer = resp.getWriter();
+      StringBuffer buffer = new StringBuffer();
 
-        writer.println(buffer);
-      }
-    } finally {
-      pm.close();
+      buffer.append('"').append(summary.getPrettyUserAgent()).append('"');
+      buffer.append(',');
+      buffer.append('"').append(summary.getGwtUserAgent()).append('"');
+      buffer.append(',');
+      buffer.append('"').append(summary.getUserAgent()).append('"');
+      buffer.append(',');
+      buffer.append('"').append(testResults.toString()).append('"');
+
+      writer.println(buffer);
     }
   }
 

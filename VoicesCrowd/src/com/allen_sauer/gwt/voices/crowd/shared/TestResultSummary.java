@@ -21,6 +21,7 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
 
 @SuppressWarnings("serial")
 @PersistenceCapable
@@ -40,6 +41,7 @@ public class TestResultSummary implements Serializable {
   @SuppressWarnings("unused")
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  @Id
   private Long key;
 
   @Persistent
