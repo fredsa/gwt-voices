@@ -203,12 +203,13 @@ public class Util {
         out.write(buffer, 0, byteCount);
       }
       String pageContent = out.toString("UTF-8");
-      Pattern pattern = Pattern.compile("var userAgentPretty = '(.*?)';");
+      Pattern pattern = Pattern.compile("<strong id=\"bs-cur-ua-summary\">(.*?)</strong>");
       Matcher matcher = pattern.matcher(pageContent);
       if (matcher.find()) {
         String prettyUserAgent = matcher.group(1);
         return new UserAgentSummary(userAgentString, prettyUserAgent, gwtUserAgent);
       } else {
+        sendEmail("browserscope failed to recognize " + userAgentString, pageContent);
         return null;
       }
     } finally {
