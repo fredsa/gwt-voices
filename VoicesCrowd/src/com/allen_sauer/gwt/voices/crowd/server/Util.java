@@ -15,6 +15,11 @@
  */
 package com.allen_sauer.gwt.voices.crowd.server;
 
+import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
+import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
+import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
+import com.allen_sauer.gwt.voices.crowd.shared.UserAgentSummary;
+
 import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailService.Message;
 import com.google.appengine.api.mail.MailServiceFactory;
@@ -23,11 +28,6 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
-
-import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
-import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
-import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
-import com.allen_sauer.gwt.voices.crowd.shared.UserAgentSummary;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -42,21 +42,17 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 public class Util {
 
   private static final Logger logger = Logger.getLogger(Util.class.getName());
 
   private static final int BUFFER_SIZE = 4096;
 
-  public static TestResultSummary incrementTestResultCount(PersistenceManager pm,
-      UserAgent userAgent, String gwtUserAgent, TestResults testResults) throws IOException {
+  public static TestResultSummary incrementTestResultCount(UserAgent userAgent,
+      String gwtUserAgent, TestResults testResults) throws IOException {
     logger.log(Level.INFO, "incrementTestResultCount(pm, " + userAgent + ", " + gwtUserAgent + ", "
         + testResults + ")");
-    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(pm, userAgent.toString(),
-        gwtUserAgent);
+    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(userAgent.toString(), gwtUserAgent);
     logger.log(Level.INFO, "userAgentSummary=" + userAgentSummary);
 
     Objectify ofy = ObjectifyService.begin();
@@ -89,7 +85,7 @@ public class Util {
       summary.incrementCount(1);
 
       if (summary.getPrettyUserAgent() == null) {
-        summary.setPrettyUserAgent(lookupPrettyUserAgent(pm, userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
+        summary.setPrettyUserAgent(lookupPrettyUserAgent(userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
       }
     }
 
@@ -112,15 +108,14 @@ public class Util {
 
   /**
    * Lookup a human readable user agent.
-   * 
-   * @param pm persistence manager
    * @param userAgentString raw user agent string
    * @param gwtUserAgent GWT {code user.agent} property value
+   * 
    * @return human readable user agent
    * @throws IOException maybe
    */
-  public static UserAgentSummary lookupPrettyUserAgent(PersistenceManager pm,
-      String userAgentString, String gwtUserAgent) throws IOException {
+  public static UserAgentSummary lookupPrettyUserAgent(String userAgentString,
+      String gwtUserAgent) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     UserAgentSummary userAgentSummary = null;
@@ -137,7 +132,7 @@ public class Util {
     } else {
 
       // Next, try the datastore
-      userAgentSummary = lookupUserAgentInDatastore(pm, userAgentString);
+      userAgentSummary = lookupUserAgentInDatastore(userAgentString);
 
       // Next, browserscope it
       if (userAgentSummary == null) {
@@ -146,14 +141,19 @@ public class Util {
         } catch (Exception e) {
           logger.log(Level.SEVERE, "Unable to lookup new user agent in BrowserScope: "
               + userAgentString, e);
-          userAgentSummary = new UserAgentSummary(userAgentString, null, gwtUserAgent);
         }
+      }
+      
+      // Browserscope lookup returned null or threw exception
+      if (userAgentSummary == null) {
+        userAgentSummary = new UserAgentSummary(userAgentString, null, gwtUserAgent);
       }
 
       // Store result in memcache
       if (userAgentSummary != null) {
         if (userAgentSummary.getPrettyUserAgent() != null) {
-          pm.makePersistent(userAgentSummary);
+          Objectify ofy = ObjectifyService.begin();
+          ofy.put(userAgentSummary);
         }
         mc.put(userAgentString, userAgentSummary);
       }
@@ -163,21 +163,15 @@ public class Util {
 
   /**
    * Lookup a human readable user agent in the datastore.
-   * 
-   * @param pm persistence manager
    * @param userAgentString raw user agent string
+   * 
    * @return human readable user agent or {@code null}
    */
-  public static UserAgentSummary lookupUserAgentInDatastore(PersistenceManager pm,
-      String userAgentString) {
-    Query query = pm.newQuery(UserAgentSummary.class, "userAgentString == userAgentStringParam");
-    query.declareParameters("String userAgentStringParam");
-    @SuppressWarnings("unchecked")
-    List<UserAgentSummary> uaList = (List<UserAgentSummary>) query.execute(userAgentString);
-    if (!uaList.isEmpty()) {
-      return uaList.get(0);
-    }
-    return null;
+  public static UserAgentSummary lookupUserAgentInDatastore(String userAgentString) {
+    Objectify ofy = ObjectifyService.begin();
+    com.googlecode.objectify.Query<UserAgentSummary> q = ofy.query(UserAgentSummary.class);
+    q.filter("userAgentString", userAgentString);
+    return q.get();
   }
 
   /**

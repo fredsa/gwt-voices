@@ -16,6 +16,7 @@
 package com.allen_sauer.gwt.voices.crowd.server;
 
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
+import com.allen_sauer.gwt.voices.crowd.shared.UserAgentSummary;
 
 import com.googlecode.objectify.ObjectifyService;
 
@@ -27,6 +28,7 @@ public class VoicesContextListener implements ServletContextListener {
 
   public void contextInitialized(ServletContextEvent arg0) {
     ObjectifyService.register(TestResultSummary.class);
+    ObjectifyService.register(UserAgentSummary.class);
   }
 
   public void contextDestroyed(ServletContextEvent arg0) {

@@ -15,6 +15,11 @@
  */
 package com.allen_sauer.gwt.voices.crowd.server;
 
+import com.allen_sauer.gwt.voices.crowd.client.ResultsService;
+import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
+import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
+import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
+
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
@@ -24,18 +29,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
-import com.allen_sauer.gwt.voices.crowd.client.ResultsService;
-import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
-import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
-import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("serial")
@@ -44,14 +43,11 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   private static final Logger logger = Logger.getLogger(ResultsServiceImpl.class.getName());
 
   public HashMap<UserAgent, TestResults> getResults() {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      return getResultsImpl(pm);
+      return getResultsImpl();
     } catch (Exception ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving results", ex);
       return null;
-    } finally {
-      pm.close();
     }
   }
 
@@ -69,15 +65,12 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
 
   public TestResultSummary storeResults(UserAgent userAgent, String gwtUserAgent,
       TestResults results) {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      return storeResultsImpl(pm, userAgent, gwtUserAgent, results);
+      return storeResultsImpl(userAgent, gwtUserAgent, results);
     } catch (Throwable ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception storing results", ex);
       Util.sendEmail("storeResults() threw an exception", ex.toString());
       throw new RuntimeException(ex);
-    } finally {
-      pm.close();
     }
   }
 
@@ -91,7 +84,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     }
   }
 
-  private HashMap<UserAgent, TestResults> getResultsImpl(PersistenceManager pm) {
+  private HashMap<UserAgent, TestResults> getResultsImpl() {
     HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
     Objectify ofy = ObjectifyService.begin();
     List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(1000).list();
@@ -102,8 +95,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     return map;
   }
 
-  private TestResultSummary storeResultsImpl(PersistenceManager pm, UserAgent userAgent,
-      String gwtUserAgent, TestResults testResults) throws IOException {
+  private TestResultSummary storeResultsImpl(UserAgent userAgent, String gwtUserAgent,
+      TestResults testResults) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     HttpServletRequest request = getThreadLocalRequest();
@@ -119,8 +112,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     if (s != null) {
       return s;
     }
-    TestResultSummary testResultSummary = Util.incrementTestResultCount(pm, userAgent,
-        gwtUserAgent, testResults);
+    TestResultSummary testResultSummary = Util.incrementTestResultCount(userAgent, gwtUserAgent,
+        testResults);
     mc.put(memcacheThrottleKey, testResultSummary, Expiration.byDeltaSeconds(getExpiration()));
     return testResultSummary;
   }

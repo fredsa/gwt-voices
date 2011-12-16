@@ -17,22 +17,15 @@ package com.allen_sauer.gwt.voices.crowd.shared;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.persistence.Id;
 
 @SuppressWarnings("serial")
-@PersistenceCapable
 public class UserAgentSummary implements Serializable {
-  @Persistent
   private String gwtUserAgent;
 
-  @Persistent
   private String prettyUserAgent;
 
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  @Id
   private String userAgentString;
 
   public UserAgentSummary(String userAgentString, String prettyUserAgent, String gwtUserAgent) {
