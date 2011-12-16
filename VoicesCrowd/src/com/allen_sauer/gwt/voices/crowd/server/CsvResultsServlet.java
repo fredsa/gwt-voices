@@ -38,7 +38,6 @@ public class CsvResultsServlet extends HttpServlet {
 
     // Print CSV results
     resp.setHeader("Content-Type", "text/plain");
-    @SuppressWarnings("unchecked")
     Objectify ofy = ObjectifyService.begin();
     List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(1000).list();
 

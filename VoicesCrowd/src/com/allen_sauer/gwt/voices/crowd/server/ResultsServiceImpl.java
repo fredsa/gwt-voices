@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -21,13 +21,15 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+
 import com.allen_sauer.gwt.voices.crowd.client.ResultsService;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
 import com.allen_sauer.gwt.voices.crowd.shared.UserAgent;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,24 +56,19 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   }
 
   public List<TestResultSummary> getSummary() {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
-      @SuppressWarnings("unchecked")
-      List<TestResultSummary> results = (List<TestResultSummary>) pm.newQuery(
-          TestResultSummary.class).execute();
-      return new ArrayList<TestResultSummary>(results);
+      Objectify ofy = ObjectifyService.begin();
+      return ofy.query(TestResultSummary.class).chunkSize(1000).list();
     } catch (Throwable ex) {
-      Logger.getAnonymousLogger().log(
-          Level.SEVERE, "Unexpected exception retrieving summary data", ex);
+      Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving summary data",
+          ex);
       Util.sendEmail("getSummary() threw an exception", ex.toString());
       throw new RuntimeException(ex);
-    } finally {
-      pm.close();
     }
   }
 
-  public TestResultSummary storeResults(
-      UserAgent userAgent, String gwtUserAgent, TestResults results) {
+  public TestResultSummary storeResults(UserAgent userAgent, String gwtUserAgent,
+      TestResults results) {
     PersistenceManager pm = PMF.get().getPersistenceManager();
     try {
       return storeResultsImpl(pm, userAgent, gwtUserAgent, results);
@@ -96,9 +93,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
 
   private HashMap<UserAgent, TestResults> getResultsImpl(PersistenceManager pm) {
     HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
-    @SuppressWarnings("unchecked")
-    List<TestResultSummary> summaryList = (List<TestResultSummary>) pm.newQuery(
-        TestResultSummary.class).execute();
+    Objectify ofy = ObjectifyService.begin();
+    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(1000).list();
     for (TestResultSummary summary : summaryList) {
       TestResults testResults = summary.getTestResults();
       map.put(new UserAgent(summary.getUserAgent()), testResults);
@@ -106,9 +102,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     return map;
   }
 
-  private TestResultSummary storeResultsImpl(
-      PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
-      throws IOException {
+  private TestResultSummary storeResultsImpl(PersistenceManager pm, UserAgent userAgent,
+      String gwtUserAgent, TestResults testResults) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     HttpServletRequest request = getThreadLocalRequest();
@@ -124,8 +119,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
     if (s != null) {
       return s;
     }
-    TestResultSummary testResultSummary = Util.incrementTestResultCount(
-        pm, userAgent, gwtUserAgent, testResults);
+    TestResultSummary testResultSummary = Util.incrementTestResultCount(pm, userAgent,
+        gwtUserAgent, testResults);
     mc.put(memcacheThrottleKey, testResultSummary, Expiration.byDeltaSeconds(getExpiration()));
     return testResultSummary;
   }

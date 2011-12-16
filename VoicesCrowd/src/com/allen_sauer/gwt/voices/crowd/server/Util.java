@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,6 +20,9 @@ import com.google.appengine.api.mail.MailService.Message;
 import com.google.appengine.api.mail.MailServiceFactory;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
 
 import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
 import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
@@ -48,28 +51,27 @@ public class Util {
 
   private static final int BUFFER_SIZE = 4096;
 
-  public static TestResultSummary incrementTestResultCount(
-      PersistenceManager pm, UserAgent userAgent, String gwtUserAgent, TestResults testResults)
-      throws IOException {
-    logger.log(Level.INFO,
-        "incrementTestResultCount(pm, " + userAgent + ", " + gwtUserAgent + ", " + testResults
-            + ")");
-    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(
-        pm, userAgent.toString(), gwtUserAgent);
+  public static TestResultSummary incrementTestResultCount(PersistenceManager pm,
+      UserAgent userAgent, String gwtUserAgent, TestResults testResults) throws IOException {
+    logger.log(Level.INFO, "incrementTestResultCount(pm, " + userAgent + ", " + gwtUserAgent + ", "
+        + testResults + ")");
+    UserAgentSummary userAgentSummary = lookupPrettyUserAgent(pm, userAgent.toString(),
+        gwtUserAgent);
     logger.log(Level.INFO, "userAgentSummary=" + userAgentSummary);
-    Query query = pm.newQuery(TestResultSummary.class);
-    query.setFilter(
-        "userAgent == userAgentParam && gwtUserAgent == gwtUserAgentParam && results == resultsParam");
-    query.declareParameters("String userAgentParam, String gwtUserAgentParam, String resultsParam");
-    @SuppressWarnings("unchecked")
-    List<TestResultSummary> summaryList = (List<TestResultSummary>) query.execute(
-        userAgent.toString(), gwtUserAgent, testResults.toString());
+
+    Objectify ofy = ObjectifyService.begin();
+    com.googlecode.objectify.Query<TestResultSummary> q = ofy.query(TestResultSummary.class);
+    q.filter("userAgent", userAgent.toString());
+    q.filter("gwtUserAgent", gwtUserAgent);
+    q.filter("results", testResults.toString());
+    List<TestResultSummary> summaryList = q.list();
     logger.log(Level.INFO, "summaryList.size()=" + summaryList.size());
 
     TestResultSummary summary;
+
     if (summaryList.isEmpty()) {
-      summary = new TestResultSummary(
-          userAgent, userAgentSummary.getPrettyUserAgent(), gwtUserAgent, testResults);
+      summary = new TestResultSummary(userAgent, userAgentSummary.getPrettyUserAgent(),
+          gwtUserAgent, testResults);
       String subject = "new user-agent";
       String msg = "TestResultSummary=" + summary;
       sendEmail(subject, msg);
@@ -80,18 +82,18 @@ public class Util {
         // merge rows in case race condition caused > 1 row to be inserted
         TestResultSummary anotherSummary = summaryList.get(1);
         summary.incrementCount(anotherSummary.getCount());
-        pm.deletePersistent(anotherSummary);
+        ofy.delete(anotherSummary);
       }
 
       // count the current test results
       summary.incrementCount(1);
 
       if (summary.getPrettyUserAgent() == null) {
-        summary.setPrettyUserAgent(
-            lookupPrettyUserAgent(pm, userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
+        summary.setPrettyUserAgent(lookupPrettyUserAgent(pm, userAgent.toString(), gwtUserAgent).getPrettyUserAgent());
       }
     }
-    pm.makePersistent(summary);
+
+    ofy.put(summary);
     return summary;
   }
 
@@ -117,8 +119,8 @@ public class Util {
    * @return human readable user agent
    * @throws IOException maybe
    */
-  public static UserAgentSummary lookupPrettyUserAgent(
-      PersistenceManager pm, String userAgentString, String gwtUserAgent) throws IOException {
+  public static UserAgentSummary lookupPrettyUserAgent(PersistenceManager pm,
+      String userAgentString, String gwtUserAgent) throws IOException {
     MemcacheService mc = MemcacheServiceFactory.getMemcacheService();
 
     UserAgentSummary userAgentSummary = null;
@@ -142,8 +144,8 @@ public class Util {
         try {
           userAgentSummary = lookupUserAgentInBrowserScope(userAgentString, gwtUserAgent);
         } catch (Exception e) {
-          logger.log(Level.SEVERE,
-              "Unable to lookup new user agent in BrowserScope: " + userAgentString, e);
+          logger.log(Level.SEVERE, "Unable to lookup new user agent in BrowserScope: "
+              + userAgentString, e);
           userAgentSummary = new UserAgentSummary(userAgentString, null, gwtUserAgent);
         }
       }
@@ -166,8 +168,8 @@ public class Util {
    * @param userAgentString raw user agent string
    * @return human readable user agent or {@code null}
    */
-public static UserAgentSummary lookupUserAgentInDatastore(
-      PersistenceManager pm, String userAgentString) {
+  public static UserAgentSummary lookupUserAgentInDatastore(PersistenceManager pm,
+      String userAgentString) {
     Query query = pm.newQuery(UserAgentSummary.class, "userAgentString == userAgentStringParam");
     query.declareParameters("String userAgentStringParam");
     @SuppressWarnings("unchecked")
@@ -188,9 +190,8 @@ public static UserAgentSummary lookupUserAgentInDatastore(
    * @throws IOException maybe
    * @throws UnsupportedEncodingException maybe
    */
-  public static UserAgentSummary lookupUserAgentInBrowserScope(
-      String userAgentString, String gwtUserAgent)
-      throws MalformedURLException, IOException, UnsupportedEncodingException {
+  public static UserAgentSummary lookupUserAgentInBrowserScope(String userAgentString,
+      String gwtUserAgent) throws MalformedURLException, IOException, UnsupportedEncodingException {
     URL url = new URL("http://www.browserscope.org/");
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestProperty("User-Agent", userAgentString);
