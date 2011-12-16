@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -37,7 +37,7 @@ public class VoicesCrowd implements EntryPoint {
   public static native String canPlayType(String mimeType) /*-{
     var audio = document.createElement('audio');
     if (!audio.canPlayType) {
-    return "";
+      return "";
     }
     return audio.canPlayType(mimeType);
   }-*/;
@@ -75,8 +75,7 @@ public class VoicesCrowd implements EntryPoint {
     service.getSummary(new AsyncCallback<List<TestResultSummary>>() {
 
       public void onFailure(Throwable caught) {
-        logAlways(
-            "<b style='color:red;'>Failed to retrieve results. Check server logs for details.</b>");
+        logAlways("<b style='color:red;'>Failed to retrieve results. Check server logs for details.</b>");
         removeLoadingMessage();
       }
 
@@ -135,8 +134,8 @@ public class VoicesCrowd implements EntryPoint {
     String originalUAText = "$wnd.navigator.userAgent";
     String prettyUserAgentText = "Browser";
 
-    Tuple<String> tuple = includeUserAgentDetail ? new Tuple<String>(countText, gwtUserAgentText, originalUAText,
-        prettyUserAgentText) : new Tuple<String>(prettyUserAgentText);
+    Tuple<String> tuple = includeUserAgentDetail ? new Tuple<String>(countText, gwtUserAgentText,
+        originalUAText, prettyUserAgentText) : new Tuple<String>(prettyUserAgentText);
 
     for (int i = 0; i < tuple.getElements().length; i++) {
       html.append("<td style='text-align: center; background-color: #ccc; font-weight: bold;'>"
@@ -257,7 +256,7 @@ public class VoicesCrowd implements EntryPoint {
         new AsyncCallback<TestResultSummary>() {
 
           public void onFailure(Throwable caught) {
-            log("<b style='color:red;'>Failed to send our test results.</b>");
+            logAlways("<b style='color:#bbb;'>Failed to send our test results.</b>");
             getAndDisplaySummaryResults();
           }
 
