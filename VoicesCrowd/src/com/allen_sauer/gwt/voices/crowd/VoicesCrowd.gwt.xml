@@ -33,7 +33,10 @@
 
   <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderIe8">
     <when-type-assignable class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProvider" />
-    <when-property-is name="user.agent" value="ie8" />
+    <any>
+      <when-property-is name="user.agent" value="ie8" />
+      <when-property-is name="user.agent" value="ie9" />
+    </any>
   </replace-with>
 
   <replace-with class="com.allen_sauer.gwt.voices.crowd.client.UserAgentProviderGecko">
