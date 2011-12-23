@@ -172,11 +172,13 @@ public class WebAudioSound extends AbstractSound {
     voice.noteOn(context.currentTime);
 
     // TODO Replace setTimeout() once https://bugs.webkit.org/show_bug.cgi?id=71942 is fixed
-    var self = this;
-    setTimeout(
+    if (!voice.loop) {
+      var self = this;
+      setTimeout(
         function() {
           self.@com.allen_sauer.gwt.voices.client.WebAudioSound::plackbackCompleted()();
         }, voice.buffer.duration * 1000);
+    }
 
     return true;
   }-*/;
