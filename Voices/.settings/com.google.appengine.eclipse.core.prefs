@@ -1,5 +1,19 @@
-#Tue Dec 13 10:25:46 PST 2011
+#Thu Dec 22 15:56:16 PST 2011
 eclipse.preferences.version=1
-filesCopiedToWebInfLib=datanucleus-core-1.1.5.jar|datanucleus-appengine-1.0.10.final.jar|jdo2-api-2.3-eb.jar|geronimo-jpa_3.0_spec-1.1.1.jar|geronimo-jta_1.1_spec-1.1.1.jar|datanucleus-jpa-1.1.5.jar|appengine-api-labs-1.6.0.jar|jsr107cache-1.1.jar|appengine-jsr107cache-1.6.0.jar|appengine-api-1.0-sdk-1.6.0.jar
+filesCopiedToWebInfLib=appengine-jsr107cache-1.6.1.jar|appengine-api-1.0-sdk-1.6.1.jar|jsr107cache-1.1.jar|appengine-api-labs-1.6.1.jar|google_sql.jar
+gaeDatanucleusEnabled=false
 gaeDeployDialogSettings=
+gaeIsEclipseDefaultInstPath=true
+googleCloudSqlEnabled=false
+localDevMySqlEnabled=false
 ormEnhancementInclusions=
+prodDatabaseName=fred
+prodDatabasePassword=
+prodDatabaseUser=
+prodInstanceName=googlecom\:fredsa
+prodIsConfigured=true
+testDatabaseName=fred
+testDatabasePassword=
+testDatabaseUser=
+testInstanceName=googlecom\:fredsa
+testIsConfigured=true
