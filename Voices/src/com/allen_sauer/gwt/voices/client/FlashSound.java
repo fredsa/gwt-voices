@@ -53,7 +53,6 @@ public class FlashSound extends AbstractSound {
 
   private int balance = SoundController.DEFAULT_BALANCE;
   private boolean looping = SoundController.DEFAULT_LOOPING;
-  private boolean playSoundWhenLoaded = false;
   private final int soundNumber;
   private boolean soundRegistered = false;
   private final VoicesMovie voicesMovie;
@@ -102,8 +101,6 @@ public class FlashSound extends AbstractSound {
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       // true indicates the sound was played
       return voicesMovie.playSound(soundNumber);
-    } else if (!isStreaming()) {
-      playSoundWhenLoaded = true;
     }
     // sound was not played, return false
     return false;
@@ -141,8 +138,6 @@ public class FlashSound extends AbstractSound {
   public void stop() {
     if (getLoadState() == LOAD_STATE_SUPPORTED_AND_READY) {
       voicesMovie.stopSound(soundNumber);
-    } else {
-      playSoundWhenLoaded = false;
     }
   }
 
@@ -160,10 +155,6 @@ public class FlashSound extends AbstractSound {
     }
     if (looping != SoundController.DEFAULT_LOOPING) {
       voicesMovie.setLooping(soundNumber, looping);
-    }
-    if (playSoundWhenLoaded) {
-      play();
-      playSoundWhenLoaded = false;
     }
   }
 
