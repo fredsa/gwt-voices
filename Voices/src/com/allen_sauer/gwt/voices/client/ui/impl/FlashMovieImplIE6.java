@@ -15,7 +15,7 @@ package com.allen_sauer.gwt.voices.client.ui.impl;
 
 import com.google.gwt.user.client.Element;
 
-/*
+/**
  * {@link com.allen_sauer.gwt.voices.client.ui.FlashMovie} implementation for IE.
  */
 public class FlashMovieImplIE6 extends FlashMovieImpl {
@@ -39,8 +39,8 @@ public class FlashMovieImplIE6 extends FlashMovieImpl {
   }-*/;
 
   /**
-   * Returns an IE specific version string such as <code>WIN&nbsp;9,0,47,0</code> or
-   * <code>UNIX&nbsp;9,0,47,0</code>, starting with Flash Player version 4,0,11,0. Earlier versions
+   * Returns an IE specific version string such as {@literal WIN&nbsp;9,0,47,0} or
+   * {@literal UNIX&nbsp;9,0,47,0}, starting with Flash Player version 4,0,11,0. Earlier versions
    * are not currently detected and result in <code>null</code> being returned.
    *
    * @return IE specific Flash plug-in version string or <code>null</code> if version could not be
