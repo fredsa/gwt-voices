@@ -214,8 +214,8 @@ public class WebAudioSound extends AbstractSound {
   }-*/;
 
   @Override
-  public String getSoundType() {
-    return "Web Audio";
+  public SoundType getSoundType() {
+    return SoundType.WEB_AUDIO;
   }
 
 }

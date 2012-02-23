@@ -23,7 +23,7 @@ import com.allen_sauer.gwt.voices.client.ui.VoicesMovie;
 import java.util.ArrayList;
 
 /**
- * <a href= 'http://www.adobe.com/products/flashplayer/'>Adobe&nbsp;Flash&nbsp;Player</a> based
+ * <a href= 'http://www.adobe.com/products/flashplayer/'>Adobe Flash Player</a> based
  * sound.
  */
 public class FlashSound extends AbstractSound {
@@ -86,8 +86,8 @@ public class FlashSound extends AbstractSound {
   }
 
   @Override
-  public String getSoundType() {
-    return "Flash";
+  public SoundType getSoundType() {
+    return SoundType.FLASH;
   }
 
   @Override

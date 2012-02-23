@@ -98,7 +98,7 @@ public class SoundController {
    */
   protected final Element soundContainer = DOM.createDiv();
   private int defaultVolume = DEFAULT_VOLUME;
-  private Class<? extends Sound>[] preferredSoundClass;
+  private SoundType[] preferredSoundTypes;
   private VoicesMovie voicesWrapper;
 
   /**
@@ -146,15 +146,15 @@ public class SoundController {
   }
 
   /**
-   * Determine the current default sound type for new sounds.
+   * Determine the current preferred sound types for new sounds.
    *
-   * @return the current default sound type
+   * @return the current preferred sound types
    *
-   * @deprecated this method is a temporary stop-gap, may be retired at any time
+   * @deprecated this method will be removed in a future release
    */
   @Deprecated
-  public Class<? extends Sound>[] getPreferredSoundType() {
-    return preferredSoundClass;
+  public SoundType[] getPreferredSoundTypes() {
+    return preferredSoundTypes;
   }
 
   /**
@@ -171,18 +171,17 @@ public class SoundController {
    * Set preferred {@link Sound} class: {@link Html5Sound}, {@link FlashSound},
    * {@link NativeSound}.
    *
-   * @param <S> the preferred Sound class
-   * @param clazz the Class object representing the desired type
+   * @param soundTypes the preferred sound types
    *
    * @deprecated this method is a temporary stop-gap, may be retired at any
    *             time, and may be made to do nothing at all without warning
    */
   @Deprecated
-  public <S extends Sound> void setPreferredSoundType(Class<S>... clazz) {
-    for (Class<S> c : clazz) {
-      assert c != null;
+  public void setPreferredSoundTypes(SoundType... soundTypes) {
+    for (SoundType s : soundTypes) {
+      assert s != null;
     }
-    preferredSoundClass = clazz;
+    preferredSoundTypes = soundTypes;
   }
 
   /**
@@ -221,33 +220,23 @@ public class SoundController {
 
   private Sound createSoundImpl(String mimeType, String url, boolean streaming, boolean crossOrigin) {
     Sound sound = null;
-    for (Class<? extends Sound> c : preferredSoundClass) {
-      if (c == FlashSound.class) {
-        sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
-        if (sound != null) {
-          return sound;
-        }
+    for (SoundType c : preferredSoundTypes) {
+      switch(c) {
+        case HTML5:
+          sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
+          break;
+        case FLASH:
+          sound = createSoundImplFlash(mimeType, url, streaming, crossOrigin);
+          break;
+        case NATIVE:
+          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+          break;
+        case WEB_AUDIO:
+          sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
+          break;
       }
-      
-      if (c == Html5Sound.class) {
-        sound = createSoundImplHtml5(mimeType, url, streaming, crossOrigin);
-        if (sound != null) {
-          return sound;
-        }
-      }
-      
-      if (c == WebAudioSound.class) {
-        sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
-        if (sound != null) {
-          return sound;
-        }
-      }
-      
-      if (c == NativeSound.class) {
-        sound = createSoundImplWebAudio(mimeType, url, streaming, crossOrigin);
-        if (sound != null) {
-          return sound;
-        }
+      if (sound != null) {
+        return sound;
       }
     }
 
@@ -297,20 +286,19 @@ public class SoundController {
     return null;
   }
 
-  @SuppressWarnings("unchecked")
   private void initSoundContainer() {
     String gwtVoices = Window.Location.getParameter(SoundType.QUERY_PARAMETER_NAME);
     if (SoundType.FLASH.getQueryParameterValue().equals(gwtVoices)) {
-      setPreferredSoundType(FlashSound.class);
+      setPreferredSoundTypes(SoundType.FLASH);
     } else if (SoundType.HTML5.getQueryParameterValue().equals(gwtVoices)) {
-      setPreferredSoundType(Html5Sound.class);
+      setPreferredSoundTypes(SoundType.HTML5);
     } else if (SoundType.WEB_AUDIO.getQueryParameterValue().equals(gwtVoices)) {
-      setPreferredSoundType(WebAudioSound.class);
+      setPreferredSoundTypes(SoundType.WEB_AUDIO);
     } else if (SoundType.NATIVE.getQueryParameterValue().equals(gwtVoices)) {
-      setPreferredSoundType(NativeSound.class);
+      setPreferredSoundTypes(SoundType.NATIVE);
     } else {
       // For now, prefer Flash over HTML5
-      setPreferredSoundType(new Class[] {WebAudioSound.class, FlashSound.class, Html5Sound.class});
+      setPreferredSoundTypes(SoundType.WEB_AUDIO, SoundType.FLASH, SoundType.HTML5);
     }
 
     // place off screen with fixed dimensions and overflow:hidden

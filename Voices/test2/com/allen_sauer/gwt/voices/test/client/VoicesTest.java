@@ -30,10 +30,9 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import com.allen_sauer.gwt.voices.client.FlashSound;
-import com.allen_sauer.gwt.voices.client.Html5Sound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundType;
 import com.allen_sauer.gwt.voices.client.handler.PlaybackCompleteEvent;
 import com.allen_sauer.gwt.voices.client.handler.SoundHandler;
 import com.allen_sauer.gwt.voices.client.handler.SoundLoadStateChangeEvent;
@@ -181,7 +180,7 @@ public class VoicesTest implements EntryPoint {
     });
   }
 
-  @SuppressWarnings({"deprecation", "unchecked"})
+  @SuppressWarnings({"deprecation"})
   private void addPlaybackTests() {
     final String[] urls = new String[] {
         "freesoundproject/36846__EcoDTR__LaserRocket.mp3",
@@ -190,8 +189,8 @@ public class VoicesTest implements EntryPoint {
     String[] mimeTypes = new String[] {
         Sound.MIME_TYPE_AUDIO_MPEG, Sound.MIME_TYPE_AUDIO_X_WAV, Sound.MIME_TYPE_AUDIO_MPEG,};
     SoundController sc = new SoundController();
-    sc.setPreferredSoundType(FlashSound.class);
-    sc.setPreferredSoundType(Html5Sound.class);
+    sc.setPreferredSoundTypes(SoundType.FLASH);
+    sc.setPreferredSoundTypes(SoundType.HTML5);
 
     for (int i = 0; i < urls.length; i++) {
       String mimeType = mimeTypes[i];
@@ -203,11 +202,11 @@ public class VoicesTest implements EntryPoint {
     addButton(sc, Sound.MIME_TYPE_AUDIO_MPEG, Bundle.RESOURCES.junggleNoEmbed().getUrl());
   }
 
-  @SuppressWarnings({"deprecation", "unchecked"})
+  @SuppressWarnings({"deprecation"})
   private void startChannelTest() {
     SoundController sc = new SoundController();
-    sc.setPreferredSoundType(Html5Sound.class);
-    sc.setPreferredSoundType(FlashSound.class);
+    sc.setPreferredSoundTypes(SoundType.HTML5);
+    sc.setPreferredSoundTypes(SoundType.FLASH);
     final Sound[] sounds = new Sound[CHANNELS];
     final HTML[] status = new HTML[CHANNELS];
 

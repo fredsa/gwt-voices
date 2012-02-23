@@ -92,8 +92,8 @@ public class NativeSound extends AbstractSound {
   }
 
   @Override
-  public String getSoundType() {
-    return element.getNodeName();
+  public SoundType getSoundType() {
+    return SoundType.NATIVE;
   }
 
   @Override

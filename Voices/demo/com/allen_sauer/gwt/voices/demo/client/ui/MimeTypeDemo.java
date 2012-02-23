@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
+import com.allen_sauer.gwt.voices.client.SoundType;
 import com.allen_sauer.gwt.voices.demo.client.DemoClientBundle;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundHandler;
 import com.allen_sauer.gwt.voices.demo.client.DemoSoundPanel;
@@ -30,23 +31,23 @@ import java.util.ArrayList;
 public class MimeTypeDemo extends DeferredContentPanel {
   private final DemoSoundHandler demoSoundHandler;
   private final String mimeType;
-  private final Class<? extends Sound> preferredSoundClass;
+  private final SoundType preferredSoundType;
   private final ArrayList<ThirdPartySound> thirdPartySoundList;
 
   public MimeTypeDemo(String mimeType, ArrayList<ThirdPartySound> thirdPartySoundList,
-      DemoSoundHandler demoSoundHandler, Class<? extends Sound> preferredSoundClass) {
+      DemoSoundHandler demoSoundHandler, SoundType soundType) {
     this.mimeType = mimeType;
     this.thirdPartySoundList = thirdPartySoundList;
     this.demoSoundHandler = demoSoundHandler;
-    this.preferredSoundClass = preferredSoundClass;
+    this.preferredSoundType = soundType;
   }
 
-  @SuppressWarnings({"deprecation", "unchecked"})
+  @SuppressWarnings({"deprecation"})
   @Override
   public Panel initContent() {
     VerticalPanel containerPanel = new VerticalPanel();
     SoundController soundController = new SoundController();
-    soundController.setPreferredSoundType(preferredSoundClass);
+    soundController.setPreferredSoundTypes(preferredSoundType);
     addPanel(containerPanel, soundController);
 
     return containerPanel;

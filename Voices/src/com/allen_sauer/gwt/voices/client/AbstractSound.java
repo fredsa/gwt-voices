@@ -55,7 +55,7 @@ abstract class AbstractSound implements Sound {
   }
 
   @Override
-  public abstract String getSoundType();
+  public abstract SoundType getSoundType();
 
   @Override
   public final String getUrl() {

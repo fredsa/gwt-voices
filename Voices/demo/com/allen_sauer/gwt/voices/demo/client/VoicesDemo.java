@@ -28,12 +28,9 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import com.allen_sauer.gwt.voices.client.FlashSound;
-import com.allen_sauer.gwt.voices.client.Html5Sound;
-import com.allen_sauer.gwt.voices.client.NativeSound;
 import com.allen_sauer.gwt.voices.client.Sound;
 import com.allen_sauer.gwt.voices.client.SoundController;
-import com.allen_sauer.gwt.voices.client.WebAudioSound;
+import com.allen_sauer.gwt.voices.client.SoundType;
 import com.allen_sauer.gwt.voices.demo.client.ui.DeferredContentDisclosurePanel;
 import com.allen_sauer.gwt.voices.demo.client.ui.MimeTypeDemo;
 import com.allen_sauer.gwt.voices.demo.client.ui.SupportedMimeTypeSummary;
@@ -234,26 +231,26 @@ public class VoicesDemo implements EntryPoint {
       ArrayList<ThirdPartySound> soundList = mimeTypeSoundMap.get(mimeType);
       if (soundList != null) {
         SoundController sc = new SoundController();
-        maybeShowType(mainPanel, demoSoundHandler, mimeType, soundList, sc, WebAudioSound.class);
-        maybeShowType(mainPanel, demoSoundHandler, mimeType, soundList, sc, FlashSound.class);
-        maybeShowType(mainPanel, demoSoundHandler, mimeType, soundList, sc, Html5Sound.class);
-        maybeShowType(mainPanel, demoSoundHandler, mimeType, soundList, sc, NativeSound.class);
+        for (SoundType soundType : SoundType.values()) {
+          maybeShowType(mainPanel, demoSoundHandler, mimeType, soundList, sc, soundType);
+        }
       }
     }
     DOM.getElementById("demo-loading").removeFromParent();
   }
 
-  @SuppressWarnings({"deprecation", "unchecked"})
+  @SuppressWarnings({"deprecation"})
   private void maybeShowType(RootPanel mainPanel, DemoSoundHandler demoSoundHandler,
       String mimeType, ArrayList<ThirdPartySound> soundList, SoundController sc,
-      Class<? extends Sound> preferredSoundType) {
+      SoundType soundType) {
     soundList = copyOf(soundList);
 
-    sc.setPreferredSoundType(preferredSoundType);
+    sc.setPreferredSoundTypes(soundType);
     Sound snd = sc.createSound(mimeType, soundList.get(0).getActualURL());
-    if (snd.getClass() == preferredSoundType) {
-      mainPanel.add(new DeferredContentDisclosurePanel(mimeType + " (" + snd.getSoundType() + ")",
-          new MimeTypeDemo(mimeType, soundList, demoSoundHandler, preferredSoundType)));
+    if (snd.getSoundType() == soundType) {
+      mainPanel.add(new DeferredContentDisclosurePanel(
+          mimeType + " (" + snd.getSoundType().name() + ")",
+          new MimeTypeDemo(mimeType, soundList, demoSoundHandler, soundType)));
     }
   }
 

@@ -206,13 +206,11 @@ public interface Sound extends FiresSoundEvents {
   String getMimeType();
 
   /**
-   * Get a brief, human readable, description of the sound type, which is an indication of the
-   * mechanism used for play back. The returned value is subject to change and is not intended to be
-   * machine parseable.
+   * Determine the sound type being used for playback.
    *
-   * @return brief text describing type of sound
+   * @return the sound type
    */
-  String getSoundType();
+  SoundType getSoundType();
 
   /**
    * Determine the URL for this sound.

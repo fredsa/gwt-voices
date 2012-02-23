@@ -103,8 +103,8 @@ public class Html5Sound extends AbstractSound {
   }
 
   @Override
-  public String getSoundType() {
-    return "HTML5";
+  public SoundType getSoundType() {
+    return SoundType.HTML5;
   }
 
   @Override
