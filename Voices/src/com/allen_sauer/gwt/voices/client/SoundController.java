@@ -299,14 +299,14 @@ public class SoundController {
 
   @SuppressWarnings("unchecked")
   private void initSoundContainer() {
-    String gwtVoices = Window.Location.getParameter("gwt-voices");
-    if ("flash".equals(gwtVoices)) {
+    String gwtVoices = Window.Location.getParameter(SoundType.QUERY_PARAMETER_NAME);
+    if (SoundType.FLASH.getQueryParameterValue().equals(gwtVoices)) {
       setPreferredSoundType(FlashSound.class);
-    } else if ("html5".equals(gwtVoices)) {
+    } else if (SoundType.HTML5.getQueryParameterValue().equals(gwtVoices)) {
       setPreferredSoundType(Html5Sound.class);
-    } else if ("webaudio".equals(gwtVoices)) {
+    } else if (SoundType.WEB_AUDIO.getQueryParameterValue().equals(gwtVoices)) {
       setPreferredSoundType(WebAudioSound.class);
-    } else if ("native".equals(gwtVoices)) {
+    } else if (SoundType.NATIVE.getQueryParameterValue().equals(gwtVoices)) {
       setPreferredSoundType(NativeSound.class);
     } else {
       // For now, prefer Flash over HTML5
