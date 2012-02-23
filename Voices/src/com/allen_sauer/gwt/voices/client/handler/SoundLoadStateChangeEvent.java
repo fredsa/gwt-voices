@@ -24,31 +24,6 @@ import java.util.EventObject;
  */
 @SuppressWarnings("serial")
 public class SoundLoadStateChangeEvent extends EventObject {
-  /**
-   * Convert a load state <code>enum</code> to a string representation.
-   * 
-   * @param loadState the load state
-   * @return a string representation of the load state
-   */
-  private static String loadStateToString(LoadState loadState) {
-    switch (loadState) {
-      case LOAD_STATE_SUPPORTED_AND_READY:
-        return "supported and ready";
-      case LOAD_STATE_SUPPORTED_NOT_READY:
-        return "supported; not ready";
-      case LOAD_STATE_SUPPORTED_MAYBE_READY:
-        return "supported; maybe ready";
-      case LOAD_STATE_NOT_SUPPORTED:
-        return "not supported";
-      case LOAD_STATE_SUPPORT_NOT_KNOWN:
-        return "support not known";
-      case LOAD_STATE_UNINITIALIZED:
-        return "uninitialized";
-      default:
-        throw new IllegalArgumentException("loadState=" + loadState);
-    }
-  }
-
   private final LoadState loadState;
 
   /**
@@ -72,15 +47,6 @@ public class SoundLoadStateChangeEvent extends EventObject {
   }
 
   /**
-   * Get a string representation of this event's load state.
-   * 
-   * @return string representation of this event's load state
-   */
-  public String getLoadStateAsString() {
-    return loadStateToString(loadState);
-  }
-
-  /**
    * Get a string representation of this event object.
    * 
    * @return a string representation of this event object
@@ -88,7 +54,7 @@ public class SoundLoadStateChangeEvent extends EventObject {
   @Override
   public String toString() {
     Sound sound = (Sound) getSource();
-    return StringUtil.getSimpleName(SoundLoadStateChangeEvent.class) + ": " + sound + "; state="
-        + loadStateToString(loadState);
+    return StringUtil.getSimpleName(SoundLoadStateChangeEvent.class) + ": " + sound + "; "
+        + loadState.name();
   }
 }

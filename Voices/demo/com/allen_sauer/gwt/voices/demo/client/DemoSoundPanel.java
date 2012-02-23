@@ -65,7 +65,7 @@ public class DemoSoundPanel extends Composite {
         new Timer() {
           @Override
           public void run() {
-            loadStateHTML.setHTML("&nbsp; (load state: <code>" + event.getLoadStateAsString()
+            loadStateHTML.setHTML("&nbsp; (<code>" + event.getLoadState().name()
                 + "</code>)");
             switch (event.getLoadState()) {
               case LOAD_STATE_SUPPORTED_AND_READY:
