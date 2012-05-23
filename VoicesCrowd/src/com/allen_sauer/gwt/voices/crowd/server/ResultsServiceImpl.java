@@ -54,7 +54,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   public List<TestResultSummary> getSummary() {
     try {
       Objectify ofy = ObjectifyService.begin();
-      return ofy.query(TestResultSummary.class).chunkSize(1000).list();
+      return ofy.query(TestResultSummary.class).chunkSize(5000).list();
     } catch (Throwable ex) {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unexpected exception retrieving summary data",
           ex);
@@ -87,7 +87,7 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   private HashMap<UserAgent, TestResults> getResultsImpl() {
     HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
     Objectify ofy = ObjectifyService.begin();
-    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(1000).list();
+    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(5000).list();
     for (TestResultSummary summary : summaryList) {
       TestResults testResults = summary.getTestResults();
       map.put(new UserAgent(summary.getUserAgent()), testResults);
