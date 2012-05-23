@@ -40,5 +40,14 @@ appengine-jsr107cache-*.jar
 google_sql.jar
 jsr107cache-1.1.jar
 
+# App Engine JDO/JPA
+datanucleus-appengine-1.0.10.final.jar
+datanucleus-core-1.1.5.jar
+datanucleus-jpa-1.1.5.jar
+geronimo-jpa_3.0_spec-1.1.1.jar
+geronimo-jta_1.1_spec-1.1.1.jar
+jdo2-api-2.3-eb.jar
+
+
 # GWT SDK
 gwt-servlet.jar
