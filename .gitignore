@@ -1,5 +1,6 @@
 # GWT Cache
 gwt-unitCache/
+.gwt/
 
 # /Voices/
 /Voices/tomcat
