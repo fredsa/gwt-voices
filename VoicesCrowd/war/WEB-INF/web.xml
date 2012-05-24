@@ -54,7 +54,7 @@
   <!-- CSV servlet -->
 
   <servlet>
-    <servlet-name>/csv-servlet</servlet-name>
+    <servlet-name>csv-servlet</servlet-name>
     <servlet-class>com.allen_sauer.gwt.voices.crowd.server.CsvResultsServlet</servlet-class>
   </servlet>
 
@@ -83,7 +83,7 @@
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>/csv-servlet</servlet-name>
+    <servlet-name>csv-servlet</servlet-name>
     <url-pattern>/csv</url-pattern>
   </servlet-mapping>
 
