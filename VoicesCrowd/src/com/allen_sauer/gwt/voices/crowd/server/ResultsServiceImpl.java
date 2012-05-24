@@ -28,6 +28,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Query;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -87,8 +88,8 @@ public class ResultsServiceImpl extends RemoteServiceServlet implements ResultsS
   private HashMap<UserAgent, TestResults> getResultsImpl() {
     HashMap<UserAgent, TestResults> map = new HashMap<UserAgent, TestResults>();
     Objectify ofy = ObjectifyService.begin();
-    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(5000).list();
-    for (TestResultSummary summary : summaryList) {
+    Query<TestResultSummary> q = ofy.query(TestResultSummary.class).chunkSize(5000);
+    for (TestResultSummary summary : q) {
       TestResults testResults = summary.getTestResults();
       map.put(new UserAgent(summary.getUserAgent()), testResults);
     }

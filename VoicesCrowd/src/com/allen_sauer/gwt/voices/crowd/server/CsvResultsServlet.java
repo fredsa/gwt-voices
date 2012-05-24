@@ -15,19 +15,17 @@
  */
 package com.allen_sauer.gwt.voices.crowd.server;
 
-import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
-import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
-
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.allen_sauer.gwt.voices.crowd.shared.TestResultSummary;
+import com.allen_sauer.gwt.voices.crowd.shared.TestResults;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
 
 @SuppressWarnings("serial")
 public class CsvResultsServlet extends HttpServlet {
@@ -37,7 +35,7 @@ public class CsvResultsServlet extends HttpServlet {
     // Print CSV results
     resp.setHeader("Content-Type", "text/plain");
     Objectify ofy = ObjectifyService.begin();
-    List<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(5000).list();
+    Iterable<TestResultSummary> summaryList = ofy.query(TestResultSummary.class).chunkSize(5000);
 
     for (TestResultSummary summary : summaryList) {
       TestResults testResults = summary.getTestResults();
