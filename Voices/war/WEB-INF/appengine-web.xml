@@ -2,7 +2,7 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
   <application>s~gwt-voices-hrd</application>
   <threadsafe>true</threadsafe>
-  <version>test</version>
+  <version>git-md5-hash</version>
 
   <!-- Configure serving/caching of GWT files -->
   <static-files>
