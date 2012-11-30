@@ -34,12 +34,12 @@ gwt-unitCache/
 /VoicesCrowd/war/WEB-INF/appengine-generated/local_db.bin
 
 # App Engine SDK
-appengine-api-1.0-sdk-*.jar
+appengine-api-labs-*.jar
+appengine-api-*-sdk-*.jar
 appengine-api-labs.jar
 appengine-endpoints.jar
 appengine-jsr107cache-*.jar
-gwt-servlet.jar
-jsr107cache-1.1.jar
+jsr107cache-*.jar
 
 # GWT SDK
 gwt-servlet.jar
