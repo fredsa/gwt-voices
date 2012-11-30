@@ -207,7 +207,7 @@ public class VoicesDemo implements EntryPoint {
 
     DisclosurePanel crowdSourceSupportMatrix = new DisclosurePanel(
         "HTML5 MIME Type support in popular browsers");
-    Frame crowdSourceFrame = new Frame("http://crowd-source.gwt-voices.appspot.com/?embed=true");
+    Frame crowdSourceFrame = new Frame("https://crowd-source-dot-gwt-voices.appspot.com/?embed=true");
     crowdSourceFrame.setPixelSize(3000, 600);
     crowdSourceFrame.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
     crowdSourceSupportMatrix.setContent(crowdSourceFrame);
