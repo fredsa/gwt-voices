@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
+lastWarOutDir=/usr/local/google/home/fredsa/src/gwt-voices/VoicesCrowd/war
 warSrcDir=war
 warSrcDirIsOutput=false
