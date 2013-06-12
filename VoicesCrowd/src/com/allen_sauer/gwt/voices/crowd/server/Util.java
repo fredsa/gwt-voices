@@ -97,7 +97,7 @@ public class Util {
     try {
       MailService ms = MailServiceFactory.getMailService();
       Message message = new Message();
-      message.setSender("Fred Sauer <fredsa@gmail.com>");
+      message.setSender("fredsa@google.com");
       message.setSubject("{gwt-voices} " + subject);
       message.setTextBody(messageText);
       ms.sendToAdmins(message);
