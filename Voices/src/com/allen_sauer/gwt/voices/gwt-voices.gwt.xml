@@ -32,6 +32,7 @@
   <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImplIE6">
     <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.FlashMovieImpl" />
     <any>
+      <when-property-is name="user.agent" value="ie6" />
       <when-property-is name="user.agent" value="ie8" />
       <when-property-is name="user.agent" value="ie9" />
       <when-property-is name="user.agent" value="ie10" />
@@ -62,6 +63,7 @@
   <replace-with class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImplIE6">
     <when-type-is class="com.allen_sauer.gwt.voices.client.ui.impl.NativeSoundImpl" />
     <any>
+      <when-property-is name="user.agent" value="ie6" />
       <when-property-is name="user.agent" value="ie8" />
       <when-property-is name="user.agent" value="ie9" />
       <when-property-is name="user.agent" value="ie10" />
