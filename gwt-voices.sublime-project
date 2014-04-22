@@ -1,0 +1,19 @@
+{
+  "folders":
+  [
+    {
+      "follow_symlinks": true,
+      "path": "/fred/src/gwt-voices",
+      "folder_exclude_patterns": [
+          "build",
+          "gwt-unitCache",
+          "war/demo",
+          "war/WEB-INF/classes",
+          "war/WEB-INF/lib"
+        ],
+      "file_exclude_patterns": [
+        "war/WEB-INF/classes/.*"
+      ]
+    }
+  ]
+}
