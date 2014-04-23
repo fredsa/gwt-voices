@@ -22,7 +22,7 @@
 String qs = request.getQueryString() != null ? "?" + request.getQueryString() : "";
 %>
 <body>
-  <a href="VoicesDemo.html<%=qs %>">VoicesDemo.html<%=qs %></a><br/>
-  <a href="VoicesTest.html<%=qs %>">VoicesTest.html<%=qs %></a><br/>
+  <a href="/demo/VoicesDemo.html<%=qs %>">VoicesDemo.html<%=qs %></a><br/>
+  <a href="/test/VoicesTest.html<%=qs %>">VoicesTest.html<%=qs %></a><br/>
 </body>
 </html>

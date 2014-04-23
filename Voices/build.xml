@@ -238,26 +238,6 @@
 					<arg value="2" />
 				</java>
 
-				<copy todir="build/war">
-					<fileset file="war/VoicesDemo.html" />
-					<fileset file="war/VoicesDemo.css" />
-				</copy>
-
-				<copy todir="build/war/images">
-					<fileset dir="war/images" />
-				</copy>
-
-				<copy todir="build/war/empty.au">
-					<fileset file="war/empty.au" />
-				</copy>
-
-				<copy todir="build/war/wikipedia">
-					<fileset dir="war/wikipedia" />
-				</copy>
-
-				<copy todir="build/war/freesoundproject">
-					<fileset file="war/freesoundproject" />
-				</copy>
 			</sequential>
 		</outofdate>
 	</target>
