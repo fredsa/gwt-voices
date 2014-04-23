@@ -82,11 +82,6 @@ public class WebAudioSound extends AbstractSound {
     } catch (ignore) {
     }
 
-    try {
-      return new webkitAudioContext();
-    } catch (ignore) {
-    }
-
     return null;
   }-*/;
 
@@ -100,13 +95,12 @@ public class WebAudioSound extends AbstractSound {
 
     var self = this;
     request.onload = function() {
-      try {
-      self.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer = context
-          .createBuffer(request.response, false);
-          self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoaded()();
-      } catch(e) {
-          self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoadFailed()();
-      }
+      context.decodeAudioData(request.response, function onSuccess(decodedBuffer) {
+        self.@com.allen_sauer.gwt.voices.client.WebAudioSound::buffer = decodedBuffer;
+        self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoaded()();
+      }, function onFailure() {
+        self.@com.allen_sauer.gwt.voices.client.WebAudioSound::soundLoadFailed()();
+      });
     }
 
     request.send();
@@ -119,7 +113,7 @@ public class WebAudioSound extends AbstractSound {
   private void soundLoaded() {
     setLoadState(LoadState.LOAD_STATE_SUPPORTED_AND_READY);
   }
-  
+
   @Override
   public int getBalance() {
     // TODO(fredsa): Auto-generated method stub
@@ -158,7 +152,7 @@ public class WebAudioSound extends AbstractSound {
 
     var volume = this.@com.allen_sauer.gwt.voices.client.WebAudioSound::volume;
     if (volume != @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME) {
-      var gainNode = context.createGainNode();
+      var gainNode = context.createGain();
       gainNode.gain.value = volume
           / @com.allen_sauer.gwt.voices.client.SoundController::DEFAULT_VOLUME;
       node.connect(gainNode);
@@ -169,7 +163,7 @@ public class WebAudioSound extends AbstractSound {
 
     voice.buffer = buffer;
 
-    voice.noteOn(context.currentTime);
+    voice.start(context.currentTime);
 
     // TODO Replace setTimeout() once https://bugs.webkit.org/show_bug.cgi?id=71942 is fixed
     if (!voice.loop) {
@@ -186,7 +180,7 @@ public class WebAudioSound extends AbstractSound {
   private void plackbackCompleted() {
     soundHandlerCollection.fireOnPlaybackComplete(this);
   }
-  
+
   @Override
   public void setBalance(int balance) {
     // TODO(fredsa): Auto-generated method stub
@@ -209,7 +203,7 @@ public class WebAudioSound extends AbstractSound {
     if (voice == null) {
       return;
     }
-    voice.noteOff(context.currentTime);
+    voice.stop(context.currentTime);
     this.@com.allen_sauer.gwt.voices.client.WebAudioSound::voice = null;
   }-*/;
 
