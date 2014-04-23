@@ -108,7 +108,7 @@ public class SoundController {
    * {@code <base href="http://...">} tag. To override the base URL in your
    * code, use {@link SoundController#setGwtVoicesSwfLocation(String)}.
    */
-  private String gwtVoicesSwfBaseUrl = GWT.getHostPageBaseURL() + GWT.getModuleName() + "/";
+  private String gwtVoicesSwfBaseUrl = GWT.getHostPageBaseURL() /*+ GWT.getModuleName() + "/" */;
 
   /**
    * Default constructor to be used by client code.

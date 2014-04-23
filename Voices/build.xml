@@ -126,15 +126,16 @@
 		<fail if="libfail-overwrite" message="Cannot overwrite existing jar file ${libdir}/${libjar}" />
 	</target>
 
-
 	<!-- Replace @${filtertoken}@ with actual version of build -->
 	<target name="filter" description="Filters distro files for versioning" depends="unique-lib-locations">
 		<mkdir dir="build/out" />
 		<mkdir dir="build/demo" />
 
+		<!-- copy (non-binary) text 'src' files -->
 		<copy todir="build/src">
 			<fileset dir="src">
 				<exclude name="**/package.html" />
+				<!-- exclude binary files which would be corrupted by filterset -->
 				<exclude name="**/*.swf" />
 			</fileset>
 			<filterset>
@@ -142,9 +143,29 @@
 			</filterset>
 		</copy>
 
+		<!-- copy remaining binary 'src' files -->
+		<copy todir="build/src">
+			<fileset dir="src">
+				<exclude name="**/package.html" />
+			</fileset>
+			<!-- DO NOT USE FILTERSET HERE -->
+		</copy>
+
+		<!-- copy (non-binary) text 'demo' files -->
 		<copy todir="build/demo">
 			<fileset dir="demo">
 				<exclude name="**/package.html" />
+				<!-- exclude binary image files which would be corrupted by filterset -->
+				<exclude name="**/*.gif" />
+				<exclude name="**/*.ico" />
+				<exclude name="**/*.png" />
+				<!-- exclude binary audio files which would be corrupted by filterset -->
+				<exclude name="**/*.aiff" />
+				<exclude name="**/*.au" />
+				<exclude name="**/*.mid" />
+				<exclude name="**/*.mp3" />
+				<exclude name="**/*.ogg" />
+				<exclude name="**/*.wav" />
 			</fileset>
 			<fileset dir=".">
 				<include name="LICENSE" />
@@ -153,6 +174,15 @@
 			<filterset>
 				<filter token="${filtertoken}" value="${libversion}" />
 			</filterset>
+		</copy>
+
+		<!-- copy remaining binary 'demo' files -->
+		<copy todir="build/demo">
+			<fileset dir="demo">
+				<exclude name="**/package.html" />
+			</fileset>
+			<fileset dir="demo" />
+			<!-- DO NOT USE FILTERSET HERE -->
 		</copy>
 
 		<copy todir="build" file="pom.xml">
@@ -434,12 +464,53 @@
 		<input addproperty="gae.appcfg" defaultvalue="${gae.appcfg.default}" message="App Engine SDK appcfg.sh location" />
 	</target>
 
-	<target name="gae" description="Build and deploy to gwt-voices.appspot.com" depends="gae-appcfg, clean, javac, gwtc">
+	<target name="gae-version" description="Determine desired App Engine version">
+		<exec executable="git" outputproperty="git.version">
+			<arg value="log" />
+			<arg value="-1" />
+			<arg value="--pretty=format:%H" />
+		</exec>
+
+		<exec executable="git" outputproperty="git.status">
+			<arg value="status" />
+			<arg value="--porcelain" />
+		</exec>
+
+		<condition property="git.dirty" value="" else="-dirty">
+			<length string="${git.status}" length="0" />
+		</condition>
+
+		<property name="gae.version" value="${git.version}${git.dirty}"/>
+
+		<echo message="Using App Engine version ${gae.version}" />
+	</target>
+
+	<target name="gae" description="Build and deploy to gwt-voices.appspot.com" depends="gae-version, gae-appcfg, clean, javac, gwtc">
+		<echo message="Copying additional files to build/war ..." />
+
+    <copy todir="build/war">
+      <fileset file="war/robots.txt" />
+      <fileset file="war/favicon.ico" />
+      <fileset file="war/index.jsp" />
+	  </copy>
+
+    <copy todir="build/war/WEB-INF">
+      <fileset file="war/WEB-INF/web.xml" />
+      <fileset file="war/WEB-INF/appengine-web.xml" />
+      <fileset file="war/WEB-INF/logging.properties" />
+	  </copy>
+
 		<exec executable="${gae.appcfg}">
+			<arg value="-V" />
+			<arg value="${gae.version}" />
 			<arg value="update" />
 			<arg value="build/war" />
 		</exec>
+
+		<echo message="App version ${gae.version} deployed successfully." />
 		<echo message="" />
+		<echo message="To update to the default version run:" />
+		<echo message="  ${gae.appcfg} -V ${gae.version} set_default_version build/war" />
 	</target>
 
 </project>

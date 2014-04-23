@@ -5,15 +5,29 @@
       "follow_symlinks": true,
       "path": "/fred/src/gwt-voices",
       "folder_exclude_patterns": [
+          "Voices",
+          "VoicesCrowd"
+        ]
+    },
+    {
+      "follow_symlinks": true,
+      "path": "/fred/src/gwt-voices/Voices",
+      "folder_exclude_patterns": [
           "build",
           "gwt-unitCache",
           "war/demo",
+          "war/test",
           "war/WEB-INF/classes",
-          "war/WEB-INF/lib"
-        ],
-      "file_exclude_patterns": [
-        "war/WEB-INF/classes/.*"
-      ]
+          "war/WEB-INF/deploy"
+        ]
+    },
+    {
+      "follow_symlinks": true,
+      "path": "/fred/src/gwt-voices/VoicesCrowd",
+      "folder_exclude_patterns": [
+          "build",
+          "gwt-unitCache"
+        ]
     }
   ]
 }
