@@ -293,7 +293,7 @@
 		<exec executable="git">
 			<arg value="tag" />
 			<arg value="-l" />
-			<arg value="gwt-voices-2*" />
+			<arg value="gwt-voices-?.?.*" />
 		</exec>
 	</target>
 
