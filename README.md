@@ -1,10 +1,10 @@
 # Summary #
-Library providing easy to use cross-platform browser sound capabilities to [Google Web Toolkit](http://code.google.com/webtoolkit/) (GWT) projects.
+Library providing easy to use cross-platform browser sound capabilities to [Google Web Toolkit](http://www.gwtproject.org/) (GWT) projects.
 
 # Features #
   * Automatic selection of HTML5 audio, native browser audio and Flash (if installed)
   * Straightforward API
-```
+```Java
 SoundController soundController = new SoundController();
     Sound sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG,
         "http(s)/url/to/your/sound/file.mp3");
@@ -25,6 +25,7 @@ Read the wiki here: https://github.com/fredsa/gwt-voices/blob/wiki/GettingStarte
 
 > [![](https://gwt-voices.googlecode.com/files/33637__HerbertBoland__CinematicBoomNorm-2007-09-19.png)](http://allen-sauer.com/com.allen_sauer.gwt.voices.demo.VoicesDemo/VoicesDemo.html)
   * Try Chris Fong's demo: http://www.gwtsite.com/gwt-voices-demo/
+
 # Feedback #
 Please let me know what you think. Suggestions are always welcome.
 
