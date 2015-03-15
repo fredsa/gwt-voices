@@ -3,7 +3,7 @@
   [
     {
       "follow_symlinks": true,
-      "path": "/fred/src/gwt-voices",
+      "path": ".",
       "folder_exclude_patterns": [
           "Voices",
           "VoicesCrowd"
@@ -11,7 +11,7 @@
     },
     {
       "follow_symlinks": true,
-      "path": "/fred/src/gwt-voices/Voices",
+      "path": "Voices",
       "folder_exclude_patterns": [
           "build",
           "gwt-unitCache",
@@ -23,7 +23,7 @@
     },
     {
       "follow_symlinks": true,
-      "path": "/fred/src/gwt-voices/VoicesCrowd",
+      "path": "VoicesCrowd",
       "folder_exclude_patterns": [
           "build",
           "gwt-unitCache"
