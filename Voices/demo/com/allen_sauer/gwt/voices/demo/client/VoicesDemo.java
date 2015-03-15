@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -59,68 +59,68 @@ public class VoicesDemo implements EntryPoint {
     thirdPartySounds = new ThirdPartySound[] {
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_WAV_PCM,
             "freesoundproject/35631__reinsamba__crystal_glass.wav", "crystal_glass",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35631", "reinsamba",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=18799",
+            "http://freesound.org/people/reinsamba/sounds/35631", "reinsamba",
+            "http://freesound.org/people/reinsamba/",
             "RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, stereo 44100 Hz"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_WAV_PCM,
             "freesoundproject/38403__THE_bizniss__snap.wav", "snap",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=38403", "THE_bizniss",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=382028",
+            "http://freesound.org/people/THE_bizniss/sounds/38403/", "THE_bizniss",
+            "http://freesound.org/people/THE_bizniss",
             "RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 44100 Hz"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_WAV_PCM,
             "freesoundproject/22740__FranciscoPadilla__37_Click_Finger.wav", "37 Click Finger",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=22740", "FranciscoPadilla",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=132693",
+            "http://freesound.org/people/FranciscoPadilla/sounds/22740/", "FranciscoPadilla",
+            "http://freesound.org/people/FranciscoPadilla",
             "RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 44100 Hz"),
 
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_WAV_ADPCM,
             "freesoundproject/9874__vixuxx__crow.wav", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679",
+            "http://freesound.org/people/FranciscoPadilla/sounds/22740/", "vixuxx",
+            "http://freesound.org/people/FranciscoPadilla",
             "RIFF (little-endian) data, WAVE audio, IMA ADPCM, mono 22050 Hz"),
 
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_X_AIFF,
             "freesoundproject/9874__vixuxx__crow.aiff", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679", "IFF data, AIFF audio"),
+            "http://freesound.org/people/vixuxx/sounds/9874/", "vixuxx",
+            "http://freesound.org/people/vixuxx", "IFF data, AIFF audio"),
 
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_BASIC,
             "freesoundproject/9874__vixuxx__crow.au", "crow",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=9874", "vixuxx",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=28679",
+            "http://freesound.org/people/vixuxx/sounds/9874/", "vixuxx",
+            "http://freesound.org/people/vixuxx",
             "Sun/NeXT audio data: 16-bit linear PCM, mono, 22050 Hz"),
 
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
             "freesoundproject/28917__junggle__btn107.mp3", "btn107",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=28917", "junggle",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=128404",
+            "http://freesound.org/people/junggle/sounds/28917/", "junggle",
+            "http://freesound.org/people/junggle",
             "Audio file with ID3 version 23.0 tag, MP3 encoding"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
             "freesoundproject/36846__EcoDTR__LaserRocket.mp3", "LaserRocket",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=36846", "EcoDTR",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=181367",
+            "http://freesound.org/people/EcoDTR/sounds/36846/", "EcoDTR",
+            "http://freesound.org/people/EcoDTR",
             "Audio file with ID3 version 23.0 tag, MP3 encoding"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
             "freesoundproject/35643__sandyrb__USAT_BOMB.mp3", "USAT BOMB",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=35643", "sandyrb",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=14771",
+            "http://freesound.org/people/sandyrb/sounds/35643/", "sandyrb",
+            "http://freesound.org/people/sandyrb",
             "Audio file with ID3 version 23.0 tag, MP3 encoding"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
             "freesoundproject/34961__grandpablaine2__grenade_reverse_reverb.mp3",
             "grenade_reverse_reverb",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=34961", "grandpablaine2",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=147084",
+            "http://freesound.org/people/grandpablaine2/sounds/34961/", "grandpablaine2",
+            "http://freesound.org/people/grandpablaine2",
             "Audio file with ID3 version 2\\012- 2.\\012- 0 tag\\012- , MP3 encoding"),
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
             "freesoundproject/33637__HerbertBoland__CinematicBoomNorm.mp3", "CinematicBoomNorm",
-            "http://freesound.iua.upf.edu/samplesViewSingle.php?id=33637", "HerbertBoland",
-            "http://freesound.iua.upf.edu/usersViewSingle.php?id=129090",
+            "http://freesound.org/people/HerbertBoland/sounds/33637/", "HerbertBoland",
+            "http://freesound.org/people/HerbertBoland",
             "Audio file with ID3 version 2\\012- 2.\\012- 0 tag\\012- , MP3 encoding"),
 
         new FreesoundProjectSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS,
             "freesoundproject/91960__billengholm_yahoo.com__opensurdo.ogg", "opensurdo",
-            "http://www.freesound.org/samplesViewSingle.php?id=91960", "billengholm@yahoo.com",
-            "http://www.freesound.org/usersViewSingle.php?id=1513331",
+            "http://www.freesound.org/people/billengholm@yahoo.com/sounds/91960/", "billengholm@yahoo.com",
+            "http://www.freesound.org/people/billengholm@yahoo.com1",
             "Ogg data, Vorbis audio, stereo, 44100 Hz, ~128000 bps"),
         new WikipediaSound(Sound.MIME_TYPE_AUDIO_OGG_VORBIS, "wikipedia/En-us-squid.ogg",
             "En-us-squid.ogg",

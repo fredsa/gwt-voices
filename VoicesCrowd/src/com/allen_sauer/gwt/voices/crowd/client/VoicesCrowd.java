@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Fred Sauer
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -200,7 +200,7 @@ public class VoicesCrowd implements EntryPoint {
 
     if (!embed) {
       html.append("<div style='font-weight: bold; font-size: 1.2em;'>").append(
-          "<a href='http://code.google.com/p/gwt-voices/'>gwt-voices</a>").append(
+          "<a href='https://github.com/fredsa/gwt-voices'>gwt-voices</a>").append(
           " - Sound for your Google Web Toolkit projects.</div>").append(
           "<div style='font-style: italic; margin-bottom: 1em;'>by Fred Sauer</div>");
 
