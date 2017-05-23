@@ -1,3 +1,7 @@
+![status: inactive](https://img.shields.io/badge/status-inactive-red.svg)
+
+This project is no longer actively developed or maintained.
+
 # Summary #
 Library providing easy to use cross-platform browser sound capabilities to [Google Web Toolkit](http://www.gwtproject.org/) (GWT) projects.
 
